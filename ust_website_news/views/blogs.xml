@@ -1,0 +1,79 @@
+<odoo>
+    <record id="view_website_blogs_form" model="ir.ui.view">
+        <field name="name">website.blogs.form</field>
+        <field name="model">website.blogs</field>
+        <field name="arch" type="xml">
+            <form string="Blog">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" icon="fa-upload" name="action_open_image_upload">
+                            <span>Upload Image</span>
+                        </button>
+                    </div>
+                    <div class="oe_avatar">
+                        <field name="image" widget="image"/>
+                    </div>
+                    <group>
+                        <group col="4">
+                            <field name="blogs_title"/>
+                            <field name="blogs_description"/>
+                            <field name="website_id" widget="selection"/>
+                            <field name="url_slug" widget="url"
+                                   placeholder="e.g., my-blog-title-123"
+                                   help="URL-friendly slug for the blog post"/>
+                        </group>
+                        <group col="4">
+                            <field name="blogs_date"/>
+                            <field name="homepage"/>
+                            <field name="main_blog"/>
+                            <field name="short_description" invisible="main_blog == False"/>
+                            <field name="publish" widget="boolean_toggle" options="{'terminology': 'Publish'}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_website_blogs_list" model="ir.ui.view">
+        <field name="name">website.blogs.list</field>
+        <field name="model">website.blogs</field>
+        <field name="arch" type="xml">
+            <list string="Blog">
+                <field name="sequence" string="Sequence" widget="handle"/>
+                <field name="blogs_title"/>
+                <!--                <field name="blog_category"/>-->
+                <field name="url_slug" string="URL Slug"/>
+                <field name="publish" widget="boolean_toggle"/>
+                <field name="main_blog"/>
+                <field name="blogs_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_blog_menu" model="ir.actions.act_window">
+        <field name="name">Blog</field>
+        <field name="res_model">website.blogs</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Action to generate URL slugs -->
+    <record id="action_generate_blog_url_slugs" model="ir.actions.server">
+        <field name="name">Generate URL Slugs</field>
+        <field name="model_id" ref="model_website_blogs"/>
+        <field name="binding_model_id" ref="model_website_blogs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_generate_url_slugs()
+        </field>
+    </record>
+
+    <menuitem id="blog_menu"
+              parent="website.menu_content"
+              sequence="60"
+              name="Blog"
+              action="action_blog_menu"/>
+</odoo>

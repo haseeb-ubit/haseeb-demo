@@ -1,0 +1,230 @@
+<odoo>
+    <template id="applied_college_template" name="Applied college Page">
+        <t t-call="website.layout">
+
+           <!--  <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="/ust_website_contactus/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_applied_college/static/src/css/slick.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_applied_college/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_applied_college/static/src/css/responsive.css" type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <section class="innerBanner bgCover"
+                     style="background: url(/ust_website_applied_college/static/src/images/applied-college-banner.jpg) no-repeat center right;">
+                <div class="container flexBox itemCenter">
+                    <div class="innerBannerText">
+                        <span class="mb-20">Applied
+                            <br/>
+                            College
+                        </span>
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div class="flexBox">
+                        <div class="middleLeft">
+                            <ul class="leftTab">
+                                <li>
+                                    <a href="#AboutCenter" class="scroll2">About The Center</a>
+                                </li>
+                                <li>
+                                    <a href="#Vision" class="scroll2">Vision</a>
+                                </li>
+                                <li>
+                                    <a href="#Message" class="scroll2">Message</a>
+                                </li>
+                                <li>
+                                    <a href="#DeansWord" class="scroll2">Dean's Word</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="middleRight">
+                            <div class="pb60" id="AboutCenter">
+                                <div class="mainHd">About the Center</div>
+                                <div class="textBox mb-20">
+                                    <ul class="listText">
+                                        <li>Graduating specialized professional cadres who possess the knowledge and
+                                            skills that qualify them to compete for employment opportunities locally and
+                                            regionally.
+                                        </li>
+                                        <li>Self-building and promoting positive behaviors for community development.
+                                        </li>
+                                        <li>Providing government institutions and business organizations with
+                                            specialized professional staff.
+                                        </li>
+                                        <li>Activating partnerships with similar institutions working in the field of
+                                            vocational education and relevant local and international organizations.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <img src="/ust_website_applied_college/static/src/images/about-center2.jpg"
+                                         alt="About The Center"/>
+                                </div>
+                            </div>
+                            <div class="pb60" id="Vision">
+                                <div class="mainHd">Vision</div>
+                                <div class="textBox mb-20">The College of Applied Science and Technology aspires to be
+                                    the leading college at the local and regional levels by offering technical and
+                                    professional programs that meet the requirements of the labor market and keep pace
+                                    with technological developments.
+                                </div>
+                                <div>
+                                    <img src="/ust_website_applied_college/static/src/images/our-message.jpg" alt="Vision"/>
+                                </div>
+                            </div>
+                            <div class="pb60" id="Message">
+                                <div class="mainHd">Message</div>
+                                <div class="textBox mb-20">The College of Applied Science and Technology seeks to
+                                    contribute to meeting the needs of the local and regional market for qualified
+                                    professional cadres; through an advanced educational and technical environment, a
+                                    competent human cadre, and community service relations in accordance with quality
+                                    standards and academic accreditation.
+                                </div>
+                                <div>
+                                    <img src="/ust_website_applied_college/static/src/images/our-vision.jpg" alt="Message"/>
+                                </div>
+                            </div>
+                            <div id="DeansWord">
+                                <div class="mainHd">Dean's Word</div>
+                                <div class="textBox">
+                                    In the name of God, the most gracious, the most merciful
+                                    <br/>
+                                    <br/>
+                                    It is with great joy, pleasure and happiness that I write these simple words to
+                                    announce the opening of the official website of the College of Applied Sciences and
+                                    Technology - a private community college - Aden, which includes comprehensive
+                                    information about the college in terms of departments, academic programs, study
+                                    plans, and the college's vision, mission and goals.
+                                    <br/>
+                                    <br/>
+                                    I am also honored to be the Dean of the College during this period to work within
+                                    the College's staff and its wonderful team, which has been the first to translate
+                                    the College's vision and mission until they reached this level of distinguished
+                                    performance.
+                                    <br/>
+                                    <br/>
+                                    The College of Applied Science and Technology - Aden - strives, through the programs
+                                    it offers, to meet the needs of the labor market and contribute to eliminating
+                                    unemployment; this is done through:
+                                    <br/>
+                                    <br/>
+                                    - Choosing modern and advanced educational curricula that keep pace with the
+                                    requirements and needs of the labor market in accordance with quality standards and
+                                    academic accreditation.
+                                    <br/>
+                                    <br/>
+                                    - Creating an attractive educational environment in light of the current challenges,
+                                    by providing a number of technical laboratories equipped with the latest advanced
+                                    devices and equipment, necessary for training students on them.
+                                    <br/>
+                                    <br/>
+                                    - Attracting competent educational cadres with high academic qualifications,
+                                    distinguished experience and specialization in vocational education in line with
+                                    quality requirements and commitment to academic accreditation standards.
+                                    <br/>
+                                    <br/>
+                                    - Continuous development of the capabilities of faculty members and administrative
+                                    staff to keep pace with rapid changes in the field of technology, as they are one of
+                                    the main pillars and important inputs to the college.
+                                    <br/>
+                                    <br/>
+                                    - Contracting with many public and private hospitals to facilitate the application
+                                    and training process for college students within these hospitals.
+                                    <br/>
+                                    <br/>
+                                    Finally, the College Deanship is fully prepared to receive comments, opinions and
+                                    suggestions through this website, and we will consider them an important source for
+                                    developing institutional and academic work within the College. God is the Grantor of
+                                    success and the Guide to the right path.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="oe_structure"/>
+            <script src="/ust_website_applied_college/static/src/js/jquery.min.js"></script>
+          <script src="/ust_website_programmes/static/src/js/function.js"></script>
+            <script src="/ust_website_applied_college/static/src/js/slick.min.js"></script>
+            <script>
+                $('.ipSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+                $('.blogList').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+
+
+        </t>
+    </template>
+</odoo>

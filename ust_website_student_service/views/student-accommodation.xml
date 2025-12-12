@@ -1,0 +1,507 @@
+<odoo>
+    <template id="exam_student_accommodation_template" name="Student Accommodation Page">
+        <t t-call="website.layout">
+           <!-- <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico"
+                      type="/ust_website_student_service/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/slick.css"
+                      type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/stylesheet.css"
+                      type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/responsive.css"
+                      type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+
+                <section class="innerBanner bgCover"
+                         style="background: url(/ust_website_student_service/static/src/images/student-accommodation-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText">
+                            <span class="mb-20">Student Accommodation</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="middleLeft">
+                                <ul class="leftTab">
+                                    <li>
+                                        <a href="#StudentHousing" class="scroll2">Student Housing</a>
+                                    </li>
+                                    <li>
+                                        <a href="#FemaileStudentHousing" class="scroll2">Female Student Housing</a>
+                                    </li>
+                                    <li>
+                                        <a href="#BookingProcedures" class="scroll2">Booking Procedures</a>
+                                    </li>
+                                    <li>
+                                        <a href="#GeneralInformation" class="scroll2">General Information</a>
+                                    </li>
+                                    <li>
+                                        <a href="#OtherInformation" class="scroll2">Other Information</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="middleRight">
+                                <div class="pb60" id="StudentHousing">
+                                    <div class="mainHd">Student Housing</div>
+                                    <div class="textBox mb-20">University housing equipped with the latest facilities
+                                        and amenities, offering a variety of recreational activities for students,
+                                        making their days unforgettable memories.
+                                    </div>
+                                    <ul class="flexBox studentHousing columnBox">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/student-housing-img1.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Long and short trips and excursions</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/student-housing-img2.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Individual and team sports leagues</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/student-housing-img3.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Cultural weeks, public meetings, and sessions</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/student-housing-img4.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Reception and farewell parties for students</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Student Accommodation Services</div>
+                                    <div class="serviceListBox">
+                                        <ul class="flexBox serviceList columnBox">
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon1.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Internet service</div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon2.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Cleanliness of all housing facilities except the
+                                                        student’s room, and the necessary sanitary tools and other
+                                                        things
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon3.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Continuous maintenance of housing facilities
+                                                        (carpentry - plumbing - electricity)
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon4.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">A gym in each residence with table tennis,
+                                                        billiards, boules and some athletics.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon5.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Communication service with students' parents.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="FemaileStudentHousing">
+                                    <div class="mainHd">Female Student Housing</div>
+                                    <div class="textBox mb-20">University housing equipped with the latest facilities
+                                        and amenities, offering a variety of recreational activities for students,
+                                        making their days unforgettable memories.
+                                    </div>
+                                    <ul class="flexBox studentHousing female columnBox">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img1.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Short trips and overnight excursions + long trips to
+                                                    nearby provinces.
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img2.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Holding celebrations: entertainment, farewell, etc.
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img3.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Visit various exhibitions.</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img4.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Cultural and scientific competitions.</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img5.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Lectures</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img6.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Flyers, flyers and wall magazines</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img7.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Visiting various charitable organizations.</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img8.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Farewell and honoring parties for graduates.</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_student_service/static/src/images/female-housing-img9.jpg"
+                                                         alt=""/>
+                                                </div>
+                                                <div class="name">Student guidance for female students</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Student Housing Services</div>
+                                    <div class="serviceListBox">
+                                        <ul class="flexBox serviceList columnBox">
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon6.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Service facilities: prayer room - activity hall -
+                                                        sports games - grocery store - visit hall.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon2.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Rooms equipped with the latest equipment and
+                                                        amenities. Three types of rooms are available (single - double -
+                                                        triple),
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon7.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Continuous maintenance of housing facilities
+                                                        (carpentry - plumbing - electricity)
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon1.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">Internet service</div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner">
+                                                    <div class="icon">
+                                                        <img src="/ust_website_student_service/static/src/images/service-icon8.png"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="name">24/7 security guard</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="BookingProcedures">
+                                    <div class="mainHd">Procedures for booking a room in a male or female student
+                                        residence
+                                    </div>
+                                    <div class="bookingBox flexBox">
+                                        <div class="det">
+                                            <ul class="countList short">
+                                                <li>The new student in the housing fills out the housing contract and
+                                                    signs it.
+                                                </li>
+                                                <li>Pay the full year's fees or at least six months' fees.</li>
+                                                <li>Bring a 4*6 personal photo.</li>
+                                                <li>A copy of the ID card if he is Yemeni.</li>
+                                                <li>A copy of the passport if he is not Yemeni.</li>
+                                                <li>If the old student in the residence wishes to renew the reservation
+                                                    for the new year, he must fill out the residence reservation form.
+                                                </li>
+                                                <li>Upon his return from travel, he pays the fees he owes.</li>
+                                                <li>Payment of fees is made through the college accountants.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="img">
+                                            <img src="/ust_website_student_service/static/src/images/booking-img.jpg"
+                                                 alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="GeneralInformation" class="pb60">
+                                    <div class="mainHd">Other information For male and female students</div>
+                                    <div class="otherInfo justifyContentBetween flexBox">
+                                        <div class="inner">
+                                            <ul class="countList short">
+                                                <li>If the student wants to withdraw from the accommodation, he will
+                                                    provide an alternative, provided that it meets the accommodation
+                                                    requirements.
+                                                </li>
+                                                <li>If the substitute student is unable to do so, he is obligated to pay
+                                                    the room rent until the end of the year.
+                                                </li>
+                                                <li>The student will get back the remaining housing fees if he brings an
+                                                    alternative.
+                                                </li>
+                                                <li>Reservations for student housing begin at the end of the academic
+                                                    year for old students, and when admission and registration at the
+                                                    university opens for new students.
+                                                </li>
+                                                <li>The housing contract starts on 9/1 and ends on 8/31 (i.e. a full
+                                                    year).
+                                                </li>
+                                                <li>The student is allowed to bring a computer or mobile phone into his
+                                                    room, but is prohibited from bringing a television.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="inner">
+                                            <ul class="countList short">
+                                                <li>Visitors are allowed until 10 pm and non-residents are not allowed
+                                                    to stay overnight in the residence without permission.
+                                                </li>
+                                                <li>The residence gate closes at 11pm, except for those who have an
+                                                    emergency, in which case permission must be sought from the
+                                                    residence supervisor.
+                                                </li>
+                                                <li>Current housing is in the apartment system. The apartment contains
+                                                    three to four rooms, two to three bathrooms, and a shared kitchen
+                                                    for the apartment.
+                                                </li>
+                                                <li>Available seats in the residences (single rooms - double rooms -
+                                                    triple rooms).
+                                                </li>
+                                                <li>The fees include (rent - electricity and water - maintenance -
+                                                    internet - and a security deposit of 5,000 Yemeni riyals, which will
+                                                    be returned to the student at the end of the year if the furniture
+                                                    provided to him is in good condition).
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="OtherInformation">
+                                    <ul class="flexBox communicationsList tac">
+                                        <li>
+                                            <div class="inner">
+                                                <span class="icon">
+                                                    <img src="/ust_website_student_service/static/src/images/call-blc-icon.png"
+                                                         alt=""/>
+                                                </span>
+                                                <span class="hd">Call US at</span>
+                                                +967779053274/
+                                                <br/>
+                                                +967730522119
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <span class="icon">
+                                                    <img src="/ust_website_student_service/static/src/images/mail-blc-icon.png"
+                                                         alt=""/>
+                                                </span>
+                                                <span class="hd">Contact us on</span>
+                                                info@ust.edu
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <span class="icon">
+                                                    <img src="/ust_website_student_service/static/src/images/location-blc-icon.png"
+                                                         alt=""/>
+                                                </span>
+                                                <span class="hd">The Address</span>
+                                                Development, People's Line, Aden
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <script src="/ust_website_student_service/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_student_service/static/src/js/function.js"></script>
+            <script src="/ust_website_student_service/static/src/js/slick.min.js"></script>
+            <script>
+                $('.ipSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+                $('.blogList').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+
+        </t>
+    </template>
+</odoo>

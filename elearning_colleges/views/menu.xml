@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu Item -->
+    <menuitem id="menu_colleges" 
+              name="Colleges" 
+              parent="website_slides.website_slides_menu_root" 
+              action="action_college" 
+              sequence="30"/>
+</odoo>

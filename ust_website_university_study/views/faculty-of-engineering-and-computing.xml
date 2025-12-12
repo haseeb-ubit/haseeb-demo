@@ -1,0 +1,530 @@
+<odoo>
+    <template id="faculty_of_engineering_and_computing_template" name="Facilities Of Medicine Page">
+        <t t-call="website.layout">
+
+
+            <section class="innerBanner bgCover"
+                     style="background: url(/ust_website_university_study/static/src/images/engineering-banner.jpg) no-repeat center right;">
+                <div class="container flexBox itemCenter">
+                    <div class="innerBannerText large">
+                        <span class="mb-20">Faculty of engineering and computing</span>
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div class="flexBox">
+                        <div class="middleLeft">
+                            <ul class="leftTab">
+                                <li>
+                                    <a href="#FacultyOverview" class="scroll2">Faculty Overview</a>
+                                </li>
+                                <li>
+                                    <a href="#Vision" class="scroll2">Vision</a>
+                                </li>
+                                <li>
+                                    <a href="#AdmissionRequirements" class="scroll2">Admission Requirements</a>
+                                </li>
+                                <li>
+                                    <a href="#AcademicPrograms" class="scroll2">Academic Programs</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="applyNow">Register Now
+                                        <span class="material-icons">chevron_right</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="middleRight">
+                            <div class="pb60" id="FacultyOverview">
+                                <div class="flexBox itemCenter introBox">
+                                    <div class="left">
+                                        <img src="/ust_website_university_study/static/src/images/computing-overview.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="right">
+                                        <div class="mainHd">Faculty of Engineering and Computing Overview</div>
+                                        <div class="textBox">The mission of the Faculty of Engineering and Computing at
+                                            the Yemeni University of Science and Technology is to prepare distinguished
+                                            specialists in the various fields of engineering, technology
+                                            specializations, information systems and graphics, equipped with the
+                                            foundations of knowledge and skills, and qualified to meet the requirements
+                                            of the labor market, through a specialized staff, a distinguished
+                                            educational environment and advanced programs, and in providing
+                                            consultations and scientific research that Contribute to community service
+                                            in accordance with comprehensive quality systems and professional and
+                                            ethical requirements.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pb60" id="Vision">
+                                <div class="mainHd">University Vision</div>
+                                <div class="textBox mb-20">The Faculty of Engineering and Computing at the University of
+                                    Science and Technology is a pioneer locally and regionally distinguished.
+                                </div>
+                                <div>
+                                    <img src="/ust_website_university_study/static/src/images/vision-img.jpg"
+                                         alt="Our Vision"/>
+                                </div>
+                            </div>
+                            <div class="pb60">
+                                <div class="flexBox justifyContentBetween">
+                                    <div class="valusesBox">
+                                        <div class="mainHd">Valuse</div>
+                                        <ul class="countList">
+                                            <li>Quality and Excellence</li>
+                                            <li>Continuous education</li>
+                                            <li>creativity and innovation</li>
+                                            <li>Global Partnership</li>
+                                            <li>social responsibility</li>
+                                            <li>Teamwork</li>
+                                            <li>Transparency</li>
+                                            <li>Accountability and Equalization</li>
+                                        </ul>
+                                    </div>
+                                    <div class="ourGoals">
+                                        <div class="mainHd">Objectives</div>
+                                        <ul class="countList">
+                                            <li>Providing students with knowledge and skills in scientific and
+                                                engineering fields.
+                                            </li>
+                                            <li>Preparing qualified engineers to meet the requirements of the labor
+                                                market.
+                                            </li>
+                                            <li>Providing the community with highly qualified specialists in the fields
+                                                of engineering and computers who are able to deal with specialized
+                                                problems.
+                                            </li>
+                                            <li>Contribute to supporting scientific research efforts in the scientific
+                                                and engineering fields.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pb60">
+                                <div class="mainHd">Dean's Word</div>
+                                <div class="flexBox deanWordBox1">
+                                    <div class="left">
+                                        <img src="/ust_website_university_study/static/src/images/dean-img2.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="textBox right">
+                                        Praise be to God, Lord of the Worlds, and prayers and peace be upon the honest
+                                        and trustworthy our master Muhammad and all his family and companions, and
+                                        after:
+                                        <br/>
+                                        <br/>
+                                        At the outset, I welcome all visitors to the website of the College of
+                                        Engineering and Computers at the University of Science and Technology.
+                                        <br/>
+                                        <br/>
+                                        The college provides modern and diverse programs in engineering fields, which
+                                        include civil engineering, architecture, biomedical engineering, mechatronics
+                                        engineering, as well as in the fields of computers, information technology,
+                                        information systems, graphic design and multimedia to obtain a bachelor's
+                                        degree. This is in addition to the master's program in computing.
+                                        <br/>
+                                        <br/>
+                                        The college invested thanks to the continuous support provided by the university
+                                        leadership represented by the university president, to work on equipping
+                                        laboratories and workshops, as well as advanced laboratories in all engineering
+                                        and computer fields,
+                                    </div>
+                                </div>
+                                <div class="flexBox justifyContentBetween deanWordBox2">
+                                    <div class="textBox left">
+                                        and classrooms laboratories in all engineering and computer fields, and
+                                        classrooms equipped with modern technologies, activating educational strategies
+                                        and focusing on educational curricula and cadres in order to keep pace with
+                                        engineering and computer development and prepare them To be among the future
+                                        makers, elite academics who are distinguished in their scientific fields
+                                        contribute to this. The college is also keen to achieve high standards of
+                                        quality and accreditation, as the programs under this college have been
+                                        developed according to a scientific methodology that meets the needs of the
+                                        local and regional labor market and in accordance with the standards approved by
+                                        the academic accreditation organization, and the college is now preparing and
+                                        preparing for the rest of the accreditation requirements according to a plan
+                                        prepared in advance for this purpose.
+                                        <br/>
+                                        <br/>
+                                        The mission of the college is not limited to preparing students to enter the
+                                        labor market, but extends beyond their graduation by providing them with the
+                                        professional and cognitive skills necessary to meet all forms of challenges in
+                                        engineering, industrial and computer sciences,
+                                    </div>
+                                    <div class="textBox right">
+                                        which qualifies them to lead in the fields of creativity and engineering and
+                                        computer innovation committed to professional ethics.
+                                        <br/>
+                                        <br/>
+                                        If you are looking for a unique university study experience in one of the best
+                                        engineering and computer colleges at the local and regional levels, I invite you
+                                        to the college to explore the study opportunities we offer, or visit the college
+                                        website to get the information you are looking for.
+                                        <br/>
+                                        <br/>
+                                        I ask God Almighty to help us to advance this ancient scientific edifice and for
+                                        the college to be a beacon and a model to guide students and society for a
+                                        better path towards a more beautiful future.
+                                        <br/>
+                                        <br/>
+                                        In conclusion, I thank you once again for your visit to the Faculty of
+                                        Engineering and Computers website, and we hope you will repeat your visit to
+                                        this website and continue your communication with the Faculty, its
+                                        administration and faculty members.
+                                        <br/>
+                                        <br/>
+                                        Dean of the College
+                                        <br/>
+                                        Assistant Dr. Nasr Al-Saqqaf
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pb60" id="AdmissionRequirements">
+                                <div class="mainHd">Admission Requirements</div>
+                                <div class="textBox">
+                                    <ul class="listText short">
+                                        <li>The faculty accepts high school holders in the Republic of Yemen or its
+                                            equivalent at the rate that is determined annually.
+                                        </li>
+                                        <li>Submit all the required documents, certified with the application for
+                                            admission to the university, to the Admission and Registration Department.
+                                        </li>
+                                        <li>Admission is made according to the capacity specified by the university and
+                                            approved by the Ministry of Higher Education.
+                                        </li>
+                                        <li>The student undertakes to abide by the regulations, instructions and
+                                            regulations of the university in force during the study.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pb60" id="AcademicPrograms">
+                                <div class="mainHd">Faculty of Engineering and Computing Departments and Programmes
+                                </div>
+                                <ul class="flexBox collageList column3">
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/civil-engineering-course.jpg"
+                                                     alt="Civil Engineering Course"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Civil Engineering Course</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/architecture-course.jpg"
+                                                     alt="Architecture Course"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Architecture Course</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/mechatronics-engineering.jpg"
+                                                     alt="Mechatronics Engineering Course"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Mechatronics Engineering Course</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/biomedical-engineering.jpg"
+                                                     alt="Biomedical Engineering Course"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Biomedical Engineering Course</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/oil-and-gas-engineering.jpg"
+                                                     alt="Oil and Gas Engineering Program"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Oil and Gas Engineering Program</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/interior-design.jpg"
+                                                     alt="Interior Design Engineering Program"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Interior Design Engineering Program</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/cyber-security-program.jpg"
+                                                     alt="Cyber Security Program"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Cyber Security Program</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/information-technology.jpg"
+                                                     alt="Information Technology"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Information Technology</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/graphic-design.jpg"
+                                                     alt="Graphic design and multimedia"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Graphic design and multimedia</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/information-systems.jpg"
+                                                     alt="Information Systems"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Information Systems</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_university_study/static/src/images/artificial-intelligence.jpg"
+                                                     alt="Artificial Intelligence"/>
+                                            </div>
+                                            <div class="det">
+                                                <div class="name">Artificial Intelligence</div>
+                                                <a href="#" class="download">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pb60">
+                                <div class="flexBox justify-content-between facBtnBox">
+                                    <a href="#" class="readMore">Click here to download the exam schedule in the
+                                        Computer Department
+                                    </a>
+                                    <a href="#" class="readMore">Click here to download the exam schedule for the
+                                        Engineering Department
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="pb60">
+                                <ul class="featureList">
+                                    <li class="borTop">
+                                        <div class="featuresHd">College Guide</div>
+                                        <div class="textBox mb-20">Directory of the College of Humanities and
+                                            Administrative Sciences
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMore">Click here to download the College of
+                                                Humanities and Administrative Sciences' guide
+                                                <span class="material-icons">chevron_right</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="featuresHd">Curriculum vitae of faculty members in the College of
+                                            Engineering and Computers
+                                        </div>
+                                        <div class="textBox flexBox justifyContentBetween">
+                                            <ul class="memberList">
+                                                <li>
+                                                    <a href="#">a. Reham Aidarous Ahmed Moqbel</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Maryam Alattas</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Abdullah seems to be</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">M. Irfan is able</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Darren Qadri</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Ali Saleh Saad Belaid</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Thekra Najeeb Abdullah Saleh</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">M. Omaima Aziz</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Nabil Mansour</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Manal Omar Saleh Omar</a>
+                                                </li>
+                                            </ul>
+                                            <ul class="memberList">
+                                                <li>
+                                                    <a href="#">a. Nazim Al-Haddad</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Nasr Al-Saqqaf</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Akram Mustafa</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Ali Abdel Qader</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">a. Maryam Mohamed Aqeel</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Muammar Muhammad Salih Al-Qubaiti</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Lutfi Muhammed Omar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Dr.. Abdul Rahman Qazi</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="mainHd">Photo Gallery</div>
+                                <div class="gallerySlider sliderArrow">
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img1.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img2.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img3.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img1.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img2.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="item">
+                                        <img src="/ust_website_university_study/static/src/images/gallery-img3.jpg"
+                                             alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script src="/ust_website_university_study/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_university_study/static/src/js/function.js"></script>
+            <script src="/ust_website_university_study/static/src/js/slick.min.js"></script>
+            <script>
+                $('.gallerySlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1569,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 999,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+
+        </t>
+    </template>
+</odoo>

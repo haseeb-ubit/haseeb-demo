@@ -1,0 +1,469 @@
+<odoo>
+    <template id="academic_programs_template" name="Academic Programs Page">
+        <t t-call="website.layout">
+
+          <!--  <head>
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="/ust_website_programmes/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_programmes/static/src/css/slick.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_programmes/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_programmes/static/src/css/responsive.css" type="text/css"/>
+            </head>-->
+
+            <div class="oe_structure"/>
+                                <div id="wrap">
+
+
+            <section class="innerBanner bgCover"
+                     style="background: url(/ust_website_programmes/static/src/images/academic-programs-banner.jpg) no-repeat center right;">
+                <div class="container flexBox itemCenter">
+                    <div class="innerBannerText">
+                        <span class="mb-20">Joint Dual Degree Programs</span>
+                        Get your degree from international Universities
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div class="flexBox introductionBox">
+                        <div class="info">
+                            <div class="mainHd">International Programs Offered at University of Science and Technology -
+                                Yemen
+                            </div>
+                            <div class="textBox mb-20">
+                                The gateway to studying at internationally recognized universities starts here; as the
+                                University of Science and Technology is the first university in Yemen to offer a group
+                                of
+                                international programs in various fields, which provide students with future prospects
+                                to
+                                gain knowledge and reach an internationally accredited degree.
+                            </div>
+                            <div class="smallHd">University Vision</div>
+                            <div class="textBox">
+                                The University of Science and Technology firmly believes in the importance of
+                                establishing
+                                joint links with local and international universities and educational organizations.
+                                Therefore, the University of Science and Technology establishes a number of links with
+                                educational institutions at the local and international levels. This cooperation has
+                                resulted in beneficial exchange of student and staff programs, joint research, graduate
+                                programs, and joint undergraduate programs.
+                            </div>
+                        </div>
+                        <div class="img">
+                            <img src="/ust_website_programmes/static/src/images/introduction-img.jpg"
+                                 alt="Introduction"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60 bgCover admissionReq"
+                     style="background: url(/ust_website_programmes/static/src/images/international-programs-banner.jpg) no-repeat center;">
+                <div class="container">
+                    <div class="mainHd whtClr tac">What will the student achieve by applying to international programs?
+                    </div>
+                    <ul class="flexBox reqBox">
+                        <li>
+                            <div class="transparentBox whtClr">
+                                <div class="inner">
+                                    <div class="smallHd">International participation and affiliation</div>
+                                    <div class="textBox">Strong links with international institutions will give students
+                                        and
+                                        staff the opportunity to actively participate in international organizations and
+                                        networking prospects of various kinds. Furthermore, this cooperation will allow
+                                        for
+                                        exchange programs for both students and staff, joint research and postgraduate
+                                        programs, as well as international conference organizations.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="transparentBox whtClr">
+                                <div class="inner">
+                                    <div class="smallHd">Get high quality education</div>
+                                    <div class="textBox">In terms of quality of education, the project urges cooperating
+                                        institutions to redistribute their resources to achieve more beneficial and
+                                        effective tasks and goals for students by adhering to the standards of
+                                        cooperation,
+                                        which together seek to improve the quality of academic education in the fields
+                                        of
+                                        research and study programs.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="transparentBox whtClr">
+                                <div class="inner">
+                                    <div class="smallHd">Specialized and university accreditation</div>
+                                    <div class="textBox">Collaboration with an internationally leading university of
+                                        science
+                                        and technology will ensure that graduate programs adhere to the requirements set
+                                        by
+                                        the relevant accreditation bodies, and that their programs are subject to
+                                        periodic
+                                        reviews by specialists; all of which will enhance and document the international
+                                        accreditation of the program and the university.
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div>
+                        <div class="mainHd">List of international universities implementing international cooperation
+                            programs - University of Science and Technology in Yemen
+                        </div>
+                        <div class="textBox">
+                            Over the years, the University of Science and Technology - Yemen has succeeded in providing
+                            the
+                            best educational opportunities and levels to its students through international cooperation
+                            programs, by forming cooperation links with several universities at the local and
+                            international
+                            levels.
+                            <br/>
+                            <br/>
+                            Here is a list of the most important international universities that had a significant
+                            impact on
+                            active participation:
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="browseList">
+                            <li>
+                                <a href="#">University of Science and Technology Malaysia USIM</a>
+                            </li>
+                            <li>
+                                <a href="#">Open University of Malaysia OUM</a>
+                            </li>
+                            <li>
+                                <a href="#">Sultan Zainal Abidin University UNISZA</a>
+                            </li>
+                            <li>
+                                <a href="#">University of Science Malaysia USM</a>
+                            </li>
+                            <li>
+                                <a href="#">National University of Malaysia UKM</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <div class="pt60 pb60 grayBg">
+                <div class="container">
+                    <div class="mainHd tac">Distinguished international student exchange programs in
+                        <br/>
+                        cooperation with many international partners
+                    </div>
+                    <div class="ipSlider sliderArrow">
+                        <div class="item">
+                            <div class="inner">
+                                <div class="img">
+                                    <img src="/ust_website_programmes/static/src/images/international-partner1.png"
+                                         alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="inner">
+                                <div class="img">
+                                    <img src="/ust_website_programmes/static/src/images/international-partner2.png"
+                                         alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="inner">
+                                <div class="img">
+                                    <img src="/ust_website_programmes/static/src/images/international-partner3.png"
+                                         alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="inner">
+                                <div class="img">
+                                    <img src="/ust_website_programmes/static/src/images/international-partner4.png"
+                                         alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="inner">
+                                <div class="img">
+                                    <img src="/ust_website_programmes/static/src/images/international-partner5.png"
+                                         alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="pt60">
+                <div class="container">
+                    <div class="flexBox itemCenter justifyContentBetween">
+                        <div class="mainHd">UST Yemen University Exchange Program News</div>
+                        <div>
+                            <a href="#" class="readMore">View All</a>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="blogList sliderArrow p-0">
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_programmes/static/src/images/blog-img1.jpg" alt=""/>
+                                        <sapn class="tag">Community Service</sapn>
+                                    </div>
+                                    <div class="det">
+                                        <div class="flexBox">
+                                            <div class="date user mb-10">
+                                                <span class="material-icons">perm_identity</span>
+                                                By Admin
+                                            </div>
+                                            <div class="date mb-10">
+                                                <span class="material-icons">calendar_today</span>
+                                                August 29, 2024
+                                            </div>
+                                        </div>
+                                        <div class="name mb-10">Master's degree for researcher Ahmed Abdulrahman
+                                            Abdullah
+                                            Al-Abbadi
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMoreLink">Read More
+                                                <span
+                                                        class="material-icons">arrow_right_alt
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_programmes/static/src/images/blog-img2.jpg" alt=""/>
+                                        <sapn class="tag">E-Learning</sapn>
+                                    </div>
+                                    <div class="det">
+                                        <div class="flexBox">
+                                            <div class="date user mb-10">
+                                                <span class="material-icons">perm_identity</span>
+                                                By Admin
+                                            </div>
+                                            <div class="date mb-10">
+                                                <span class="material-icons">calendar_today</span>
+                                                August 29, 2024
+                                            </div>
+                                        </div>
+                                        <div class="name mb-10">Assistant President for Academic Affairs Visits Graduate
+                                            Students
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMoreLink">Read More
+                                                <span
+                                                        class="material-icons">arrow_right_alt
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_programmes/static/src/images/blog-img3.jpg" alt=""/>
+                                        <sapn class="tag">E-Learning</sapn>
+                                    </div>
+                                    <div class="det">
+                                        <div class="flexBox">
+                                            <div class="date user mb-10">
+                                                <span class="material-icons">perm_identity</span>
+                                                By Admin
+                                            </div>
+                                            <div class="date mb-10">
+                                                <span class="material-icons">calendar_today</span>
+                                                August 29, 2024
+                                            </div>
+                                        </div>
+                                        <div class="name mb-10">Master's degree with distinction for researcher Yusra
+                                            Abdullah Salem Aliwa
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMoreLink">Read More
+                                                <span
+                                                        class="material-icons">arrow_right_alt
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_programmes/static/src/images/blog-img4.jpg" alt=""/>
+                                        <sapn class="tag">Community Service</sapn>
+                                    </div>
+                                    <div class="det">
+                                        <div class="flexBox">
+                                            <div class="date user mb-10">
+                                                <span class="material-icons">perm_identity</span>
+                                                By Admin
+                                            </div>
+                                            <div class="date mb-10">
+                                                <span class="material-icons">calendar_today</span>
+                                                August 29, 2024
+                                            </div>
+                                        </div>
+                                        <div class="name mb-10">Master's degree with distinction for researcher Riyad
+                                            Ali
+                                            Jabr
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMoreLink">Read More
+                                                <span
+                                                        class="material-icons">arrow_right_alt
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section class="pb60 pt60">
+                <div class="container">
+                    <div class="mainHd">Academic Programmes</div>
+                    <ul class="flexBox academiicProgramms">
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_programmes/static/src/images/undergraduate-programs.jpg) no-repeat center;">
+                                <img
+                                        src="/ust_website_programmes/static/src/images/undergraduate-programs.jpg"
+                                        alt="Undergraduate Programs"/>
+                                <span>Undergraduate
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_programmes/static/src/images/postgraduate-programs.jpg) no-repeat center;">
+                                <img
+                                        src="/ust_website_programmes/static/src/images/postgraduate-programs.jpg"
+                                        alt="Postgraduate Programs"/>
+                                <span>Postgraduate
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_programmes/static/src/images/international-programs.jpg) no-repeat center;">
+                                <img
+                                        src="/ust_website_programmes/static/src/images/international-programs.jpg"
+                                        alt="International Programs"/>
+                                <span>International
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <div class="oe_structure"/>
+
+            <script src="/ust_website_programmes/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_programmes/static/src/js/function.js"></script>
+            <script src="/ust_website_programmes/static/src/js/slick.min.js"></script>
+            <script>
+                $('.ipSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+                $('.blogList').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+
+
+            <div class="oe_structure"/>
+                                </div>
+
+        </t>
+    </template>
+</odoo>

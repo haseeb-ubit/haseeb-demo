@@ -1,1 +1,1 @@
-# usterp-finance
+# ust-website-odoo

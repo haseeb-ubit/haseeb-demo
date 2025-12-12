@@ -1,0 +1,638 @@
+<odoo>
+    <template id="facility_of_humanities_template" name="Facilities Of Humanities Page">
+        <t t-call="website.layout">
+           <!-- <link rel="stylesheet" href="/ust_website_university_study/static/src/css/slick.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/stylesheet.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/responsive.css"
+                  type="text/css"/>-->
+            <div class="oe_structure"/>
+            <div id="wrap">
+                <section class="innerBanner bgCover"
+                         style="background: url(/ust_website_university_study/static/src/images/facilities-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText large">
+                            <span class="mb-20">Faculty of Administrative and Human Sciences Overview</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="middleLeft">
+                                <ul class="leftTab">
+                                    <li>
+                                        <a href="#FacultyOverview" class="scroll2">Faculty Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Vision" class="scroll2">Vision</a>
+                                    </li>
+                                    <li>
+                                        <a href="#AdmissionRequirements" class="scroll2">Admission Requirements</a>
+                                    </li>
+                                    <li>
+                                        <a href="#AcademicPrograms" class="scroll2">Academic Programs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="applyNow">Register Now
+                                            <span class="material-icons">chevron_right</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="middleRight">
+                                <div class="pb60" id="FacultyOverview">
+                                    <div class="flexBox itemCenter introBox">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/faculty-overview.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="mainHd">Faculty of Administrative and Human Sciences Overview
+                                            </div>
+                                            <div class="textBox">The Faculty of Administrative and Human Sciences at the
+                                                University of Science and Technology - Aden - seeks to provide a
+                                                distinguished educational service that gives students knowledge and
+                                                skills
+                                                in administrative and human sciences, in a manner that meets the needs
+                                                of
+                                                the community and the local, regional and international labor market,
+                                                and
+                                                contributes to the development of society’s curricula and providing an
+                                                adequate education and resource provider. In accordance with local,
+                                                regional
+                                                and international standards, in accordance with comprehensive quality
+                                                standards.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="Vision">
+                                    <div class="mainHd">Vision</div>
+                                    <div class="textBox mb-20">To be a pioneer in the administrative and accounting
+                                        fields,
+                                        humanities and research activities locally, regionally and globally.
+                                    </div>
+                                    <div>
+                                        <img src="/ust_website_university_study/static/src/images/vision-img.jpg"
+                                             alt="Our Vision"/>
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="flexBox justifyContentBetween">
+                                        <div class="valusesBox">
+                                            <div class="mainHd">Values</div>
+                                            <ul class="countList">
+                                                <li>Teamwork.</li>
+                                                <li>Honesty and transparency.</li>
+                                                <li>professional.</li>
+                                                <li>Excellence.</li>
+                                                <li>The responsibility.</li>
+                                                <li>Creativity.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="ourGoals">
+                                            <div class="mainHd">Our Goals</div>
+                                            <ul class="countList">
+                                                <li>Providing a distinguished educational service that provides students
+                                                    with knowledge and skills in administrative and human sciences.
+                                                </li>
+                                                <li>Contribute to supporting scientific research efforts in the field of
+                                                    administrative and human sciences.
+                                                </li>
+                                                <li>Contribute to strengthening the role of the university in community
+                                                    service by providing advisory and training programs in the field of
+                                                    administrative sciences.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">A word from the Dean of the College of Administrative Sciences
+                                        and
+                                        Humanities
+                                    </div>
+                                    <div class="flexBox deanWordBox1">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/deamn-img2.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="textBox right">
+                                            The College of Administrative and Human Sciences seeks to provide a
+                                            distinguished educational service that leads to the provision of
+                                            competencies to
+                                            the labor market and in a manner that contributes to raising the development
+                                            capabilities of the country and society, and working for excellence in the
+                                            educational process at the local, regional and international levels, and the
+                                            display in the educational process of ethical, technical and professional
+                                            behaviors and dealing responsibly towards the process Educational,
+                                            excellence in
+                                            quality, initiative and teamwork between students, professors, and
+                                            university
+                                            administration.
+                                            <br/>
+                                            <br/>
+                                            The College of Administrative Sciences and Humanities is interested in two
+                                            aspects of science, the first of which is administrative sciences, which
+                                            includes various programs in administrative sciences, including business
+                                            administration, both Arabic and English, accounting, international business
+                                            administration, marketing, production management, and other administrative
+                                            sciences.
+                                        </div>
+                                    </div>
+                                    <div class="flexBox justifyContentBetween deanWordBox2">
+                                        <div class="textBox left">
+                                            Administrative sciences are considered an essential basis for the activity
+                                            of
+                                            any institution, private or public business organization, or any government
+                                            agency, because the requirements for conducting business in any activity are
+                                            the
+                                            presence of administrators, accountants, economists...etc. The development
+                                            and
+                                            growth of any country, organization or work body comes through the
+                                            efficiency
+                                            and capabilities of its administrative and accounting staff, the extent of
+                                            their
+                                            dedication to their work, their sincerity, sincerity and honesty.
+                                        </div>
+                                        <div class="textBox right">
+                                            The second aspect is the humanities, under which different disciplines fall
+                                            under such as linguistics, legislation, law, Islamic studies and other
+                                            sciences
+                                            related to human sciences.
+                                            <br/>
+                                            <br/>
+                                            The humanities provide the qualifications needed by business organizations
+                                            and
+                                            state agencies, such as legislators, legal experts, linguists, and others.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AdmissionRequirements">
+                                    <div class="mainHd">Admission and registration requirements</div>
+                                    <div class="textBox">
+                                        A student wishing to join the faculty is required to meet the following
+                                        conditions:
+                                        <ul class="countList short">
+                                            <li>The faculty accepts high school holders in the Republic of Yemen or its
+                                                equivalent at the rate that is determined annually.
+                                            </li>
+                                            <li>Submit all the required documents, certified with the application for
+                                                admission to the faculty, to the Admission and Registration Department.
+                                            </li>
+                                            <li>Admission is made according to the capacity specified by the university
+                                                and
+                                                approved by the Ministry of Higher Education.
+                                            </li>
+                                            <li>The student undertakes to abide by the regulations, instructions and
+                                                regulations of the university in force during the study.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AcademicPrograms">
+                                    <div class="mainHd">Academic Programs of the College of Administrative and Human
+                                        Sciences
+                                    </div>
+                                    <ul class="flexBox collageList column3">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/health-sciences.jpg"
+                                                         alt="Bachelor of Pharmacy Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Pharmacy Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/pharmacy.jpg"
+                                                         alt="Oral and Dental Medicine and Surgery Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Oral and Dental Medicine and Surgery Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/oral-and-dental.jpg"
+                                                         alt="Medicine and Surgery"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Medicine and Surgery</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/college-engineering.jpg"
+                                                         alt="Clinical Pharmacy (PharmD)"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Clinical Pharmacy (PharmD)</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/medicine-and-surgery.jpg"
+                                                         alt="Bachelor of Medical Laboratory Science"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Medical Laboratory Science</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/deanship.jpg"
+                                                         alt="Bachelor of Therapeutic Nutrition and Dietetics"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Therapeutic Nutrition and Dietetics
+                                                    </div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/administrative.jpg"
+                                                         alt="Radiology and Medical Imaging Technology"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Radiology and Medical Imaging Technology</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/engineering.jpg"
+                                                         alt="Diploma in Medical Laboratory Technician"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Diploma in Medical Laboratory Technician</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/deanship.jpg"
+                                                         alt="Diploma in Pharmacy Technician"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Diploma in Pharmacy Technician</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                           <!-- <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/administrative.jpg"
+                                                         alt="Master of Dental Sciences Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Master of Dental Sciences Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/engineering.jpg"
+                                                         alt="Nursing Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Nursing Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>-->
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Advantages of studying in the programs of the College of
+                                        Humanities
+                                        and Administrative Sciences
+                                    </div>
+                                    <ul class="listText short">
+                                        <li>Modern and advanced curricula and the provision of books and references in
+                                            Arabic and English.
+                                        </li>
+                                        <li>Focus on the practical and applied side and honing students’ scientific
+                                            research
+                                            skills.
+                                        </li>
+                                        <li>We provide scientific and professional competencies to teach in the various
+                                            college programs.
+                                        </li>
+                                        <li>Linking the outcomes of the educational process to the needs of the labor
+                                            market.
+                                        </li>
+                                        <li>Keeping pace with developments in science and knowledge in management.</li>
+                                        <li>A university and technological environment that encourages study and
+                                            scientific
+                                            development.
+                                        </li>
+                                        <li>Working relationships for field training for students with various civil
+                                            society
+                                            institutions that serve the educational process.
+                                        </li>
+                                        <li>Providing high quality training that meets the needs of students, the labor
+                                            market and development requirements.
+                                        </li>
+                                        <li>The student gets a suitable learning environment with an appropriate number
+                                            of
+                                            students in the classrooms.
+                                        </li>
+                                        <li>Training on the use of computer-assisted translation software such as: MemoQ
+                                            and
+                                            Trados
+                                        </li>
+                                        <li>Conduct free sessions to learn English conversation.</li>
+                                        <li>The student obtains a certificate recognized locally, regionally and
+                                            internationally.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <ul class="featureList">
+                                        <li class="borTop">
+                                            <div class="featuresHd">College Guide</div>
+                                            <div class="textBox mb-20">Directory of the College of Humanities and
+                                                Administrative Sciences
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore">Click here to download the College of
+                                                    Humanities and Administrative Sciences' guide
+                                                    <span class="material-icons">chevron_right</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="featuresHd">International accreditation and status of Faculty of
+                                                Humanities and Administrative Sciences
+                                            </div>
+                                            <div class="textBox">
+                                                Within a few years of its inception, the Faculty of Humanities and
+                                                Administrative Sciences at the University of Science and Technology -
+                                                Yemen
+                                                has been successful and competitive in offering business and liberal
+                                                sciences programs in various specializations in Yemen, using both Arabic
+                                                and
+                                                English mediums of instruction. The faculty of humanities and
+                                                administrative
+                                                sciences has gained a robust reputation of academic excellence both
+                                                locally
+                                                in Yemen and internationally.Learners are equipped with skills in
+                                                recognizing, evaluating and constructing arguments; reasoning; critical
+                                                activity, judgement, logic and argument.
+                                                <br/>
+                                                <br/>
+                                                Throughout its course of development, The faculty of humanities and
+                                                administrative sciences-Yemen, has gone through a major restructuring
+                                                exercise under the University's Strategic Plan which aimed at increasing
+                                                the
+                                                programmes offered. The departments of accounting, humanities and
+                                                administrative sciences, represent the core domains of the faculty, and
+                                                offer students the opportunity of taking a fresh look at the nature of
+                                                the
+                                                programmes and to explore the possibilities of making programmes both
+                                                more
+                                                exciting and marketable.
+                                                <br/>
+                                                <br/>
+                                                As such, the Faculty of Humanities and Administrative Sciences-Yemen
+                                                strives
+                                                to offer prospective learners with accredited and up-to-date academic
+                                                programmes leading to qualifications that are stimulating, and which
+                                                will
+                                                ultimately allow for individual intellectual growth, and at the end of
+                                                the
+                                                day, graduates of the fields of business administration, and social
+                                                sciences
+                                                are made marketable in their careers of choice, and responsible citizens
+                                                in
+                                                their respective societies.
+                                                <br/>
+                                                <br/>
+                                                To this end, The Faculty of Humanities and Administrative Sciences-Yemen
+                                                sets you on your pathway to shaping the future of your community. Its
+                                                broad-based curricula blend knowledge with practical experience and
+                                                relevance, equipping you with the confidence and skills required of
+                                                careers
+                                                in education and the social sciences.
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="mainHd">Graduate Research</div>
+                                    <div class="grSubHd">Graduate Research - Department of Accounting</div>
+                                    <ul class="flexBox researchList">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">Examine the role of e-learning in the development of
+                                                    accounting education
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The impact of quality costs on improving financial
+                                                    performance in industrial companies
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The role of analytical review in developing professional
+                                                    performance
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The role of cost accounting system information in
+                                                    rationalizing administrative decisions
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <br/>
+                                    <br/>
+                                    <div class="grSubHd">Graduate Research - Department of Business Administration</div>
+                                    <ul class="flexBox researchList">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The reality of crisis management in light of the Corona
+                                                    pandemic
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The role of organizational culture in improving employee
+                                                    performance
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="hd">The impact of business ethics in promoting social
+                                                    responsibilit
+                                                </div>
+                                                <div class="btn">
+                                                    <a href="#">Click here to download the research file</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="oe_structure"/>
+
+
+                <script src="/ust_website_university_study/static/src/js/jquery.min.js"></script>
+                <script src="/ust_website_university_study/static/src/js/function.js"></script>
+                <script src="/ust_website_university_study/static/src/js/slick.min.js"></script>
+                <script>
+                    $('.ipSlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                    $('.blogList').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                </script>
+            </div>
+        </t>
+    </template>
+</odoo>

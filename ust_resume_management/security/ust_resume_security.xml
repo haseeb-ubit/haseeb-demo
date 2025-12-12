@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="group_resume_teacher" model="res.groups">
+        <field name="name">Teacher</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+        <field name="comment">Teachers can create and manage their own CVs.</field>
+    </record>
+     <!-- Teachers can see only their own resumes -->
+    <record id="rule_ust_resume_en_teacher_own" model="ir.rule">
+        <field name="name">Teacher can see only own resumes</field>
+        <field name="model_id" ref="model_ust_resume_en"/>
+        <field name="groups" eval="[(4, ref('ust_resume_management.group_resume_teacher'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+    <record id="rule_ust_resume_teacher_own" model="ir.rule">
+        <field name="name">Teacher can see only own resumes</field>
+        <field name="model_id" ref="model_ust_resume"/>
+        <field name="groups" eval="[(4, ref('ust_resume_management.group_resume_teacher'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_ust_resume_public" model="ir.rule">
+        <field name="name">Public users can see published resumes</field>
+        <field name="model_id" ref="model_ust_resume"/>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+    </record>
+
+    <record id="rule_ust_resume_en_public" model="ir.rule">
+        <field name="name">Public users can see published resumes (EN)</field>
+        <field name="model_id" ref="model_ust_resume_en"/>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+    </record>
+</odoo>

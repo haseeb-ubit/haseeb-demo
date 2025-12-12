@@ -1,0 +1,481 @@
+<odoo>
+    <template id="deanship_of_e_learning_template" name="Deanship Of E-learning Page">
+        <t t-call="website.layout">
+         <!--   <link rel="stylesheet" href="/ust_website_university_study/static/src/css/slick.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/stylesheet.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/responsive.css"
+                  type="text/css"/>-->
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+
+                <section class="innerBanner bgCover"
+                         style="background: url(/ust_website_university_study/static/src/images/facilities-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText large">
+                            <span class="mb-20">Deanship of electronic and distance learning</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="middleLeft">
+                                <ul class="leftTab">
+                                    <li>
+                                        <a href="#OurMission" class="scroll2">Our Mission</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Objectives" class="scroll2">Objectives</a>
+                                    </li>
+                                    <li>
+                                        <a href="#AdmissionRequirements" class="scroll2">Admission And Registration
+                                            Requirements
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#AcademicPrograms" class="scroll2">Academic Programmes</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="applyNow">Register Now
+                                            <span class="material-icons">chevron_right</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="middleRight">
+                                <div class="pb60" id="OurMission">
+                                    <div class="flexBox introBox">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/our-mission.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="mainHd">Our Mission</div>
+                                            <div class="textBox mb-20">Seeking Deanship of E-Learning and Distance
+                                                Education
+                                                The University of Science and Technology aims to provide a distinguished
+                                                educational service for learners who were unable to enroll in
+                                                traditional
+                                                education, to meet the needs of the labor market locally and regionally
+                                                through highly qualified educational, administrative and technical
+                                                staff,
+                                                and to apply the latest educational technologies in accordance with
+                                                international standards for open education and comprehensive quality,
+                                                committed to professional ethics. .
+                                            </div>
+                                            <div class="mb-10">
+                                                <a href="#" class="readMore blue">Click here to view the college
+                                                    brochure
+                                                    <span class="material-icons">chevron_right</span>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore blue">Schedules
+                                                    <span class="material-icons">chevron_right</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="Objectives">
+                                    <div class="mainHd">Objectives</div>
+                                    <div class="textBox">
+                                        <ul class="listText short">
+                                            <li>Providing university education opportunities for those who were unable
+                                                to
+                                                enroll in traditional education.
+                                            </li>
+                                            <li>Providing an educational environment that meets the requirements of
+                                                e-learning and distance education.
+                                            </li>
+                                            <li>Developing and qualifying human cadres to meet the requirements of
+                                                e-learning and distance education.
+                                            </li>
+                                            <li>Contribute to meeting the needs of society and the labor market of
+                                                qualified
+                                                cadres.
+                                            </li>
+                                            <li>Expanding partnerships with electronic and open universities regionally
+                                                and
+                                                internationally.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AdmissionRequirements">
+                                    <div class="mainHd">Admission And Registration Requirements For Deanship of
+                                        E-Learning
+                                        and Distance Education.
+                                    </div>
+                                    <ul class="countList short">
+                                        <li>Obtaining a high school diploma in the Republic of Yemen or its equivalent
+                                            at
+                                            the rate determined annually.
+                                        </li>
+                                        <li>Register through the online portal of the Deanship at the link ust.edu and
+                                            fill
+                                            out the online application
+                                        </li>
+                                        <li>Send or submit the originals of all documents submitted electronically,
+                                            certified and certified by the relevant authorities at the university, and
+                                            sent
+                                            to the Admission and Registration Department of the Deanship of E-Learning
+                                            and
+                                            Distance Education.
+                                        </li>
+                                        <li>Admission is made according to the capacity specified by the university and
+                                            approved by the Ministry of Higher Education.
+                                        </li>
+                                        <li>Undertaking to abide by the university's regulations, instructions and
+                                            regulations in force during the study.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">University of Science and Technology Yemen has Over 25 Years of
+                                        Experience in Providing Distance Learning Globally
+                                    </div>
+                                    <div class="textBox">
+                                        Thinking of furthering your studies without the need to be physically present on
+                                        campus or at a university?
+                                        <br/>
+                                        <br/>
+                                        The Deanship of Electronic and Distance Learning at the University of Science
+                                        and
+                                        Technology, Yemen allows you to experience quality distance learning education
+                                        by
+                                        providing access to the best online learning courses for various programs
+                                        Through
+                                        its online portal: smart.ust.edu.
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Advantages of Distance Education through E-Learning at UST,
+                                        Yemen
+                                    </div>
+                                    <div class="textBox">
+                                        With over 25 years of experience in distance learning education, UST is
+                                        considered
+                                        one of the best distance learning universities in Yemen and provides
+                                        international
+                                        standards of open learning for all. Students can have access to their distance
+                                        learning courses and learn from anywhere in the world to obtain an
+                                        internationally
+                                        recognised bachelor's degree. Besides that, UST is also home to quality
+                                        educators
+                                        and administrative staff that are committed to providing the best e-learning
+                                        program
+                                        in Yemen to distance learning students.
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AcademicPrograms">
+                                    <div class="mainHd">List of Available Online Courses for Distance Learning at UST,
+                                        Yemen
+                                    </div>
+                                    <div class="textBox mb-20">UST offers various e-learning courses for distance
+                                        learning
+                                        students at its university which are listed below:
+                                    </div>
+                                    <ul class="flexBox collageList column3">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img1.jpg"
+                                                         alt="Quran Sciences E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Quran Sciences E-Learning &amp; Distance Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img2.jpg"
+                                                         alt="Islamic Studies E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Islamic Studies E-Learning &amp; Distance
+                                                        Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img3.jpg"
+                                                         alt="Quran Sciences E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Public Relations E-Learning &amp; Distance
+                                                        Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img4.jpg"
+                                                         alt="Arabic Language E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Arabic Language E-Learning &amp; Distance
+                                                        Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img5.jpg"
+                                                         alt="Islamic Studies E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Islamic Studies E-Learning &amp; Distance
+                                                        Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>&#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img6.jpg"
+                                                         alt="Psychology E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Psychology E-Learning &amp; Distance Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img7.jpg"
+                                                         alt="Media: Journalism E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Media: Journalism E-Learning &amp; Distance
+                                                        Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img8.jpg"
+                                                         alt="Laws E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Laws E-Learning &amp; Distance Education</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/courses-img9.jpg"
+                                                         alt="Media: Radio and Television Broadcasting E-Learning &amp; Distance Education"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Media: Radio and Television Broadcasting
+                                                        E-Learning
+                                                        &amp; Distance Education
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a> &#160;
+                                                            <a href="#">Apply Now</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="oe_structure"/>
+
+                <script src="/ust_website_university_study/static/src/js/jquery.min.js"></script>
+                <script src="/ust_website_university_study/static/src/js/function.js"></script>
+                <script src="/ust_website_university_study/static/src/js/slick.min.js"></script>
+                <script>
+                    $('.ipSlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                    $('.blogList').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                </script>
+            </div>
+
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,178 @@
+<odoo>
+
+    <template id="news_details_template" name="News Details Page">
+        <t t-call="website.layout">
+
+           <!-- <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css" type="text/css"/>
+
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+                <section class="innerBanner newsBanner bgCover"
+                         style="background: url(/ust_website_home/static/src/images/news-detail-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText">
+                            <span class="mb-20">University of Science and Technology Aden: 25th place in the Arab world
+                            </span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox newsDetBox">
+                            <div class="newsDetInfo">
+                                <strong>In the Arab University Ranking for the year 2024, the University of Science and
+                                    Technology - Aden ranked 25th in the Arab world, advancing 34 places in one year. It
+                                    also achieved first place locally among private universities, and first among Yemeni
+                                    universities in the participation index.
+                                </strong>
+                                <br/>
+                                <br/>
+                                By admin / December 22, 2024
+                                <br/>
+                                <br/>
+                                It is worth noting that the Arab University Ranking is published annually by the "Arab
+                                University Ranking Council ARU", which was established through joint cooperation between
+                                the
+                                Association of Arab Universities, the League of Arab States, the Arab League
+                                Educational,
+                                Cultural and Scientific Organization (ALECSO) and the Federation of Arab Scientific
+                                Research
+                                Councils; with the aim of improving the outcomes of higher education and scientific
+                                research, through this classification.
+                                <br/>
+                                <br/>
+                                The classification is based on 4 main performance indicators in evaluating universities,
+                                which are: the education and learning index, the scientific research index, the
+                                creativity
+                                and innovation index, and the participation index.
+                                <br/>
+                                <br/>
+                                It is worth noting that the number of universities included in the classification has
+                                increased this year compared to last year 2023, both at the Arab and local levels.
+                                <br/>
+                                <br/>
+                                The University of Science and Technology - Aden has also recently achieved first place
+                                in
+                                the QS World University Rankings, and with this new ranking it confirms its worthiness
+                                and
+                                enhances its solid position on the Yemeni and Arab levels.
+                                <br/>
+                                <br/>
+                                Classification site link:
+                                <br/>
+                                https://auranking.com/
+                                <br/>
+                                #University_of_Science_and_Technology_Center_President_Aden
+                            </div>
+                            <div class="newsDetImg">
+                                <img src="/ust_website_home/static/src/images/news-detail.jpg" alt=""/>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+                <section class="pb60">
+                    <div class="container">
+                        <div class="recentNewsSlider sliderArrow">
+                            <div class="item">
+                                <div class="img">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/news1.jpg" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="img">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/news1.jpg" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="img">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/news1.jpg" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="img">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/news1.jpg" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="img">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/news1.jpg" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newsDetBot">
+                            <div class="prev">
+                                <a href="#">
+                                    <span class="material-icons arrow">chevron_left</span>
+                                    University of Science and Technology - Aden: 25th place in the Arab world
+                                </a>
+                            </div>
+                            <div class="next">
+                                <a href="#">The College of Engineering and Computer Science conducts a field visit to
+                                    Red
+                                    Rick Art Production Company
+                                    <span class="material-icons arrow">chevron_right</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="oe_structure"/>
+            </div>
+
+         <!--   <script src="ust_website_home/static/src/js/jquery.min.js"></script>
+            <script src="ust_website_home/static/src/js/function.js"></script>
+            <script src="ust_website_home/static/src/js/slick.min.js"></script>-->
+            <script>
+                $('.recentNewsSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                }
+                },
+                ]
+                });
+            </script>
+
+        </t>
+
+    </template>
+
+</odoo>

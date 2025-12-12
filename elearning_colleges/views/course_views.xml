@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Course Form View to add custom fields -->
+    <record id="view_slide_channel_form_inherit" model="ir.ui.view">
+        <field name="name">slide.channel.form.inherit.elearning</field>
+        <field name="model">slide.channel</field>
+        <field name="inherit_id" ref="website_slides.view_slide_channel_form"/>
+        <field name="arch" type="xml">
+            <!-- Add fields below the Tags field -->
+            <xpath expr="//div[field[@name='tag_ids']]" position="after">
+                <group>
+                    <group>
+                        <field name="course_code"/>
+                        <field name="credit_hours"/>
+                        <field name="department_id" domain="[('college_id', '=', college_id), ('is_college_department', '=', True)]"/>
+                    </group>
+                    <group>
+                        <field name="college_id"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='prerequisite_channel_ids']" position="attributes">
+                <attribute name="domain">[('id', 'in', available_prerequisite_ids)]</attribute>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Course Outline (English)" name="course_outline">
+                    <group>
+                        <group>
+                            <field name="outline_level"/>
+                        </group>
+                        <group>
+                            <field name="outline_description" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_topics" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_outcomes" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_textbooks" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_assessment" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Course Outline (Arabic)" name="course_outline_ar">
+                    <group>
+                        <group>
+                            <field name="outline_level_ar"/>
+                        </group>
+                        <group>
+                            <field name="outline_description_ar" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_topics_ar" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_outcomes_ar" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_textbooks_ar" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                        <group>
+                            <field name="outline_assessment_ar" widget="html" options="{'toolbar': 'full'}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Course List View to show custom fields -->
+    <record id="view_slide_channel_tree_inherit" model="ir.ui.view">
+        <field name="name">slide.channel.tree.inherit.elearning</field>
+        <field name="model">slide.channel</field>
+        <field name="inherit_id" ref="website_slides.slide_channel_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="course_code" string="Code"/>
+                <field name="credit_hours" string="CH"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Course Search View to search by custom fields -->
+    <record id="view_slide_channel_search_inherit" model="ir.ui.view">
+        <field name="name">slide.channel.search.inherit.elearning</field>
+        <field name="model">slide.channel</field>
+        <field name="inherit_id" ref="website_slides.slide_channel_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="course_code"/>
+                <field name="department_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

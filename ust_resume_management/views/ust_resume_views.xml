@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_ust_resume_list" model="ir.ui.view">
+    <field name="name">ust.resume.list</field>
+    <field name="model">ust.resume</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="user_id"/>
+        <field name="job_title"/>
+        <field name="college_id"/>
+        <field name="email"/>
+        <field name="website_published" widget="boolean_toggle"/>
+        <field name="published_date"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_ust_resume_form" model="ir.ui.view">
+    <field name="name">ust.resume.form</field>
+    <field name="model">ust.resume</field>
+    <field name="arch" type="xml">
+      <form string="السيرة الذاتية">
+          <header>
+              <button string="معاينة" type="object" name="action_preview_pdf" class="btn-primary"/>
+              <field name="website_published" widget="boolean_toggle" options="{'terminology': 'website'}"/>
+          </header>
+
+             <sheet>
+               <div class="oe_title">
+                 <h1>
+                   <field name="user_id" readonly="is_teacher"/>
+                 </h1>
+                 <group>
+                     <field name="job_title"/>
+                     <field name="college_id"/>
+                     <field name="department_id"/>
+                     <field name="email"/>
+                     <field name="scholar_link"/>
+                     <field name="published_date" readonly="1" invisible="not website_published"/>
+                </group>
+                 <div class="oe_avatar" name="course_cover" style="position:absolute; top:20px; right:20px;">
+                   <field name="photo" widget="image" nolabel="1" class="oe_avatar" options="{'preview_image': 'photo'}"/>
+                 </div>
+               </div>
+          <notebook>
+            <page string="المؤهلات العلمية">
+              <field name="education_ids">
+                <list editable="bottom">
+                  <field name="degree"/>
+                  <field name="specialization"/>
+                  <field name="university"/>
+                  <field name="uni_link"/>
+                </list>
+              </field>
+            </page>
+            <page string="الأبحاث العلمية">
+              <field name="research_ids">
+                <list editable="bottom">
+                  <field name="authors"/>
+                  <field name="title"/>
+                  <field name="year"/>
+                  <field name="journal"/>
+                  <field name="journal_link"/>
+                  <field name="impact_factor"/>
+                </list>
+              </field>
+            </page>
+            <page string="الدورات والشهادات">
+              <field name="cert_ids">
+                <list editable="bottom">
+                  <field name="name"/>
+                  <field name="institute"/>
+                  <field name="year"/>
+                  <field name="link"/>
+                </list>
+              </field>
+            </page>
+            <page string="الخبرات العلمية والعملية">
+              <field name="exp_ids">
+                <list editable="bottom">
+                  <field name="title"/>
+                  <field name="organization"/>
+                  <field name="period"/>
+                </list>
+              </field>
+            </page>
+            <page string="الجوائز والإنجازات">
+              <field name="award_ids">
+                <list editable="bottom">
+                  <field name="name"/>
+                  <field name="issuer"/>
+                  <field name="year"/>
+                  <field name="link"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

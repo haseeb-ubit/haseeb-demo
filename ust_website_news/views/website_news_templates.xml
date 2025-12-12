@@ -1,0 +1,209 @@
+<odoo>
+    <!-- ========================= -->
+    <!--  NEWS LIST PAGE TEMPLATE  -->
+    <!-- ========================= -->
+    <template id="template_news_list" name="News - List">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <!-- Include your CSS files -->
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/slick.css"/>
+
+                <style>
+                    ul.newsLists {
+                        list-style: none;
+                        padding-left: 0;
+                        margin: 0;
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 30px;
+                    }
+                    ul.newsLists li {
+                        flex: 0 0 calc(33.333% - 20px);
+                        max-width: calc(33.333% - 20px);
+                    }
+                    ul.newsLists li .inner {
+                        display: flex;
+                        flex-direction: column;
+                        background: #fff;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+                    ul.newsLists li .inner:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+                    }
+                    ul.newsLists li .img {
+                        width: 100%;
+                        height: 250px;
+                        overflow: hidden;
+                        background: #f5f5f5;
+                    }
+                    ul.newsLists li .img img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    ul.newsLists li .det {
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        flex-grow: 1;
+                    }
+                    ul.newsLists li .date {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        color: #666;
+                        font-size: 14px;
+                        margin-bottom: 12px;
+                    }
+                    ul.newsLists li .name {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #333;
+                        margin-bottom: 15px;
+                        min-height: 50px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                    }
+                    ul.newsLists li .readMoreLink {
+                        color: #0056a0;
+                        text-decoration: none;
+                        font-weight: 500;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 5px;
+                        margin-top: auto;
+                        transition: color 0.3s ease;
+                    }
+                    ul.newsLists li .readMoreLink:hover {
+                        color: #003d73;
+                    }
+                    @media (max-width: 992px) {
+                        ul.newsLists li {
+                            flex: 0 0 calc(50% - 15px);
+                            max-width: calc(50% - 15px);
+                        }
+                    }
+                    @media (max-width: 576px) {
+                        ul.newsLists li {
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                        }
+                        ul.newsLists li .img {
+                            height: 200px;
+                        }
+                    }
+
+                    /* Pagination styling */
+                    .pagination {
+                        justify-content: center;
+                        margin: 30px 0;
+                    }
+                    .pagination .page-link {
+                        color: rgb(0 113 189);
+                        border-radius: 4px;
+                        margin: 0 4px;
+                    }
+                    .pagination .page-link:hover {
+                        background-color: rgb(0 113 189);
+                        color: white;
+                        border-color: rgb(0 113 189);
+                    }
+                    .pagination .page-item.active .page-link {
+                        background-color: rgb(0 113 189);
+                        border-color: rgb(0 113 189);
+                        color: white;
+                    }
+                </style>
+
+                <!-- News List Section -->
+                <section class="pt60 pb60">
+                    <div class="container oe_structure">
+                        <ul class="newsLists">
+                            <t t-foreach="news_list" t-as="n">
+                                <li class="oe_structure" >
+                                    <div class="inner">
+                                        <div class="img">
+                                            <img t-att-src="'/web/image/website.pagee/%s/image' % n.id" alt=""/>
+                                        </div>
+                                        <div class="det">
+                                            <div class="date">
+                                                <span class="material-icons">calendar_today</span>
+                                                <t t-esc="(n.news_date or '').strftime('%B %d, %Y') if n.news_date else ''"/>
+                                            </div>
+                                            <div class="name mb-10 oe_editable  o_dirty" data-oe-model="website.pagee"  t-att-data-oe-id="n and n.id" t-att-data-oe-field="(lang == 'ar_001') and 'news_title_arabic' or 'news_title'" data-oe-news="true" >
+                                                <t t-if="lang == 'ar_001' and n.is_arabic_filled">
+                                                    <t t-esc="n.news_title_arabic"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-esc="n.news_title"/>
+                                                </t>
+                                            </div>
+                                            <div>
+                                                <a class="readMoreLink" t-attf-href="/news/#{ slug(n) }">Read More
+                                                    <span class="material-icons"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+
+                        <t t-call="website.pager">
+                <t t-set="classname">pagination justify-content-center</t>
+            </t>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="template_news_detail" name="News - Detail">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <!-- Include your CSS files -->
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/slick.css"/>
+                <section class="pt60 pb60">
+                    <div class="container oe_structure">
+                        <h1 class="mb-3 oe_editable  o_dirty" data-oe-model="website.pagee"  t-att-data-oe-id="news and news.id" t-att-data-oe-field="(lang == 'ar_001') and 'news_title_arabic' or 'news_title'" data-oe-news="true" >
+                            <t t-if="lang == 'ar_001' and news.is_arabic_filled">
+                                <t t-esc="news.news_title_arabic"/>
+                            </t>
+                            <t t-else="">
+                                <t t-esc="news.news_title"/>
+                            </t>
+                        </h1>
+                        <div class="date mb-3">
+                            <span class="material-icons">calendar_today</span>
+                            <t t-esc="(news.news_date or '').strftime('%B %d, %Y') if news.news_date else ''"/>
+                        </div>
+                        <div class="mb-4">
+                            <img t-att-src="'/web/image/website.pagee/%s/image' % news.id" alt="" style="max-width: 100%; height: auto;"/>
+                        </div>
+                        <div class="o_website_preview  oe_editable  o_dirty" data-oe-model="website.pagee"  t-att-data-oe-id="news and news.id" t-att-data-oe-field="(lang == 'ar_001') and 'news_description_arabic' or 'news_description'" data-oe-news="true" >
+                            <t t-if="lang == 'ar_001' and news.is_arabic_filled">
+                                <t t-raw="news.news_description_arabic"/>
+                            </t>
+                            <t t-else="">
+                                <t t-raw="news.news_description"/>
+                            </t>
+                        </div>
+                        <a href="/news" class="btn btn-primary mt-4">
+                            <t t-translation="on">Back to News</t>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

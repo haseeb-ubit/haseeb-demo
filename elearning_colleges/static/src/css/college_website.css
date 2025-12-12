@@ -1,0 +1,232 @@
+/* Colleges Website Styles */
+
+.colleges-dropdown .college-bullet {
+    color: #000;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.colleges-dropdown .college-name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.colleges-dropdown .list-group-item {
+    padding: 15px 20px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.colleges-dropdown .list-group-item:hover {
+    background-color: #f8f9fa;
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+/* Department Cards */
+.department-card {
+    border: 1px solid #d7e0ef;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fdfdff;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 20px rgba(26, 82, 118, 0.08);
+}
+
+.department-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 30px rgba(26, 82, 118, 0.18);
+    border-color: #1a5276;
+}
+
+.department-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.department-image {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.department-card:hover .department-image {
+    transform: scale(1.05);
+}
+
+.department-image-placeholder {
+    width: 100%;
+    background: linear-gradient(135deg, #1a5276 0%, #2d7fa8 100%);
+}
+
+/* Teacher Cards */
+.teacher-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.teacher-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: #667eea;
+}
+
+.teacher-photo {
+    border: 3px solid #f0f0f0;
+    transition: border-color 0.3s ease;
+}
+
+.teacher-card:hover .teacher-photo {
+    border-color: #667eea;
+}
+
+.teacher-photo-placeholder {
+    border: 3px solid #f0f0f0;
+    border-radius: 50%;
+    transition: border-color 0.3s ease;
+}
+
+.teacher-card:hover .teacher-photo-placeholder {
+    border-color: #667eea;
+}
+
+.btn-resume {
+    background: linear-gradient(135deg, #1a5276 0%, #2d7fa8 100%);
+    border: none;
+    color: #ffffff;
+    padding: 0.45rem 1.25rem;
+    border-radius: 999px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-resume:hover,
+.btn-resume:focus {
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(26, 82, 118, 0.25);
+}
+
+.btn-resume:focus-visible {
+    outline: 3px solid rgba(26, 82, 118, 0.35);
+    outline-offset: 2px;
+}
+
+/* Course Cards */
+.course-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: #667eea;
+}
+
+.course-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.course-image {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover .course-image {
+    transform: scale(1.05);
+}
+
+.course-image-placeholder {
+    width: 100%;
+}
+
+/* Header styling */
+.college-title {
+    color: #1a5276;
+    font-weight: 800;
+}
+
+.college-section-title {
+    color: #1a5276;
+    font-weight: 600;
+}
+
+/* Blue Tab Styling */
+.nav-tab-blue {
+    color: #1a5276;
+    border-color: transparent;
+    transition: all 0.25s ease;
+}
+
+.nav-tab-blue:hover {
+    color: #1a5276;
+    border-color: #1a5276;
+    background-color: rgba(26, 82, 118, 0.05);
+}
+
+.nav-tab-blue.active {
+    color: #1a5276;
+    background-color: rgba(26, 82, 118, 0.1);
+    border-color: #1a5276;
+    border-bottom-color: transparent;
+    font-weight: 600;
+}
+
+/* Blue Outline Button Styling */
+.btn-outline-blue {
+    color: #1a5276;
+    border-color: #1a5276;
+    background-color: transparent;
+    transition: all 0.25s ease;
+}
+
+.btn-outline-blue:hover,
+.btn-outline-blue:focus {
+    color: #ffffff;
+    background-color: #1a5276;
+    border-color: #1a5276;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 82, 118, 0.25);
+}
+
+.btn-outline-blue:focus-visible {
+    outline: 3px solid rgba(26, 82, 118, 0.35);
+    outline-offset: 2px;
+}
+
+.resume-filter-chip {
+    background: linear-gradient(135deg, #eef5ff 0%, #dfe9f9 100%);
+    border-color: #b7cce6 !important;
+    color: #1a5276;
+}
+
+#resume-search-clear {
+     color: #1a5276;
+     font-weight: 500;
+     padding: 0;
+ }
+
+#resume-search-clear::before,
+#resume-search-clear::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .colleges-dropdown .list-group-item {
+        padding: 12px 15px;
+    }
+    
+    .department-card,
+    .teacher-card,
+    .course-card {
+        margin-bottom: 20px;
+    }
+}
+

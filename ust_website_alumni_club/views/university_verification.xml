@@ -1,0 +1,124 @@
+<odoo>
+    <template id="university_verification_template" name="University Verification Page">
+        <t t-call="website.layout">
+
+          <!--  <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="/ust_website_alumni_club/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_alumni_club/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_alumni_club/static/src/css/responsive.css" type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+
+            <section class="innerBanner newsBanner bgCover"
+                     style="background: url(/ust_website_alumni_club/static/src/images/blog-banner.jpg) no-repeat center right;">
+                <div class="container flexBox itemCenter">
+                    <div class="innerBannerText">
+                        <span class="mb-20">University Blog</span>
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div class="applyNow full">
+                        <div class="left tac">University of Science and Technology Certificates Verification</div>
+                    </div>
+                    <div class="pt60">
+                        <div class="flexBox justifyContentBetween">
+                            <div class="verificationLeft">
+                                <label>Academic number</label>
+                                <input type="text" class="verificationInput" placeholder="Enter academic id"/>
+                                <button type="button" class="verifyBtn">Verify</button>
+                            </div>
+                            <div class="verificationRight">
+                                <span>note</span>
+                                The branches whose graduates and documents are not recognized starting from the year
+                                20-21 AD, according to the accreditation of higher education, are: Sana'a, Hodeidah,
+                                Ibb, Taiz, and Al-Hawban.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="oe_structure"/>
+
+            <script src="ust_website_alumni_club/static/src/js/jquery.min.js"></script>
+            <script src="ust_website_alumni_club/static/src/js/function.js"></script>
+            <script src="ust_website_alumni_club/static/src/js/slick.min.js"></script>
+            <script>
+                $('.ipSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+                $('.blogList').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,488 @@
+@media (max-width:1699px) {    
+   .logo {width: 220px;}
+   .menu > li {font-size: 14px;}
+   .menu > li > a {color: #fff; position: relative; padding: 20px 8px;}
+    .menu > li.ddMenu > a {padding-right: 28px;}
+   .searchInner {width: 170px;}
+   .bannerSlider .item .container {height: 560px;}
+   .bannerHd {font-size: 48px; line-height: 60px;}
+   .bannerText {font-size: 22px; line-height: 32px;}
+   .UniversityInfo .hd span {font-size: 40px; line-height: 48px;}
+   .facultiesSlider .item .det .hd {font-size: 19px; line-height: 24px;}
+   .facultiesSlider .item .det .text {font-size: 15px; line-height: 22px;}
+   .mainHd {font-size: 30px; line-height: 38px;}
+   .hdText {font-size: 18px; line-height: 28px;}
+   .textBox {font-size: 15px; line-height: 26px;}
+
+   .campusBox.large {padding: 25px; height: 650px;}
+   .smallBox .det {padding: 25px;}
+   .smallBox {height: 322px;}
+   .campusHd {font-size: 32px;}
+   .campusText {font-size: 18px; line-height: 24px;}
+   .smallBox.full {padding: 25px;}
+   .blogList li .inner .det .name {font-size: 19px;}
+   .alumniBox .left {width: 280px;}
+   .alumniLinks li a {font-size: 14px; padding: 0 15px;}
+   .alumniBox .right {width: calc(100% - 280px); padding-left: 20px;}
+   .alumniSlider .item .img {width: 115px; height: 115px;}
+   .alumniSlider .item .det {width: calc(100% - 115px); padding-left: 15px;}
+   .alumniSlider .item .det .name {font-size: 19px; line-height: 26px;}
+   .detailTabsCon ul li a {font-size: 18px;}
+   .detailSubTab ul {margin: -5px;}
+   .detailSubTab ul li {padding: 5px;}
+   .detailSubTab ul li a {font-size: 17px; padding: 12px 30px;}
+   .conditionBox {padding: 20px;}
+}
+
+@media (max-width:1300px) { 
+    a.showMobMenu {display: block; position: absolute; right: 15px; top: 50%; margin-top: -10px;}
+    a.showMobMenu i {width: 32px; height: 3px; display: block; border-radius: 6px; background: #fff; margin-bottom: 5px; transition: ease-in-out .4s;}
+    a.showMobMenu.active {margin-top: -3px;}
+    a.showMobMenu.active i:nth-child(3) {display: none;}
+    a.showMobMenu.active i:nth-child(1) {transform: rotate(45deg); background: #fff;}
+    a.showMobMenu.active i:nth-child(2) {transform: rotate(-45deg); margin: -7px auto 0 auto; background: #fff;}
+    .menu {display: block; position: fixed; left: -280px; top: 0; background: #fff; width: 280px; height: 100%; z-index: 100001; overflow: auto; transition: ease-in-out .4s;}
+    .menu.active {left: 0;}
+    .menuBox.active:before {content: ''; width: 100%; height: 100%; z-index: 11; background: rgba(0,0,0,.7); position: fixed; left: 0; top: 0;}
+
+    .menu > li {padding:0; border-bottom: 1px solid #eee; font-size: 16px;}
+    .menu > li > a {display: block; padding: 20px; color: #000;}
+    .menu > li > a:hover:before {display: none;}
+    .menu > li > a:hover, .menu > li > a.active {background: #eee; color: #0071BD;}
+    .menu > li.ddMenu > a {padding-right: 30px;}
+    .menu > li.ddMenu > a:after {top: 24px; color: #000; right: 15px;}
+    .menu > li.ddMenu > a:hover:after, .menu > li.ddMenu > a.active:after {color: #0071BD;}
+    .menu > li.small .submenuBox {width: 100%;}
+    .submenuBox {padding: 15px 0; position: static; background: #fff; box-shadow: none;}
+    .submenuLink li {padding: 6px 0 6px 20px; font-size: 15px;}
+    .submenuLink li:before {top: 9px;}
+    .submenuInner .column {width: 100%;}
+    .submenuHd {font-size: 18px;}
+    .searchInner {width: 280px; margin-right: 50px;}
+
+    .mainHd {font-size: 28px; line-height: 34px;}
+    .UniversityInfo .img {width: 300px;}
+    .UniversityInfo .hd span {font-size: 30px; line-height: 38px;}
+    .UniversityInfo .detail {width: calc(72% - 300px); padding: 0 0 20px 20px;}
+    .sliderArrow {padding: 0;}
+    .campusHd {font-size: 24px;}
+    .campusText {font-size: 16px; margin-bottom: 15px;}
+    .imgBox .over {padding: 10px 40px;}
+    .newsBoxRight {padding: 0 0 0 20px;}
+    .newsList {margin: -10px;}
+    .newsList li {padding: 10px; }
+    .strategicPlan .det {padding: 25px;}
+    .smallBox {height: 275px;}
+    .campusBox.large {height: 556px;}
+    .contactInfo li {width: 50%;}
+    .contactInfo li:last-child {width: 50% !important;}
+    .socialLink li a {width: 44px; height: 44px;}
+    .socialLink li a img {width: 20px;}
+
+    .innerHeader.header a.showMobMenu i {background: #000;}
+    .innerBanner .container {min-height: 400px;}
+    .innerBannerText {font-size: 18px; line-height: 28px; max-width: 500px;}
+    .innerBannerText span {font-size: 50px;  line-height: 65px;}
+    .aboutTab {display: none;}
+    .objectivesList {margin: -10px;}
+    .objectivesList li {padding: 10px;}
+    .objectivesList li .inner {padding: 15px;}
+    .programList {margin: -10px;}
+    .programList li {padding: 10px;}
+    .programList li .inner .det {padding: 20px;}
+    .ourValuesList {margin: -10px;}
+    .ourValuesList li {padding: 10px;}
+    .ourValuesList li .inner {padding:20px 15px;}
+    .ourValuesList li .inner .hd {font-size: 18px;}
+    .OurStrategy {min-height: 480px;}
+    .qualityImg {padding-right: 0;}
+    .programCenterCon {padding-top: 90px;}
+    .contactDet {width: 55%; padding: 20px 20px 20px 0;}
+    .contactDet .info {margin: -5px; padding: 0;}
+    .contactDet .info li {padding: 5px; width: 50%;}
+    .contactForm {width: 45%; margin: 20px 0 -60px 0; padding: 25px;}
+    .programCenter .leftBox {width: 40%; padding: 30px;}
+    .programCenter .rightBox {width: 60%; padding-left: 20px;}
+    .programCenter .rightBox ul li {width: 50%;}
+    .branchBox {padding: 20px;}
+    .branchList {margin: -10px;}
+    .branchList li {padding: 10px;}
+    .branchList li .inner {padding: 20px;}
+    .examCenter {margin: -10px;}
+    .examCenter li {padding: 10px;}
+    .examCenter li .inner .det {padding: 15px;}
+    .examCenter li .inner .det span {font-size: 18px;}
+    .examCenter li .inner .det p {font-size: 15px;}
+    .academiicProgramms {margin: -10px;}
+    .academiicProgramms li {padding: 10px;}
+    .academiicProgramms li .img {border-radius: 16px;}
+    .academiicProgramms li span {left: 20px; bottom: 20px; font-size: 20px;}
+    .openingStatement .det {padding:25px;}
+    .presidentName {padding-top: 20px; font-size: 22px;}
+    .uposBox {font-size: 32px;}
+    .ffList {margin: -10px;}
+    .ffList li {padding: 10px;}
+    .ffList li .inner {border-radius: 10px; padding: 20px; font-size: 17px; line-height: 26px;}
+    .ffList li .inner .icon {height: 80px; display: flex; align-items: center; margin-bottom: 10px;}
+    .ffList li .inner .icon img {height: 60px;}
+    .partnerInfo .text {font-size: 20px; line-height: 34px; padding-right: 20px;}
+    .partners {margin: -10px;}
+    .partners li {padding: 10px;}
+    .ffStatsList li {padding: 10px; font-size: 20px;}
+    .ffStatsList li span {font-size: 65px;}
+
+    .reqBox {margin: -10px;}
+    .reqBox > li {padding: 10px;}
+    .transparentBox {padding: 20px;}
+    .smallHd {font-size: 21px;}
+    .countList > li {font-size: 15px; padding: 7px 0;}
+    .enrollBanner {height: 200px; padding: 20px 30px;}
+    .browseList li {font-size: 20px;}
+    .browseList li a {padding: 25px 80px 25px 20px;}
+    .membershipSlider .item .det {font-size: 19px;}
+    .rewardsList {margin: -10px;}
+    .rewardsList li {padding: 10px;}
+    .rewardsList li .inner {padding: 15px;}
+    .rewardsList li .inner .img {width: 80px;}
+    .rewardsList li .inner .name {width: calc(100% - 80px); font-size: 16px;}
+    .middleLeft {width: 280px;}
+    .leftTab li {font-size: 20px;}
+    .leftTab li a {padding: 0 0 0 12px;}
+    .middleRight {width: calc(100% - 280px); padding-left: 20px;}
+    .faqList li {width: 100%;}
+    .faqList li .q {font-size: 16px;}
+    .communicationsList {margin: -10px;}
+    .communicationsList li {padding: 10px;}
+    .communicationsList li .inner  {padding: 15px; font-size:18px; line-height: 30px;}
+    .communicationsList li .inner .icon {height:40px; display: block;}
+    .communicationsList li .inner .icon img {width: 30px;}
+    .laboratoriesList {margin: -10px;}
+    .laboratoriesList li {padding: 10px;}
+    .peerReviewedList {margin: -10px;}
+    .peerReviewedList li {padding: 10px;}
+    .researchBot li .inner {padding: 20px;}
+    .collageList {margin: -10px;}
+    .collageList li {padding: 10px;}
+    .collageList li .inner .det {padding: 15px;}
+    .collageList li .inner .det .name {font-size: 19px;}
+    .innerBanner.examSchedule .innerBannerText span {font-size: 36px; line-height: 52px;}
+    .introBox .right {padding-left: 15px;}
+    .enrollBanner.small .mainHd {font-size: 24px; padding: 0 40px 0 0;}
+    .campusServices {margin: -10px;}
+    .campusServices > li {padding: 10px;}
+    .campusServices li .inner .det {padding: 15px;}
+    .campusServices li .inner .det .name {font-size: 19px;}
+    .actvitySlider .item {padding: 10px;}
+    .ourAlumini .inner {padding: 15px;}
+    .faqList {margin: -5px;}
+    .faqList li {padding: 5px;}
+    .contactInfoList {margin: -10px;}
+    .contactInfoList li {padding: 10px;}
+    .contactInfoList li .inner {padding: 15px;}
+    .contactInfoList li .inner .det {padding-left: 10px; font-size: 20px; line-height: 30px;}
+    .branchOffice {margin: -10px;}
+    .branchOffice li {padding: 10px;}
+    .branchOffice li .inner {padding: 15px;}
+    .branchOffice li .inner .hd {font-size: 20px;}
+    .branchOffice li .inner .info li {font-size: 16px;}
+    .branchOffice li .inner .info li img {top: 5px;}
+    .detailSubTab ul li a {font-size: 15px; padding: 12px 25px;}
+    .departmentMessage .det {padding:0 0 0 20px;}
+    .conditionList {justify-content: center;}
+    .conditionList li {width: 33.33%;}
+    .programObjectives .det {padding: 0 20px 0 0;}
+    .conditionBox .mainHd {font-size: 24px;}
+
+ /*Start 28 Jan 2025*/
+    .innerBanner.newsBanner .container {min-height: 240px;}
+    .newsLists {margin: -10px;}
+    .newsLists li {padding: 10px;}
+    .newsLists li .inner .det {padding: 15px;}
+    .newsLists li .inner .det .date {font-size: 14px;}
+    .newsLists li .inner .det .name {font-size: 18px;}
+    .newsLists li .inner .det a.readMoreLink {font-size: 16px;}
+    .newsDetInfo {width: calc(100% - 400px); padding-right: 20px;}
+    .newsDetImg {width: 400px;}
+    .innerBanner.newsBanner .innerBannerText span {font-size: 40px; line-height: 55px;}
+
+    .sliderArrow .slick-arrow {width:36px; height:36px; margin-top:-18px;}
+    .sliderArrow .slick-arrow:before {font-size: 18px; width: 36px; height: 36px;}
+    .blogListing {margin: -10px;}
+    .blogListing li {padding: 10px;}
+    .blogListing li .inner .det {padding: 15px 15px 65px 15px;}
+    .blogListing li .inner .det a.readMoreLink {bottom: 15px; left: 15px; font-size: 17px;}
+    .innerBanner.newsBannerDet .innerBannerText .byAdmin {font-size: 20px;}
+    .blogDetinBox .img {width: 430px;}
+    .blogDetinBox .det {width: calc(100% - 430px); padding: 0 0 0 20px;}
+
+    /*Start Feb 2025*/
+    .applyNow {padding:20px;}
+    .applyNow .left {font-size: 22px;}
+    .jobList {margin: -10px;}
+    .jobList > li {padding: 10px;}
+
+}
+
+@media (max-width:999px) {
+    .bannerSlider .item .container {height: 400px;}
+    .bannerHd {font-size: 40px; line-height: 50px;}
+    a.videoTour {height: 52px; top: -56px; font-size: 16px;}
+    a.videoTour .icon {width: 42px; height: 42px; min-width: 42px; margin: 5px 15px 5px 5px;}
+    a.videoTour .icon span {font-size: 28px;}
+
+    .pt60 {padding-top: 30px;}
+    .pb60 {padding-bottom: 30px;}
+    .bannerText {font-size: 18px; line-height: 26px;}
+    .UniversityInfo .img {width: 100%; text-align: center;}
+    .UniversityInfo .hd {text-align: center; width: 100%; padding: 20px 0 0 0;}
+    .UniversityInfo .hd span {display: block;}
+    .UniversityInfo .detail {width: 100%; padding: 20px 0; text-align: center;}
+    .statsList li {font-size: 16px;}
+    .statsList li span {font-size: 45px;}
+    .boxInfo {width:100%; padding: 15px 0;}
+    .campusBox.large {height: 440px; width: 100%; margin-bottom: 6px;}
+    .campusBox {width: 100%;}
+    .serviceSlider .item .name {font-size: 16px;}
+    .imgBox {width: 100%; margin-bottom: 5px;}
+    .newsBoxLeft {width: 100%;}
+    .newsBoxRight {width: 100%; padding: 20px 0 0 0;}
+    .strategicPlan .img {width: 100%; text-align: center;}
+    .strategicPlan .det {width: 70%; margin: -200px auto 0 auto;}
+    .alumniBox .left {width: 100%;}
+    .alumniBox .right {width: 100%; padding: 20px 0 0 0;}
+    .contactInfo li {width: 100%; font-size: 15px;}
+    .footerHd {font-size: 19px;}
+    .smallBox.revese {flex-direction: row-reverse;}
+
+    .popupInner {padding: 10px; }
+    .videoPopup {padding: 10px;}
+    .popupHd {font-size: 18px;}
+    .close {font-size: 16px;}
+    .videoBox {margin-top: 10px;}
+    .objectivesList li {width: 50%;}
+    .contactDet {width: 100%; padding: 0;}
+    .contactDet .info li {width: 33.33%;}
+    .contactForm {width: 100%;}
+    .programCenter .leftBox {width: 100%;}
+    .programCenter .rightBox {width: 100%; padding: 20px 0 0 0;}
+    .examCenter li {width: 33.33%;}
+    .openingStatement .img {width: 280px;}
+    .openingStatement .det {width: calc(100% - 280px);}
+    .ffList li {width: 33.33%;}
+    .introductionBox {flex-direction: column-reverse;}
+    .introductionBox .info {width: 100%; padding: 20px 0 0 0;}
+    .introductionBox .img {width:100%;}
+    .reqBox > li {width: 100%;}
+    .enrollBanner .mainHd {padding-right: 40px;}
+    .rewardsList li  {width: 33.33%;}
+    .rewardsTab {margin: -5px;}
+    .rewardsTab li {padding: 5px;}
+    .rewardsTab li a {font-size: 16px; height: 40px; padding: 0 20px;}
+    .caHd {font-size: 17px; line-height: 30px;}
+    .rewardsList li {width: 50%;}
+    .ipSlider .item .img {height: 70px;}
+    .communicationsList li {width: 100%;}
+    .laboratoriesList li {width: 50%;}
+    .peerReviewedList li {width: 50%;}
+    .researchBot li {width: 100%;}
+    .collageList li {width: 33.33%;}
+    .introBox .left {width: 100%;}
+    .introBox .right {padding: 20px 0 0 0; width: 100%;}
+    .enrollBanner.small {flex-direction: column; height: auto; align-items: flex-start;}
+    .enrollBanner.small .mainHd { padding: 0 0 20px 0;}
+    .campusServices li .inner .img {width: 100%;}
+    .campusServices li .inner .det {width: 100%;}
+    .campusServices li .inner .det .name {padding-bottom: 10px;}
+    .saCov .box .det {padding: 15px;}
+    .videoBox .play {width: 90px; margin: -45px 0 0 -45px;}
+    .aboutHadramout .img {width: 100%;}
+    .aboutHadramout .det {width: 100%; padding: 20px 0 0 0;}
+    .faqList.column3 li {width: 100%;}
+    .speeachBox {flex-direction: column-reverse;}
+    .speeachBox .det {width: 100%; padding: 20px 0 0 0;}
+    .speeachBox .img {width: 100%;}
+    .enrollBanner.smallBox .mainHd {font-size: 28px;}
+    .campusServices li .inner .det .listText {padding-top: 0;}
+    .studentAffairs .det {width: 100%; padding: 0 0 20px 0;}
+    .studentAffairs .img {width: 100%;}
+    .libraryBox {width: 100%;}
+    .taskBox {width: 100%; padding: 20px 0 0 0;}
+    .contactInfoList li {width: 50%;}
+    .branchOffice > li {width: 50%;}
+    .collageList.column3 li {width: 50%;}
+    .featuresHd {font-size: 22px;}
+    .deansWord .left {width: 100%;}
+    .deansWord .right {width: 100%; padding: 20px 0 0 0;}
+    .departmentMessage .img {width: 100%;}
+    .departmentMessage .det {width: 100%; padding: 20px 0 0 0;}
+    .programObjectives {flex-direction: column-reverse;}
+    .programObjectives .img {width: 100%;}
+    .programObjectives .det {padding: 20px 0 0 0; width: 100%;}
+
+    /*Start 28 Jan 2025*/
+    .innerBanner.newsBanner .container {min-height: 200px;}
+    .newsLists li {width: 50%;}
+    .innerBanner.newsBanner .innerBannerText span {font-size: 36px; line-height: 50px;}
+    .newsDetBox {flex-direction: column-reverse;}
+    .newsDetImg {width: 100%;}
+    .newsDetInfo {width: 100%; padding: 20px 0 0 0;}
+    .blogListing li {width: 50%;}
+
+    /*Start Feb 2025*/
+    .applyNow {padding:20px;}
+    .jobList > li {width: 50%;}
+}
+
+
+@media (max-width:599px) {
+    .topBar {height: 40px;}
+    .topMenu li {font-size: 10px;}
+    .topMenu li a {height: 40px; padding: 0 5px;}
+    .language {font-size: 11px; height: 26px; background: #EBEBEB url(../images/select-arrow.png) no-repeat right 5px center; width: 70px; padding: 0 20px 0 5px;}
+    .header > .container {height: 100px;}
+    a.showSearch {display: block; margin: 5px 50px 0 0; color: #fff;}  
+    .searchInner {position: fixed; left: 0; bottom: -60px; transition: ease-in-out .5s; z-index: 1001; background: #fff; width: 100%; box-shadow: 0 0 15px rgba(0,0,0,.3); margin: 0; height: 50px;}
+    .searchInner.active {bottom: 0;}
+    .searchInner .input {color: #000; height: 50px; padding: 0 15px; font-size: 16px;}
+    .searchInner .input::placeholder {color: #000; opacity: 1;}  
+    .searchInner .input::-ms-input-placeholder { color: #000;}
+    .searchInner .btn {color: #000;}
+    .bannerSlider .slick-dots {bottom: 35px;}
+    .bannerSlider .item .container {height: 350px; padding-bottom: 40px; background: rgba(0,0,0,.7);}
+    .bannerInfo {text-align: center;}
+    .bannerHd {font-size: 26px; line-height: 34px;}
+
+    a.videoTour {right: 50%; margin-right: -104px;}
+    .serviceSlider .item .icon img {width: 40px;}
+    .UniversityInfo .hd span {font-size: 24px; line-height: 30px;}
+    .statsList  {justify-content: center;}
+    .statsList li {width: 33.33%; border: none; padding: 15px;}
+    .statsList li span {font-size: 35px; padding-top: 10px;}
+    .statsList li img {width: 40px;}
+    .campusBox.large {height: 340px; padding: 15px;}
+    .smallBox .det {width: 65%; padding: 15px;}
+    .smallBox.full {padding: 15px;}
+    .smallBox .img {width: 35%;}
+    .campusHd {font-size: 22px;}
+    .mainHd {font-size: 22px; line-height: 26px; font-weight: 700;}
+    .newsBoxLeft .det {width: 90%; margin: -120px auto 0 auto; padding: 15px;}
+    .newsBoxLeft .det .name {font-size: 22px;}
+    .newsBoxLeft .det .text {padding-bottom: 20px;}
+    .newsList {margin: -5px;}
+    .newsList li {padding: 5px;}
+    .strategicPlan .det {width: 96%;}
+    .partnerSlider li .partnerLogo {height: 80px;}
+    .imgBox br {display: none;}
+    .imgBox .over {padding: 5px 20px;}
+    .imgBox .img img {min-height: 130px;}
+    .footerLogo {width: 100%; padding: 20px 15px 0 15px; text-align: center;}
+    .footerLogo img {width: 200px;}
+    .footerContact {width: 100%; padding: 20px 15px 0 15px;}
+    .contactInfo li {width: 50%;}
+    .contactInfo li:last-child {width: 50% !important;}
+    .footerLinks {width: 100%; padding: 20px 15px;}
+    .innerBanner .container {min-height: 240px;}
+    .innerHeader.header  a.showSearch {color: #666;}  
+    .innerBannerText {font-size: 16px; line-height: 26px;}
+    .innerBannerText span {font-size: 26px; line-height: 36px;}
+    .objectivesList li {width: 100%;}
+    .programList li {width: 100%;}
+    .ourValuesList li {width: 50%;}
+    .contactDet .info li {width: 100%;}
+    .contactDet .info li .inner .hd {min-height: inherit;}
+    .branchList li {width: 100%;}
+    .branchList li .hdText {padding-bottom: 5px;}
+    .branchList li p {font-size: 16px;}
+    .programCenter .leftBox {padding: 20px;}
+    .programCenter .leftBox span {font-size: 22px;}
+    .programCenter .leftBox p {font-size: 16px; padding-bottom: 10px;}
+    .programCenter .leftBox ul li {font-size: 17px; padding: 4px 0;}
+    .programCenter .rightBox ul li {width: 100%;}
+    .examCenter {margin: -5px;}
+    .examCenter li {width: 50%; padding: 5px;}
+    .examCenter li .inner .det {padding: 10px;}
+    .examCenter li .inner .det span {font-size: 16px;}
+    .examCenter li .inner .det p {font-size: 13px;}
+    .academiicProgramms {margin: -5px;}
+    .academiicProgramms li {width: 50%; padding: 5px;}
+    .academiicProgramms li:first-child {width: 100%;}
+    .academiicProgramms li .img {border-radius: 10px;}
+    .academiicProgramms li span {font-size: 18px;}
+    .hdText {font-size: 16px; line-height: 24px;}
+    .openingStatement .img {width: 100%;}
+    .openingStatement .det {width:100%; padding: 15px;}
+    .presidentName {font-size: 18px;}
+    .uposBox {font-size: 28px; padding: 20px; margin: -40px 0 20px 0;}
+    .ffList li {width: 100%;}
+    .ffList li .inner {font-size: 16px; line-height: 24px;}
+    .ffList li .inner .icon {height: 54px;}
+    .ffList li .inner .icon img {height: 44px;}
+    .partnerInfo .text {width: 100%; padding: 0 0 20px 0;}
+    .partnerInfo .text {font-size: 18px; line-height: 28px;}
+    .partnerInfo .list {width: 100%;}
+    .partners {justify-content: center;}
+    .partners li {width: 33.33%;}
+    .partners li .icon {padding: 10px;}
+    .ffStatsList {justify-content: center;}
+    .ffStatsList li {width: 33.33%; text-align: center; font-size: 16px;}
+    .ffStatsList li span {font-size: 45px;}
+    .enrollBanner {flex-direction: column; align-items: flex-start; height: auto; padding: 15px;}
+    .enrollBanner .applyNow {margin-top: 15px;}
+    .transparentBox {padding: 15px;}
+    .browseList li {font-size: 17px;}
+    .browseList li a {padding: 15px 55px 15px 10px;}
+    .listCon {margin: 0;}
+    .listCon .bulletList {width: 100%; padding: 0;}
+    .rewardsList {margin: -5px;}
+    .rewardsList li {padding: 5px; width: 100%;}
+    .middleLeft {display: none;}
+    .middleRight {width: 100%; padding: 0;}
+    .laboratoriesList li {width: 100%;}
+    .peerReviewedList li {width: 100%;}
+    .innerBanner.examSchedule .container {min-height: 190px;}
+    .innerBanner.examSchedule .innerBannerText span {font-size: 22px; line-height: 35px;}
+    .collageList li {width: 100%;}
+    .collageList li .inner .det .name {min-height: inherit; font-size: 17px;}
+    .alumniLink {padding: 15px; font-size: 15px;}
+    .alumniLink span {font-size: 16px;}
+    .campusServices > li {width: 100%;}
+    .saCov .box {width: 100%; margin-bottom: 15px;}
+    .videoBox .play {width: 50px; margin: -25px 0 0 -25px;}
+    .contactInfoList li {width: 100%;}
+    .branchOffice > li {width: 100%;}
+    .enrollBanner.smallBox .mainHd {font-size: 20px;}
+    .collageList.column3 li {width: 100%;}
+
+    .detailTabsCon ul {flex-direction: column;}
+    .detailTabsCon ul li {border-bottom: 1px solid #aaa;}
+    .conditionBox .mainHd {font-size: 20px;}
+    .conditionList li {width: 100%;}
+    .conditionList li .inner {border-radius: 16px;}
+    .largeFont {font-size: 17px; line-height: 26px;}
+
+
+    /*Start 28 Jan 2025*/
+    .innerBanner.newsBanner .container {min-height: 140px;}
+    .newsLists li {width: 100%;}
+    .innerBanner.newsBanner .innerBannerText span {font-size: 24px; line-height: 36px;}
+    .newsDetBot a {font-size: 14px;}
+    .newsDetBot .prev a .arrow {margin-right: 5px; font-size: 24px;}
+    .newsDetBot .next a .arrow {margin-left: 5px; font-size: 24px;}
+    .blogListing li {width: 100%;}
+    .blogDetinBox .img {width: 100%;}
+    .blogDetinBox .det {width: 100%; padding: 20px 0 0 0;}
+
+    /*Start Feb 2025*/
+    .applyNow .left {width: 100%; padding: 0 0 20px 0; font-size: 19px;}
+    .applyNow .right a {font-size:16px;}
+    .jobList > li {width: 100%;}
+    .apllyList {margin: -10px;}
+    .apllyList > li {padding: 10px; width: 100%;}.applyNow.full .left {width: 100%;}
+    .verificationLeft {width: 100%; padding-bottom: 20px;}
+    .verificationRight {width: 100%;}
+
+}
+
+ul {
+    padding-left: 0;
+}

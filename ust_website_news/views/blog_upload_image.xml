@@ -1,0 +1,47 @@
+<odoo>
+    <record id="view_website_blog_image_form" model="ir.ui.view">
+        <field name="name">website.blog.image.form</field>
+        <field name="model">website.blog.image</field>
+        <field name="arch" type="xml">
+            <form string="Blog Images">
+                <sheet>
+
+                    <group col="2">
+                        <group>
+                            <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
+                             <field name="id_name" readonly="1"/>
+                            <field name="upload_image"/>
+                            <field name="blog_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_website_blog_image_list" model="ir.ui.view">
+        <field name="name">website.blog.image.list</field>
+        <field name="model">website.blog.image</field>
+        <field name="arch" type="xml">
+            <list string="Blog Images" editable="bottom">
+                <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
+                 <field name="id_name" readonly="1"/>
+                <field name="upload_image" required="True"/>
+                <!--           <field name="blog_id" invisible="1"/> -->
+            </list>
+        </field>
+    </record>
+
+    <record id="action_website_blog_image" model="ir.actions.act_window">
+        <field name="name">Blog Images</field>
+        <field name="res_model">website.blog.image</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!--  <menuitem id="upload_blog_image_menu"
+             parent="website.menu_content"
+             sequence="70"
+             name="Blog Images"
+             action="action_website_blog_image"/>-->
+</odoo>

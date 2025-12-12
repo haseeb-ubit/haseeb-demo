@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_website_pagee,access_website_pagee,model_website_pagee,,1,1,1,1
+access_website_blogs,access_website_blogs,model_website_blogs,,1,1,1,1
+access_website_image,access_website_image,model_website_image,,1,1,1,1
+access_website_blog_image,access_website_blog_image,model_website_blog_image,,1,1,1,1
+
+
+
+
+

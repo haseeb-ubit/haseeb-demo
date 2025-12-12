@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Paper Format with Minimal Margins -->
+    <record id="paperformat_resume_minimal" model="report.paperformat">
+        <field name="name">Resume - Minimal Margins</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="ust_resume_report" model="ir.actions.report">
+        <field name="name">سيرة ذاتية</field>
+        <field name="model">ust.resume</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ust_resume_management.ust_resume_report_template</field>
+        <field name="report_file">ust_resume_management.ust_resume_report_template</field>
+        <field name="binding_model_id" ref="ust_resume_management.model_ust_resume"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="ust_resume_management.paperformat_resume_minimal"/>
+    </record>
+
+    <!-- English Report Action -->
+    <record id="ust_resume_report_en" model="ir.actions.report">
+        <field name="name">Resume (English)</field>
+        <field name="model">ust.resume.en</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ust_resume_management.ust_resume_report_template_en</field>
+        <field name="report_file">ust_resume_management.ust_resume_report_template_en</field>
+        <field name="binding_model_id" ref="ust_resume_management.model_ust_resume_en"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="ust_resume_management.paperformat_resume_minimal"/>
+    </record>
+</odoo>
+

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Course Outline Report Template (English) -->
+    <template id="course_outline_report_template">
+        <t t-call="elearning_colleges.external_layout_no_header_footer_dept">
+            <t t-foreach="docs" t-as="doc">
+                <main>
+                    <div style="font-family: DejaVu Sans, Arial, Tahoma; padding: 20px; margin: 0; position: relative; color: #333; line-height: 1.5;">
+                        
+                        <!-- Top Section: Logo (Right) and Info (Left) -->
+                        <!-- Right Side: UST Logo - Positioned absolutely at top right -->
+                        <div style="position: absolute; top: 0; right: 0; text-align: right;">
+                            <img t-attf-src="/elearning_colleges/static/src/img/ust_en.png"
+                                 alt="UST Logo"
+                                 style="width: 200px; height: auto; max-width: 200px;"/>
+                        </div>
+                        
+                        <!-- Left Side: University, Faculty, Course Info -->
+                        <t t-set="department" t-value="doc.department_id"/>
+                        <t t-set="college" t-value="department.college_id if department else None"/>
+                        <div style="width: 60%; margin-bottom: 30px;">
+                            <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #2c3e50;">Republic of Yemen</div>
+                            <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #1a5276;">University of Science and Technology</div>
+                            <div style="font-size: 16px; margin-bottom: 5px; color: #34495e;" t-esc="'Faculty of ' + (college.name if college else '........................')"/>
+                        </div>
+
+                        <!-- Course Info Table -->
+                        <t t-set="credit_hours_map" t-value="{'1': '1 Credit Hour', '2': '2 Credit Hours', '3': '3 Credit Hours', '4': '4 Credit Hours', '5': '5 Credit Hours'}"/>
+                        <t t-set="credit_hours_label" t-value="credit_hours_map.get(doc.credit_hours, '')"/>
+                        <t t-set="prerequisites" t-value="', '.join(doc.prerequisite_channel_ids.mapped('name')) if doc.prerequisite_channel_ids else '-'"/>
+
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 22px;">
+                            <tbody>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; width: 25%; font-weight: 600;">Course Title</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="doc.name or '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; width: 25%; font-weight: 600;">Course Code</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="doc.course_code or '-'"/>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; font-weight: 600;">Program</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="department.name if department else '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; font-weight: 600;">Level</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="doc.outline_level or '-'"/>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; font-weight: 600;">Credit Hours</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="credit_hours_label or '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: left; font-weight: 600;">Pre-Requisites</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="prerequisites"/>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Sections -->
+                        <t t-foreach="[
+                            ['Course Description', 'outline_description'],
+                            ['Topics Covered', 'outline_topics'],
+                            ['Course Learning Outcomes', 'outline_outcomes'],
+                            ['Textbooks', 'outline_textbooks'],
+                            ['Course Assessment', 'outline_assessment']
+                        ]" t-as="section">
+                            <div style="margin-bottom: 22px;">
+                                <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 15px 0; font-size: 20px; font-weight: 600;" t-esc="section[0]"/>
+                                <div style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px; min-height: 70px;">
+                                    <t t-if="doc[section[1]]">
+                                        <t t-raw="doc[section[1]]"/>
+                                    </t>
+                                    <t t-else="">
+                                        <p style="margin: 0; color: #7f8c8d; font-style: italic;">No <t t-esc="section[0].lower()"/> provided.</p>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                        <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #1a5276;">
+                            <table style="width:100%; border: 1px solid white; border-collapse: collapse; margin-top:20px;">
+                                <tr>
+
+                                    <!-- LEFT: Dean -->
+                                    <td style="width:50%; text-align:left; vertical-align:top;">
+                                        <div style="font-weight:600; font-size:15px; color:#1a5276;">
+                                            Dean of Faculty
+                                        </div>
+
+                                        <div style="
+                                            font-size:14px;
+                                            font-weight:500;
+                                            color:#333;
+                                            border-bottom:1.5px solid #333;
+                                            padding-bottom:3px;
+                                            margin-top:8px;
+                                            display:inline-block;
+                                            min-width:180px;
+                                        ">
+                                            <span t-esc="college.dean_name if college and college.dean_name else ''"/>
+                                        </div>
+                                    </td>
+
+                                    <!-- RIGHT: Head of Department -->
+                                    <td style="width:50%; text-align:right; vertical-align:top;">
+                                        <div style="font-weight:600; font-size:15px; color:#1a5276;">
+                                            Head of Department
+                                        </div>
+
+                                        <div style="
+                                            font-size:14px;
+                                            font-weight:500;
+                                            color:#333;
+                                            border-bottom:1.5px solid #333;
+                                            padding-bottom:3px;
+                                            margin-top:8px;
+                                            display:inline-block;
+                                            min-width:180px;
+                                            text-align:right;
+                                        ">
+                                            <span t-esc="department.head_of_department_name if department and department.head_of_department_name else ''"/>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+
+    <!-- Course Outline Report Template (Arabic) -->
+    <template id="course_outline_report_template_ar">
+        <t t-call="elearning_colleges.external_layout_no_header_footer_dept">
+            <t t-foreach="docs" t-as="doc">
+                <main>
+                    <div style="font-family: DejaVu Sans, Arial, Tahoma; padding: 20px; margin: 0; position: relative; color: #333; line-height: 1.5; direction: rtl;">
+                        
+                        <!-- Top Section: Logo (Left) and Info (Right) -->
+                        <!-- Left Side: UST Logo - Positioned absolutely at top left -->
+                        <div style="position: absolute; top: 0; left: 0; text-align: left;">
+                            <img t-attf-src="/elearning_colleges/static/src/img/ust_en.png"
+                                 alt="UST Logo"
+                                 style="width: 200px; height: auto; max-width: 200px;"/>
+                        </div>
+                        
+                        <!-- Right Side: University, Faculty, Course Info -->
+                        <t t-set="department" t-value="doc.department_id"/>
+                        <t t-set="college" t-value="department.college_id if department else None"/>
+                        <div style="width: 100%; margin-bottom: 30px; direction: rtl; text-align: right;">
+                            <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #2c3e50; text-align: right;">الجمهورية اليمنية</div>
+                            <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #1a5276; text-align: right;">جامعة العلوم والتكنولوجيا</div>
+                            <div style="font-size: 16px; margin-bottom: 5px; color: #34495e; text-align: right;" t-esc="'كلية ' + (college.name if college else '........................')"/>
+                        </div>
+
+                        <!-- Course Info Table -->
+                        <t t-set="credit_hours_map" t-value="{'1': '1 ساعة معتمدة', '2': '2 ساعة معتمدة', '3': '3 ساعة معتمدة', '4': '4 ساعة معتمدة', '5': '5 ساعة معتمدة'}"/>
+                        <t t-set="credit_hours_label" t-value="credit_hours_map.get(doc.credit_hours, '')"/>
+                        <t t-set="prerequisites" t-value="', '.join(doc.prerequisite_channel_ids.mapped('name')) if doc.prerequisite_channel_ids else '-'"/>
+
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 22px;">
+                            <tbody>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; width: 25%; font-weight: 600;">اسم المقرر</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="doc.name or '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; width: 25%; font-weight: 600;">رمز المقرر</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="doc.course_code or '-'"/>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; font-weight: 600;">البرنامج</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="department.name if department else '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; font-weight: 600;">المستوى</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="doc.outline_level_ar or '-'"/>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; font-weight: 600;">الساعات المعتمدة</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="credit_hours_label or '-'"/>
+                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; background-color: #f5f9ff; text-align: right; font-weight: 600;">المتطلبات السابقة</th>
+                                    <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: right;" t-esc="prerequisites"/>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                       <!-- Sections -->
+                        <t t-foreach="[
+                            ['وصف المقرر:', 'outline_description_ar'],
+                            ['محتوى المقرر:', 'outline_topics_ar'],
+                            ['مخرجات التعلم:', 'outline_outcomes_ar'],
+                            ['المراجع الأساسية للمقرر:', 'outline_textbooks_ar'],
+                            ['تقييم أداء الطالب:', 'outline_assessment_ar']
+                        ]" t-as="section">
+                            <div style="margin-bottom: 22px;">
+                                <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 15px 0; font-size: 20px; font-weight: 600; text-align: right;" t-esc="section[0]"/>
+                                <div style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 30px; min-height: 70px; text-align: right; direction: rtl;">
+                                    <t t-if="doc[section[1]]">
+                                        <t t-raw="doc[section[1]]"/>
+                                    </t>
+                                    <t t-else="">
+                                        <p style="margin: 0; color: #7f8c8d; font-style: italic;">لم يتم توفير <t t-esc="section[0]"/>.</p>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #1a5276;">
+                            <table style="width:100%; border: 1px solid white; border-collapse: collapse; margin-top:20px;">
+                                <tr>
+
+                                    <!-- RIGHT: Dean -->
+                                    <td style="width:50%; text-align:right; vertical-align:top;">
+                                        <div style="font-weight:600; font-size:15px; color:#1a5276;">
+                                            عميد الكلية
+                                        </div>
+
+                                        <div style="
+                                            font-size:14px;
+                                            font-weight:500;
+                                            color:#333;
+                                            border-bottom:1.5px solid #333;
+                                            padding-bottom:3px;
+                                            margin-top:8px;
+                                            display:inline-block;
+                                            min-width:180px;
+                                            text-align:right;
+                                        ">
+                                            <span t-esc="college.dean_name if college and college.dean_name else ''"/>
+                                        </div>
+                                    </td>
+
+                                    <!-- LEFT: Head of Department -->
+                                    <td style="width:50%; text-align:left; vertical-align:top;">
+                                        <div style="font-weight:600; font-size:15px; color:#1a5276;">
+                                            رئيس القسم
+                                        </div>
+
+                                        <div style="
+                                            font-size:14px;
+                                            font-weight:500;
+                                            color:#333;
+                                            border-bottom:1.5px solid #333;
+                                            padding-bottom:3px;
+                                            margin-top:8px;
+                                            display:inline-block;
+                                            min-width:180px;
+                                            text-align:left;
+                                        ">
+                                            <span t-esc="department.head_of_department_name if department and department.head_of_department_name else ''"/>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

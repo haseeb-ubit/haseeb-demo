@@ -1,0 +1,296 @@
+<odoo>
+    <template id="alumni_club_template" name="Alumni Club Page">
+        <t t-call="website.layout">
+         <!--   <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="/ust_website_alumni_club/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_alumni_club/static/src/css/slick.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_alumni_club/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_alumni_club/static/src/css/responsive.css" type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <section class="innerBanner bgCover"
+                     style="background: url(/ust_website_alumni_club/static/src/images/graduates-banner.jpg) no-repeat center right;">
+                <div class="container flexBox itemCenter">
+                    <div class="innerBannerText">
+                        <span class="mb-20">About The
+                            <br/>
+                            Graduates
+                        </span>
+                    </div>
+                </div>
+            </section>
+            <section class="pt60 pb60">
+                <div class="container">
+                    <div class="flexBox">
+                        <div class="middleLeft">
+                            <ul class="leftTab">
+                                <li>
+                                    <a href="#Introduction" class="scroll2">Introduction</a>
+                                </li>
+                                <li>
+                                    <a href="#AlumniClub" class="scroll2">Alumni Club</a>
+                                </li>
+                                <li>
+                                    <a href="#StudentAchievements" class="scroll2">Student Achievements</a>
+                                </li>
+                                <li>
+                                    <a href="#FutureVision" class="scroll2">Future Vision</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="middleRight">
+                            <div class="pb60" id="Introduction">
+                                <div class="mainHd">Introduction</div>
+                                <div class="textBox mb-30">Based on the message and objectives of the University of
+                                    Science and Technology - Aden in its interest in its graduates, whom it considers
+                                    its ambassadors wherever they are in the fields of science and work inside and
+                                    outside Yemen, the idea of the Alumni Club came to contribute to expanding the
+                                    circle of communication and strengthening the ties of graduates with each other and
+                                    with the university, and working to convey their suggestions and opinions and
+                                    benefit from their experiences to strive for continuous development of the
+                                    educational and research process and the societal role of the university. From this
+                                    standpoint, the university adopted a specialized unit in the Alumni Club.
+                                </div>
+                                <div class="flexBox mb-30 introBox">
+                                    <div class="left">
+                                        <img src="/ust_website_alumni_club/static/src/images/introduction-img2.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="right">
+                                        <ul class="flexBox justify-content-between faqList">
+                                            <li>
+                                                <div class="faqBox">
+                                                    <div class="q">Vision</div>
+                                                    <div class="ans">orem ipsum dolor sit amet, consectetur adipiscing
+                                                        elit. Vestibulum finibus blandit aliquet. Duis tristique
+                                                        eleifend rutrum. Sed interdum sed ante id tempor. Integer cursus
+                                                        lorem quis sem scelerisque pulvinar.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="faqBox"/>
+                                                <div class="q">Message</div>
+                                                <div class="ans">Seeking to enhance the spirit of belonging among
+                                                    graduate students and activate their participation and communication
+                                                    to contribute to developing their knowledge and skills, raising
+                                                    their efficiency, providing available services to them, and
+                                                    encouraging them to be leaders in order to contribute to developing
+                                                    the university's programs in a manner that is consistent with the
+                                                    requirements of the labor market and the needs of society.
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="faqBox">
+                                                    <div class="q">Objective</div>
+                                                    <div class="ans">orem ipsum dolor sit amet, consectetur adipiscing
+                                                        elit. Vestibulum finibus blandit aliquet. Duis tristique
+                                                        eleifend rutrum. Sed interdum sed ante id tempor. Integer cursus
+                                                        lorem quis sem scelerisque pulvinar.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                              <!--  <div class="enrollBanner small"
+                                     style="background: url(/ust_website_alumni_club/static/src/images/enroll-banner.jpg) no-repeat center;">
+                                    <div class="mainHd whtClr">Admission and registration for the academic year
+                                        2024/2025 is now open in all university faculties and specializations
+                                    </div>
+                                    <div>
+                                        <a href="#" class="applyNow">Enroll Now
+                                            <span class="material-icons">chevron_right</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="pb60" id="AlumniClub">
+                                <div class="mainHd">Alumni Club</div>
+                                <div class="textBox mb-20">The Alumni Club seeks to connect graduates with the
+                                    university, maintain the continuity of the relationship and communication between
+                                    graduates and the university, implement several activities for graduates, publish
+                                    graduate news on the club's digital platforms, and prepare graduates to seize
+                                    professional opportunities and participate effectively in the labor market by
+                                    developing their technical and cognitive skills, and other important skills, such
+                                    as: communication skills, management, problem solving, teamwork, interview
+                                    preparation, and others.
+                                </div>
+                                <div class="mb-30">
+                                    <img src="/ust_website_alumni_club/static/src/images/alumni-club.jpg"
+                                         alt="Alumni Club"/>
+                                </div>
+                                <div class="grayBg alumniLink">
+                                    <span>University of Science and Technology Alumni Link</span>
+                                    Check the university graduates via the link:
+                                    <a href="#">Click here</a>
+                                </div>
+                            </div>
+                            <div class="pb60" id="StudentAchievements">
+                                <div class="mainHd">Student Achievements</div>
+                                <div class="textBox mb-20">
+                                    <ul class="listText">
+                                        <li>Students of the Faculty of Engineering at the University of Science and
+                                            Technology participated in the competition organized by the Global Health
+                                            Engineering Company, and won sixth place with their design of a low-cost
+                                            current leakage testing device.
+                                        </li>
+                                        <li>The administration of the University of Science and Technology branch in
+                                            Taiz, in coordination with the Student Affairs Department, honored the top
+                                            students in the academic levels from various departments and scientific
+                                            specializations in the branch for the academic year 2019-2020 AD.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flexBox introBox itemCenter">
+                                    <div class="left">
+                                        <img src="/ust_website_alumni_club/static/src/images/community-services.jpg"
+                                             alt="Community Services"/>
+                                    </div>
+                                    <div class="right">
+                                        <div class="mainHd">Community Services</div>
+                                        <div class="textBox">Since its inception, the University of Science and
+                                            Technology has paid great attention to providing service to the community in
+                                            the field of public services and medical services related to various
+                                            colleges and centers. Its participation in raising the level of community
+                                            welfare, eradicating poverty, providing maternity care, and establishing
+                                            scholarships for deserving students are among the few examples of its active
+                                            participation in community affairs.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pb60" id="FutureVision">
+                                <div class="mainHd">Future Vision</div>
+                                <div class="textBox mb-30">Keen on the necessity of finding a means of communication
+                                    between students and civil society institutions, and bridging the gap between
+                                    university education and the labor market, the University of Science and Technology
+                                    is always working to achieve career guidance for students; with the aim of
+                                    developing the individual and collective skills of university students, and
+                                    providing them with skills related to professional aspects, in addition to deepening
+                                    their knowledge of themselves, increasing their confidence in their abilities, and
+                                    training students professionally, and preparing them to enter the labor market, by
+                                    holding courses and workshops that help them develop their skills, such as training
+                                    them on how to prepare a CV, and how to deal correctly with job interviews.
+                                </div>
+                                <div>
+                                    <img src="/ust_website_alumni_club/static/src/images/future-vision.jpg"
+                                         alt="Future Vision"/>
+                                </div>
+                            </div>
+                          <!--  <div class="pb60">
+                                <div class="mainHd">Our Alumini</div>
+                                <div class="ourAlumini sliderArrow">
+                                    <div class="item">
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_alumni_club/static/src/images/user-img1.png"
+                                                     alt=""/>
+                                            </div>
+                                            <div class="name">Ali Abdel-Khaleq Al-Juhaim</div>
+                                            <div class="textBox">PhD researcher - University of Illinois - Chicago</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_alumni_club/static/src/images/user-img2.png"
+                                                     alt=""/>
+                                            </div>
+                                            <div class="name">Dr.. Sami Said Manser</div>
+                                            <div class="textBox">PhD researcher - University of Illinois - Chicago</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_alumni_club/static/src/images/user-img3.png"
+                                                     alt=""/>
+                                            </div>
+                                            <div class="name">God's neighbor</div>
+                                            <div class="textBox">Director of the Mocha Center for Strategic Studies
+                                                <br/>
+                                                <br/>
+                                                To whom
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="inner">
+                                            <div class="img">
+                                                <img src="/ust_website_alumni_club/static/src/images/user-img4.png"
+                                                     alt=""/>
+                                            </div>
+                                            <div class="name">Dr.. Ibrahim Abdel-Rahman Al-Shuja</div>
+                                            <div class="textBox">Financial Consultant - Sindi and Batterjee Accountants
+                                                and Certified Public Accountants
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                          <!--  <div class="enrollBanner small"
+                                 style="background: url(/ust_website_alumni_club/static/src/images/enroll-banner.jpg) no-repeat center;">
+                                <div class="mainHd whtClr">Admission and registration for the academic year 2024/2025 is
+                                    now open in all university faculties and specializations
+                                </div>
+                                <div>
+                                    <a href="#" class="applyNow">Enroll Now
+                                        <span class="material-icons">chevron_right</span>
+                                    </a>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="oe_structure"/>
+
+            <script src="/ust_website_alumni_club/static/src/js/function.js"></script>
+            <script src="/ust_website_alumni_club/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_alumni_club/static/src/js/slick.min.js"></script>
+            <script>
+                $('.ourAlumini').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1569,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 999,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+        </t>
+    </template>
+
+</odoo>

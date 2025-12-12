@@ -1,0 +1,89 @@
+<odoo>
+    <template id="postgraduate_academic_programs_template" name="Postgraduate Academic Programs Page">
+        <t t-call="website.layout">
+
+            <div class="oe_structure"/>
+
+
+            <div class="oe_structure"/>
+
+          <!-- <script src="/ust_website_programmes/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_programmes/static/src/js/function.js"></script>
+            <script src="/ust_website_programmes/static/src/js/slick.min.js"></script>-->
+            <script>
+                $('.ipSlider').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+                $('.blogList').slick({
+                dots: false,
+                speed: 600,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                responsive: [
+                {
+                breakpoint: 1169,
+                settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 767,
+                settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                {
+                breakpoint: 479,
+                settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                }
+                },
+                ]
+                });
+            </script>
+
+
+            <div class="oe_structure"/>
+
+        </t>
+    </template>
+</odoo>

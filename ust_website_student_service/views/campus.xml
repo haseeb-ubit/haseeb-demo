@@ -1,0 +1,314 @@
+<odoo>
+    <template id="campus_template" name="Campus Page">
+        <t t-call="website.layout">
+
+            <!--<xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico"
+                      type="/ust_website_student_service/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/slick.css"
+                      type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/stylesheet.css"
+                      type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_student_service/static/src/css/responsive.css"
+                      type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+                <section class="innerBanner bgCover campus"
+                         style="background: url(/ust_website_student_service/static/src/images/campus-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText">
+                            <span class="mb-20">University of Science and Technology Yemen (UST) Campus Life</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="mainHd">Introduction</div>
+                        <div class="textBox mb-30">
+                            The University of Science and Technology of Yemen aspires to become one of the most
+                            prestigious
+                            universities at the regional and global levels, and works to achieve this goal by raising
+                            the
+                            level of performance in all aspects, especially academic ones, by providing the appropriate
+                            environments to provide distinguished education and effective learning, implement advanced
+                            studies and research projects, and provide distinguished services to the community.
+                            <br/>
+                            <br/>
+                            The campus includes everything a student needs for learning, training or activity, from
+                            classrooms with international educational specifications, a central library that serves all
+                            specializations, and a central library that serves the university's specializations, in
+                            addition
+                            to the graduate studies hall and the grand hall for training university students, a seminar
+                            hall
+                            for scientific activities and seminars. Engineering and electronics laboratories and
+                            computer
+                            labs. The university also provided sports equipment and a gym. Audio-visual halls. Research
+                            and
+                            development centers. A seminar hall, training halls and a workshop hall. Modern and advanced
+                            laboratories, spacious green spaces, a distinguished student lounge and many other features.
+                        </div>
+                        <div class="campusSlider">
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/campus-slider-img1.jpg"
+                                     alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/campus-slider-img1.jpg"
+                                     alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/campus-slider-img1.jpg"
+                                     alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60 grayBg">
+                    <div class="container">
+                        <div class="flexBox itemCenter justifyContentBetween mb-20">
+                            <div>
+                                <div class="mainHd">Campus Services</div>
+                                <div class="hdText full">Regional leadership and global excellence in medical and health
+                                    education.
+                                </div>
+                            </div>
+                            <div class="mt-10">
+                                <a href="#" class="readMore">View All</a>
+                            </div>
+                        </div>
+                        <ul class="campusServices flexBox">
+                            <li>
+                                <div class="inner flexBox">
+                                    <div class="img">
+                                        <img src="/ust_website_student_service/static/src/images/campus-service-img1.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="det">
+                                        <div class="name">Student housing equipped with all services</div>
+                                        <div>
+                                            <a href="#" class="link">Read More
+                                                <span class="material-icons">arrow_right_alt</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner flexBox">
+                                    <div class="img">
+                                        <img src="/ust_website_student_service/static/src/images/campus-service-img2.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="det">
+                                        <div class="name">Internal trips, scientific and recreational camps.</div>
+                                        <div>
+                                            <a href="#" class="link">Read More
+                                                <span class="material-icons">arrow_right_alt</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner flexBox">
+                                    <div class="img">
+                                        <img src="/ust_website_student_service/static/src/images/campus-service-img3.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="det">
+                                        <div class="name">Libraries with modern knowledge resources in all fields and
+                                            specializations
+                                        </div>
+                                        <div>
+                                            <a href="#" class="link">Read More
+                                                <span class="material-icons">arrow_right_alt</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner flexBox">
+                                    <div class="img">
+                                        <img src="/ust_website_student_service/static/src/images/campus-service-img4.jpg"
+                                             alt=""/>
+                                    </div>
+                                    <div class="det">
+                                        <div class="name">Large separate gym for both male and female students.</div>
+                                        <div>
+                                            <a href="#" class="link">Read More
+                                                <span class="material-icons">arrow_right_alt</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox justifyContentBetween saCov">
+                            <div class="box" style="background: #0071BD;">
+                                <div class="img">
+                                    <img src="/ust_website_student_service/static/src/images/community-service.jpg"
+                                         alt=""/>
+                                </div>
+                                <div class="det whtClr">
+                                    <div class="smallHd">Community Services</div>
+                                    <ul class="bulletList whtDot">
+                                        <li>R&amp;D and consulting services</li>
+                                        <li>Free medical services and medical camps.</li>
+                                        <li>Dental Clinic Services</li>
+                                        <li>Scholarships for Quran memorizers and outstanding high school students.</li>
+                                        <li>Educational and training courses</li>
+                                        <li>Gardening and cleaning contributions to the environment surrounding
+                                            university
+                                            buildings
+                                        </li>
+                                        <li>Many other activities and services</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box" style="background: #343A71;">
+                                <div class="img">
+                                    <img src="/ust_website_student_service/static/src/images/recreational-activities.jpg"
+                                         alt=""/>
+                                </div>
+                                <div class="det whtClr">
+                                    <div class="smallHd">Recreational activities</div>
+                                    <ul class="bulletList">
+                                        <li>Trips lasting from 1 to 3 days (for both male and female students
+                                            separately)
+                                        </li>
+                                        <li>Visits and scientific trips.</li>
+                                        <li>Student competitions and initiatives</li>
+                                        <li>Annual sports competition between private and public universities and
+                                            colleges.
+                                        </li>
+                                        <li>Other sports activities such as basketball and tennis.</li>
+                                        <li>Sports championship between colleges and academic departments.</li>
+                                        <li>Discussion programmes at the regional and international levels, as happened
+                                            in
+                                            Qatar last year and in other countries.
+                                        </li>
+                                        <li>The Great Competition for Creativity and Innovation</li>
+                                        <li>Open days for parents and honoring outstanding students.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="pb60">
+                    <div class="container">
+                        <div class="mainHd">Student Activities</div>
+                        <div class="actvitySlider sliderArrow">
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img1.jpg" alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img2.jpg" alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img3.jpg" alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img1.jpg" alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img2.jpg" alt=""/>
+                            </div>
+                            <div class="item">
+                                <img src="/ust_website_student_service/static/src/images/actvity-img3.jpg" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="pb60">
+                    <div class="container">
+                        <div class="mainHd">National and international conferences</div>
+                        <div class="textBox mb-30">Organizing and hosting national and international events and
+                            conferences
+                            on the campus of the University of Science and Technology is the focal point and
+                            international
+                            orientation towards permanent and continuous development in the field of education. The
+                            university has organized and hosted a wide range of events and conferences on its main
+                            campus to
+                            allow partners, participants and delegates to communicate, learn and exchange experiences in
+                            various fields. The university will continue to run leading conferences and events to gather
+                            the
+                            best ideas from all over the world in various disciplines. Below are some of the most
+                            important
+                            national and international conferences organized and hosted with partners.
+                        </div>
+                        <div class="videoBox">
+                            <img src="/ust_website_student_service/static/src/images/video-img.jpg" alt=""/>
+                            <img src="/ust_website_student_service/static/src/images/play-icon.png" alt=""
+                                 class="play"/>
+                        </div>
+                    </div>
+                </section>
+                <div class="oe_structure"/>
+                <script src="/ust_website_student_service/static/src/js/jquery.min.js"></script>
+                <script src="/ust_website_student_service/static/src/js/function.js"></script>
+                <script src="/ust_website_student_service/static/src/js/slick.min.js"></script>
+                <script>
+                    $('.campusSlider').slick({
+                    dots: true,
+                    speed: 400,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    autoplay: true,
+                    autoplaySpeed: 8000,
+                    cssEase: 'linear'
+                    });
+
+                    $('.actvitySlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                </script>
+            </div>
+
+        </t>
+    </template>
+</odoo>

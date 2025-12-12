@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom Paper Format -->
+    <record id="paperformat_department_report" model="report.paperformat">
+        <field name="name">Department Report - A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Requirements Report Action -->
+    <record id="action_report_department_requirements" model="ir.actions.report">
+        <field name="name">Department Requirements Report</field>
+        <field name="model">hr.department</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">elearning_colleges.department_requirements_report_template</field>
+        <field name="report_file">elearning_colleges.department_requirements_report_template</field>
+        <field name="paperformat_id" ref="elearning_colleges.paperformat_department_report"/>
+    </record>
+
+    <!-- Semesters Report Action -->
+    <record id="action_report_department_semesters" model="ir.actions.report">
+        <field name="name">Department Semesters Report</field>
+        <field name="model">hr.department</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">elearning_colleges.department_semesters_report_template</field>
+        <field name="report_file">elearning_colleges.department_semesters_report_template</field>
+        <field name="paperformat_id" ref="elearning_colleges.paperformat_department_report"/>
+    </record>
+
+    <!-- Course Outline Report Action (English) -->
+    <record id="action_report_course_outline" model="ir.actions.report">
+        <field name="name">Course Outline</field>
+        <field name="model">slide.channel</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">elearning_colleges.course_outline_report_template</field>
+        <field name="report_file">elearning_colleges.course_outline_report_template</field>
+        <field name="paperformat_id" ref="elearning_colleges.paperformat_department_report"/>
+    </record>
+
+    <!-- Course Outline Report Action (Arabic) -->
+    <record id="action_report_course_outline_ar" model="ir.actions.report">
+        <field name="name">Course Outline (Arabic)</field>
+        <field name="model">slide.channel</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">elearning_colleges.course_outline_report_template_ar</field>
+        <field name="report_file">elearning_colleges.course_outline_report_template_ar</field>
+        <field name="paperformat_id" ref="elearning_colleges.paperformat_department_report"/>
+    </record>
+</odoo>
+

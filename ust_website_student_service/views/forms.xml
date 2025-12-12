@@ -1,0 +1,111 @@
+<odoo>
+    <template id="forms_template" name="Forms Page">
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div id="wrap">
+             <!--   <xpath expr="." position="inside">
+                    <meta charset="utf-8"/>
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                    <link rel="shortcut icon" href="favicon.ico"
+                          type="/ust_website_student_service/static/src/image/x-icon"/>
+                    <title>University of Science &amp; Technology</title>
+                    <link rel="stylesheet" href="/ust_website_student_service/static/src/css/slick.css"
+                          type="text/css"/>
+                    <link rel="stylesheet" href="/ust_website_student_service/static/src/css/stylesheet.css"
+                          type="text/css"/>
+                    <link rel="stylesheet" href="/ust_website_student_service/static/src/css/responsive.css"
+                          type="text/css"/>
+                </xpath>-->
+
+                <section class="innerBanner newsBanner bgCover"
+                         style="background: url(/ust_website_student_service/static/src/images/hadramout-branch-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText">
+                            <span>Document and Forms</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="mainHd">Models</div>
+                        <ul class="flexBox collegeList">
+                            <li>
+                                <div class="inner">
+                                    <div class="hd">Re-Enrollment Form</div>
+                                    <div class="btn">
+                                        <a href="#">Download
+                                            <span class="material-icons-outlined">picture_as_pdf</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="hd">Transfer Form for New Students</div>
+                                    <div class="btn">
+                                        <a href="#">Download
+                                            <span class="material-icons-outlined">picture_as_pdf</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="hd">Internal Transfer Form</div>
+                                    <div class="btn">
+                                        <a href="#">Download
+                                            <span class="material-icons-outlined">picture_as_pdf</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="hd">Power of Attorney to Receive Graduation Documents</div>
+                                    <div class="btn">
+                                        <a href="#">Download
+                                            <span class="material-icons-outlined">picture_as_pdf</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="hd">Suspension Form</div>
+                                    <div class="btn">
+                                        <a href="#">Download
+                                            <span class="material-icons-outlined">picture_as_pdf</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+
+            </div>
+
+
+            <script src="/ust_website_student_service/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_student_service/static/src/js/function.js"></script>
+            <script>
+                $(document).ready(function () {
+                $(".collegeList li .btn a").click(function (coll) {
+                coll.stopPropagation();
+                $('.collegeList li .over').hide();
+                $(this).parents('.inner').next('.over').show();
+                });
+                $(".over").click(function (coll) {
+                coll.stopPropagation();
+                });
+                $("body").click(function () {
+                $('.collegeList li .over').hide();
+                });
+
+                });
+            </script>
+        </t>
+    </template>
+</odoo>

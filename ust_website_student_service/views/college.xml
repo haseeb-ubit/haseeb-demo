@@ -1,0 +1,24 @@
+<odoo>
+    <template id="college_guide_template" name="College Page">
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+                <t t-name="ust_website_student_service.college_guide_template">
+                    <div style="margin-left: 500px;">
+                        <h2 style="">College Guides</h2>
+                        <a href="/ust_website_student_service/static/src/pdf/pdf1.pdf" target="_blank">
+                            <br/>
+                            <h4 style="color: #003366;">Click here to open the college guide for the academic year
+                                2024-2025
+                            </h4>
+                        </a>
+                    </div>
+                </t>
+                <div class="oe_structure"/>
+            </div>
+
+        </t>
+
+    </template>
+</odoo>

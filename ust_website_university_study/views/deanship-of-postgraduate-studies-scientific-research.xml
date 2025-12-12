@@ -1,0 +1,441 @@
+<odoo>
+    <template id="deanship_of_postgraduate_template" name="Deanship Of Postgraduate Page">
+        <t t-call="website.layout">
+          <!--  <link rel="stylesheet" href="/ust_website_university_study/static/src/css/slick.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/stylesheet.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/responsive.css"
+                  type="text/css"/>-->
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+                <section class="innerBanner bgCover"
+                         style="background: url(/ust_website_university_study/static/src/images/facilities-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText large">
+                            <span class="mb-20">deanship of postgraduate studies and scientific research</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="middleLeft">
+                                <ul class="leftTab">
+                                    <li>
+                                        <a href="#Vision" class="scroll2">Vision, Mission, Objective</a>
+                                    </li>
+                                    <li>
+                                        <a href="#DeansWord" class="scroll2">Dean's word</a>
+                                    </li>
+                                    <li>
+                                        <a href="#AcademicPrograms" class="scroll2">Academic Programmes</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="applyNow">Register Now
+                                            <span class="material-icons">chevron_right</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="middleRight">
+                                <div class="pb60" id="Vision">
+                                    <div class="flexBox introBox">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/postgraduate-img.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="mainHd">Our Vision</div>
+                                            <div class="textBox mb-20">Leadership and excellence in graduate studies and
+                                                scientific research.
+                                            </div>
+                                            <div class="mainHd">Objectives</div>
+                                            <div class="textBox">
+                                                <ul class="listText short">
+                                                    <li>Meeting the needs of higher education institutions and the labor
+                                                        market with graduate degrees.
+                                                    </li>
+                                                    <li>Securing the university's needs of faculty members and their
+                                                        assistants.
+                                                    </li>
+                                                    <li>Providing qualification opportunities for those wishing to
+                                                        enroll in
+                                                        postgraduate programs.
+                                                    </li>
+                                                    <li>Directing letters and theses projects to contribute to solving
+                                                        community problems.
+                                                    </li>
+                                                    <li>Preparing qualified cadres in the field of knowledge and
+                                                        research in
+                                                        various disciplines.
+                                                    </li>
+                                                    <li>Contribute to achieving the university's vision, mission and
+                                                        goals.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Our Mission</div>
+                                    <div class="textBox mb-20">Seeking to submit postgraduate studies and complete
+                                        individual and group research projects to contribute to achieving human
+                                        development
+                                        and solving local and regional societal problems; Through the efficient use of
+                                        the
+                                        university's physical and organizational resources, academic and administrative
+                                        capabilities and skills, expansion, partnership and cooperation with
+                                        universities
+                                        and research institutions.
+                                    </div>
+                                    <div>
+                                        <img src="/ust_website_university_study/static/src/images/mission.jpg" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="DeansWord">
+                                    <div class="mainHd">Dean's Word</div>
+                                    <div class="flexBox itemCenter deansWord">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/deans-img.jpg"
+                                                 alt="Dean's Word"/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="textBox">
+                                                Dr.. Muhammad Saeed Al-Haidari - Dean of Graduate Studies and Scientific
+                                                Research:
+                                                <br/>
+                                                <br/>
+                                                It is known that developed countries pay special attention to scientific
+                                                research, and set high budgets for it, because scientific research is
+                                                the
+                                                compass of progress and advancement, and a cornerstone in the course of
+                                                development and growth through specialized institutions and centers that
+                                                provide research and advice necessary to formulate strategic policies
+                                                for
+                                                countries.
+                                                <br/>
+                                                <br/>
+                                                Universities are at the forefront of these institutions that contribute
+                                                to
+                                                scientific research through their specialized centers and the programs
+                                                they
+                                                offer in the field of graduate studies.
+                                                <br/>
+                                                <br/>
+                                                The Department of Graduate Studies and Scientific Research at the
+                                                University
+                                                of Science and Technology contributes to the development of scientific
+                                                research through scientific theses and targeted theses supervised by the
+                                                department or through the publication of distinguished research
+                                                presented by
+                                                faculty members. Providing the community with distinguished and
+                                                qualified
+                                                competencies according to modern scientific plans, which we hope will
+                                                contribute to building and developing the community.
+                                                <br/>
+                                                <br/>
+                                                In conclusion, we extend our sincere thanks and appreciation to the
+                                                leadership of the university for the financial and moral support that it
+                                                provides to meet the special needs of graduate studies and scientific
+                                                research.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AcademicPrograms">
+                                    <div class="mainHd">Postgraduate Studies and Scientific Research Academic Programmes
+                                    </div>
+                                    <ul class="flexBox collageList column3">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/academic-programmes-img1.jpg"
+                                                         alt="Master of Accounting"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Master of Accounting</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/academic-programmes-img2.jpg"
+                                                         alt="Master of Islamic Studies"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Master of Islamic Studies</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/academic-programmes-img3.jpg"
+                                                         alt="Master of Computing"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Master of Computing</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="mainHd">News About University Student Exchange Program In UST Yemen
+                                    </div>
+                                    <ul class="flexBox collageList column3">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img1.jpg"
+                                                         alt="A visit to the Deanship of Graduate Studies during the first semester examinations period 2022-2022"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">A visit to the Deanship of Graduate Studies during
+                                                        the
+                                                        first semester examinations period 2022-2022
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img2.jpg"
+                                                         alt="Postgraduate Students Honoring Ceremony"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Postgraduate Students Honoring Ceremony</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img3.jpg"
+                                                         alt="Public discussion of the master's thesis at the university"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Public discussion of the master's thesis at the
+                                                        university
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img4.jpg"
+                                                         alt="Holding a publishing skills workshop at the university"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Holding a publishing skills workshop at the
+                                                        university
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img5.jpg"
+                                                         alt="Monitoring the examination process in postgraduate studies"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Monitoring the examination process in postgraduate
+                                                        studies
+                                                    </div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/exchange-program-img6.jpg"
+                                                         alt="Discussion of the Master's Thesis 08/14/2021"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Discussion of the Master's Thesis 08/14/2021</div>
+                                                    <div class="flexBox justifyContentBetween btnsBox">
+                                                        <div>
+                                                            <a href="#">Read More</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#">
+                                                                <span class="material-icons">arrow_right_alt</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="oe_structure"/>
+
+                <script src="/ust_website_university_study/static/src/js/jquery.min.js"></script>
+                <script src="/ust_website_university_study/static/src/js/function.js"></script>
+                <script src="/ust_website_university_study/static/src/js/slick.min.js"></script>
+                <script>
+                    $('.ipSlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                    $('.blogList').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                </script>
+            </div>
+
+        </t>
+    </template>
+</odoo>

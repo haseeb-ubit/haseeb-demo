@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- College Departments Page Template -->
+    <template id="college_departments_template" name="College Departments">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="college.name + ' - Departments'"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <!-- College Header -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12 text-center">
+                            <h1 class="mb-2 college-title" t-esc="college.name"/>
+                            <p t-if="college.description" class="text-muted" t-esc="college.description"/>
+                        </div>
+                    </div>
+                    <!-- Departments Section -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="mb-4 text-center text-md-start college-section-title">Departments</h2>
+                            <div class="row">
+                                <t t-foreach="departments" t-as="dept">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card department-card h-100">
+                                            <a t-attf-href="/colleges/{{ college.id }}/department/{{ dept.id }}/courses" class="text-decoration-none text-dark">
+                                                <t t-if="dept.image">
+                                                    <img t-attf-src="/web/image/hr.department/{{ dept.id }}/image"
+                                                         class="card-img-top department-image"
+                                                         alt="Department Image"
+                                                         style="height: 200px; object-fit: cover; width: 100%;"/>
+                                                </t>
+                                                <t t-if="not dept.image">
+                                                    <div class="card-img-top department-image-placeholder" style="height: 200px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                                                        <i class="fa fa-building-o fa-3x text-white"></i>
+                                                    </div>
+                                                </t>
+                                                <div class="card-body">
+                                                    <h5 class="card-title" t-esc="dept.name"/>
+                                                    <p class="card-text text-muted">
+                                                        <small>
+                                                            <t t-set="published_courses" t-value="department_published_counts.get(dept.id, 0)"/>
+                                                            <span t-esc="published_courses"/>
+                                                            <span t-if="published_courses == 1">Course</span>
+                                                            <span t-if="published_courses != 1">Courses</span>
+                                                        </small>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="not departments">
+                                    <div class="col-12">
+                                        <p class="text-muted text-center">No departments available for this college</p>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- College Resumes Page Template -->
+    <template id="college_resumes_template" name="College Resumes">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="college.name + ' - Faculty Resumes'"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <!-- College Header -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12 text-center">
+                            <h1 class="mb-2 college-title" t-esc="college.name"/>
+                            <p t-if="college.description" class="text-muted" t-esc="college.description"/>
+                        </div>
+                    </div>
+
+                    <t t-if="teachers">
+                        <div class="row mb-4">
+                            <div class="col-12 col-lg-8 offset-lg-2">
+                                <div class="position-relative resume-search-box">
+                                    <div id="resume-search-input-wrapper" class="form-control d-flex align-items-center flex-wrap gap-2" style="min-height: 46px; padding: 8px 52px 8px 12px; cursor: text;">
+                                        <div id="resume-search-chips" class="d-flex align-items-center flex-wrap gap-2" style="margin: -2px;"></div>
+                                        <input type="search" id="resume-search-input" class="border-0 flex-grow-1" style="min-width: 160px; outline: none; box-shadow: none; background: transparent; padding: 4px 0;" placeholder="Search by Faculty, Department, Academic Degree, Specialization" autocomplete="off"/>
+                                    </div>
+                                    <button type="button" id="resume-search-clear" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none text-muted d-none" style="font-size: 0.9rem;">Clear</button>
+                                    <div id="resume-search-suggestions" class="list-group position-absolute w-100 mt-2 shadow-sm d-none" style="z-index: 1000;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div id="resume-no-results" class="alert alert-info d-none" role="alert">
+                                    No faculty members found for the selected filter.
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- Teachers Section -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="mb-4 text-center text-md-start college-section-title">Faculty Members</h2>
+                            <div class="row">
+                                <t t-foreach="teachers" t-as="teacher">
+                                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4" data-resume-card="1" t-att-data-user-id="teacher.get('user_id')">
+                                        <div class="card teacher-card h-100">
+                                            <div class="card-body text-center">
+                                                <t t-if="teacher.get('photo')">
+                                                    <img t-attf-src="/web/image/{{ teacher.get('photo_model', 'ust.resume') }}/{{ teacher.get('photo_id', teacher.get('resume_id')) }}/photo"
+                                                         class="rounded-circle mb-3 teacher-photo"
+                                                         style="width: 120px; height: 120px; object-fit: cover;"
+                                                         alt="Teacher Photo"/>
+                                                </t>
+                                                <t t-if="not teacher.get('photo')">
+                                                    <div class="rounded-circle mb-3 teacher-photo-placeholder mx-auto" style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fa fa-user fa-3x text-white"></i>
+                                                    </div>
+                                                </t>
+                                                <h6 class="card-title mb-2" t-esc="teacher.get('name', '')"/>
+                                                <p class="card-text text-muted small mb-3" t-esc="teacher.get('job_title', '')"/>
+                                                <t t-set="resume_type" t-value="teacher.get('resume_type', 'ar')"/>
+                                                <t t-set="resume_id_en" t-value="teacher.get('resume_id_en', False)"/>
+                                                <t t-set="resume_id" t-value="teacher.get('resume_id')"/>
+                                                <t t-set="resume_url" t-value="('/report/pdf/ust_resume_management.ust_resume_report_en/' + str(resume_id_en) if resume_type == 'both' and resume_id_en else '/report/pdf/ust_resume_management.ust_resume_report_en/' + str(resume_id) if resume_type == 'en' else '/report/pdf/ust_resume_management.ust_resume_report/' + str(resume_id))"/>
+                                                <a t-attf-href="{{ resume_url }}" target="_blank" class="btn btn-resume btn-sm">
+                                                    View Resume
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="not teachers">
+                                    <div class="col-12">
+                                        <p class="text-muted text-center">No faculty members available for this college</p>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="teachers">
+                <script type="application/json" id="resume-teachers-json"><t t-raw="resume_teachers_json or '[]'"/></script>
+                <script type="application/json" id="resume-filters-json"><t t-raw="resume_filters_json or '{}'"/></script>
+                <script><![CDATA[
+                    (function () {
+                        const searchInput = document.getElementById('resume-search-input');
+                        if (!searchInput) {
+                            return;
+                        }
+
+                        const inputWrapper = document.getElementById('resume-search-input-wrapper');
+                        const chipsContainer = document.getElementById('resume-search-chips');
+                        const suggestionsBox = document.getElementById('resume-search-suggestions');
+                        const clearBtn = document.getElementById('resume-search-clear');
+                        const noResultsBanner = document.getElementById('resume-no-results');
+
+                        const teacherDataTag = document.getElementById('resume-teachers-json');
+                        const filterDataTag = document.getElementById('resume-filters-json');
+
+                        let teachersMeta = [];
+                        let filtersMeta = {};
+                        let activeFilters = [];
+
+                        try {
+                            teachersMeta = JSON.parse((teacherDataTag && teacherDataTag.textContent) || '[]');
+                        } catch (err) {
+                            console.error('Unable to parse resume teacher metadata', err);
+                        }
+
+                        try {
+                            filtersMeta = JSON.parse((filterDataTag && filterDataTag.textContent) || '{}');
+                        } catch (err) {
+                            console.error('Unable to parse resume filter metadata', err);
+                        }
+
+                        const cards = document.querySelectorAll('[data-resume-card]');
+                        const teacherIndex = teachersMeta.reduce((acc, teacher) => {
+                            if (teacher && typeof teacher.user_id !== 'undefined') {
+                                acc[String(teacher.user_id)] = teacher;
+                            }
+                            return acc;
+                        }, {});
+
+                        const filterLabels = {
+                            department: 'Department',
+                            degree: 'Academic Degree',
+                            specialization: 'Specialization',
+                            teacher: 'Faculty'
+                        };
+
+                        const suggestionPool = [];
+                        Object.entries(filtersMeta || {}).forEach(([type, values]) => {
+                            if (!Array.isArray(values)) {
+                                return;
+                            }
+                            values.forEach((value) => {
+                                if (!value) {
+                                    return;
+                                }
+                                suggestionPool.push({
+                                    type,
+                                    value,
+                                    label: `${filterLabels[type] || type}: ${value}`,
+                                    term: value.toLowerCase()
+                                });
+                            });
+                        });
+
+                        function setWrapperFocus(isFocused) {
+                            if (!inputWrapper) {
+                                return;
+                            }
+                            if (isFocused) {
+                                inputWrapper.style.borderColor = '#86b7fe';
+                                inputWrapper.style.boxShadow = '0 0 0 .25rem rgba(13,110,253,.25)';
+                            } else {
+                                inputWrapper.style.borderColor = '';
+                                inputWrapper.style.boxShadow = '';
+                            }
+                        }
+
+                        function updateClearButton() {
+                            if (!clearBtn) {
+                                return;
+                            }
+                            if (activeFilters.length || searchInput.value.trim()) {
+                                clearBtn.classList.remove('d-none');
+                            } else {
+                                clearBtn.classList.add('d-none');
+                            }
+                        }
+
+                        function matchesFilter(teacher, filter) {
+                            const valueLower = filter.value.toLowerCase();
+                            if (filter.type === 'teacher') {
+                                return !!(teacher && teacher.name && teacher.name.toLowerCase() === valueLower);
+                            }
+                            if (filter.type === 'department') {
+                                return !!(teacher && teacher.department_name && teacher.department_name.toLowerCase() === valueLower);
+                            }
+                            if (filter.type === 'degree') {
+                                return !!(teacher && Array.isArray(teacher.degrees) && teacher.degrees.some((deg) => deg && deg.toLowerCase() === valueLower));
+                            }
+                            if (filter.type === 'specialization') {
+                                return !!(teacher && Array.isArray(teacher.specializations) && teacher.specializations.some((spec) => spec && spec.toLowerCase() === valueLower));
+                            }
+                            return false;
+                        }
+
+                        function refreshCards() {
+                            let visibleCount = 0;
+                            cards.forEach((card) => {
+                                const userId = card.getAttribute('data-user-id');
+                                const teacher = teacherIndex[userId];
+                                const matches = activeFilters.every((filter) => matchesFilter(teacher, filter));
+                                if (matches) {
+                                    card.classList.remove('d-none');
+                                    visibleCount += 1;
+                                } else {
+                                    card.classList.add('d-none');
+                                }
+                            });
+
+                            if (noResultsBanner) {
+                                if (visibleCount === 0 && activeFilters.length) {
+                                    noResultsBanner.classList.remove('d-none');
+                                } else {
+                                    noResultsBanner.classList.add('d-none');
+                                }
+                            }
+                        }
+
+                        function renderChips() {
+                            if (!chipsContainer) {
+                                return;
+                            }
+                            chipsContainer.innerHTML = '';
+                            activeFilters.forEach((filter, index) => {
+                                const chip = document.createElement('span');
+                                chip.className = 'badge bg-light text-dark border resume-filter-chip d-flex align-items-center';
+                                chip.style.gap = '0.5rem';
+                                chip.style.padding = '0.35rem 0.6rem';
+                                chip.style.fontSize = '0.85rem';
+
+                                const label = document.createElement('span');
+                                label.textContent = filter.label;
+                                chip.appendChild(label);
+
+                                const removeBtn = document.createElement('button');
+                                removeBtn.type = 'button';
+                                removeBtn.className = 'btn btn-link p-0 text-decoration-none resume-filter-remove';
+                                removeBtn.setAttribute('aria-label', 'Remove filter');
+                                removeBtn.dataset.filterIndex = String(index);
+                                removeBtn.innerHTML = '&times;';
+                                removeBtn.style.fontSize = '1.1rem';
+                                removeBtn.style.lineHeight = '1';
+                                chip.appendChild(removeBtn);
+
+                                chipsContainer.appendChild(chip);
+                            });
+                        }
+
+                        function applyFiltersAndRender() {
+                            refreshCards();
+                            renderChips();
+                            updateClearButton();
+                        }
+
+                        function addFilter(filter) {
+                            if (!filter) {
+                                return;
+                            }
+                            const exists = activeFilters.some((item) => item.type === filter.type && item.value.toLowerCase() === filter.value.toLowerCase());
+                            if (exists) {
+                                return;
+                            }
+                            activeFilters.push(filter);
+                            suggestionsBox.classList.add('d-none');
+                            searchInput.value = '';
+                            applyFiltersAndRender();
+                            searchInput.focus();
+                        }
+
+                        function removeFilterByIndex(index) {
+                            const numericIndex = parseInt(index, 10);
+                            if (Number.isNaN(numericIndex)) {
+                                return;
+                            }
+                            activeFilters.splice(numericIndex, 1);
+                            applyFiltersAndRender();
+                            searchInput.focus();
+                        }
+
+                        function clearAllFilters() {
+                            activeFilters = [];
+                            searchInput.value = '';
+                            suggestionsBox.classList.add('d-none');
+                            applyFiltersAndRender();
+                            searchInput.focus();
+                        }
+
+                        function renderSuggestions(query) {
+                            const term = (query || '').trim().toLowerCase();
+                            suggestionsBox.innerHTML = '';
+                            if (!term) {
+                                suggestionsBox.classList.add('d-none');
+                                return;
+                            }
+
+                            const matches = suggestionPool.filter((item) => {
+                                if (activeFilters.some((filter) => filter.type === item.type && filter.value.toLowerCase() === item.value.toLowerCase())) {
+                                    return false;
+                                }
+                                return item.term.includes(term);
+                            }).slice(0, 8);
+
+                            if (!matches.length) {
+                                suggestionsBox.classList.add('d-none');
+                                return;
+                            }
+
+                            matches.forEach((item) => {
+                                const button = document.createElement('button');
+                                button.type = 'button';
+                                button.className = 'list-group-item list-group-item-action';
+                                button.textContent = item.label;
+                                button.dataset.filterType = item.type;
+                                button.dataset.filterValue = item.value;
+                                suggestionsBox.appendChild(button);
+                            });
+
+                            suggestionsBox.classList.remove('d-none');
+                        }
+
+                        if (chipsContainer) {
+                            chipsContainer.addEventListener('click', (event) => {
+                                const target = event.target.closest('[data-filter-index]');
+                                if (target) {
+                                    removeFilterByIndex(target.dataset.filterIndex);
+                                }
+                            });
+                        }
+
+                        if (inputWrapper) {
+                            inputWrapper.addEventListener('click', () => {
+                                searchInput.focus();
+                            });
+                        }
+
+                        if (clearBtn) {
+                            clearBtn.addEventListener('click', () => {
+                                clearAllFilters();
+                            });
+                        }
+
+                        searchInput.addEventListener('input', (event) => {
+                            renderSuggestions(event.target.value);
+                            updateClearButton();
+                        });
+
+                        searchInput.addEventListener('focus', () => {
+                            setWrapperFocus(true);
+                            renderSuggestions(searchInput.value);
+                        });
+
+                        searchInput.addEventListener('blur', () => {
+                            setWrapperFocus(false);
+                            setTimeout(() => {
+                                suggestionsBox.classList.add('d-none');
+                            }, 150);
+                        });
+
+                        searchInput.addEventListener('keydown', (event) => {
+                            if (event.key === 'Enter') {
+                                const firstSuggestion = suggestionsBox.querySelector('button');
+                                if (firstSuggestion) {
+                                    event.preventDefault();
+                                    addFilter({
+                                        type: firstSuggestion.dataset.filterType,
+                                        value: firstSuggestion.dataset.filterValue,
+                                        label: firstSuggestion.textContent
+                                    });
+                                }
+                            } else if (event.key === 'Backspace' && !searchInput.value && activeFilters.length) {
+                                event.preventDefault();
+                                activeFilters.pop();
+                                applyFiltersAndRender();
+                            }
+                        });
+
+                        document.addEventListener('click', (event) => {
+                            if (event.target && event.target.closest('#resume-search-suggestions button')) {
+                                const target = event.target.closest('button');
+                                addFilter({
+                                    type: target.dataset.filterType,
+                                    value: target.dataset.filterValue,
+                                    label: target.textContent
+                                });
+                            } else if (!event.target.closest('.resume-search-box')) {
+                                suggestionsBox.classList.add('d-none');
+                            }
+                        });
+
+                        applyFiltersAndRender();
+                    })();
+                ]]></script>
+            </t>
+        </t>
+    </template>
+
+    <!-- Department Courses Template -->
+    <template id="department_courses_template" name="Department Courses">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="department.name + ' - Courses'"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mt-3 mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/colleges">Colleges</a></li>
+                            <li class="breadcrumb-item">
+                                <a t-attf-href="/colleges/{{ college.id }}/department" t-esc="college.name"/>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page" t-esc="department.name"/>
+                        </ol>
+                    </nav>
+
+                    <!-- Department Header -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12 text-center">
+                            <h1 class="mb-2 college-title" t-esc="department.name"/>
+                            <p class="text-muted" t-esc="college.name"/>
+                        </div>
+                    </div>
+
+                    <!-- Courses List -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="mb-4 text-center text-md-start college-section-title">Courses</h2>
+                            <div class="row">
+                                <t t-foreach="courses" t-as="course">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card course-card h-100">
+                                            <a t-attf-href="/slides/{{ course.id }}" class="text-decoration-none text-dark">
+                                                <t t-if="course.image_128">
+                                                    <img t-attf-src="/web/image/slide.channel/{{ course.id }}/image_128"
+                                                         class="card-img-top course-image" 
+                                                         alt="Course Image" 
+                                                         style="height: 200px; object-fit: cover;"/>
+                                                </t>
+                                                <t t-if="not course.image_128">
+                                                    <div class="card-img-top course-image-placeholder" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fa fa-book fa-3x text-white"></i>
+                                                    </div>
+                                                </t>
+                                                <div class="card-body">
+                                                    <h5 class="card-title" t-esc="course.name"/>
+                                                    <p t-if="course.description" class="card-text text-muted small" t-esc="(course.description[:100] + '...') if course.description and len(course.description) > 100 else (course.description or '')"/>
+                                                    <div class="mt-2">
+                                                        <span class="badge bg-primary" t-esc="len(course.slide_ids) or 0"/>
+                                                        <span class="ms-2">Lessons</span>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <span class="badge bg-success" t-esc="course.members_count or 0"/>
+                                                        <span class="ms-2">Enrolled</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="not courses">
+                                    <div class="col-12">
+                                        <p class="text-muted text-center">No courses available for this department</p>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Requirements Section -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="mb-4 text-center text-md-start college-section-title">Requirements</h2>
+                            <ul class="nav nav-tabs mb-3" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active nav-tab-blue" id="faculty-tab" data-bs-toggle="tab" data-bs-target="#faculty" type="button" role="tab">Faculty Requirements</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link nav-tab-blue" id="department-tab" data-bs-toggle="tab" data-bs-target="#department" type="button" role="tab">Department Requirements</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link nav-tab-blue" id="program-tab" data-bs-toggle="tab" data-bs-target="#program" type="button" role="tab">Program Requirements</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link nav-tab-blue" id="elective-tab" data-bs-toggle="tab" data-bs-target="#elective" type="button" role="tab">Elective Requirements</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link nav-tab-blue" id="university-tab" data-bs-toggle="tab" data-bs-target="#university" type="button" role="tab">University Requirements</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- Faculty Requirements -->
+                                <div class="tab-pane fade show active" id="faculty" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" style="font-size: 0.95rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th class="text-center">CH</th>
+                                                    <th class="text-center">Code</th>
+                                                    <th>Pre-Requisites</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="requirements_by_type.get('faculty', [])" t-as="req">
+                                                    <tr>
+                                                        <td t-esc="req.course_id.name if req.course_id else ''"/>
+                                                        <td class="text-center" t-esc="req.course_credit_hours or ''"/>
+                                                        <td class="text-center" t-esc="req.course_code or ''"/>
+                                                        <td t-esc="req.course_prerequisite or ''"/>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="not requirements_by_type.get('faculty')">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No faculty requirements available</td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Department Requirements -->
+                                <div class="tab-pane fade" id="department" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" style="font-size: 0.95rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th class="text-center">CH</th>
+                                                    <th class="text-center">Code</th>
+                                                    <th>Pre-Requisites</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="requirements_by_type.get('department', [])" t-as="req">
+                                                    <tr>
+                                                        <td t-esc="req.course_id.name if req.course_id else ''"/>
+                                                        <td class="text-center" t-esc="req.course_credit_hours or ''"/>
+                                                        <td class="text-center" t-esc="req.course_code or ''"/>
+                                                        <td t-esc="req.course_prerequisite or ''"/>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="not requirements_by_type.get('department')">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No department requirements available</td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Program Requirements -->
+                                <div class="tab-pane fade" id="program" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" style="font-size: 0.95rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th class="text-center">CH</th>
+                                                    <th class="text-center">Code</th>
+                                                    <th>Pre-Requisites</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="requirements_by_type.get('program', [])" t-as="req">
+                                                    <tr>
+                                                        <td t-esc="req.course_id.name if req.course_id else ''"/>
+                                                        <td class="text-center" t-esc="req.course_credit_hours or ''"/>
+                                                        <td class="text-center" t-esc="req.course_code or ''"/>
+                                                        <td t-esc="req.course_prerequisite or ''"/>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="not requirements_by_type.get('program')">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No program requirements available</td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Elective Requirements -->
+                                <div class="tab-pane fade" id="elective" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" style="font-size: 0.95rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th class="text-center">CH</th>
+                                                    <th class="text-center">Code</th>
+                                                    <th>Pre-Requisites</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="requirements_by_type.get('elective', [])" t-as="req">
+                                                    <tr>
+                                                        <td t-esc="req.course_id.name if req.course_id else ''"/>
+                                                        <td class="text-center" t-esc="req.course_credit_hours or ''"/>
+                                                        <td class="text-center" t-esc="req.course_code or ''"/>
+                                                        <td t-esc="req.course_prerequisite or ''"/>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="not requirements_by_type.get('elective')">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No elective requirements available</td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- University Requirements -->
+                                <div class="tab-pane fade" id="university" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" style="font-size: 0.95rem;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th class="text-center">CH</th>
+                                                    <th class="text-center">Code</th>
+                                                    <th>Pre-Requisites</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="requirements_by_type.get('university', [])" t-as="req">
+                                                    <tr>
+                                                        <td t-esc="req.course_id.name if req.course_id else ''"/>
+                                                        <td class="text-center" t-esc="req.course_credit_hours or ''"/>
+                                                        <td class="text-center" t-esc="req.course_code or ''"/>
+                                                        <td t-esc="req.course_prerequisite or ''"/>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="not requirements_by_type.get('university')">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No university requirements available</td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Semesters Section -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="mb-4 text-center text-md-start college-section-title">Semesters</h2>
+
+                            <ul class="nav nav-tabs mb-3" role="tablist" id="semester-tabs">
+                                <t t-foreach="semester_keys_sorted" t-as="sem_key">
+                                    <t t-set="is_first" t-value="sem_key == first_semester_key if first_semester_key else False"/>
+                                    <li class="nav-item" role="presentation">
+                                        <button
+                                            t-attf-class="nav-link nav-tab-blue #{'active' if is_first else ''}"
+                                            t-attf-id="#{sem_key}-tab"
+                                            data-bs-toggle="tab"
+                                            t-attf-data-bs-target="##{sem_key}"
+                                            type="button"
+                                            role="tab"
+                                            t-esc="sem_key"
+                                        />
+                                    </li>
+                                </t>
+                            </ul>
+
+                            <div class="tab-content" id="semester-tab-content">
+                                <t t-foreach="semester_keys_sorted" t-as="sem_key">
+                                    <t t-set="is_first" t-value="sem_key == first_semester_key if first_semester_key else False"/>
+                                    <div
+                                        t-attf-class="tab-pane fade #{'show active' if is_first else ''}"
+                                        t-attf-id="#{sem_key}"
+                                        role="tabpanel"
+                                    >
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" style="font-size: 0.95rem;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Course</th>
+                                                        <th class="text-center">CH</th>
+                                                        <th class="text-center">Code</th>
+                                                        <th>Pre-Requisites</th>
+                                                        <th class="text-center">Course Outline (EN)</th>
+                                                        <th class="text-center">Course Outline (AR)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="semesters_by_year.get(sem_key, [])" t-as="sem">
+                                                        <tr>
+                                                            <td t-esc="sem.course_id.name if sem.course_id else ''"/>
+                                                            <td class="text-center" t-esc="sem.course_credit_hours or ''"/>
+                                                            <td class="text-center" t-esc="sem.course_code or ''"/>
+                                                            <td t-esc="sem.course_prerequisite or ''"/>
+                                                            <td class="text-center">
+                                                                <t t-if="sem.course_id">
+                                                                    <a t-attf-href="/course-outline/{{ sem.course_id.id }}/pdf" target="_blank" class="btn btn-outline-blue btn-sm">View Details</a>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span class="text-muted">-</span>
+                                                                </t>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <t t-if="sem.course_id">
+                                                                    <a t-attf-href="/course-outline/{{ sem.course_id.id }}/pdf/ar" target="_blank" class="btn btn-outline-blue btn-sm">عرض الوصف</a>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span class="text-muted">-</span>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                    <t t-if="not semesters_by_year.get(sem_key)">
+                                                        <tr>
+                                                            <td colspan="6" class="text-center text-muted">
+                                                                No courses available for this semester
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Print Buttons -->
+                    <div class="row mb-5">
+                        <div class="col-12 text-center">
+                            <a t-attf-href="/report/pdf/elearning_colleges.action_report_department_requirements/{{ department.id }}" 
+                               target="_blank" 
+                               class="btn btn-resume" style="padding: 0.75rem 2rem; font-size: 1.15rem; margin-right: 1rem;">
+                                <i class="fa fa-print me-2"></i>Print Requirements
+                            </a>
+                            <a t-attf-href="/report/pdf/elearning_colleges.action_report_department_semesters/{{ department.id }}" 
+                               target="_blank" 
+                               class="btn btn-resume" style="padding: 0.75rem 2rem; font-size: 1.15rem;">
+                                <i class="fa fa-print me-2"></i>Print Semesters
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
+

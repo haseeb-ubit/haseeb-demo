@@ -1,0 +1,37 @@
+{
+    'name': 'eLearning Colleges',
+    'description': 'Colleges management for eLearning platform',
+    'category': 'eLearning',
+    'sequence': 10,
+    'version': '18.0',
+    'depends': ['website_slides', 'hr', 'website'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/ir_sequence_data.xml',
+        'views/college_views.xml',
+        'views/course_views.xml',
+        'views/requirement_views.xml',
+        'views/semester_views.xml',
+        'views/department_views.xml',
+        'views/menu.xml',
+        'views/website_templates.xml',
+        'reports/department_reports.xml',
+        'reports/department_reports_template.xml',
+        'reports/course_outline_report_template.xml'
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'elearning_colleges/static/src/css/college_styles.css',
+        ],
+        'web.assets_frontend': [
+            'elearning_colleges/static/src/css/college_website.css',
+            #'elearning_colleges/static/src/js/college_website.js',
+            'elearning_colleges/static/src/img/ust_logo.png',
+            'elearning_colleges/static/src/img/ust_image.png',
+            'elearning_colleges/static/src/img/ust_en.png',
+        ],
+    },
+    'application': False,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}

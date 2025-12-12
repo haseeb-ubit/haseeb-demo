@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_contactus" inherit_id="website.contactus" name="Contact Us" priority="100">
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+            <t t-call="website.layout">
+               <!-- <xpath expr="." position="inside">
+                    <meta charset="utf-8"/>
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                    <link rel="shortcut icon" href="favicon.ico" type="/ust_website_contactus/static/src/image/x-icon"/>
+                    <title>University of Science &amp; Technology</title>
+                    <link rel="stylesheet" href="/ust_website_contactus/static/src/css/slick.css" type="text/css"/>
+                    <link rel="stylesheet" href="/ust_website_contactus/static/src/css/stylesheet.css" type="text/css"/>
+                    <link rel="stylesheet" href="/ust_website_contactus/static/src/css/responsive.css" type="text/css"/>
+                </xpath>-->
+
+                <t t-set="pageName" t-value="'contactuspage'"/>
+                <div class="oe_structure"/>
+                <!--  <div id="wrap" class="oe_structure oe_empty" >-->
+                <section class="innerBanner contact bgCover"
+                         style="background: url(/ust_website_contactus/static/src/images/contact-banner.jpg) no-repeat center right;">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="contactDet">
+                                <div class="innerBannerText">
+                                    <span class="mb-20">Contact Us</span>
+                                    Plan your future career by joining the Top Private University in Yemen.
+                                </div>
+                                <ul class="flexBox info">
+                                    <li>
+                                        <div class="inner">
+                                            <img src="/ust_website_contactus/static/src/images/call-icon.png" alt=""/>
+                                            <span class="hd">Call us at</span>
+                                            96702368633+
+                                            <br/>
+                                            967718000074+
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <img src="/ust_website_contactus/static/src/images/location-icon.png"
+                                                 alt=""/>
+                                            <span class="hd">University Address</span>
+                                            University of Science and Technology Main CampusAl-Shaab Street, Inma
+                                            City, Aden,
+                                            Yemen.
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <img src="/ust_website_contactus/static/src/images/mail-icon.png" alt=""/>
+                                            <span class="hd">Mail us at</span>
+                                            <a href="mailto:info@ust.edu">info@ust.edu</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="contactForm whtClr">
+                                <div class="mainHd">Get In Touch</div>
+                                <div class="textBox">Contact us directly by leaving a message and we will reply to
+                                    you as soon
+                                    as possible:
+                                </div>
+                                <ul class="flexBox form">
+                                    <li>
+                                        <span class="textBox">First Name</span>
+                                        <input type="text" class="contactInput"
+                                               placeholder="Enter Your First Name"/>
+                                    </li>
+                                    <li>
+                                        <span class="textBox">Last Name</span>
+                                        <input type="text" class="contactInput" placeholder="Enter Your Last Name"/>
+                                    </li>
+                                    <li class="full">
+                                        <span class="textBox">Campus</span>
+                                        <select class="contactSelect">
+                                            <option>Select Campus</option>
+                                        </select>
+                                    </li>
+                                    <li class="full">
+                                        <span class="textBox">Leave Your Message Here</span>
+                                        <textarea placeholder="Write A Message" class="contactInput"></textarea>
+                                    </li>
+                                    <li class="full">
+                                        <button type="button" class="contactBtn">Send</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pb60 programCenterCon">
+                    <div class="container">
+                        <div class="mainHd">Program Center</div>
+                        <div class="flexBox programCenter">
+                            <div class="leftBox whtClr">
+                                <span>Admission and registration - Aden</span>
+                                <p>University of Science and Technology Main CampusAl-Shaab Street, Inma City, Aden,
+                                    Yemen.
+                                </p>
+                                <ul>
+                                    <li>
+                                        <a href="mailto:registeration@aden.ust.edu">
+                                            <img src="/ust_website_contactus/static/src/images/mail.png" alt=""/>
+                                            registeration@aden.ust.edu
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="mailto:register@ust.edu">
+                                            <img src="/ust_website_contactus/static/src/images/mail.png" alt=""/>
+                                            register@ust.edu
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="tel:967718000074+">
+                                            <img src="/ust_website_contactus/static/src/images/call.png" alt=""/>
+                                            967718000074+
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="rightBox">
+                                <ul class="flexBox">
+                                    <li>
+                                        <div class="inner">
+                                            <span>Admission and registration-Taiz</span>
+                                            <p>Taiz - Jamal Street - next to Saba Islamic Bank - Wadi Al-Qadi</p>
+                                            <a href="mailto:register@taiz.ust.edu">register@taiz.ust.edu</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <span>Admission and registration-Marib</span>
+                                            <p>University of Science and Technology, Marib, Main Street, Yemen</p>
+                                            <a href="mailto:br.register@mareb.ust.edu">br.register@mareb.ust.edu</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <span>Registration - Hadramout Branch</span>
+                                            <p>Hadramawt - Mukalla - Boych Roqueb - Marine Entrance</p>
+                                            <a href="mailto:registeration@had.ust.ed">registeration@had.ust.ed</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <span>E-Learning</span>
+                                            <p>University of Science and Technology Main Campus Al-Shaab Street,
+                                                Inma City,
+                                                Aden, Yemen.
+                                            </p>
+                                            <a href="mailto:ol.reg@ust.edu">ol.reg@ust.edu</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <span>Postgraduate Programmes</span>
+                                            <p>University of Science and Technology Main Campus Al-Shaab Street,
+                                                Inma City,
+                                                Aden, Yemen.
+                                            </p>
+                                            <a href="mailto:Postgraduate@ust.edu">Postgraduate@ust.edu</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <span>Public Relations &amp; Marketing</span>
+                                            <p>University of Science and Technology Main Campus Al-Shaab Street,
+                                                Inma City,
+                                                Aden, Yemen.
+                                            </p>
+                                            <a href="mailto:Public.Relations@ust.edu">Public.Relations@ust.edu</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="container">
+                        <div class="branchBox">
+                            <div class="mainHd tac">You can visit our offices in the following branches</div>
+                            <div class="hdText tac">You can visit our offices or test centers inside or outside
+                                Yemen
+                            </div>
+                            <ul class="flexBox branchList">
+                                <li>
+                                    <div class="inner">
+                                        <div class="mainHd">Taiz Branch</div>
+                                        <div class="hdText">Taiz - Jamal Street - next to Saba Islamic Bank - Wadi
+                                            Al-Qadi - in
+                                            front of the Golden Hall
+                                        </div>
+                                        <p>
+                                            <a href="tel:967772668777+">967772668777+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:br.taiz@ust.edu">br.taiz@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="inner">
+                                        <div class="mainHd">Hadramout Branch</div>
+                                        <div class="hdText">Hadramawt - Mukalla - Boych Roqb - sea entrance</div>
+                                        <p>
+                                            <a href="tel:9675326558+">9675326558+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:Br.hadramout@ust.edu">Br.hadramout@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section class="pb60 pt60">
+                    <div class="container">
+                        <div class="mainHd tac">Exam centers</div>
+                        <ul class="flexBox examCenter">
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/aden-center.jpg"
+                                             alt="Aden Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Aden Center</span>
+                                        <p>
+                                            <a href="tel:967770605099+">967770605099+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.aden@ust.edu">ol.aden@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/taiz-center.jpg"
+                                             alt="Taiz Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Taiz Center</span>
+                                        <p>
+                                            <a href="tel:967733993464+">967733993464+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.taiz@ust.edu">ol.taiz@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/shabwa-center.jpg"
+                                             alt="Shabwa Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Shabwa Center</span>
+                                        <p>
+                                            <a href="tel:96771511340+">96771511340+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.shabwah@ust.edu">ol.shabwah@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/marib-center.jpg"
+                                             alt="Marib Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Marib Center</span>
+                                        <p>
+                                            <a href="tel:967772557358+">967772557358+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.mareb@ust.edu">ol.mareb@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/al-mahra-center.jpg"
+                                             alt="Al Mahra Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Al Mahra Center</span>
+                                        <p>
+                                            <a href="tel:967712257114+">967712257114+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.mahrah@ust.edu">ol.mahrah@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/riyadh-center.jpg"
+                                             alt="Riyadh Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Riyadh Center</span>
+                                        <p>
+                                            <a href="tel:966506403510+">966506403510+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.riyad@ust.edu">ol.riyad@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/abha-center.jpg"
+                                             alt="Abha Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Abha Center</span>
+                                        <p>
+                                            <a href="tel:967718088400+">967718088400+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.abha@ust.edu">ol.abha@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/malaysia-center.jpg"
+                                             alt="Malaysia Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Malaysia Center</span>
+                                        <p>
+                                            <a href="tel:60183299633+">60183299633+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.malaysia@ust.edu">ol.malaysia@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/dammam-center.jpg"
+                                             alt="Dammam Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Dammam Center</span>
+                                        <p>
+                                            <a href="tel:967718033372+">967718033372+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.dammam@ust.edu">ol.dammam@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/mukalla-center.jpg"
+                                             alt="Mukalla Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Mukalla Center</span>
+                                        <p>
+                                            <a href="tel:967326558+">967326558+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.hadramout@ust.edu">ol.hadramout@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <div class="img">
+                                        <img src="/ust_website_contactus/static/src/images/jeddah-center.jpg"
+                                             alt="Jeddah Center"/>
+                                    </div>
+                                    <div class="det">
+                                        <span>Jeddah Center</span>
+                                        <p>
+                                            <a href="tel:966500531705+">966500531705+</a>
+                                        </p>
+                                        <p>
+                                            <a href="mailto:ol.dammam@ust.edu">ol.dammam@ust.edu</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="pb60">
+                    <div class="container">
+                        <div class="mainHd">Academic Programmes</div>
+                        <ul class="flexBox academiicProgramms">
+                            <li>
+                                <a href="#" class="img"
+                                   style="background: url(/ust_website_contactus/static/src/images/undergraduate-programs.jpg) no-repeat center;">
+                                    <img src="/ust_website_contactus/static/src/images/undergraduate-programs.jpg"
+                                         alt="Undergraduate Programs"/>
+                                    <span>Undergraduate
+                                        <br/>
+                                        Programs
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="img"
+                                   style="background: url(/ust_website_contactus/static/src/images/postgraduate-programs.jpg) no-repeat center;">
+                                    <img src="/ust_website_contactus/static/src/images/postgraduate-programs.jpg"
+                                         alt="Postgraduate Programs"/>
+                                    <span>Postgraduate
+                                        <br/>
+                                        Programs
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="img"
+                                   style="background: url(/ust_website_contactus/static/src/images/international-programs.jpg) no-repeat center;">
+                                    <img src="/ust_website_contactus/static/src/images/international-programs.jpg"
+                                         alt="International Programs"/>
+                                    <span>International
+                                        <br/>
+                                        Programs
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <div class="oe_structure"/>
+                <script src="/ust_website_contactus/static/src/js/jquery.min.js"></script>
+               <script src="/ust_website_contactus/static/src/js/function.js"></script>
+
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Department Form View to add Courses, Requirements, and Semesters buttons -->
+    <record id="view_department_form_inherit" model="ir.ui.view">
+        <field name="name">hr.department.form.inherit</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']/button[@name='action_employee_from_department']" position="replace">
+                <!-- Remove Employees stat button -->
+            </xpath>
+            <xpath expr="//div[@name='button_box']/button[@name='action_plan_from_department']" position="replace">
+                <!-- Remove Plans stat button -->
+            </xpath>
+            <xpath expr="//field[@name='manager_id']" position="replace">
+                <!-- Manager field removed for eLearning departments -->
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="replace">
+                <!-- Parent Department field removed for eLearning departments -->
+            </xpath>
+            <xpath expr="//field[@name='color']" position="replace">
+                <!-- Color field removed for eLearning departments -->
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_department_courses">
+                    <field name="total_courses" widget="statinfo" string="Courses"/>
+                </button>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_title">
+                    <group>
+                        <field name="academic_year_start"/>
+                        <field name="academic_year_end"/>
+                        <field name="academic_years_count" readonly="1"/>
+                        <field name="total_courses" readonly="1"/>
+                        <field name="head_of_department_name"/>
+                        <field name="website_published" widget="boolean_toggle" options="{'terminology': 'website'}"/>
+                        <field name="published_date" readonly="1" invisible="not website_published"/>
+                    </group>
+                    <div class="oe_avatar" name="department_cover" style="position:absolute; top:20px; right:20px;">
+                        <field name="image" widget="image" nolabel="1" class="oe_avatar" options="{'preview_image': 'image'}"/>
+                    </div>
+                </div>
+                <notebook>
+                    <page string="Requirements" name="requirements">
+                        <notebook>
+                            <page string="Faculty Requirements" name="faculty_requirements">
+                                <field name="faculty_requirement_ids" context="{'default_requirement_type': 'faculty'}">
+                                    <list editable="bottom">
+                                         <field name="requirement_type" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_requirement_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Department Requirements" name="department_requirements">
+                                <field name="department_requirement_ids" context="{'default_requirement_type': 'department'}">
+                                    <list editable="bottom">
+                                        <field name="requirement_type" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_requirement_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Program Requirements" name="program_requirements">
+                                <field name="program_requirement_ids" context="{'default_requirement_type': 'program'}">
+                                    <list editable="bottom">
+                                        <field name="requirement_type" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_requirement_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                             <page string="University Requirements" name="university_requirements">
+                                <field name="university_requirement_ids" context="{'default_requirement_type': 'university'}">
+                                   <list editable="bottom">
+                                       <field name="requirement_type" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_requirement_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Elective Requirements" name="elective_requirements">
+                                <field name="elective_requirement_ids" context="{'default_requirement_type': 'elective'}">
+                                    <list editable="bottom">
+                                        <field name="requirement_type" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_requirement_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </page>
+                    <page string="Semesters" name="semesters">
+                        <notebook>
+                            <!-- Year 1 Semesters -->
+                            <page string="Y1S1" name="y1s1" invisible="academic_years_count &lt; 1">
+                                <field name="y1s1_semester_ids" context="{'default_year': 1, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y1S2" name="y1s2" invisible="academic_years_count &lt; 1">
+                                <field name="y1s2_semester_ids" context="{'default_year': 1, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- Year 2 Semesters -->
+                            <page string="Y2S1" name="y2s1" invisible="academic_years_count &lt; 2">
+                                <field name="y2s1_semester_ids" context="{'default_year': 2, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y2S2" name="y2s2" invisible="academic_years_count &lt; 2">
+                                <field name="y2s2_semester_ids" context="{'default_year': 2, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- Year 3 Semesters -->
+                            <page string="Y3S1" name="y3s1" invisible="academic_years_count &lt; 3">
+                                <field name="y3s1_semester_ids" context="{'default_year': 3, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y3S2" name="y3s2" invisible="academic_years_count &lt; 3">
+                                <field name="y3s2_semester_ids" context="{'default_year': 3, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- Year 4 Semesters -->
+                            <page string="Y4S1" name="y4s1" invisible="academic_years_count &lt; 4">
+                                <field name="y4s1_semester_ids" context="{'default_year': 4, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y4S2" name="y4s2" invisible="academic_years_count &lt; 4">
+                                <field name="y4s2_semester_ids" context="{'default_year': 4, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- Year 5 Semesters -->
+                            <page string="Y5S1" name="y5s1" invisible="academic_years_count &lt; 5">
+                                <field name="y5s1_semester_ids" context="{'default_year': 5, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y5S2" name="y5s2" invisible="academic_years_count &lt; 5">
+                                <field name="y5s2_semester_ids" context="{'default_year': 5, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <!-- Year 6 Semesters -->
+                            <page string="Y6S1" name="y6s1" invisible="academic_years_count &lt; 6">
+                                <field name="y6s1_semester_ids" context="{'default_year': 6, 'default_semester_number': 1}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Y6S2" name="y6s2" invisible="academic_years_count &lt; 6">
+                                <field name="y6s2_semester_ids" context="{'default_year': 6, 'default_semester_number': 2}">
+                                    <list editable="bottom" >
+                                        <field name="year" column_invisible="True"/>
+                                        <field name="semester_number" column_invisible="True"/>
+                                        <field name="department_id" column_invisible="True"/>
+                                        <field name="course_id" string="Course" options="{'no_create': True}" required="1" domain="[('id', 'in', parent.available_semester_course_ids)]"/>
+                                        <field name="course_credit_hours" string="CH" readonly="1"/>
+                                        <field name="course_code" string="Code" readonly="1"/>
+                                        <field name="course_prerequisite" string="Pre-Requisites" readonly="1"/>
+                                        <button name="action_view_course_outline" type="object" string="Course Outline (EN)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                        <button name="action_view_course_outline_ar" type="object" string="Course Outline (AR)" class="oe_link" attrs="{'invisible': [('course_id','=',False)]}"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_department_list_inherit_elearning" model="ir.ui.view">
+        <field name="name">hr.department.list.elearning</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="replace">
+                <list>
+                    <field name="name"/>
+                    <field name="college_id"/>
+                    <field name="website_published" widget="boolean_toggle"/>
+                    <field name="published_date"/>
+                    <field name="total_courses"/>
+                </list>
+            </xpath>
+        </field>
+    </record>
+</odoo>

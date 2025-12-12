@@ -1,0 +1,565 @@
+<odoo>
+    <template id="facility_of_medicine_template" name="Facilities Of Medicine Page">
+        <t t-call="website.layout">
+
+           <!-- <link rel="stylesheet" href="/ust_website_university_study/static/src/css/slick.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/stylesheet.css"
+                  type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_university_study/static/src/css/responsive.css"
+                  type="text/css"/>-->
+
+            <div class="oe_structure"/>
+            <div id="wrap">
+
+                <section class="innerBanner bgCover"
+                         style="background: url(/ust_website_university_study/static/src/images/facilities-banner.jpg) no-repeat center right;">
+                    <div class="container flexBox itemCenter">
+                        <div class="innerBannerText">
+                            <span class="mb-20">Facilities of Medicine and Health Sciences</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="pt60 pb60">
+                    <div class="container">
+                        <div class="flexBox">
+                            <div class="middleLeft">
+                                <ul class="leftTab">
+                                    <li>
+                                        <a href="#AboutTheCollege" class="scroll2">About The College</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Vision" class="scroll2">Vision,Values</a>
+                                    </li>
+                                    <li>
+                                        <a href="#CollegeObjectives" class="scroll2">College Objectives</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Message" class="scroll2">Dean's Word</a>
+                                    </li>
+                                    <li>
+                                        <a href="#AcademicPrograms" class="scroll2">Academic Programs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="applyNow">Register Now
+                                            <span class="material-icons">chevron_right</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="middleRight">
+                                <div class="pb60" id="AboutTheCollege">
+                                    <div class="flexBox itemCenter introBox">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/about-college.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="mainHd">About the College of Medicine and Health Sciences</div>
+                                            <div class="textBox">The College of Medicine and Health Sciences at the
+                                                University of Science and Technology seeks to prepare a medical and
+                                                health
+                                                cadre with distinguished competencies and capabilities, contributing to
+                                                serving the community by providing an appropriate educational and
+                                                research
+                                                environment, a competent cadre, and modern curricula oriented towards
+                                                the
+                                                community, using the latest educational technologies and in accordance
+                                                with
+                                                quality and accreditation standards.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="Vision">
+                                    <div class="mainHd">Vision</div>
+                                    <div class="textBox mb-30">Regional leadership and global excellence in medical and
+                                        health education.
+                                    </div>
+                                    <div>
+                                        <img src="/ust_website_university_study/static/src/images/vision-img.jpg"
+                                             alt="Vision"/>
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Values</div>
+                                    <ul class="flexBox justify-content-between faqList">
+                                        <li>
+                                            <div class="faqBox">
+                                                <div class="q">Teamwork</div>
+                                                <div class="ans">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Vestibulum finibus blandit aliquet. Duis tristique eleifend rutrum.
+                                                    Sed
+                                                    interdum sed ante id tempor. Integer cursus lorem quis sem
+                                                    scelerisque
+                                                    pulvinar.
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="faqBox">
+                                                <div class="q">Creativity And Innovation</div>
+                                                <div class="ans">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Vestibulum finibus blandit aliquet. Duis tristique eleifend rutrum.
+                                                    Sed
+                                                    interdum sed ante id tempor. Integer cursus lorem quis sem
+                                                    scelerisque
+                                                    pulvinar.
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="faqBox">
+                                                <div class="q">Transparency</div>
+                                                <div class="ans">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Vestibulum finibus blandit aliquet. Duis tristique eleifend rutrum.
+                                                    Sed
+                                                    interdum sed ante id tempor. Integer cursus lorem quis sem
+                                                    scelerisque
+                                                    pulvinar.
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="faqBox">
+                                                <div class="q">Partnership</div>
+                                                <div class="ans">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Vestibulum finibus blandit aliquet. Duis tristique eleifend rutrum.
+                                                    Sed
+                                                    interdum sed ante id tempor. Integer cursus lorem quis sem
+                                                    scelerisque
+                                                    pulvinar.
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60" id="CollegeObjectives">
+                                    <div class="mainHd">College Objectives</div>
+                                    <div class="textBox mb-20">
+                                        <ul class="listText pt-0">
+                                            <li>Providing the community with health cadres with distinguished
+                                                professional
+                                                skills and competencies.
+                                            </li>
+                                            <li>Providing distinguished academic health programs in accordance with
+                                                quality
+                                                standards and academic accreditation.
+                                            </li>
+                                            <li>Contributing to providing and developing health services in the
+                                                community.
+                                            </li>
+                                            <li>Providing a learning and research environment that meets the needs of
+                                                society.
+                                            </li>
+                                            <li>Activating communication with local and academic institutions related to
+                                                health care.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="/ust_website_university_study/static/src/images/college-objectives.jpg"
+                                             alt="College Objectives"/>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="Message">
+                                    <div class="mainHd">Dean's Word</div>
+                                    <div class="flexBox deansWord">
+                                        <div class="left">
+                                            <img src="/ust_website_university_study/static/src/images/deans-world.jpg"
+                                                 alt="Dean's Word"/>
+                                        </div>
+                                        <div class="right">
+                                            <div class="textBox">
+                                                Technology was established as the first private medical college in Yemen
+                                                in
+                                                1994 AD with the establishment of the university. Its founders
+                                                established
+                                                it out of their awareness that the education system is the most
+                                                important
+                                                means of shaping the national identity, and out of their desire to
+                                                contribute to achieving the desired national change at the level of
+                                                education, health and development.
+                                                <br/>
+                                                <br/>
+                                                Since its inception, our college has been known for its uniqueness and
+                                                precedence in attracting academic programs, adopting modern teaching and
+                                                learning strategies, implementing quality and academic development
+                                                systems,
+                                                and the diversity of community service programs that have provided
+                                                services
+                                                to all segments of society (starting with free scholarships for top
+                                                students
+                                                and memorizers of the Holy Quran, to medical camps that provide free
+                                                health
+                                                services to thousands of beneficiaries), its local, regional and
+                                                international partnerships, the diverse educational environment in terms
+                                                of
+                                                study and teachers, the infrastructure that distinguishes our college,
+                                                etc.
+                                                <a href="#">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60" id="AcademicPrograms">
+                                    <div class="mainHd">Academic Programs of the College of Medicine and Health Sciences
+                                    </div>
+                                    <ul class="flexBox collageList column3">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/health-sciences.jpg"
+                                                         alt="Bachelor of Pharmacy Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Pharmacy Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/pharmacy.jpg"
+                                                         alt="Oral and Dental Medicine and Surgery Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Oral and Dental Medicine and Surgery Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/oral-and-dental.jpg"
+                                                         alt="Medicine and Surgery"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Medicine and Surgery</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/college-engineering.jpg"
+                                                         alt="Clinical Pharmacy (PharmD)"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Clinical Pharmacy (PharmD)</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/medicine-and-surgery.jpg"
+                                                         alt="Bachelor of Medical Laboratory Science"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Medical Laboratory Science</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/deanship.jpg"
+                                                         alt="Bachelor of Therapeutic Nutrition and Dietetics"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Bachelor of Therapeutic Nutrition and Dietetics
+                                                    </div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/administrative.jpg"
+                                                         alt="Radiology and Medical Imaging Technology"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Radiology and Medical Imaging Technology</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/engineering.jpg"
+                                                         alt="Diploma in Medical Laboratory Technician"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Diploma in Medical Laboratory Technician</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/deanship.jpg"
+                                                         alt="Diploma in Pharmacy Technician"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Diploma in Pharmacy Technician</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/administrative.jpg"
+                                                         alt="Master of Dental Sciences Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Master of Dental Sciences Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img src="/ust_website_university_study/static/src/images/engineering.jpg"
+                                                         alt="Nursing Program"/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="name">Nursing Program</div>
+                                                    <a href="#" class="download">Read More
+                                                        <span class="material-icons">arrow_right_alt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Photo Gallery</div>
+                                    <div class="gallerySlider sliderArrow">
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img1.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img2.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img3.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img1.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img2.jpg"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="item">
+                                            <img src="/ust_website_university_study/static/src/images/gallery-img3.jpg"
+                                                 alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb60">
+                                    <div class="mainHd">Advanced equipment and modern teaching methods in the College of
+                                        Medicine and Health Sciences, Yemen
+                                    </div>
+                                    <div class="textBox">
+                                        The College of Medicine and Health Sciences - Yemen is keen to provide a wide
+                                        range
+                                        of means to support the educational process, the most important of which are
+                                        laboratories equipped with the latest means and technologies, quality education
+                                        and
+                                        scientific material, in addition to providing a stimulating educational
+                                        environment
+                                        to acquire knowledge and efficient training to work in the medical fields,
+                                        aiming to
+                                        graduate a competent cadre to meet the requirements of society and the labor
+                                        market.
+                                        <br/>
+                                        <br/>
+                                        The College of Medicine and Health Sciences is also a model educational center,
+                                        where equipment, laboratories and devices are available for each program. It
+                                        also
+                                        provides scientific material in its theoretical and scientific aspects through a
+                                        set
+                                        of means, the most important of which are lectures, seminars, scientific visits,
+                                        scientific training, laboratories and specialization periods.
+                                        <br/>
+                                        <br/>
+                                        To ensure the quality of scientific outputs, the college provides a set of the
+                                        most
+                                        advanced means in the field of medicine and health sciences, including modern,
+                                        integrated laboratories equipped with computers, in addition to departments
+                                        dedicated to anatomy, biochemistry, physiology, pharmacy, and medical
+                                        laboratories.
+                                        <br/>
+                                        <br/>
+                                        The programs of the College of Medicine and Health Sciences in Yemen provide
+                                        prospects for teaching and scientific research in a wide range of
+                                        specializations;
+                                        as the college programs are designed according to a methodology that aims to
+                                        enable
+                                        the graduate to employ practical skills to conduct research and medical work
+                                        independently. The student's performance and academic achievement are also
+                                        supervised on an ongoing basis and through a mechanism that enables him to
+                                        practice
+                                        the medical profession according to high professional and ethical standards.
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="mainHd">Features of studying at the College of Medicine and Health
+                                        Sciences
+                                    </div>
+                                    <ul class="featureList">
+                                        <li>
+                                            <div class="textBox">
+                                                Students at the College of Medicine and Health Sciences enjoy a wide
+                                                range
+                                                of advantages, the most important of which are the availability of
+                                                infrastructure, specialized professional staff, modern equipment and
+                                                devices, in addition to the University of Science and Technology's
+                                                private
+                                                hospital, which is equipped with specialized professional staff for
+                                                training.
+                                                <br/>
+                                                <br/>
+                                                The College of Medicine and Health Sciences, affiliated with the
+                                                University
+                                                of Science and Technology, is distinguished as the first college of
+                                                medicine
+                                                in Yemen. This is attributed to a number of factors, the most important
+                                                of
+                                                which are: the stimulating educational environment equipped with the
+                                                latest
+                                                laboratories, the qualified and experienced teaching staff, and a group
+                                                of
+                                                other factors that have collectively led to the continuation of the
+                                                development horizon and the adoption of modern patterns for studying
+                                                medicine and health sciences that keep pace with modern teaching
+                                                methods.
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="featuresHd">College Guide</div>
+                                            <div class="textBox mb-20">College of Medicine and Health Sciences Guide
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore">Click here to download the College of
+                                                    Medicine
+                                                    and Health Sciences Guide
+                                                    <span class="material-icons">chevron_right</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="featuresHd">University of Science and Technology - Main Center -
+                                                Aden The first university in Yemen to offer programs in medicine,
+                                                pharmacy
+                                                and dentistry
+                                            </div>
+                                            <div class="textBox mb-20">With its advanced medical laboratories and modern
+                                                training approach, the University of Science and Technology is at the
+                                                top of
+                                                the list of the best private universities for studying medicine in
+                                                Yemen.
+                                                The University of Science and Technology is also considered one of the
+                                                first
+                                                universities to offer other health sciences programs such as pharmacy,
+                                                oral
+                                                and dental medicine and surgery.
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore">Read More
+                                                    <span class="material-icons">chevron_right</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="oe_structure"/>
+                <script src="/ust_website_university_study/static/src/js/jquery.min.js"></script>
+                <script src="/ust_website_university_study/static/src/js/function.js"></script>
+                <script src="/ust_website_university_study/static/src/js/slick.min.js"></script>
+                <script>
+                    $('.gallerySlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1569,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 999,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+                </script>
+            </div>
+
+
+        </t>
+    </template>
+</odoo>

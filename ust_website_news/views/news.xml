@@ -1,0 +1,82 @@
+<odoo>
+    <!-- Define the form view -->
+    <record id="view_website_page_form" model="ir.ui.view">
+        <field name="name">website.pagee.form</field>
+        <field name="model">website.pagee</field>
+        <field name="arch" type="xml">
+            <form string="News">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" icon="fa-upload" name="action_open_image_upload">
+                            <span>Upload Image</span>
+                        </button>
+                    </div>
+                    <div class="oe_avatar">
+                        <field name="image" widget="image"/>
+                    </div>
+
+                    <group>
+                        <group col="4">
+                            <field name="news_title"/>
+                            <field name="news_description"/>
+                            <field name="news_title_arabic"/>
+                            <field name="news_description_arabic"/>
+                            <field name="website_id" widget="selection"/>
+                            <field name="url" widget="url"
+                                   placeholder="e.g., http://localhost:8069/news/my-news-title"
+                                   help="Edit the slug part of the URL. The system will automatically extract and validate it."/>
+                        </group>
+                        <group col="4">
+                            <field name="news_date"/>
+                            <field name="homepage"/>
+                            <field name="main_news"/>
+                            <field name="short_description" invisible="main_news == False"/>
+                            <field name="publish" widget="boolean_toggle" options="{'terminology': 'Publish'}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_website_pagee_list" model="ir.ui.view">
+        <field name="name">website.pagee.list</field>
+        <field name="model">website.pagee</field>
+        <field name="arch" type="xml">
+            <list string="News">
+                <field name="sequence" string="Sequence" widget="handle"/>
+                <field name="news_title"/>
+                <field name="url" string="Website URL"/>
+                <field name="publish" widget="boolean_toggle"/>
+                <field name="main_news"/>
+                <field name="news_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_new_menu" model="ir.actions.act_window">
+        <field name="name">News</field>
+        <field name="res_model">website.pagee</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Action to generate URL slugs -->
+    <record id="action_generate_url_slugs" model="ir.actions.server">
+        <field name="name">Generate URL Slugs</field>
+        <field name="model_id" ref="model_website_pagee"/>
+        <field name="binding_model_id" ref="model_website_pagee"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_generate_url_slugs()
+        </field>
+    </record>
+
+    <menuitem id="menu_new_menu"
+              parent="website.menu_content"
+              sequence="50"
+              name="News"
+              action="action_new_menu"/>
+</odoo>

@@ -1,0 +1,13 @@
+<odoo>
+    <template id="international_admission_template" name="International Admission Page">
+        <t t-call="website.layout">
+
+            <div class="oe_structure"/>
+
+
+            <div class="oe_structure"/>
+
+
+        </t>
+    </template>
+</odoo>

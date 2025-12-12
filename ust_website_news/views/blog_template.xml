@@ -1,0 +1,214 @@
+<odoo>
+    <!-- ========================= -->
+    <!--  BLOG LIST PAGE TEMPLATE  -->
+    <!-- ========================= -->
+    <template id="template_blog_list" name="Blog - List">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <!-- Include your CSS files -->
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/slick.css"/>
+
+                <style>
+                    ul.blogLists {
+                    list-style: none;
+                    padding-left: 0;
+                    margin: 0;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                    }
+                    ul.blogLists li {
+                    flex: 0 0 calc(33.333% - 20px);
+                    max-width: calc(33.333% - 20px);
+                    }
+                    ul.blogLists li .inner {
+                    display: flex;
+                    flex-direction: column;
+                    background: #fff;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    }
+                    ul.blogLists li .inner:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+                    }
+                    ul.blogLists li .img {
+                    width: 100%;
+                    height: 250px;
+                    overflow: hidden;
+                    background: #f5f5f5;
+                    position: relative;
+                    }
+                    ul.blogLists li .img img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    }
+                    ul.blogLists li .tag {
+                    position: absolute;
+                    top: 15px;
+                    left: 15px;
+                    background: rgba(0, 113, 189, 0.9);
+                    color: white;
+                    padding: 5px 15px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    }
+                    ul.blogLists li .det {
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    flex-grow: 1;
+                    }
+                    ul.blogLists li .date {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: #666;
+                    font-size: 14px;
+                    margin-bottom: 12px;
+                    }
+                    ul.blogLists li .name {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #333;
+                    margin-bottom: 15px;
+                    min-height: 50px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    }
+                    ul.blogLists li .readMoreLink {
+                    color: #0056a0;
+                    text-decoration: none;
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-top: auto;
+                    transition: color 0.3s ease;
+                    }
+                    ul.blogLists li .readMoreLink:hover {
+                    color: #003d73;
+                    }
+                    @media (max-width: 992px) {
+                    ul.blogLists li {
+                    flex: 0 0 calc(50% - 15px);
+                    max-width: calc(50% - 15px);
+                    }
+                    }
+                    @media (max-width: 576px) {
+                    ul.blogLists li {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    }
+                    ul.blogLists li .img {
+                    height: 200px;
+                    }
+                    }
+
+                    /* Pagination styling */
+                    .pagination {
+                    justify-content: center;
+                    margin: 50px 0 !important;
+                    }
+                    .pagination .page-link {
+                    color: rgb(0 113 189);
+                    border-radius: 4px;
+                    margin: 0 4px;
+                    }
+                    .pagination .page-link:hover {
+                    background-color: rgb(0 113 189);
+                    color: white;
+                    border-color: rgb(0 113 189);
+                    }
+                    .pagination .page-item.active .page-link {
+                    background-color: rgb(0 113 189);
+                    border-color: rgb(0 113 189);
+                    color: white;
+                    }
+                </style>
+
+                <!-- Blog List Section -->
+                <section class="pt60 pb60">
+                    <div class="container oe_structure">
+                        <h1 class="mainHd tac mb-4">University Blog</h1>
+                        <ul class="blogLists">
+                            <t t-foreach="blog_list" t-as="b">
+                                <li class="oe_structure">
+                                    <div class="inner">
+                                        <div class="img">
+                                            <img t-att-src="'/web/image/website.blogs/%s/image' % b.id" alt=""/>
+                                            <!--                                            <span class="tag" t-if="b.blog_category">-->
+                                            <!--                                                <t t-esc="b.blog_category"/>-->
+                                            <!--                                            </span>-->
+                                        </div>
+                                        <div class="det">
+                                            <div class="date">
+                                                <span class="material-icons">calendar_today</span>
+                                                <t t-esc="(b.blogs_date or '').strftime('%b %d, %y') if b.blogs_date else ''"/>
+                                            </div>
+                                            <div class="name mb-10">
+                                                <t t-esc="b.blogs_title_arabic"/>
+                                            </div>
+                                            <div>
+                                                <a class="readMoreLink" t-attf-href="/blog/#{ slug(b) }">Read More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+
+                        <t t-call="website.pager">
+                            <t t-set="classname">pagination justify-content-center</t>
+                        </t>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ========================= -->
+    <!--  BLOG DETAIL PAGE TEMPLATE -->
+    <!-- ========================= -->
+    <template id="template_blog_detail" name="Blog - Detail">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <!-- Include your CSS files -->
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css"/>
+                <link rel="stylesheet" href="/ust_website_home/static/src/css/slick.css"/>
+                <section class="pt60 pb60">
+                    <div class="container oe_structure">
+                        <h1 class="mb-3">
+                            <t t-esc="blog.blogs_title_arabic"/>
+                        </h1>
+                        <div class="date mb-3">
+                            <span class="material-icons">calendar_today</span>
+                            <t t-esc="(blog.blogs_date or '').strftime('%B %d, %Y') if blog.blogs_date else ''"/>
+                        </div>
+                        <div class="mb-4">
+                            <img t-att-src="'/web/image/website.blogs/%s/image' % blog.id" alt=""
+                                 style="max-width: 100%; height: auto;"/>
+                        </div>
+                        <div class="o_website_preview">
+                            <t t-raw="blog.blogs_description"/>
+                        </div>
+                        <a href="/blog" class="btn btn-primary mt-4">
+                            <t t-translation="on">Back to Blog</t>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

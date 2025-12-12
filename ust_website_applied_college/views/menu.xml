@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="menu_applied_college" model="website.menu">
+            <field name="name">Applied College</field>
+            <field name="url">/applied-college-of-science-and-technology</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">60</field>
+        </record>
+
+    </data>
+</odoo>

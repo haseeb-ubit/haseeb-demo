@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Arabic Resume Action -->
+  <record id="action_ust_resume" model="ir.actions.act_window">
+        <field name="name">السير الذاتية</field>
+        <field name="res_model">ust.resume</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">أنشئ سير ذاتية لأعضاء هيئة التدريس</p>
+        </field>
+  </record>
+
+    <!-- English Resume Action -->
+    <record id="action_ust_resume_en" model="ir.actions.act_window">
+        <field name="name">Resumes</field>
+        <field name="res_model">ust.resume.en</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">Create resumes for faculty members</p>
+        </field>
+    </record>
+
+      <menuitem id="menu_ust_resume" name="Resume" parent="website_slides.website_slides_menu_root" sequence="30" />
+     <menuitem id="menu_ust_resume_arabic" name="Arabic" parent="menu_ust_resume" action="action_ust_resume"/>
+     <menuitem id="menu_ust_resume_english" name="English" parent="menu_ust_resume" action="action_ust_resume_en" />
+
+</odoo>

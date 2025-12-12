@@ -1,0 +1,29 @@
+<odoo>
+    <template id="custom_before_header" inherit_id="website.layout" name="Custom Before Header">
+        <xpath expr="//header" position="before">
+
+            <t t-set="is_arabic" t-value="request.env.lang.startswith('ar')"/>
+            <div t-att-class="'mainCon ' + ('rtl' if is_arabic else '')">
+                <section class="topBar">
+                    <div class="container flexBox justifyContentBetween itemCenter">
+                        <ul class="flexBox topMenu">
+                            <li>
+                                <a href="https://erp.ust.edu/ords/f?p=103:LOGIN_DESKTOP:7710577983826:::::" target="_blank" t-translate="yes">
+                                    Student Portal - On-Campus
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://smart.ust.edu/" target="_blank" t-translate="yes">
+                                    Student Portal - E-Learning
+                                </a>
+                            </li>
+                        </ul>
+                        <div style="margin-top: -20px;">
+                            <t t-call="portal.language_selector"/>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

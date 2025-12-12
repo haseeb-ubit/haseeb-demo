@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Create the main menu item for Student Services -->
+        <record id="menu_student_services" model="website.menu">
+            <field name="name">Student Services</field>
+            <field name="url">/Studentservice</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">70</field>
+            <field name="is_mega_menu">True</field>
+            <field name="mega_menu_content" type="html">
+                <section>
+                    <ul class="ddMenu ddCover" style="background-color: white;">
+                        <li class="ddMenu ddCover resize" id="student_services_menu">
+                            <div class="container">
+                                <div class="flexBox submenuInner" style="background-color: white;">
+                                    <!-- Student Services Menu -->
+                                    <div class="column">
+                                        <!-- <div class="submenuHd">Student Services</div>-->
+                                        <ul class="submenuLink">
+                                            <li>
+                                                <a href="/exam-timetables">Exam Schedule</a>
+                                            </li>
+                                            <li>
+                                                <a href="/placement-exam-instruction">Placement Exam Instructions</a>
+                                            </li>
+                                            <li>
+                                                <a href="/student-guide">Student Guide</a>
+                                            </li>
+                                            <li>
+                                                <a href="/e-learning">E-learning Guide</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="column">
+                                        <ul class="submenuLink">
+                                            <li>
+                                                <a href="/faculty-brochoures">College Guides</a>
+                                            </li>
+                                            <li>
+                                                <a href="/campus-life">Campus</a>
+                                            </li>
+                                            <li>
+                                                <a href="/student-accommodation">Student Accommodation</a>
+                                            </li>
+                                            <li>
+                                                <a href="/academic-calendar">Academic Calendar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="column">
+                                        <ul class="submenuLink">
+                                            <li>
+                                                <a href="/schedules">Study Schedules</a>
+                                            </li>
+                                            <li>
+                                                <a href="https://erp.ust.edu/ords/f?p=103:LOGIN_DESKTOP:11779259183389:::::">
+                                                    Student Portal - On-Campus
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://smart.ust.edu/">Student Portal - E-learning</a>
+                                            </li>
+                                            <li>
+                                                <a href="/forms">Forms</a>
+                                            </li>
+                                            <li>
+                                                <a href="/library">Library</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </field>
+        </record>
+    </data>
+</odoo>

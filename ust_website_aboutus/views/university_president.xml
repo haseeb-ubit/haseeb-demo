@@ -1,0 +1,124 @@
+<odoo>
+    <template id="university_president_template" name="University President Page">
+        <t t-call="website.layout">
+
+           <!-- <xpath expr="." position="inside">
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+                <link rel="shortcut icon" href="favicon.ico" type="/ust_website_aboutus/static/src/image/x-icon"/>
+                <title>University of Science &amp; Technology</title>
+                <link rel="stylesheet" href="/ust_website_aboutus/static/src/css/slick.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_aboutus/static/src/css/stylesheet.css" type="text/css"/>
+                <link rel="stylesheet" href="/ust_website_aboutus/static/src/css/responsive.css" type="text/css"/>
+            </xpath>-->
+
+            <div class="oe_structure"/>
+            <section class="innerBanner contact bgCover"
+                     style="background: url(/ust_website_aboutus/static/src/images/university-banner.jpg) no-repeat center right;">
+                <div class="container"></div>
+            </section>
+
+            <section class="pb60">
+                <div class="container">
+                    <div class="uposBox">University President Opening Statement</div>
+                    <div class="flexBox openingStatement">
+                        <div class="img">
+                            <img src="/ust_website_aboutus/static/src/images/abdul-ghani-hamid-ahmed.jpg" alt=""/>
+                        </div>
+                        <div class="det">
+                            <div class="mainHd">Dear visitor,
+                                <br/>
+                                Welcome to the University of Science and Technology
+                            </div>
+                            <div class="textBox">
+                                The University of Science and Technology - its main campus in Aden, raises once again
+                                with a strategic mission, that aligns with the new approach adapted by the university
+                                during this highly changing time period; a rapidly regenerating and challenging phase
+                                promising greater attainment.
+                                <br/>
+                                <br/>
+                                In pursuit of that cause, the university takes advantage of every opportunity that would
+                                contribute to the manifestation of its noble mission set forth by the perfect example,
+                                which is in and in itself a diligent approach, a challenging requirement, and an
+                                inevitable choice.
+                                <br/>
+                                <br/>
+                                Representing the optimal choice for those aiming for a better future; a prospect the
+                                university has long chosen, carefully planned for, and continuously sought towards, in
+                                the face of all possible deterrents.
+                                <br/>
+                                <br/>
+                                With its endeavor to provide outstanding educational, research and advisory services at
+                                the local, regional and international levels, providing qualified staff, advanced
+                                curricula, and a stimulating educational environment, together with effective
+                                partnerships, committed to community services on one hand, and to quality and
+                                accreditation standards on the other. Throughout its journey of a quarter century, the
+                                university has built upon many stories of success and achievement, and will continue to
+                                pursue its vision of achieving outstanding regional leadership and international status.
+                                <br/>
+                                <br/>
+                                We hope that You and every visitor of this site embarks upon a pleasant journey, that
+                                makes the best use of the time, efforts and essential resources, in pursuit of a career
+                                of your choice. We are also appreciative of your visit to the site, that in itself
+                                represents the university's overall mission, hoping that it gains your satisfaction, in
+                                creating a substantial value to the university's mainstream students and which extends
+                                to their acquaintances and all visitors of this site.
+                            </div>
+                            <div class="presidentName">
+                                <span>University President</span>
+                                Prof. Dr. Abdul Ghani Hamid Ahmed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="pb60">
+                <div class="container">
+                    <div class="mainHd">Academic Programmes</div>
+                    <ul class="flexBox academiicProgramms">
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_aboutus/static/src/images/undergraduate-programs.jpg) no-repeat center;">
+                                <img src="/ust_website_aboutus/static/src/images/undergraduate-programs.jpg"
+                                     alt="Undergraduate Programs"/>
+                                <span>Undergraduate
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_aboutus/static/src/images/postgraduate-programs.jpg) no-repeat center;">
+                                <img src="/ust_website_aboutus/static/src/images/postgraduate-programs.jpg"
+                                     alt="Postgraduate Programs"/>
+                                <span>Postgraduate
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="img"
+                               style="background: url(/ust_website_aboutus/static/src/images/international-programs.jpg) no-repeat center;">
+                                <img src="/ust_website_aboutus/static/src/images/international-programs.jpg"
+                                     alt="International Programs"/>
+                                <span>International
+                                    <br/>
+                                    Programs
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <div class="oe_structure"/>
+
+           <!-- <script src="/ust_website_aboutus/static/src/js/jquery.min.js"></script>
+            <script src="/ust_website_aboutus/static/src/js/function.js"></script>-->
+
+
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="menu_research_publications" model="website.menu">
+            <field name="name">Research and Publications</field>
+            <field name="url">/research-publications</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">50</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="menu_alumni_club" model="website.menu">
+            <field name="name">Alumni Club</field>
+            <field name="url">/alumni-club</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">30</field>
+            <field name="is_mega_menu">True</field>
+            <field name="mega_menu_content" type="html">
+                <section>
+                    <ul class="ddMenu ddCover" style="background-color: white;">
+                        <li class="ddMenu ddCover resize" id="alumni_club_menu" style="background-color: none;">
+                            <div class="container">
+                                <div class="flexBox submenuInner" style="background-color: none;">
+                                    <div class="column" style="background-color: none;">
+                                        <ul class="submenuLink">
+                                            <li>
+                                                <a href="/alumni">About the graduates</a>
+                                            </li>
+                                            <li>
+                                                <a href="/university-alumni-verification">University Alumni
+                                                    Verification
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/job-vacancies">Job Vacancies</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </field>
+        </record>
+    </data>
+</odoo>

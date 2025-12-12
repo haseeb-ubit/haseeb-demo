@@ -1,0 +1,67 @@
+<odoo>
+    <record id="menu_programmes" model="website.menu">
+        <field name="name">Programmes</field>
+        <field name="url">/programmes</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">30</field>
+        <field name="is_mega_menu">True</field>
+        <field name="mega_menu_content" type="html">
+            <section>
+                <ul class="ddMenu ddCover"
+                    style="background-color: none;background: #fff url(/ust_website_programmes/static/src/images/menu-bg.png) no-repeat right top; background-size: auto 100%;">
+                    <li class="ddMenu ddCover">
+                        <div style="background-color: none;">
+                            <div class="flexBox submenuInner" style="background-color: none;">
+                                <!-- Undergraduate Programmes -->
+                                <div class="column">
+                                    <div class="submenuHd" style="margin-left:35px;">Undergraduate Programmes</div>
+                                    <ul class="submenuLink">
+                                        <li>
+                                            <a href="/international-programs-admission-and-registration">Admission</a>
+                                        </li>
+                                        <li>
+                                            <a href="/bachelor-programs">Academic Programmes</a>
+                                        </li>
+                                        <li>
+                                            <a href="/ords/erpedu/r/portal/login?session=5104593528794">Apply Now</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Postgraduate Programmes -->
+                                <div class="column">
+                                    <div class="submenuHd" style="margin-left:35px;">Postgraduate Programmes</div>
+                                    <ul class="submenuLink">
+                                        <li>
+                                            <a href="#">Admission</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Academic Programmes</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Apply Now</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- International Programs -->
+                                <div class="column">
+                                    <div class="submenuHd" style="margin-left:35px;">International Programs</div>
+                                    <ul class="submenuLink">
+                                        <li>
+                                            <a href="#">Admission</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Academic Programmes</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Apply Now</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </field>
+    </record>
+</odoo>

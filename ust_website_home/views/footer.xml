@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_footer" inherit_id="website.layout" name="Custom Footer">
+        <xpath expr="//footer" position="replace">
+            <!--<xpath expr="//div[@id='footer']" position="replace">-->
+            <footer class="footer">
+                <div class="container">
+                    <div class="flexBox footerInner">
+                        <div class="footerLogo">
+                            <img src="/ust_website_home/static/src/images/footer-logo.png" alt=""/>
+                        </div>
+                        <div class="footerContact">
+                            <div class="footerHd">Contact Us</div>
+                            <ul class="contactInfo flexBox">
+                                <li class="full">
+                                    <img src="/ust_website_home/static/src/images/location.png" alt=""/>
+                                    University of Science and Technology
+                                    Main Campus. Al-Shaab Street, Inma City, Aden, Yemen.
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/call.png" alt=""/>
+                                    +967 772211442
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/whatsup.png" alt=""/>
+                                    +967 718000074
+                                </li>
+                                <li>
+                                    <a href="mailto:info@ust.edu">
+                                        <img src="/ust_website_home/static/src/images/eamil.png" alt=""/>
+                                        info@ust.edu
+                                    </a>
+                                </li>
+                                <li class="full">
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/contact-form.png" alt=""/>
+                                        Contact Form
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footerLinks">
+                            <div class="footerHd">Important Links</div>
+                            <ul class="footerLink">
+                                <li>
+                                    <a href="#">Student forms</a>
+                                </li>
+                                <li>
+                                    <a href="#">E-Courses - lms</a>
+                                </li>
+                                <li>
+                                    <a href="#">Administrative Portal</a>
+                                </li>
+                            </ul>
+                            <ul class="socialLink flexBox">
+                                <li>
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/facebook.png" alt=""/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/x.png" alt=""/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/instagram.png" alt=""/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/linkedin.png" alt=""/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img src="/ust_website_home/static/src/images/google.png" alt=""/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="copyright">&amp;copy; 2024 University of Science &amp; Technology</div>
+                    </div>
+                </div>
+            </footer>
+        </xpath>
+    </template>
+</odoo>

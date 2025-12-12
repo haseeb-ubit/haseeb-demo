@@ -1,0 +1,98 @@
+<odoo>
+    <record id="menu_university_study" model="website.menu">
+        <field name="name">University Study</field>
+        <field name="url">/university-study</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">40</field>
+        <field name="is_mega_menu">True</field>
+        <field name="mega_menu_content" type="html">
+          <section>
+            <ul class="ddMenu ddCover" style="background-color: none;background: #fff url(/ust_website_university_study/static/src//images/menu-bg.png) no-repeat right top; background-size: auto 100%;">
+                <li class="ddMenu ddCover">
+                    <div class="container" style="background-color: none;">
+                        <div class="flexBox submenuInner" style="background-color: none;">
+                            <!-- Faculties -->
+                            <div class="column">
+                                <div class="submenuHd" style="margin-left:35px;">Faculties</div>
+                                <ul class="submenuLink">
+                                    <li>
+                                        <a href="/faculty-of-medicine-and-health-sciences/">Faculty of Health and
+                                            Medicine Sciences
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/faculty-of-engineering-and-computing">The Faculty of Computing &amp; Engineering</a>
+                                    </li>
+                                    <li>
+                                        <a href="/faculty-of-humanities-and-administrative-sciences">The Faculty of Humanities &amp; Administrative Sciences</a>
+                                    </li>
+                                    <li>
+                                        <a href="/deanship-of-electronic-and-distance-learning">Deanship of E-Learning and Distance Education</a>
+                                    </li>
+                                    <li>
+                                        <a href="/deanship-of-postgraduate-studies-and-scientific-research">The Deanship of Postgraduate Studies &amp; Scientific Research</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Centers -->
+                            <div class="column">
+                                <div class="submenuHd" style="margin-left:35px;">Centers</div>
+                                <ul class="submenuLink">
+                                    <li>
+                                        <a href="/international-language-center">International Language Center</a>
+                                    </li>
+                                    <li>
+                                        <a href="/university-book-center">University Book Center</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Talent Development Center</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Medical Training Center</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">GIS Center for Training &amp; Research</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Center for Renewable Energy &amp; Electronic Projects</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Center of Engineering Research &amp; Consultation</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Branches -->
+                            <div class="column">
+                                <div class="submenuHd" style="margin-left:35px;">Branches</div>
+                                <ul class="submenuLink">
+                                    <li>
+                                        <a href="/hadramout-branch-university">Hadramout Branch</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">فرع مأرب</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Taiz Branch - Al-Medina</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Ibb Branch (Unrecognized)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hodeidah Branch (Unrecognized)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Sana'a Branch (Unrecognized)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Taiz-Al-Hawban Branch (not currently recognized)</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+          </section>
+        </field>
+    </record>
+</odoo>

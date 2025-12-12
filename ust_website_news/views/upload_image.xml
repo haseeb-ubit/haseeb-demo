@@ -1,0 +1,52 @@
+<odoo>
+    <record id="view_website_image_form" model="ir.ui.view">
+        <field name="name">website.image.form</field>
+        <field name="model">website.image</field>
+        <field name="arch" type="xml">
+            <form string="News Images">
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
+                            <field name="id_name" readonly="1"/>
+                            <field name="upload_image"/>
+                            <field name="news_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_website_image_list" model="ir.ui.view">
+        <field name="name">website.image.list</field>
+        <field name="model">website.image</field>
+        <field name="arch" type="xml">
+            <list string="News Images" editable="bottom">
+                <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
+                <field name="id_name" readonly="1"/>
+                <field name="upload_image" required="True"/>
+                <field name="news_id" invisible="1"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="action_website_image" model="ir.actions.act_window">
+        <field name="name">News Images</field>
+        <field name="res_model">website.image</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+        <!--  <field name="context">{'active_id': active_id}</field>-->
+    </record>
+
+
+    <!--   <menuitem id="upload_image_menu"
+            parent="website.menu_content"
+            sequence="70"
+            name="News Images"
+            action="action_website_image"/>-->
+
+
+</odoo>

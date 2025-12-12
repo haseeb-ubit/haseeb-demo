@@ -1,0 +1,38 @@
+<odoo>
+    <record id="menu_about_us" model="website.menu">
+        <field name="name">About Us</field>
+        <field name="url">/about-us</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">20</field>
+        <field name="is_mega_menu">True</field>
+        <field name="mega_menu_content" type="html">
+            <section>
+                <ul class="ddMenu ddCover" style="background-color: white;">
+                    <li class="ddMenu ddCover resize" id="about_us_menu" style="background-color: none;">
+                        <div class="container">
+                            <div class="flexBox submenuInner" style="background-color: none;">
+                                <div class="column" style="background-color: none;">
+                                  <!--  <div class="submenuHd" style="margin-left:35px;">About Us</div>-->
+                                    <ul class="submenuLink">
+                                        <li>
+                                            <a href="/about-us">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="/university-president-opening-statement">University President Opening Statement</a>
+                                        </li>
+                                        <li>
+                                            <a href="/international-rewards-and-recognitions">Certificates and Achievements</a>
+                                        </li>
+                                        <li>
+                                            <a href="/facts-and-figures">Facts &amp; Figures</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </field>
+    </record>
+</odoo>

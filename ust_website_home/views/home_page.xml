@@ -1,0 +1,1816 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_homepage" inherit_id="website.homepage" name="Home">
+        <xpath expr="." position="inside">
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+            <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+            <title>University of Science &amp; Technology</title>
+            <link rel="stylesheet" href="/ust_website_home/static/src/css/slick.css" type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_home/static/src/css/stylesheet.css" type="text/css"/>
+            <link rel="stylesheet" href="/ust_website_home/static/src/css/responsive.css" type="text/css"/>
+        </xpath>
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+            <t t-call="website.layout">
+                <t t-set="pageName" t-value="'homepage'"/>
+                <div class="oe_structure"/>
+                <div id="wrap">
+
+
+                    <!--  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                          <div class="carousel-indicators">
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                      class="active"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators"
+                                      data-bs-slide-to="1"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators"
+                                      data-bs-slide-to="2"></button>
+                          </div>
+                          <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                  <img src="/ust_website_home/static/src/images/banner-img1.jpg" class="d-block w-100"
+                                       alt="..."/>
+                              </div>
+                              <div class="carousel-item">
+                                  <img src="/ust_website_home/static/src/images/banner-img1.jpg" class="d-block w-100"
+                                       alt="..."/>
+                              </div>
+                              <div class="carousel-item">
+                                  <img src="/ust_website_home/static/src/images/banner-img1.jpg" class="d-block w-100"
+                                       alt="..."/>
+                              </div>
+                          </div>
+                          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                  data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon"></span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                  data-bs-slide="next">
+                              <span class="carousel-control-next-icon"></span>
+                          </button>
+                      </div>-->
+
+
+                    <!--   <section class="bannerCon">
+                           <div class="bannerSlider">
+                               <div class="item"
+                                    style="background: url(/ust_website_home/static/src/images/banner-img1.jpg) no-repeat center top;">
+                                   <div class="container">
+                                       <div class="bannerInfo">
+                                           <h1 class="bannerHd">Start Your Journey To Global Medical Excellence.</h1>
+                                           <h2 class="bannerText">Medical and Health-Related Specialties to serve students
+                                               with
+                                               aligning interests.
+                                           </h2>
+                                           <div>
+                                               <a href="#" class="applyNow">Apply Now
+                                                   <span
+                                                           class="material-icons">chevron_right
+                                                   </span>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="item"
+                                    style="background: url(/ust_website_home/static/src/images/banner-img1.jpg) no-repeat center top;">
+                                   <div class="container">
+                                       <div class="bannerInfo">
+                                           <div class="bannerHd">Start Your Journey To Global Medical Excellence.</div>
+                                           <div class="bannerText">Medical and Health-Related Specialties to serve students
+                                               with
+                                               aligning interests.
+                                           </div>
+                                           <div>
+                                               <a href="#" class="applyNow">Apply Now
+                                                   <span
+                                                           class="material-icons">chevron_right
+                                                   </span>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="item"
+                                    style="background: url(/ust_website_home/static/src/images/banner-img1.jpg) no-repeat center top;">
+                                   <div class="container">
+                                       <div class="bannerInfo">
+                                           <div class="bannerHd">Start Your Journey To Global Medical Excellence.</div>
+                                           <div class="bannerText">Medical and Health-Related Specialties to serve students
+                                               with
+                                               aligning interests.
+                                           </div>
+                                           <div>
+                                               <a href="#" class="applyNow">Apply Now
+                                                   <span
+                                                           class="material-icons">chevron_right
+                                                   </span>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="item"
+                                    style="background: url(/ust_website_home/static/src/images/banner-img1.jpg) no-repeat center top;">
+                                   <div class="container">
+                                       <div class="bannerInfo">
+                                           <div class="bannerHd">Start Your Journey To Global Medical Excellence.</div>
+                                           <div class="bannerText">Medical and Health-Related Specialties to serve students
+                                               with
+                                               aligning interests.
+                                           </div>
+                                           <div>
+                                               <a href="#" class="applyNow">Apply Now
+                                                   <span
+                                                           class="material-icons">chevron_right
+                                                   </span>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </section>-->
+                    <section class="pt60 grayBg">
+                        <div class="container pr">
+                            <a href="javascript:void(0)" class="videoTour showVideo"
+                               data-="https://www.youtube.com/embed/Vxci0cgd8UU?autoplay=1&amp;mute=0">
+                                <sapn class="icon">
+                                    <span class="material-icons">play_arrow</span>
+                                </sapn>
+                                Take Video Tour
+                            </a>
+                            <div class="flexBox itemCenter UniversityInfo">
+                                <div class="img">
+                                    <img src="/ust_website_home/static/src/images/univercity-img.png" alt=""/>
+                                    <sapn class="icon">
+                                        <img src="/ust_website_home/static/src/images/univercity-logo.png" alt=""/>
+                                    </sapn>
+                                </div>
+                                <div class="hd">
+                                    University Of Science And Technology Yemen
+                                    <span>The Best Private University</span>
+                                </div>
+                                <div class="detail">
+                                    <div class="mb-20">The University of Science and Technology seeks to provide
+                                        outstanding
+                                        educational, research and consultancy services at the local, regional and
+                                        international
+                                        levels with a commitment to social responsibility through qualified staff,
+                                        advanced
+                                        curricula, and an equipped environment that stimulates creativity, and effective
+                                        partnerships...
+                                    </div>
+                                    <div>
+                                        <a href="#" class="readMore">Read More
+                                            <span
+                                                    class="material-icons">chevron_right
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="pt60 pb60">
+                        <div class="container">
+                            <div class="flexBox justifyContentBetween">
+                                <div class="boxInfo flexBox">
+                                    <div>
+                                        <div class="mainHd">Journals of University of Science and Technology in Yemen
+                                        </div>
+                                        <div class="mb-20 textBox">Four refereed scientific journals issued by the
+                                            university,
+                                            namely
+                                        </div>
+                                        <ul class="checkList mb-20">
+                                            <li>Yemeni Journal for Medical Sciences</li>
+                                            <li>Journal of Science and Technology</li>
+                                            <li>Journal of Social Studies</li>
+                                            <li>The Arab Journal For Quality Assurance in Higher Education</li>
+                                            <li>The International Journal for Talent Development</li>
+                                        </ul>
+                                        <div class="mb-20 textBox">Obtained advanced positions out of only 9 Yemeni
+                                            scientific
+                                            journals that met the
+                                            accreditation standards and were given an impact factor for the year 2020.
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMore">Read More
+                                                <span
+                                                        class="material-icons">chevron_right
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="boxInfo flexBox">
+                                    <div>
+                                        <div class="mainHd">Research &amp; Publication
+                                            <br/>
+                                            by UST Yemen
+                                        </div>
+                                        <div class="mb-20 textBox">The scientific journals issued by the University of
+                                            Science and
+                                            Technology have obtained advanced ranks in the classification of the impact
+                                            factor of
+                                            the refereed Arab scientific journals 2020, issued by the annual report of
+                                            the
+                                            Association of Arab Universities on the refereed scientific journals.
+                                        </div>
+                                        <div>
+                                            <a href="#" class="readMore">Read More
+                                                <span
+                                                        class="material-icons">chevron_right
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="pb60 pt60">
+                        <div class="container">
+                            <ul class="flexBox statsList">
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/year.png" alt=""/>
+                                    <span class="counter">30</span>
+                                    Years
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/center.png" alt=""/>
+                                    <span class="counter">07</span>
+                                    Centers
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/programs.png" alt=""/>
+                                    <span class="counter">152</span>
+                                    Joint programs
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/faculties.png" alt=""/>
+                                    <span class="counter">05</span>
+                                    Faculties
+                                </li>
+                                <li>
+                                    <img src="/ust_website_home/static/src/images/programmes.png" alt=""/>
+                                    <span class="counter">63</span>
+                                    Programmes
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="pt60 pb60 grayBg">
+                        <div class="container">
+                            <div class="mainHd tac mb-3">Faculties &amp; Underlying Programmes In UST Yemen</div>
+                            <div class="hdText tac mb-4">A wide range of programmes &amp; specialties in both
+                                undergraduate and postgraduate studies.
+                            </div>
+
+                            <div id="facultiesCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+
+                                    <!-- Slide 1 -->
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img1.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Faculty of Medicine and Health Sciences</div>
+                                                    <div class="text mb-3">Prepares specialized medical cadre with
+                                                        outstanding skills.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img2.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Computing &amp; Engineering</div>
+                                                    <div class="text mb-3">Mission of the Faculty of Engineering and
+                                                        Computing.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img3.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Humanities &amp; Admin Sciences</div>
+                                                    <div class="text mb-3">Provides high-quality programs in admin and
+                                                        human sciences.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img4.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">E-Learning &amp; Distance Education</div>
+                                                    <div class="text mb-3">Aims to provide accessible education
+                                                        online.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slide 2 -->
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img1.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Faculty of Medicine and Health Sciences</div>
+                                                    <div class="text mb-3">Prepares specialized medical cadre with
+                                                        outstanding skills.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img2.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Computing &amp; Engineering</div>
+                                                    <div class="text mb-3">Mission of the Faculty of Engineering and
+                                                        Computing.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img3.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">Humanities &amp; Admin Sciences</div>
+                                                    <div class="text mb-3">Provides high-quality programs in admin and
+                                                        human sciences.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="img mb-2">
+                                                    <img src="/ust_website_home/static/src/images/faculties-img4.jpg"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="det">
+                                                    <div class="hd mb-2">E-Learning &amp; Distance Education</div>
+                                                    <div class="text mb-3">Aims to provide accessible education
+                                                        online.
+                                                    </div>
+                                                    <a href="#" class="readMore">Read More
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Carousel controls -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#facultiesCarousel"
+                                        data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#facultiesCarousel"
+                                        data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- <section class="pt60 pb60">
+                         <div class="mainHd tac">Campus Life</div>
+                         <div class="hdText tac mb-20">Campus life is a vibrant blend of academic pursuit and social
+                             engagement,
+                             where lifelong friendships and unforgettable memories are forged
+                         </div>
+                         <div class="flexBox justifyContentBetween">
+                             <div class="campusBox large flexBox itemBottom"
+                                  style="background: url(/ust_website_home/static/src/images/campus-library.jpg) no-repeat center;">
+                                 <div class="inner">
+                                     <div class="campusHd mb-10">Campus Library</div>
+                                     <div class="campusText">The campus library is a hub of knowledge and quiet study,
+                                         providing
+                                         resources and a peaceful atmosphere for academic success.
+                                     </div>
+                                     <div>
+                                         <a href="#" class="readMore">Read More
+                                             <span
+                                                     class="material-icons">chevron_right
+                                             </span>
+                                         </a>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="campusBox">
+                                 <div class="flexBox smallBox">
+                                     <div class="det flexBox itemCenter" style="background: #3E6286;">
+                                         <div class="inner">
+                                             <div class="campusHd mb-10">Campus Faculties</div>
+                                             <div class="campusText">Campus faculties are dedicated experts and
+                                                 educators, guiding
+                                                 students through their academic and professional development.
+                                             </div>
+                                             <div>
+                                                 <a href="#" class="readMore">Read More
+                                                     <span
+                                                             class="material-icons">chevron_right
+                                                     </span>
+                                                 </a>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="img"
+                                          style="background: url(/ust_website_home/static/src/images/campus-faculties.jpg) no-repeat center;"></div>
+                                 </div>
+                                 <div class="flexBox smallBox full itemCenter mt-6"
+                                      style="background: url(/ust_website_home/static/src/images/campus-fitness-center.jpg) no-repeat center;">
+                                     <div class="inner">
+                                         <div class="campusHd mb-10">Campus Faculties</div>
+                                         <div class="campusText">Campus faculties are dedicated experts and educators,
+                                             guiding
+                                             students through their academic and professional development.
+                                         </div>
+                                         <div>
+                                             <a href="#" class="readMore">Read More
+                                                 <span
+                                                         class="material-icons">chevron_right
+                                                 </span>
+                                             </a>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="campusBox">
+                                 <div class="flexBox smallBox revese mt-6">
+                                     <div class="det flexBox itemCenter" style="background: #0071BD;">
+                                         <div class="inner">
+                                             <div class="campusHd mb-10">Cafeteria</div>
+                                             <div class="campusText">The Cafeteria is a bustling area offering diverse
+                                                 dining options
+                                                 and a social atmosphere for students to enjoy meals together.
+                                             </div>
+                                             <div>
+                                                 <a href="#" class="readMore">Read More
+                                                     <span
+                                                             class="material-icons">chevron_right
+                                                     </span>
+                                                 </a>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="img"
+                                          style="background: url(/ust_website_home/static/src/images/cafeteria.jpg) no-repeat center;"></div>
+                                 </div>
+                             </div>
+                             <div class="campusBox">
+                                 <div class="flexBox smallBox mt-6">
+                                     <div class="det flexBox itemCenter" style="background: #343A71;">
+                                         <div class="inner">
+                                             <div class="campusHd mb-10">Science Lab</div>
+                                             <div class="campusText">The science lab is a dynamic space for hands-on
+                                                 experiments and
+                                                 discoveries, fostering innovation and learning.
+                                             </div>
+                                             <div>
+                                                 <a href="#" class="readMore">Read More
+                                                     <span
+                                                             class="material-icons">chevron_right
+                                                     </span>
+                                                 </a>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="img"
+                                          style="background: url(/ust_website_home/static/src/images/science-lab.jpg) no-repeat center;"></div>
+                                 </div>
+                             </div>
+                         </div>
+                     </section>-->
+                    <!--     <section class="pb60">
+                             <div class="container">
+                                 <div class="mainHd tac">Student Services</div>
+                                 <div class="serviceSlider sliderArrow">
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/exam-tables.png" alt=""/>
+                                         </div>
+                                         <div class="name">Exam Tables</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/campus-life.png" alt=""/>
+                                         </div>
+                                         <div class="name">Campus Life</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/student-guide.png" alt=""/>
+                                         </div>
+                                         <div class="name">Student Guide</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/academic-calendar.png" alt=""/>
+                                         </div>
+                                         <div class="name">Academic Calendar</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/ecourses-lms.png" alt=""/>
+                                         </div>
+                                         <div class="name">E-Courses - LMS</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/student-portal-campus.png"
+                                                  alt=""/>
+                                         </div>
+                                         <div class="name">Student Portal On Campus</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/forms.png" alt=""/>
+                                         </div>
+                                         <div class="name">Forms</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/student-portal-elearning.png"
+                                                  alt=""/>
+                                         </div>
+                                         <div class="name">Student Portal E-Learning</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/student-portal-campus.png"
+                                                  alt=""/>
+                                         </div>
+                                         <div class="name">Student Portal On Campus</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/forms.png" alt=""/>
+                                         </div>
+                                         <div class="name">Forms</div>
+                                     </div>
+                                     <div class="item">
+                                         <div class="icon">
+                                             <img src="/ust_website_home/static/src/images/student-portal-elearning.png"
+                                                  alt=""/>
+                                         </div>
+                                         <div class="name">Student Portal E-Learning</div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </section>-->
+
+                    <section class="pb60">
+                        <div class="container">
+                            <div class="mainHd tac mb-4">Student Services</div>
+
+                            <div id="studentServicesCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+
+                                    <!-- Slide 1 -->
+                                    <div class="carousel-item active">
+                                        <div class="row text-center">
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/exam-tables.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Exam Tables</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/campus-life.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Campus Life</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/student-guide.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Student Guide</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/academic-calendar.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Academic Calendar</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/ecourses-lms.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">E-Courses - LMS</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/student-portal-campus.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Student Portal On Campus</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slide 2 -->
+                                    <div class="carousel-item active">
+                                        <div class="row text-center">
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/exam-tables.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Exam Tables</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/campus-life.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Campus Life</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/student-guide.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Student Guide</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/academic-calendar.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Academic Calendar</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/ecourses-lms.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">E-Courses - LMS</div>
+                                            </div>
+                                            <div class="col-6 col-md-2 mb-3">
+                                                <div class="icon mb-2">
+                                                    <img src="/ust_website_home/static/src/images/student-portal-campus.png"
+                                                         class="img-fluid" alt=""/>
+                                                </div>
+                                                <div class="name">Student Portal On Campus</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Carousel controls -->
+                                <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#studentServicesCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                        data-bs-target="#studentServicesCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="container">
+                            <div class="flexBox justifyContentBetween">
+                                <div class="imgBox apply">
+                                    <div class="img">
+                                        <img src="/ust_website_home/static/src/images/apply-now.jpg" alt=""/>
+                                    </div>
+                                    <div class="over flexBox itemCenter">
+                                        <div>
+                                            <div class="mainHd mb-20">Apply Now<br/>(on Campus)
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore">Apply Now
+                                                    <span
+                                                            class="material-icons">chevron_right
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="imgBox enroll">
+                                    <div class="img">
+                                        <img src="/ust_website_home/static/src/images/enroll-now.jpg" alt=""/>
+                                    </div>
+                                    <div class="over flexBox itemCenter justifyContentEnd tar">
+                                        <div>
+                                            <div class="mainHd mb-20">Enroll
+                                                <br/>
+                                                E-Learning
+                                            </div>
+                                            <div>
+                                                <a href="#" class="readMore">Enroll Now
+                                                    <span
+                                                            class="material-icons">chevron_right
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="pb60 pt60">
+                        <div class="container">
+                            <div class="flexBox itemCenter justifyContentBetween mb-10">
+                                <div class="mainHd">Latest News</div>
+                                <div>
+                                    <a href="/news" class="readMore">View All</a>
+                                </div>
+                            </div>
+                            <t t-set="news_top"
+                               t-value="request.env['website.pagee'].sudo().search([('publish','=',True)], order='news_date desc, sequence asc', limit=5)"/>
+                            <t t-set="main_news" t-value="news_top and news_top[0] or False"/>
+
+                            <div class="flexBox newsCon">
+                                <div class="newsBoxLeft">
+                                    <t t-if="main_news">
+                                        <div class="img">
+                                            <img t-att-src="'/web/image/website.pagee/%s/image' % main_news.id" alt=""
+                                                 style="width: 100%; height: 360px; object-fit: cover;"/>
+                                        </div>
+                                        <div class="det">
+                                            <div class="name mb-10">
+                                                <t t-esc="main_news.news_title"/>
+                                            </div>
+                                            <div class="by mb-20">
+                                                <span class="date">
+                                                    <span class="material-icons">calendar_today</span>
+                                                    <t t-esc="(main_news.news_date or '').strftime('%B %d, %Y') if main_news.news_date else ''"/>
+                                                </span>
+                                            </div>
+                                            <div class="text">
+                                                <t t-esc="(main_news.short_description or (main_news.news_description and main_news.news_description[:220]) or '')"/>
+                                            </div>
+                                            <div>
+                                                <a class="readMoreLink" t-attf-href="/news/#{ slug(main_news) }">Read
+                                                    More
+                                                    <span class="material-icons">arrow_right_alt</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="newsBoxRight">
+                                    <ul class="newsList flexBox">
+                                        <t t-foreach="news_top" t-as="n">
+                                            <t t-if="not main_news or n.id != main_news.id">
+                                                <li>
+                                                    <div class="inner">
+                                                        <div class="img">
+                                                            <img t-att-src="'/web/image/website.pagee/%s/image' % n.id"
+                                                                 alt=""
+                                                                 style="width: 100%; height: 180px; object-fit: cover;"/>
+                                                        </div>
+                                                        <div class="det">
+                                                            <div class="name mb-10">
+                                                                <t t-esc="n.news_title"/>
+                                                            </div>
+                                                            <div>
+                                                                <a class="readMoreLink"
+                                                                   t-attf-href="/news/#{ slug(n) }">Read More
+                                                                    <span class="material-icons">arrow_right_alt</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </t>
+                                        </t>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--                                    <div class="flexBox newsCon">-->
+                        <!--                                <div class="newsBoxLeft">-->
+                        <!--                                    <div class="img">-->
+                        <!--                                        <img src="/ust_website_home/static/src/images/news-img1.jpg" alt=""/>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="det">-->
+                        <!--                                        <div class="name mb-10">Nature International Magazine</div>-->
+                        <!--                                        <div class="by mb-20">By admin-->
+                        <!--                                            <span class="date">-->
+                        <!--                                                <span-->
+                        <!--                                                        class="material-icons">calendar_today-->
+                        <!--                                                </span>-->
+                        <!--                                                June 8, 2024-->
+                        <!--                                            </span>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="text">Nature International Journal publishes a scientific research-->
+                        <!--                                            by a visiting-->
+                        <!--                                            professor of immunology at the University of Science and Technology-->
+                        <!--                                        </div>-->
+                        <!--                                        <div>-->
+                        <!--                                            <a href="#" class="readMoreLink">Read More-->
+                        <!--                                                <span-->
+                        <!--                                                        class="material-icons">arrow_right_alt-->
+                        <!--                                                </span>-->
+                        <!--                                            </a>-->
+                        <!--                                        </div>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="newsBoxRight">-->
+                        <!--                                    <ul class="newsList flexBox">-->
+                        <!--                                        <li>-->
+                        <!--                                            <div class="inner">-->
+                        <!--                                                <div class="img">-->
+                        <!--                                                    <img src="/ust_website_home/static/src/images/news-img2.jpg"-->
+                        <!--                                                         alt=""/>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="det">-->
+                        <!--                                                    <div class="name mb-10">Workshop to discuss the International MBA-->
+                        <!--                                                        program in-->
+                        <!--                                                        English-->
+                        <!--                                                    </div>-->
+                        <!--                                                    <div>-->
+                        <!--                                                        <a href="#" class="readMoreLink">Read More-->
+                        <!--                                                            <span-->
+                        <!--                                                                    class="material-icons">arrow_right_alt-->
+                        <!--                                                            </span>-->
+                        <!--                                                        </a>-->
+                        <!--                                                    </div>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                        <li>-->
+                        <!--                                            <div class="inner">-->
+                        <!--                                                <div class="img">-->
+                        <!--                                                    <img src="/ust_website_home/static/src/images/news-img3.jpg"-->
+                        <!--                                                         alt=""/>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="det">-->
+                        <!--                                                    <div class="name mb-10">Discussion of nutrition projects 2023-2024-->
+                        <!--                                                    </div>-->
+                        <!--                                                    <div>-->
+                        <!--                                                        <a href="#" class="readMoreLink">Read More-->
+                        <!--                                                            <span-->
+                        <!--                                                                    class="material-icons">arrow_right_alt-->
+                        <!--                                                            </span>-->
+                        <!--                                                        </a>-->
+                        <!--                                                    </div>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                        <li>-->
+                        <!--                                            <div class="inner">-->
+                        <!--                                                <div class="img">-->
+                        <!--                                                    <img src="/ust_website_home/static/src/images/news-img4.jpg"-->
+                        <!--                                                         alt=""/>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="det">-->
+                        <!--                                                    <div class="name mb-10">Medical laboratory students pass the field-->
+                        <!--                                                        descent exam-->
+                        <!--                                                    </div>-->
+                        <!--                                                    <div>-->
+                        <!--                                                        <a href="#" class="readMoreLink">Read More-->
+                        <!--                                                            <span-->
+                        <!--                                                                    class="material-icons">arrow_right_alt-->
+                        <!--                                                            </span>-->
+                        <!--                                                        </a>-->
+                        <!--                                                    </div>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                        <li>-->
+                        <!--                                            <div class="inner">-->
+                        <!--                                                <div class="img">-->
+                        <!--                                                    <img src="/ust_website_home/static/src/images/news-img5.jpg"-->
+                        <!--                                                         alt=""/>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="det">-->
+                        <!--                                                    <div class="name mb-10">Workshop to develop the Doctor of Philosophy-->
+                        <!--                                                        in Business-->
+                        <!--                                                        Administration-->
+                        <!--                                                    </div>-->
+                        <!--                                                    <div>-->
+                        <!--                                                        <a href="#" class="readMoreLink">Read More-->
+                        <!--                                                            <span-->
+                        <!--                                                                    class="material-icons">arrow_right_alt-->
+                        <!--                                                            </span>-->
+                        <!--                                                        </a>-->
+                        <!--                                                    </div>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                    </ul>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                    </section>
+
+
+                    <section class="pb60 pt60" style="background: #FBF7ED;">
+                        <div class="container">
+                            <div class="flexBox itemCenter strategicPlan">
+                                <div class="img">
+                                    <img src="/ust_website_home/static/src/images/girl-img.jpg" alt=""/>
+                                </div>
+                                <div class="det">
+                                    <div class="mainHd">STRATEGIC PLAN OF THE UNIVERSITY of Science Technology Yemen
+                                    </div>
+                                    <div class="textBox">
+                                        A participatory and transparent management understanding, the effective and
+                                        efficient use of
+                                        resources, performance-based assessment and budgeting as well as the rapid
+                                        developments
+                                        experienced in technology and communication methods have enabled The University
+                                        of Science
+                                        and Technology to act on its strategic plans that have led to fundamental
+                                        transformations in
+                                        the last few years.
+                                        <br/>
+                                        <br/>
+                                        Within its framework of embracing an ambitious and long-term strategic plan, the
+                                        University
+                                        of Science and Technology, USTY applied the Balanced Scorecard (BSC) approach.
+                                        Beginning
+                                        with identifying the strategic goals as per the four dimensions of the BSC, many
+                                        sub-goals
+                                        have been branched off from the four strategic goals. Each sub-goal is achieved
+                                        through the
+                                        implementation of projects to achieve the goal directly. Indicators were
+                                        developed to
+                                        measure the achievement of the sub-goals. The follow-up and assessment mechanism
+                                        is
+                                        regularly and continuously implemented according to the BSC instruments prepared
+                                        previously
+                                        for this purpose. Through a system of monthly and quarterly reporting from all
+                                        departments
+                                        and branches of the University in Yemen, we developed criteria for measuring the
+                                        implementation and success of the projects on time. Any shortfalls are rectified
+                                        through
+                                        corrective action plans.
+                                        <a href="#" class="readMoreLink">Show more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--                    <section class="pb60 pt60">-->
+                    <!--                        <div class="container">-->
+                    <!--                            <div class="flexBox itemCenter justifyContentBetween">-->
+                    <!--                                <div class="mainHd">University Blog</div>-->
+                    <!--                                <div>-->
+                    <!--                                    <a href="#" class="readMore">View All</a>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                            <div>-->
+                    <!--                                <ul class="blogList sliderArrow p-0">-->
+                    <!--                                    <li>-->
+                    <!--                                        <div class="inner">-->
+                    <!--                                            <div class="img">-->
+                    <!--                                                <img src="/ust_website_home/static/src/images/blog-img1.jpg" alt=""/>-->
+                    <!--                                                <sapn class="tag">Community Service</sapn>-->
+                    <!--                                            </div>-->
+                    <!--                                            <div class="det">-->
+                    <!--                                                <div class="date mb-10">-->
+                    <!--                                                    <span class="material-icons">calendar_today</span>-->
+                    <!--                                                    Mar 07,-->
+                    <!--                                                    23-->
+                    <!--                                                </div>-->
+                    <!--                                                <div class="name mb-10">Field Training University of Science and-->
+                    <!--                                                    Technology - -->
+                    <!--                                                    Headquarters - Aden-->
+                    <!--                                                </div>-->
+                    <!--                                                <div>-->
+                    <!--                                                    <a href="#" class="readMoreLink">Read More-->
+                    <!--                                                        <span-->
+                    <!--                                                                class="material-icons">arrow_right_alt-->
+                    <!--                                                        </span>-->
+                    <!--                                                    </a>-->
+                    <!--                                                </div>-->
+                    <!--                                            </div>-->
+                    <!--                                        </div>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li>-->
+                    <!--                                        <div class="inner">-->
+                    <!--                                            <div class="img">-->
+                    <!--                                                <img src="/ust_website_home/static/src/images/blog-img2.jpg" alt=""/>-->
+                    <!--                                                <sapn class="tag">E-Learning</sapn>-->
+                    <!--                                            </div>-->
+                    <!--                                            <div class="det">-->
+                    <!--                                                <div class="date mb-10">-->
+                    <!--                                                    <span class="material-icons">calendar_today</span>-->
+                    <!--                                                    Mar 07,-->
+                    <!--                                                    23-->
+                    <!--                                                </div>-->
+                    <!--                                                <div class="name mb-10">Community service at the University of Science-->
+                    <!--                                                    and-->
+                    <!--                                                    Technology-->
+                    <!--                                                </div>-->
+                    <!--                                                <div>-->
+                    <!--                                                    <a href="#" class="readMoreLink">Read More-->
+                    <!--                                                        <span-->
+                    <!--                                                                class="material-icons">arrow_right_alt-->
+                    <!--                                                        </span>-->
+                    <!--                                                    </a>-->
+                    <!--                                                </div>-->
+                    <!--                                            </div>-->
+                    <!--                                        </div>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li>-->
+                    <!--                                        <div class="inner">-->
+                    <!--                                            <div class="img">-->
+                    <!--                                                <img src="/ust_website_home/static/src/images/blog-img3.jpg" alt=""/>-->
+                    <!--                                                <sapn class="tag">E-Learning</sapn>-->
+                    <!--                                            </div>-->
+                    <!--                                            <div class="det">-->
+                    <!--                                                <div class="date mb-10">-->
+                    <!--                                                    <span class="material-icons">calendar_today</span>-->
+                    <!--                                                    Mar 07,-->
+                    <!--                                                    23-->
+                    <!--                                                </div>-->
+                    <!--                                                <div class="name mb-10">University of Science, Technology and Reading-->
+                    <!--                                                </div>-->
+                    <!--                                                <div>-->
+                    <!--                                                    <a href="#" class="readMoreLink">Read More-->
+                    <!--                                                        <span-->
+                    <!--                                                                class="material-icons">arrow_right_alt-->
+                    <!--                                                        </span>-->
+                    <!--                                                    </a>-->
+                    <!--                                                </div>-->
+                    <!--                                            </div>-->
+                    <!--                                        </div>-->
+                    <!--                                    </li>-->
+                    <!--                                    <li>-->
+                    <!--                                        <div class="inner">-->
+                    <!--                                            <div class="img">-->
+                    <!--                                                <img src="/ust_website_home/static/src/images/blog-img4.jpg" alt=""/>-->
+                    <!--                                                <sapn class="tag">Community Service</sapn>-->
+                    <!--                                            </div>-->
+                    <!--                                            <div class="det">-->
+                    <!--                                                <div class="date mb-10">-->
+                    <!--                                                    <span class="material-icons">calendar_today</span>-->
+                    <!--                                                    Mar 07,-->
+                    <!--                                                    23-->
+                    <!--                                                </div>-->
+                    <!--                                                <div class="name mb-10">International Cooperation Programs - University-->
+                    <!--                                                    of Science-->
+                    <!--                                                </div>-->
+                    <!--                                                <div>-->
+                    <!--                                                    <a href="#" class="readMoreLink">Read More-->
+                    <!--                                                        <span-->
+                    <!--                                                                class="material-icons">arrow_right_alt-->
+                    <!--                                                        </span>-->
+                    <!--                                                    </a>-->
+                    <!--                                                </div>-->
+                    <!--                                            </div>-->
+                    <!--                                        </div>-->
+                    <!--                                    </li>-->
+                    <!--                                </ul>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </section>-->
+
+
+                    <section class="pb60 pt60">
+                        <div class="container">
+                            <div class="flexBox itemCenter justifyContentBetween mb-10">
+                                <div class="mainHd">University Blog</div>
+                                <div>
+                                    <a href="/blog" class="readMore">View All</a>
+                                </div>
+                            </div>
+
+                            <t t-set="blog_top"
+                               t-value="request.env['website.blogs'].sudo().search([('publish','=',True)], order='blogs_date desc, sequence asc', limit=4)"/>
+
+                            <div>
+                                <ul class="blogList sliderArrow p-0">
+                                    <t t-foreach="blog_top" t-as="b">
+                                        <li>
+                                            <div class="inner">
+                                                <div class="img">
+                                                    <img t-att-src="'/web/image/website.blogs/%s/image' % b.id" alt=""
+                                                         style="width: 100%; height: 250px; object-fit: cover;"/>
+<!--                                                    <span class="tag" t-if="b.blog_category">-->
+<!--                                                        <t t-esc="b.blog_category"/>-->
+<!--                                                    </span>-->
+                                                </div>
+                                                <div class="det">
+                                                    <div class="date mb-10">
+                                                        <span class="material-icons">calendar_today</span>
+                                                        <t t-esc="(b.blogs_date or '').strftime('%b %d, %y') if b.blogs_date else ''"/>
+                                                    </div>
+                                                    <div class="name mb-10">
+                                                        <t t-esc="b.blogs_title"/>
+                                                    </div>
+                                                    <div>
+                                                        <a class="readMoreLink" t-attf-href="/blog/#{ slug(b) }">Read
+                                                            More
+                                                            <span class="material-icons">arrow_right_alt</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- <section style="background: #343A71;" class="pt60 pb60">
+                         <div class="container">
+                             <div class="flexBox alumniBox itemCenter">
+                                 <div class="left">
+                                     <div class="mainHd whtClr">Alumni Club</div>
+                                     <ul class="flexBox alumniLinks">
+                                         <li>
+                                             <a href="#">Alumni Verification</a>
+                                         </li>
+                                         <li>
+                                             <a href="#">Vacancies</a>
+                                         </li>
+                                         <li>
+                                             <a href="#">View All</a>
+                                         </li>
+                                     </ul>
+                                 </div>
+                                 <div class="right">
+                                     <div class="alumniSlider">
+                                         <div class="item">
+                                             <div class="flexBox itemCenter">
+                                                 <div class="img">
+                                                     <img src="/ust_website_home/static/src/images/user-img1.png"
+                                                          alt=""/>
+                                                 </div>
+                                                 <div class="det">
+                                                     <div class="name">Ali Abdel-Khaleq Al-Juhaim</div>
+                                                     <div class="info">PhD researcher - University of Illinois -
+                                                         Chicago
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="item">
+                                             <div class="flexBox itemCenter">
+                                                 <div class="img">
+                                                     <img src="/ust_website_home/static/src/images/user-img2.png"
+                                                          alt=""/>
+                                                 </div>
+                                                 <div class="det">
+                                                     <div class="name">Dr.. Sami Said Manser</div>
+                                                     <div class="info">China</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="item">
+                                             <div class="flexBox itemCenter">
+                                                 <div class="img">
+                                                     <img src="/ust_website_home/static/src/images/user-img3.png"
+                                                          alt=""/>
+                                                 </div>
+                                                 <div class="det">
+                                                     <div class="name">God's neighbor</div>
+                                                     <div class="info">
+                                                         Director of the Mocha Center for Strategic Studies
+                                                         <br/>
+                                                         <br/>
+                                                         To whom
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="item">
+                                             <div class="flexBox itemCenter">
+                                                 <div class="img">
+                                                     <img src="/ust_website_home/static/src/images/user-img4.png"
+                                                          alt=""/>
+                                                 </div>
+                                                 <div class="det">
+                                                     <div class="name">Ali Abdel-Khaleq Al-Juhaim</div>
+                                                     <div class="info">PhD researcher - University of Illinois -
+                                                         Chicago
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </section>-->
+
+                    <section style="background: #343A71;" class="pt60 pb60">
+                        <div class="container">
+                            <div class="flexBox alumniBox itemCenter">
+                                <div class="left">
+                                    <div class="mainHd whtClr">Alumni Club</div>
+                                    <ul class="flexBox alumniLinks">
+                                        <li>
+                                            <a href="#">Alumni Verification</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Vacancies</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">View All</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Carousel -->
+                                <div class="col-md-9">
+                                    <div id="alumniSlider" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+
+                                            <!-- Slide 1 -->
+                                            <div class="carousel-item active">
+                                                <div class="row text-center">
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img1.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni 1"/>
+                                                        <h6 class="fw-bold mb-0">God's neighbor</h6>
+                                                        <small>Director of the Mocha Center<br/>for Strategic Studies
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img2.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni 2"/>
+                                                        <h6 class="fw-bold mb-0">Ali Abdel-Khaleq</h6>
+                                                        <small>PhD researcher - University<br/>of Illinois - Chicago
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img3.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni 3"/>
+                                                        <h6 class="fw-bold mb-0">Ali Al-Juhaim</h6>
+                                                        <small>PhD researcher - University<br/>of Illinois - Chicago
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img4.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni 4"/>
+                                                        <h6 class="fw-bold mb-0">Another Alumni</h6>
+                                                        <small>Research Scientist - MIT</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Slide 2 -->
+                                            <div class="carousel-item">
+                                                <div class="row text-center">
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img1.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni X"/>
+                                                        <h6 class="fw-bold mb-0">Alumni X</h6>
+                                                        <small>Engineer - Tesla</small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img2.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni Y"/>
+                                                        <h6 class="fw-bold mb-0">Alumni Y</h6>
+                                                        <small>Designer - Apple</small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img3.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni Z"/>
+                                                        <h6 class="fw-bold mb-0">Alumni Z</h6>
+                                                        <small>Professor - Harvard</small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img src="/ust_website_home/static/src/images/user-img4.png"
+                                                             class="rounded-circle border border-white mb-2" width="100"
+                                                             height="100" alt="Alumni W"/>
+                                                        <h6 class="fw-bold mb-0">Alumni W</h6>
+                                                        <small>Consultant - Deloitte</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Carousel Controls -->
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#alumniSlider" data-bs-slide="prev">
+                                            <!--<span class="carousel-control-prev-icon"></span>-->
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#alumniSlider" data-bs-slide="next">
+                                            <!-- <span class="carousel-control-next-icon"></span>-->
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="pb60 pt60">
+                        <div class="container" style="text-align: center;">
+                            <h2 style="margin-bottom: 30px;">
+                                University Science and Technology in Yemen's International Partners
+                            </h2>
+                            <div style="
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        ">
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo1.png" alt="Partner 1"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo2.png" alt="Partner 2"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo3.png" alt="Partner 3"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo4.png" alt="Partner 4"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo5.png" alt="Partner 5"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo6.png" alt="Partner 6"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo7.png" alt="Partner 7"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo8.png" alt="Partner 8"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo9.png" alt="Partner 9"
+                                         style="height: 80px;"/>
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 20px; background: white;">
+                                    <img src="/ust_website_home/static/src/images/partner-logo10.png" alt="Partner 10"
+                                         style="height: 80px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <div class="overlay" id="videoPopup" style="display: none;">
+                        <div class="popupInner">
+                            <div class="videoPopup">
+                                <div class="flexBox itemCenter justifyContentBetween">
+                                    <div class="popupHd">Video Tour</div>
+                                    <div class="close closeVideo">X close</div>
+                                </div>
+                                <div class="videoBox">
+                                    <div class="videoInner">
+                                        <iframe frameborder="0" width="1280" height="720" src="" class="video"
+                                                id="video"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="oe_structure"/>
+                </div>
+
+
+                <script src="ust_website_home/static/src/js/jquery.min.js"></script>
+                <script src="ust_website_home/static/src/js/function.js"></script>
+                <script src="ust_website_home/static/src/js/slick.min.js"></script>
+                <!--   <script src="ust_website_home/static/src/js/jquery.countup.js"></script>-->
+
+
+                <!--  <script>
+                      $(document).ready(function() {
+                      // Function to initialize or re-initialize the slick slider
+                      function initSlick() {
+                      // Destroy the slider if it's already initialized
+                      if ($('.bannerSlider').hasClass('slick-initialized')) {
+                      $('.bannerSlider').slick('unslick');
+                      }
+
+                      // Initialize the slick slider
+                      $('.bannerSlider').slick({
+                      dots: true,
+                      speed: 400,
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      autoplay: true,
+                      autoplaySpeed: 8000,
+                      cssEase: 'linear'
+                      });
+                      }
+
+                      // Initialize the slick slider when the page loads
+                      initSlick();
+
+                      // Re-initialize after content is updated in Odoo editor
+                      $(document).on('DOMNodeInserted', '.bannerSlider', function() {
+                      initSlick(); // Re-initialize the slider after content insertion or change
+                      });
+
+                      // You can also listen to specific Odoo content change events
+                      $(document).on('change', '.bannerSlider', function() {
+                      initSlick(); // Re-initialize the slider after content is modified
+                      });
+
+                      // You can trigger re-initialization after a specific event if your editor triggers one.
+                      // For example, after a save in the Odoo website builder editor:
+                      $(document).on('click', '.o_web_editor_button_save', function() {
+                      initSlick(); // Re-initialize after saving the edited content in Odoo editor
+                      });
+
+                      // If Odoo uses AJAX to update the banner, you might want to reinitialize on AJAX load completion.
+                      $(document).ajaxComplete(function() {
+                      initSlick(); // Reinitialize on AJAX content change
+                      });
+                      });-->
+
+
+                <script>
+
+                    $('.slick-slider-class').slick({
+                    dots: true,
+                    infinite: true,
+                    speed: 500,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                    });
+
+
+                    <!--  $('.facultiesSlider').slick({
+                      dots: false,
+                      speed: 600,
+                      slidesToShow: 4,
+                      slidesToScroll: 1,
+                      arrows: true,
+                      autoplay: true,
+                      responsive: [
+                      {
+                      breakpoint: 1169,
+                      settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      {
+                      breakpoint: 767,
+                      settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      {
+                      breakpoint: 479,
+                      settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      ]
+                      });-->
+
+                    $('.facultiesSlider').slick({
+                    dots: false,
+                    arrows: true,
+                    infinite: true,
+                    speed: 600,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                    }
+                    }
+                    ]
+                    });
+
+
+                    $('.blogList').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    ]
+                    });
+
+                    <!--  $('.serviceSlider').slick({
+                      dots: false,
+                      speed: 600,
+                      slidesToShow: 8,
+                      slidesToScroll: 1,
+                      arrows: true,
+                      autoplay: true,
+                      responsive: [
+                      {
+                      breakpoint: 1169,
+                      settings: {
+                      slidesToShow: 6,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      {
+                      breakpoint: 999,
+                      settings: {
+                      slidesToShow: 5,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      {
+                      breakpoint: 479,
+                      settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      }
+                      },
+                      ]
+                      });-->
+
+
+                    $('.serviceSlider').slick({
+                    dots: false,
+                    speed: 600,
+                    slidesToShow: 8,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    autoplay: true,
+                    autoplaySpeed: 3000, // Optional: Add delay between slides
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 6,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 999,
+                    settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    }
+                    }
+                    ]
+                    });
+
+
+                    <!--  $('.alumniSlider').slick({
+                      dots: false,
+                      speed: 600,
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      autoplay: true,
+                      responsive: [
+                      {
+                      breakpoint: 1169,
+                      settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
+                      }
+                      },
+                      {
+                      breakpoint: 767,
+                      settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
+                      }
+                      },
+                      {
+                      breakpoint: 479,
+                      settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      }
+                      },
+                      ]
+                      });
+                      $('.partnerSlider').slick({
+                      dots: false,
+                      speed: 600,
+                      slidesToShow: 10,
+                      slidesToScroll: 1,
+                      arrows: false,
+                      autoplay: true,
+                      responsive: [
+                      {
+                      breakpoint: 1169,
+                      settings: {
+                      slidesToShow: 7,
+                      slidesToScroll: 1,
+                      autoplay: false,
+                      }
+                      },
+                      {
+                      breakpoint: 999,
+                      settings: {
+                      slidesToShow: 5,
+                      slidesToScroll: 1,
+                      autoplay: false,
+                      }
+                      },
+                      {
+                      breakpoint: 479,
+                      settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
+                      autoplay: false,
+                      }
+                      },
+                      ]
+                      });-->
+
+
+                    $(document).ready(function(){
+                    $('.alumniSlider').slick({
+                    dots: false,
+                    infinite: true,
+                    speed: 600,
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                    responsive: [
+                    {
+                    breakpoint: 1169,
+                    settings: {
+                    slidesToShow: 2
+                    }
+                    },
+                    {
+                    breakpoint: 767,
+                    settings: {
+                    slidesToShow: 2
+                    }
+                    },
+                    {
+                    breakpoint: 479,
+                    settings: {
+                    slidesToShow: 1
+                    }
+                    }
+                    ]
+                    });
+                    });
+                </script>
+                <script src="ust_website_home/static/src/js/function.js"></script>
+                <script src="ust_website_home/static/src/js/jquery.waypoints.min.js"></script>
+                <script src="ust_website_home/static/src/js/jquery.countup.js"></script>
+                <script>
+                    $('.counter').countUp();
+                </script>
+
+            </t>
+        </xpath>
+    </template>
+</odoo>
