@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Main Menu Item -->
+    <menuitem id="menu_colleges_root" 
+              name="Colleges" 
+              web_icon="elearning_colleges,static/description/ust.jpeg"
+              action="action_college" 
+              sequence="100"/>
     <menuitem id="menu_colleges" 
               name="Colleges" 
               parent="website_slides.website_slides_menu_root" 

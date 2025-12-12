@@ -21,8 +21,25 @@
         </field>
     </record>
 
-      <menuitem id="menu_ust_resume" name="Resume" parent="website_slides.website_slides_menu_root" sequence="30" />
-     <menuitem id="menu_ust_resume_arabic" name="Arabic" parent="menu_ust_resume" action="action_ust_resume"/>
-     <menuitem id="menu_ust_resume_english" name="English" parent="menu_ust_resume" action="action_ust_resume_en" />
+    <!-- Root Dashboard Menu Item -->
+    <menuitem id="menu_ust_resume_root" 
+              name="Resume" 
+              web_icon="ust_resume_management,static/description/resume.png"
+              sequence="100"/>
+
+    <menuitem id="menu_ust_resume_root_arabic" 
+              name="Arabic" 
+              parent="menu_ust_resume_root" 
+              action="action_ust_resume"
+              sequence="1"/>
+    <menuitem id="menu_ust_resume_root_english" 
+              name="English" 
+              parent="menu_ust_resume_root" 
+              action="action_ust_resume_en"
+              sequence="2"/>
+
+    <menuitem id="menu_ust_resume" name="Resume" parent="website_slides.website_slides_menu_root" sequence="30" />
+    <menuitem id="menu_ust_resume_arabic" name="Arabic" parent="menu_ust_resume" action="action_ust_resume"/>
+    <menuitem id="menu_ust_resume_english" name="English" parent="menu_ust_resume" action="action_ust_resume_en" />
 
 </odoo>
