@@ -3,7 +3,7 @@
     'description': 'Ust website aboutus page',
     'category': 'Theme',
     'sequence': 10,
-    'version': '18.0',
+    'version': '19.0.0.0.0',
     'depends': ['website',],
     'data': [
        'views/about_us.xml',

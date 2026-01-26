@@ -3,7 +3,7 @@
     'description': 'Ust website odoo',
     'category': 'Theme',
     'sequence': 10,
-    'version': '18.0',
+    'version': '19.0.0.0.0',
     'depends': ['base', 'website', 'web', ],
     'data': [
         'views/header.xml',

@@ -69,10 +69,12 @@
                 <filter string="Y1S2" name="y1s2" domain="[('year', '=', 1), ('semester_number', '=', 2)]"/>
                 <filter string="Y2S1" name="y2s1" domain="[('year', '=', 2), ('semester_number', '=', 1)]"/>
                 <filter string="Y2S2" name="y2s2" domain="[('year', '=', 2), ('semester_number', '=', 2)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Year" name="group_year" context="{'group_by': 'year'}"/>
-                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
-                </group>
+                <filter string="Group by Year" name="group_year"
+                        context="{'group_by': 'year'}"
+                        domain="[]"/>
+                <filter string="Group by Department" name="group_department"
+                        context="{'group_by': 'department_id'}"
+                        domain="[]"/>
             </search>
         </field>
     </record>

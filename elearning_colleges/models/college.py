@@ -45,11 +45,12 @@ class College(models.Model):
         for college in self:
             college.total_departments = len(college.department_ids)
     
-    @api.model
-    def create(self, vals):
-        if not vals.get('code'):
-            vals['code'] = self.env['ir.sequence'].next_by_code('elearning.college') or 'COL'
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('code'):
+                vals['code'] = self.env['ir.sequence'].next_by_code('elearning.college') or 'COL'
+        return super().create(vals_list)
     
     def action_view_departments(self):
         """Action to view departments of this college"""
@@ -277,19 +278,22 @@ class SlideChannel(models.Model):
                         'Invalid courses: %s' % ', '.join(invalid.mapped('name'))
                     )
 
-    @api.model
-    def create(self, vals):
-        vals = vals.copy()
-        department_id = vals.get('department_id')
-        if department_id:
-            department = self.env['hr.department'].browse(department_id)
-            if department.college_id:
-                vals.setdefault('college_id', department.college_id.id)
-        _logger.debug("[Create Course] vals=%s", vals)
-        if not vals.get('course_code'):
-            sequence = self.env['ir.sequence'].next_by_code('elearning.course')
-            vals['course_code'] = sequence or 'CRS001'
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        new_list = []
+        for vals in vals_list:
+            v = vals.copy()
+            department_id = v.get('department_id')
+            if department_id:
+                department = self.env['hr.department'].browse(department_id)
+                if department.college_id:
+                    v.setdefault('college_id', department.college_id.id)
+            _logger.debug("[Create Course] vals=%s", v)
+            if not v.get('course_code'):
+                sequence = self.env['ir.sequence'].next_by_code('elearning.course')
+                v['course_code'] = sequence or 'CRS001'
+            new_list.append(v)
+        return super().create(new_list)
 
     def write(self, vals):
         vals = vals.copy()

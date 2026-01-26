@@ -60,10 +60,12 @@
                 <filter string="Program Requirements" name="program" domain="[('requirement_type', '=', 'program')]"/>
                 <filter string="Elective Requirements" name="elective" domain="[('requirement_type', '=', 'elective')]"/>
                 <filter string="University Requirements" name="university" domain="[('requirement_type', '=', 'university')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Type" name="group_type" context="{'group_by': 'requirement_type'}"/>
-                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
-                </group>
+                <filter string="Group by Type" name="group_type"
+                        context="{'group_by': 'requirement_type'}"
+                        domain="[]"/>
+                <filter string="Group by Department" name="group_department"
+                        context="{'group_by': 'department_id'}"
+                        domain="[]"/>
             </search>
         </field>
     </record>

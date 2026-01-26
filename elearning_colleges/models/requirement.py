@@ -64,36 +64,36 @@ class Requirement(models.Model):
                 req.name = f"Requirement {req.id}" if req.id else "New Requirement"
                 req.display_name = req.name
     
-    @api.model
-    def create(self, vals):
-        """Auto-populate missing fields from context or related fields"""
-        # Set requirement_type from context if not provided
-        if 'requirement_type' not in vals or not vals.get('requirement_type'):
-            req_type = self.env.context.get('default_requirement_type')
-            if req_type:
-                vals['requirement_type'] = req_type
-        
-        # Auto-populate department_id based on the calling context
-        # For One2many fields, we can infer the department from the parent record
-        if 'department_id' not in vals or not vals.get('department_id'):
-            # Try to get from context first
-            if self.env.context.get('default_department_id'):
-                vals['department_id'] = self.env.context.get('default_department_id')
-            # If context doesn't have it, infer from the active record
-            elif self.env.context.get('active_model') == 'hr.department':
-                dept_id = self.env.context.get('active_id')
-                if dept_id:
-                    vals['department_id'] = dept_id
-        
-        # Auto-populate name from course_id if course is provided
-        if 'course_id' in vals and vals['course_id']:
-            course = self.env['slide.channel'].browse(vals['course_id'])
-            if course:
-                vals['name'] = course.name
-        elif 'name' not in vals:
-            vals['name'] = f"Requirement {vals.get('requirement_type', 'New')}"
-        
-        return super(Requirement, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Auto-populate missing fields from context or related fields.
+        With @api.model_create_multi, vals_list is a list of dicts; iterate over each.
+        """
+        for vals in vals_list:
+            # Set requirement_type from context if not provided
+            if not vals.get('requirement_type'):
+                req_type = self.env.context.get('default_requirement_type')
+                if req_type:
+                    vals['requirement_type'] = req_type
+
+            # Auto-populate department_id based on the calling context
+            if not vals.get('department_id'):
+                if self.env.context.get('default_department_id'):
+                    vals['department_id'] = self.env.context.get('default_department_id')
+                elif self.env.context.get('active_model') == 'hr.department':
+                    dept_id = self.env.context.get('active_id')
+                    if dept_id:
+                        vals['department_id'] = dept_id
+
+            # Auto-populate name from course_id if course is provided
+            if vals.get('course_id'):
+                course = self.env['slide.channel'].browse(vals['course_id'])
+                if course:
+                    vals['name'] = course.name
+            elif 'name' not in vals:
+                vals['name'] = f"Requirement {vals.get('requirement_type', 'New')}"
+
+        return super(Requirement, self).create(vals_list)
     
     @api.depends('department_id')
     def _compute_total_courses(self):
@@ -177,36 +177,36 @@ class Semester(models.Model):
             else:
                 semester.display_name = f"Y{semester.year}S{semester.semester_number}"
     
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Auto-populate missing fields from context"""
         # Set year and semester_number from context if not provided
-        if 'year' not in vals or not vals.get('year'):
+        if 'year' not in vals_list or not vals_list.get('year'):
             year = self.env.context.get('default_year')
             if year:
-                vals['year'] = year
+                vals_list['year'] = year
         
-        if 'semester_number' not in vals or not vals.get('semester_number'):
+        if 'semester_number' not in vals_list or not vals_list.get('semester_number'):
             semester_num = self.env.context.get('default_semester_number')
             if semester_num:
-                vals['semester_number'] = semester_num
+                vals_list['semester_number'] = semester_num
         
         # Auto-populate department_id based on the calling context
-        if 'department_id' not in vals or not vals.get('department_id'):
+        if 'department_id' not in vals_list or not vals_list.get('department_id'):
             # Try to get from context first
             if self.env.context.get('default_department_id'):
-                vals['department_id'] = self.env.context.get('default_department_id')
+                vals_list['department_id'] = self.env.context.get('default_department_id')
             # If context doesn't have it, infer from the active record
             elif self.env.context.get('active_model') == 'hr.department':
                 dept_id = self.env.context.get('active_id')
                 if dept_id:
-                    vals['department_id'] = dept_id
+                    vals_list['department_id'] = dept_id
         
         # Auto-generate name
-        if 'year' in vals and 'semester_number' in vals:
-            vals['name'] = f"Year {vals['year']} Semester {vals['semester_number']}"
+        if 'year' in vals_list and 'semester_number' in vals_list:
+            vals_list['name'] = f"Year {vals_list['year']} Semester {vals_list['semester_number']}"
         
-        return super(Semester, self).create(vals)
+        return super(Semester, self).create(vals_list)
     
     @api.depends('department_id')
     def _compute_total_courses(self):

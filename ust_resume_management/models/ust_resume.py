@@ -39,28 +39,36 @@ class USTResume(models.Model):
         for rec in self:
             rec.is_teacher = self.env.user.has_group('ust_resume_management.group_resume_teacher')
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         user = self.env.user
-        target_user_id = vals.get('user_id')
+        # Normalize to list of dicts
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
 
         if user.has_group('ust_resume_management.group_resume_teacher'):
+            # Teacher can only have one CV
             existing = self.search([('user_id', '=', user.id)], limit=1)
             if existing:
                 raise ValidationError(_("You already have a CV. You cannot create another."))
-
-            vals['user_id'] = user.id
-            vals['email'] = user.email
+            # Force user and email on all records being created
+            for vals in vals_list:
+                vals['user_id'] = user.id
+                vals['email'] = user.email
         else:
-            if target_user_id:
-                existing = self.search([('user_id', '=', target_user_id)], limit=1)
-                if existing:
-                    raise ValidationError(_("This user already has a CV. You cannot create another."))
+            # Admin/manager: ensure target user does not already have a CV
+            for vals in vals_list:
+                target_user_id = vals.get('user_id')
+                if target_user_id:
+                    existing = self.search([('user_id', '=', target_user_id)], limit=1)
+                    if existing:
+                        raise ValidationError(_("This user already has a CV. You cannot create another."))
 
-        resume = super().create(vals)
-        if resume.website_published and not resume.published_date:
-            resume.published_date = fields.Datetime.now()
-        return resume
+        records = super().create(vals_list)
+        for rec in records:
+            if rec.website_published and not rec.published_date:
+                rec.published_date = fields.Datetime.now()
+        return records
 
     def write(self, vals):
         res = super().write(vals)

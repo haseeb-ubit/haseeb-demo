@@ -7,14 +7,17 @@ class ResUsers(models.Model):
     role_names = fields.Char(
         compute='_compute_role_names',
         inverse='_set_role_names',
-        string="Role",
-        store=False
+        string="User Roles",
+        store=False,
+        compute_sudo=True,
     )
 
-    @api.depends("role_ids.name")
+    @api.depends("role_line_ids.is_enabled", "role_line_ids.role_id", "role_line_ids.role_id.name")
     def _compute_role_names(self):
-        for user in self:
-            user.role_names = ", ".join(user.role_ids.mapped("name")) if user.role_ids else ""
+        for user in self.sudo():
+            enabled_lines = user.role_line_ids.filtered(lambda l: l.is_enabled)
+            names = enabled_lines.mapped("role_id.name")
+            user.role_names = ", ".join(names) if names else ""
 
     def _set_role_names(self):
         for user in self:

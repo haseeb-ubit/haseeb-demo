@@ -3,7 +3,7 @@
     'description': 'Colleges management for eLearning platform',
     'category': 'eLearning',
     'sequence': 10,
-    'version': '18.0',
+    'version': '19.0.1.0.0',
     'depends': ['website_slides', 'hr', 'website'],
     'data': [
         'security/ir.model.access.csv',

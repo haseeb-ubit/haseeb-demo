@@ -3,7 +3,7 @@
     'description': 'Ust website News',
     'category': 'Theme',
     'sequence': 10,
-    'version': '18.0',
+    'version': '19.0.0.0.0',
     'depends': ['base', 'mail', 'website', 'ust_website_home'],
     'data': [
         'security/ir.model.access.csv',

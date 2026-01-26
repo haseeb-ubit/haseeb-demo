@@ -81,11 +81,13 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="dean_name"/>
+                <separator/>
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                 <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Dean" name="group_dean" context="{'group_by': 'dean_name'}"/>
-                </group>
+                <separator/>
+                <filter string="Group by Dean" name="group_by_dean"
+                        context="{'group_by': 'dean_name'}"
+                        domain="[]"/>
             </search>
         </field>
     </record>

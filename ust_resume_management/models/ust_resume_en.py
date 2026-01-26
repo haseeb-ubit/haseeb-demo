@@ -38,10 +38,11 @@ class USTResumeEN(models.Model):
         for rec in self:
             rec.is_teacher = self.env.user.has_group('ust_resume_management.group_resume_teacher')
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         user = self.env.user
-        target_user_id = vals.get('user_id')
+        for vals in vals_list:
+            target_user_id = vals.get('user_id')
 
         if user.has_group('ust_resume_management.group_resume_teacher'):
             existing = self.search([('user_id', '=', user.id)], limit=1)
@@ -56,7 +57,7 @@ class USTResumeEN(models.Model):
                 if existing:
                     raise ValidationError(_("This user already has a CV. You cannot create another."))
 
-        resume = super().create(vals)
+        resume = super().create(vals_list)
         if resume.website_published and not resume.published_date:
             resume.published_date = fields.Datetime.now()
         return resume

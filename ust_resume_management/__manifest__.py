@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "UST Resume Management",
-    "version": "1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Knysys",
     "category": "Website/eLearning",
     "summary": "إدارة السيرة الذاتية لأعضاء هيئة التدريس - Arabic RTL, preview & PDF",
