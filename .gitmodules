@@ -1,0 +1,4 @@
+[submodule "addons/addons/SPMS"]
+	path = addons/addons/SPMS
+	url = git@github.com:amitkansagara/SPMS.git
+	branch = Staging
