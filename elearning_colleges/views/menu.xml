@@ -10,4 +10,12 @@
               parent="website_slides.website_slides_menu_root" 
               action="action_college" 
               sequence="30"/>
+    
+    <!-- Semesters Submenu -->
+    <menuitem id="menu_semesters" 
+              name="Semesters" 
+              parent="website_slides.website_slides_menu_root" 
+              action="action_semester" 
+              sequence="31"/>
+    
 </odoo>

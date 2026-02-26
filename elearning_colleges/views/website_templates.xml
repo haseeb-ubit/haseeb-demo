@@ -774,6 +774,22 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <!-- Timetable and Noticeboard Links -->
+                                        <div class="mt-3 mb-3 text-center">
+                                            <t t-set="first_semester" t-value="semesters_by_year.get(sem_key, [])[0] if semesters_by_year.get(sem_key) else None"/>
+                                            <t t-if="first_semester">
+                                                <t t-set="year" t-value="first_semester.year"/>
+                                                <t t-set="semester_num" t-value="first_semester.semester_number"/>
+                                                <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/timetable" 
+                                                   class="btn btn-outline-primary btn-sm me-2">
+                                                    <i class="fa fa-calendar me-1"></i>View Timetable
+                                                </a>
+                                                <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/noticeboard" 
+                                                   class="btn btn-outline-info btn-sm">
+                                                    <i class="fa fa-bullhorn me-1"></i>View Noticeboard
+                                                </a>
+                                            </t>
+                                        </div>
                                     </div>
                                 </t>
                             </div>
@@ -793,11 +809,814 @@
                                class="btn btn-resume" style="padding: 0.75rem 2rem; font-size: 1.15rem;">
                                 <i class="fa fa-print me-2"></i>Print Semesters
                             </a>
+                            <a t-attf-href="/report/pdf/elearning_colleges.action_report_department_timetable/{{ department.id }}" 
+                               target="_blank" 
+                               class="btn btn-resume" style="padding: 0.75rem 2rem; font-size: 1.15rem; margin-left: 1rem;">
+                                <i class="fa fa-print me-2"></i>Print Timetable
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </t>
     </template>
-</odoo>
 
+    <!-- Semester Timetable Template -->
+    <template id="semester_timetable_template" name="Semester Timetable">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="semester.display_name + ' - Timetable'"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <!-- Header -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a t-attf-href="/colleges/{{ college.id }}/department">Colleges</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/courses">{{ department.name }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Timetable</li>
+                                </ol>
+                            </nav>
+                            <h1 class="mb-2 college-title" t-esc="semester.display_name + ' - Timetable'"/>
+                            <p class="text-muted">
+                                <span t-esc="department.name"/> - <span t-esc="college.name"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timetable Content -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <t t-if="timetable_entries">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover">
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th>Day</th>
+                                                <th>Time</th>
+                                                <th>Course</th>
+                                                <th>Room</th>
+                                                <th>Teacher</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="sorted_days" t-as="day_key">
+                                                <t t-foreach="timetable_by_day.get(day_key, [])" t-as="entry">
+                                                    <tr>
+                                                        <td><strong t-esc="day_names.get(day_key, '')"/></td>
+                                                        <td t-esc="entry.time_display"/>
+                                                        <td t-esc="entry.course_id.name if entry.course_id else ''"/>
+                                                        <td t-esc="entry.room or '-'"/>
+                                                        <td t-esc="entry.teacher_id.name if entry.teacher_id else '-'"/>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="alert alert-info" role="alert">
+                                    <i class="fa fa-info-circle me-2"></i>No timetable entries available for this semester.
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="row mb-5">
+                        <div class="col-12 text-center">
+                            <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/courses" 
+                               class="btn btn-primary">
+                                <i class="fa fa-arrow-left me-2"></i>Back to Department Courses
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Semester Noticeboard Template -->
+    <template id="semester_noticeboard_template" name="Semester Noticeboard">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="(semester and (semester.display_name + ' - Noticeboard')) or (department.name + ' - Noticeboard')"/>
+            <div id="wrap" class="oe_structure oe_empty">
+
+                <!-- ===== NOTICEBOARD STYLES ===== -->
+                <style>
+                    :root {
+                        --nb-deep:    #1a365d;
+                        --nb-mid:     #2c5282;
+                        --nb-gold:    #c8a85a;
+                        --nb-urgent:  #c53030;
+                        --nb-high:    #d97706;
+                        --nb-medium:  #1a365d;
+                        --nb-low:     #718096;
+                        --nb-border:  #e2e8f0;
+                        --nb-shadow:  rgba(26,54,93,.08);
+                    }
+
+                    /* Page header */
+                    .nb-page-header { padding: 2.2rem 0 .75rem; }
+                    .nb-page-header h1 { color: var(--nb-deep); font-weight: 800; font-size: 1.75rem; margin-bottom: .2rem; }
+                    .nb-page-header p  { color: #68788e; font-size: .95rem; margin: 0; }
+
+                    /* Constrained feed */
+                    .nb-feed { max-width: 960px; margin: 0 auto; }
+
+                    /* Filter bar */
+                    .nb-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.875rem; }
+                    #nb-list { margin-top: .25rem; }
+                    .nb-filter-btn {
+                        border: 2px solid var(--nb-border);
+                        background: #fff; color: #4a5568;
+                        border-radius: 20px; padding: .3rem .9rem;
+                        font-size: .8rem; font-weight: 600;
+                        cursor: pointer; transition: all .15s;
+                    }
+                    .nb-filter-btn:hover,
+                    .nb-filter-btn.nb-active { background: var(--nb-deep); color: #fff; border-color: var(--nb-deep); }
+                    .nb-filter-btn[data-p="3"].nb-active { background: var(--nb-urgent); border-color: var(--nb-urgent); }
+                    .nb-filter-btn[data-p="2"].nb-active { background: var(--nb-high);   border-color: var(--nb-high);   }
+                    .nb-filter-btn[data-p="1"].nb-active { background: var(--nb-medium); border-color: var(--nb-medium); }
+                    .nb-filter-btn[data-p="0"].nb-active { background: var(--nb-low);    border-color: var(--nb-low);    }
+
+                    /* Notice card */
+                    .nb-card {
+                        background: #fff;
+                        border: 1px solid var(--nb-border);
+                        border-radius: 10px;
+                        border-left-width: 4px;
+                        padding: 1.25rem 1.4rem;
+                        margin-bottom: 1rem;
+                        box-shadow: 0 1px 4px var(--nb-shadow);
+                        transition: transform .18s, box-shadow .18s;
+                        cursor: default;
+                        position: relative;
+                    }
+                    .nb-card:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 18px var(--nb-shadow);
+                    }
+                    .nb-card[data-p="3"] { border-left-color: var(--nb-urgent); background: #fff8f8; }
+                    .nb-card[data-p="2"] { border-left-color: var(--nb-high);   background: #fffbf2; }
+                    .nb-card[data-p="1"] { border-left-color: var(--nb-medium); }
+                    .nb-card[data-p="0"] { border-left-color: var(--nb-low);    }
+
+                    /* Title row: NEW badge first, then title, then priority badge */
+                    .nb-title-row { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; margin-bottom: .65rem; }
+                    .nb-title {
+                        font-size: 1.05rem; font-weight: 700;
+                        color: var(--nb-deep); line-height: 1.3;
+                    }
+
+                    /* Priority badge */
+                    .nb-badge {
+                        display: inline-flex; align-items: center; gap: .25rem;
+                        font-size: .68rem; font-weight: 700;
+                        border-radius: 4px; padding: .18rem .5rem;
+                        white-space: nowrap; flex-shrink: 0;
+                        letter-spacing: .04em; text-transform: uppercase;
+                    }
+                    .nb-badge-urgent { background: var(--nb-urgent); color: #fff; }
+                    .nb-badge-high   { background: var(--nb-high);   color: #fff; }
+                    .nb-badge-medium { background: var(--nb-medium); color: #fff; }
+                    .nb-badge-low    { background: var(--nb-low);    color: #fff; }
+
+                    /* "NEW" pill badge — appears before title */
+                    .nb-new-badge {
+                        display: inline-flex; align-items: center;
+                        background: var(--nb-gold); color: #fff;
+                        font-size: .62rem; font-weight: 800;
+                        border-radius: 4px; padding: .15rem .45rem;
+                        letter-spacing: .06em; text-transform: uppercase;
+                        flex-shrink: 0;
+                        animation: nb-blink 1.8s ease-in-out infinite;
+                    }
+                    @keyframes nb-blink {
+                        0%,100% { opacity: 1; } 50% { opacity: .55; }
+                    }
+
+                    /* Meta line */
+                    .nb-meta {
+                        font-size: .78rem; color: #8a9ab0;
+                        display: flex; flex-wrap: wrap; gap: .15rem .75rem;
+                        margin-bottom: .85rem; align-items: center;
+                    }
+                    .nb-meta i { font-size: .72rem; opacity: .7; }
+
+                    /* Body text — darkest element for readability priority */
+                    .nb-body { font-size: .92rem; color: #333; line-height: 1.68; }
+                    .nb-body p { margin-bottom: .6rem; }
+                    .nb-body p:last-child { margin-bottom: 0; }
+
+                    /* Back button */
+                    .nb-btn-outline {
+                        background: #fff; color: var(--nb-deep);
+                        border: 2px solid var(--nb-deep); border-radius: 8px;
+                        padding: .6rem 1.5rem; font-weight: 600; font-size: .9rem;
+                        text-decoration: none;
+                        display: inline-flex; align-items: center; gap: .45rem;
+                        transition: all .18s;
+                    }
+                    .nb-btn-outline:hover { background: var(--nb-deep); color: #fff; transform: translateY(-1px); }
+
+                    /* No notices */
+                    .nb-empty {
+                        text-align: center; padding: 3rem 1rem;
+                        color: #8a9ab0; font-size: .95rem;
+                    }
+                    .nb-empty i { font-size: 2.5rem; display: block; margin-bottom: .75rem; opacity: .4; }
+                </style>
+
+                <div class="container">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mt-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a t-attf-href="/colleges/{{ college.id }}/department">Colleges</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/courses">
+                                    <t t-esc="department.name"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Noticeboard</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Page Header -->
+                    <div class="nb-page-header">
+                        <h1>
+                            <i class="fa fa-bullhorn me-2" style="font-size:1.3rem;opacity:.8;"/>
+                            <t t-if="semester"><t t-esc="semester.display_name"/> &#8212; Noticeboard</t>
+                            <t t-else=""><t t-esc="department.name"/> &#8212; Noticeboard</t>
+                        </h1>
+                        <p><t t-esc="department.name"/> &#x2022; <t t-esc="college.name"/></p>
+                    </div>
+
+                    <!-- Notice Feed (constrained width) -->
+                    <div class="nb-feed">
+                        <t t-if="notices">
+                            <!-- Filter bar -->
+                            <div class="nb-filters" id="nb-filter-bar">
+                                <button class="nb-filter-btn nb-active" data-p="all" type="button">All</button>
+                                <button class="nb-filter-btn" data-p="3" type="button">
+                                    <i class="fa fa-exclamation-circle me-1"/>Urgent
+                                </button>
+                                <button class="nb-filter-btn" data-p="2" type="button">
+                                    <i class="fa fa-arrow-up me-1"/>High
+                                </button>
+                                <button class="nb-filter-btn" data-p="1" type="button">
+                                    <i class="fa fa-minus me-1"/>Medium
+                                </button>
+                                <button class="nb-filter-btn" data-p="0" type="button">
+                                    <i class="fa fa-arrow-down me-1"/>Low
+                                </button>
+                            </div>
+
+                            <!-- Notice cards -->
+                            <div id="nb-list">
+                                <t t-foreach="notices" t-as="notice">
+                                    <t t-set="p" t-value="notice.priority"/>
+                                    <t t-set="badge_cls" t-value="'nb-badge-urgent' if p == '3' else 'nb-badge-high' if p == '2' else 'nb-badge-medium' if p == '1' else 'nb-badge-low'"/>
+                                    <t t-set="badge_lbl" t-value="priority_labels.get(p, 'Low')"/>
+                                    <!-- is_new: published within last 24 hours -->
+                                    <t t-set="is_new" t-value="notice.publish_date and ((datetime.datetime.now() - notice.publish_date).total_seconds() &lt; 86400)"/>
+                                    <div class="nb-card" t-attf-data-p="{{ p }}">
+                                        <!-- NEW pill (if recent) · Title · Priority badge — all on one row -->
+                                        <div class="nb-title-row">
+                                            <t t-if="is_new">
+                                                <span class="nb-new-badge">NEW</span>
+                                            </t>
+                                            <span class="nb-title"><t t-esc="notice.title"/></span>
+                                            <span t-attf-class="nb-badge {{ badge_cls }}">
+                                                <t t-esc="badge_lbl"/>
+                                            </span>
+                                        </div>
+                                        <!-- Meta: date + author -->
+                                        <div class="nb-meta">
+                                            <span>
+                                                <i class="fa fa-calendar-o me-1"/>
+                                                <span t-esc="notice.publish_date.strftime('%b %d, %Y') if notice.publish_date else ''"/>
+                                                <t t-if="notice.publish_date">
+                                                    &#x2022;&#160;<span t-esc="notice.publish_date.strftime('%I:%M %p') if notice.publish_date else ''"/>
+                                                </t>
+                                            </span>
+                                            <t t-if="notice.author_id">
+                                                <span>
+                                                    <i class="fa fa-user-o me-1"/>
+                                                    <span t-esc="notice.author_id.name"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <!-- Body -->
+                                        <div class="nb-body" t-raw="notice.message"/>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <!-- No-results after filtering -->
+                            <div id="nb-no-results" class="nb-empty" style="display:none;">
+                                <i class="fa fa-bell-slash-o" style="font-size:2rem;display:block;margin-bottom:.6rem;opacity:.35;"/>
+                                <strong style="display:block;margin-bottom:.3rem;color:#4a5568;">No notices in this category</strong>
+                                <span style="font-size:.82rem;">Try selecting a different filter or check back later.</span>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="nb-empty">
+                                <i class="fa fa-bell-slash-o"/>
+                                No published notices available right now.
+                            </div>
+                        </t>
+
+                        <!-- Back Button -->
+                        <div class="text-center mt-4 mb-5">
+                            <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/courses"
+                               class="nb-btn-outline">
+                                <i class="fa fa-arrow-left"/>Back to Department Courses
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Script -->
+                <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function () {
+                    var bar   = document.getElementById('nb-filter-bar');
+                    var list  = document.getElementById('nb-list');
+                    var noRes = document.getElementById('nb-no-results');
+                    if (!bar || !list) { return; }
+
+                    bar.addEventListener('click', function (e) {
+                        var btn = e.target.closest('.nb-filter-btn');
+                        if (!btn) { return; }
+
+                        bar.querySelectorAll('.nb-filter-btn').forEach(function (b) {
+                            b.classList.remove('nb-active');
+                        });
+                        btn.classList.add('nb-active');
+
+                        var filter  = btn.getAttribute('data-p');
+                        var cards   = list.querySelectorAll('.nb-card');
+                        var visible = 0;
+
+                        cards.forEach(function (card) {
+                            if (filter === 'all' || card.getAttribute('data-p') === filter) {
+                                card.style.display = '';
+                                visible += 1;
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+
+                        if (noRes) {
+                            noRes.style.display = (visible === 0) ? '' : 'none';
+                        }
+                    });
+                });
+                </script>
+            </div>
+        </t>
+    </template>
+
+    <!-- Department Timetable Grid Template -->
+    <template id="department_timetable_template" name="Department Timetable">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="department.name + ' - Timetable'"/>
+            <div id="wrap" class="oe_structure oe_empty">
+
+                <!-- ===== TIMETABLE STYLES ===== -->
+                <style>
+                    /* ── Brand tokens ── */
+                    :root {
+                        --tt-deep:    #1a365d;
+                        --tt-mid:     #2c5282;
+                        --tt-gold:    #c8a85a;
+                        --tt-gold-lt: #f5edd8;
+                        --tt-cream:   #fdf6ec;
+                        --tt-pale:    #eef4fb;
+                        --tt-empty:   #f4f5f7;
+                        --tt-border:  #dde3ed;
+                        --tt-shadow:  rgba(26,54,93,.09);
+                    }
+
+                    /* ── Width constraint ── */
+                    .tt-wrap {
+                        max-width: 1280px;
+                        margin: 0 auto;
+                        padding: 0 1.25rem 3rem;
+                    }
+
+                    /* ── Page header ── */
+                    .tt-page-header { padding: 2.5rem 0 1.25rem; text-align: center; }
+                    .tt-page-header h1 { color: var(--tt-deep); font-weight: 800; font-size: 1.85rem; margin-bottom: .2rem; }
+                    .tt-page-header h2 { color: var(--tt-mid);  font-weight: 600; font-size: 1.25rem; margin-bottom: .15rem; }
+                    .tt-page-header h3 { color: #68788e;        font-weight: 400; font-size: .95rem; }
+
+                    /* ── Year tabs ── */
+                    .tt-year-tabs { border-bottom: 3px solid var(--tt-deep); gap: .35rem; }
+                    .tt-year-tabs .nav-link {
+                        color: var(--tt-mid); font-weight: 600; font-size: .9rem;
+                        border-radius: 8px 8px 0 0 !important;
+                        border: 2px solid transparent !important;
+                        padding: .5rem 1.35rem; transition: all .18s;
+                    }
+                    .tt-year-tabs .nav-link:hover  { background: var(--tt-pale); }
+                    .tt-year-tabs .nav-link.active  {
+                        background: var(--tt-deep) !important;
+                        color: #fff !important;
+                        border-color: var(--tt-deep) !important;
+                    }
+
+                    /* ── Segmented semester controls ── */
+                    .tt-seg-wrap {
+                        display: flex;
+                        justify-content: flex-end;
+                        margin-bottom: 1.25rem;
+                    }
+                    .tt-seg { display: inline-flex; border: 2px solid var(--tt-mid); border-radius: 8px; overflow: hidden; }
+                    .tt-seg .nav-link {
+                        border-radius: 0 !important;
+                        border: none !important;
+                        border-right: 1px solid var(--tt-mid) !important;
+                        color: var(--tt-mid); font-weight: 600; font-size: .82rem;
+                        padding: .3rem .95rem; background: #fff; transition: all .15s;
+                        white-space: nowrap;
+                    }
+                    .tt-seg .nav-link:last-child { border-right: none !important; }
+                    .tt-seg .nav-link:hover  { background: var(--tt-pale); }
+                    .tt-seg .nav-link.active  {
+                        background: var(--tt-mid) !important;
+                        color: #fff !important;
+                    }
+
+                    /* ── Year pane container ── */
+                    .tt-year-panel {
+                        border: 1px solid var(--tt-border);
+                        border-top: none;
+                        border-radius: 0 0 10px 10px;
+                        background: #fff;
+                        box-shadow: 0 4px 18px var(--tt-shadow);
+                        padding: 1.5rem 1.25rem 1.25rem;
+                    }
+
+                    /* ── Table ── */
+                    .tt-table {
+                        border-collapse: separate;
+                        border-spacing: 0;
+                        width: 100%;
+                        font-size: .81rem;
+                    }
+                    .tt-table thead th {
+                        background: var(--tt-deep); color: #fff;
+                        text-align: center; vertical-align: middle;
+                        padding: .7rem .55rem;
+                        font-weight: 600; letter-spacing: .02em;
+                        border: none; white-space: nowrap;
+                    }
+                    .tt-table thead th:first-child { border-radius: 8px 0 0 0; width: 72px; min-width: 72px; }
+                    .tt-table thead th:last-child  { border-radius: 0 8px 0 0; }
+                    .tt-table tbody td {
+                        border: none;
+                        border-bottom: 1px solid var(--tt-border);
+                        vertical-align: top;
+                        padding: 5px 4px;
+                        min-width: 115px;
+                    }
+                    .tt-table tbody tr:last-child td { border-bottom: none; }
+
+                    /* Day label cell */
+                    .tt-day-cell {
+                        text-align: center; vertical-align: middle;
+                        font-weight: 700; color: var(--tt-deep);
+                        background: var(--tt-pale);
+                        border-right: 3px solid var(--tt-border);
+                        font-size: .8rem; width: 72px; min-width: 72px;
+                        white-space: nowrap;
+                    }
+
+                    /* Row hover */
+                    .tt-table tbody tr { transition: background .12s; }
+                    .tt-table tbody tr:hover td { background: #f0f5ff !important; }
+                    .tt-table tbody tr:hover td.tt-day-cell {
+                        background: var(--tt-gold-lt) !important;
+                        color: #7a5c10;
+                        border-right-color: var(--tt-gold);
+                    }
+                    /* Current-day row */
+                    .tt-table tbody tr.tt-current-day td.tt-day-cell {
+                        background: var(--tt-gold-lt);
+                        color: #7a5c10;
+                        border-right-color: var(--tt-gold);
+                    }
+
+                    /* Empty cells - solid light grey, no stripes */
+                    .tt-empty-cell {
+                        background: var(--tt-empty);
+                        border-radius: 4px;
+                        height: 48px;
+                    }
+
+                    /* ── Course cards ── */
+                    .tt-card {
+                        border-radius: 6px;
+                        padding: 8px 10px 7px;
+                        margin-bottom: 4px;
+                        background: var(--tt-cream);
+                        border: 1px solid #e8d8b0;
+                        border-left: 3px solid var(--tt-gold);
+                        box-shadow: 0 1px 4px var(--tt-shadow);
+                        transition: transform .14s, box-shadow .14s;
+                    }
+                    .tt-card:hover {
+                        transform: translateY(-1px);
+                        box-shadow: 0 3px 10px var(--tt-shadow);
+                    }
+                    .tt-card-subject {
+                        font-weight: 700; color: var(--tt-deep);
+                        font-size: .79rem; line-height: 1.3; margin-bottom: 4px;
+                    }
+                    .tt-card-instructor {
+                        font-size: .69rem; color: #8a9ab0; margin-bottom: 4px;
+                    }
+                    .tt-card-room {
+                        display: inline-flex; align-items: center; gap: 3px;
+                        font-size: .67rem;
+                        background: rgba(26,54,93,.07);
+                        color: var(--tt-deep);
+                        border-radius: 4px;
+                        padding: 1px 6px;
+                        font-weight: 600;
+                    }
+                    .tt-card-room i { font-size: .62rem; }
+
+                    /* Pulsing highlight for currently-running class */
+                    .tt-current-slot .tt-card {
+                        border: 2px solid var(--tt-gold) !important;
+                        animation: tt-pulse 2.2s ease-in-out infinite;
+                    }
+                    @keyframes tt-pulse {
+                        0%,100% { box-shadow: 0 0 0 0 rgba(200,168,90,.4); }
+                        50%      { box-shadow: 0 0 0 7px rgba(200,168,90,0); }
+                    }
+
+                    /* ── Action buttons ── */
+                    .tt-actions {
+                        display: flex; flex-wrap: wrap;
+                        justify-content: center; gap: .75rem;
+                        padding-top: 2rem;
+                    }
+                    .tt-btn-primary {
+                        background: var(--tt-deep); color: #fff;
+                        border: 2px solid var(--tt-deep); border-radius: 8px;
+                        padding: .6rem 1.5rem; font-weight: 600; font-size: .9rem;
+                        text-decoration: none;
+                        display: inline-flex; align-items: center; gap: .45rem;
+                        transition: background .18s, transform .14s;
+                    }
+                    .tt-btn-primary:hover {
+                        background: var(--tt-mid);
+                        border-color: var(--tt-mid);
+                        color: #fff; transform: translateY(-1px);
+                    }
+                    .tt-btn-outline {
+                        background: #fff; color: var(--tt-deep);
+                        border: 2px solid var(--tt-deep); border-radius: 8px;
+                        padding: .6rem 1.5rem; font-weight: 600; font-size: .9rem;
+                        text-decoration: none;
+                        display: inline-flex; align-items: center; gap: .45rem;
+                        transition: all .18s;
+                    }
+                    .tt-btn-outline:hover {
+                        background: var(--tt-deep); color: #fff;
+                        transform: translateY(-1px);
+                    }
+
+                    @media print {
+                        .tt-actions, nav, .breadcrumb,
+                        #wrapwrap > header, #wrapwrap > footer { display: none !important; }
+                        .tt-table { font-size: .7rem; }
+                    }
+                </style>
+
+                <!-- ── Constrained wrapper ── -->
+                <div class="tt-wrap">
+
+                    <!-- Page Header -->
+                    <div class="tt-page-header">
+                        <h1><t t-esc="college.name"/></h1>
+                        <h2><t t-esc="department.name"/></h2>
+                        <h3>Department Timetable</h3>
+                    </div>
+
+                    <!-- Timetable grids -->
+                    <div class="mb-4">
+                        <t t-if="not no_data">
+
+                            <!-- Year-level tabs -->
+                            <ul class="nav tt-year-tabs mb-0" id="tt-year-tabs" role="tablist">
+                                <t t-set="seen_years" t-value="[]"/>
+                                <t t-foreach="semesters_data" t-as="sem_data">
+                                    <t t-set="yr_label" t-value="sem_data.get('year_label', 'Year 1')"/>
+                                    <t t-if="yr_label not in seen_years">
+                                        <t t-set="_dummy" t-value="seen_years.append(yr_label)"/>
+                                        <li class="nav-item" role="presentation">
+                                            <button
+                                                t-attf-class="nav-link #{'active' if len(seen_years) == 1 else ''}"
+                                                t-attf-id="tt-year-tab-{{ yr_label.replace(' ','_').replace('/','_') }}"
+                                                data-bs-toggle="tab"
+                                                t-attf-data-bs-target="#tt-year-pane-{{ yr_label.replace(' ','_').replace('/','_') }}"
+                                                type="button" role="tab"
+                                                t-esc="yr_label"/>
+                                        </li>
+                                    </t>
+                                </t>
+                            </ul>
+
+                            <!-- Year pane tab-content -->
+                            <div class="tab-content">
+                                <t t-set="seen_years2" t-value="[]"/>
+                                <t t-foreach="semesters_data" t-as="sem_data">
+                                    <t t-set="yr_label2" t-value="sem_data.get('year_label', 'Year 1')"/>
+                                    <t t-if="yr_label2 not in seen_years2">
+                                        <t t-set="_dummy2" t-value="seen_years2.append(yr_label2)"/>
+                                        <div
+                                            t-attf-class="tab-pane fade #{'show active' if len(seen_years2) == 1 else ''} tt-year-panel"
+                                            t-attf-id="tt-year-pane-{{ yr_label2.replace(' ','_').replace('/','_') }}"
+                                            role="tabpanel">
+
+                                            <!-- Segmented semester controls (right-aligned) -->
+                                            <div class="tt-seg-wrap">
+                                                <ul class="nav tt-seg"
+                                                    t-attf-id="tt-sem-tabs-{{ yr_label2.replace(' ','_').replace('/','_') }}"
+                                                    role="tablist">
+                                                    <t t-set="sem_first_in_year" t-value="True"/>
+                                                    <t t-foreach="semesters_data" t-as="inner_sem">
+                                                        <t t-set="inner_yr" t-value="inner_sem.get('year_label', 'Year 1')"/>
+                                                        <t t-if="inner_yr == yr_label2">
+                                                            <t t-set="inner_sem_id" t-value="inner_sem.get('semester_name', 'sem' + str(inner_sem_index))"/>
+                                                            <li class="nav-item" role="presentation">
+                                                                <button
+                                                                    t-attf-class="nav-link #{'active' if sem_first_in_year else ''}"
+                                                                    t-attf-id="tt-sem-tab-{{ inner_sem_id.replace(' ','_').replace('/','_') }}"
+                                                                    data-bs-toggle="tab"
+                                                                    t-attf-data-bs-target="#tt-sem-pane-{{ inner_sem_id.replace(' ','_').replace('/','_') }}"
+                                                                    type="button" role="tab"
+                                                                    t-esc="inner_sem_id"/>
+                                                            </li>
+                                                            <t t-set="sem_first_in_year" t-value="False"/>
+                                                        </t>
+                                                    </t>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Semester pane content -->
+                                            <div class="tab-content">
+                                                <t t-set="sem_first_pane" t-value="True"/>
+                                                <t t-foreach="semesters_data" t-as="pane_sem">
+                                                    <t t-set="pane_yr" t-value="pane_sem.get('year_label', 'Year 1')"/>
+                                                    <t t-if="pane_yr == yr_label2">
+                                                        <t t-set="sem_name" t-value="pane_sem.get('semester_name', 'sem' + str(pane_sem_index))"/>
+                                                        <div
+                                                            t-attf-class="tab-pane fade #{'show active' if sem_first_pane else ''}"
+                                                            t-attf-id="tt-sem-pane-{{ sem_name.replace(' ','_').replace('/','_') }}"
+                                                            role="tabpanel">
+                                                            <div class="table-responsive">
+                                                                <table class="tt-table"
+                                                                       t-attf-data-sem="{{ sem_name.replace(' ','_').replace('/','_') }}">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Day</th>
+                                                                            <t t-foreach="pane_sem.get('time_slots', [])" t-as="slot">
+                                                                                <th t-attf-data-start="{{ slot.get('start','') }}"
+                                                                                    t-attf-data-end="{{ slot.get('end','') }}">
+                                                                                    <span t-esc="slot.get('start', '')"/>&#160;&#8211;&#160;<span t-esc="slot.get('end', '')"/>
+                                                                                </th>
+                                                                            </t>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <t t-foreach="day_keys" t-as="day_idx">
+                                                                            <t t-set="day_key" t-value="day_idx"/>
+                                                                            <t t-set="day_name" t-value="day_names.get(day_key, day_key)"/>
+                                                                            <t t-set="tslots" t-value="pane_sem.get('time_slots', [])"/>
+                                                                            <!-- Check if this day has any entries at all -->
+                                                                            <t t-set="day_has_data" t-value="any(pane_sem.get('timetable_grid', {}).get(day_key, {}).get(si, []) for si in range(len(tslots)))"/>
+                                                                            <tr t-attf-data-day="{{ day_key }}">
+                                                                                <td t-attf-class="tt-day-cell #{'tt-weekend' if not day_has_data else ''}" t-esc="day_name"/>
+                                                                                <t t-foreach="tslots" t-as="slot">
+                                                                                    <t t-set="s_idx" t-value="tslots.index(slot)"/>
+                                                                                    <t t-set="entries" t-value="pane_sem.get('timetable_grid', {}).get(day_key, {}).get(s_idx, [])"/>
+                                                                                    <td t-attf-data-slot="{{ s_idx }}"
+                                                                                        t-attf-data-start="{{ slot.get('start','') }}"
+                                                                                        t-attf-data-end="{{ slot.get('end','') }}">
+                                                                                        <t t-if="entries">
+                                                                                            <t t-foreach="entries" t-as="entry">
+                                                                                                <t t-if="entry.get('course') or entry.get('teacher') or entry.get('room')">
+                                                                                                    <div class="tt-card">
+                                                                                                        <div class="tt-card-subject"><t t-esc="entry.get('course', '')"/></div>
+                                                                                                        <t t-if="entry.get('teacher')">
+                                                                                                            <div class="tt-card-instructor">
+                                                                                                                <i class="fa fa-user-o" style="font-size:.6rem;opacity:.6;margin-right:2px;"/>
+                                                                                                                <span t-esc="entry.get('teacher', '')"/>
+                                                                                                            </div>
+                                                                                                        </t>
+                                                                                                        <t t-if="entry.get('room')">
+                                                                                                            <span class="tt-card-room">
+                                                                                                                <i class="fa fa-map-marker"/>Room&#160;<span t-esc="entry.get('room', '')"/>
+                                                                                                            </span>
+                                                                                                        </t>
+                                                                                                    </div>
+                                                                                                </t>
+                                                                                            </t>
+                                                                                        </t>
+                                                                                        <t t-else="">
+                                                                                            <div class="tt-empty-cell"/>
+                                                                                        </t>
+                                                                                    </td>
+                                                                                </t>
+                                                                            </tr>
+                                                                        </t>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <t t-set="sem_first_pane" t-value="False"/>
+                                                    </t>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-info text-center" role="alert">
+                                <i class="fa fa-info-circle me-2"/>No timetable entries available.
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="tt-actions">
+                        <t t-if="not no_data">
+                            <a t-attf-href="/report/pdf/elearning_colleges.action_report_department_timetable/{{ department.id }}"
+                               target="_blank" class="tt-btn-primary">
+                                <i class="fa fa-download"/>Download PDF
+                            </a>
+                        </t>
+                        <a t-attf-href="/colleges/{{ college.id }}/department/{{ department.id }}/courses"
+                           class="tt-btn-outline">
+                            <i class="fa fa-arrow-left"/>Back to Department Courses
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Current-Class Highlight Script -->
+                <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function () {
+                    var dayMap = {
+                        sunday:0, monday:1, tuesday:2, wednesday:3,
+                        thursday:4, friday:5, saturday:6
+                    };
+                    function toMinutes(hhmm) {
+                        if (!hhmm) { return -1; }
+                        var p = hhmm.trim().split(':');
+                        return parseInt(p[0], 10) * 60 + parseInt(p[1] || 0, 10);
+                    }
+                    function highlight() {
+                        var now    = new Date();
+                        var curDay = now.getDay();
+                        var curMin = now.getHours() * 60 + now.getMinutes();
+                        document.querySelectorAll('tr[data-day]').forEach(function (row) {
+                            var idx = dayMap[(row.getAttribute('data-day') || '').toLowerCase()];
+                            if (idx === curDay) { row.classList.add('tt-current-day'); }
+                            else { row.classList.remove('tt-current-day'); }
+                        });
+                        document.querySelectorAll('td[data-start][data-end]').forEach(function (cell) {
+                            var start = toMinutes(cell.getAttribute('data-start'));
+                            var end   = toMinutes(cell.getAttribute('data-end'));
+                            var invalid = (start === -1 || end === -1);
+                            if (invalid) { return; }
+                            var row    = cell.closest('tr');
+                            var rowDay = row ? dayMap[(row.getAttribute('data-day') || '').toLowerCase()] : undefined;
+                            var isCurrent = (rowDay === curDay &amp;&amp; curMin &gt;= start &amp;&amp; curMin &lt; end);
+                            if (isCurrent) { cell.classList.add('tt-current-slot'); }
+                            else { cell.classList.remove('tt-current-slot'); }
+                        });
+                    }
+                    highlight();
+                    setInterval(highlight, 60000);
+                });
+                </script>
+            </div>
+        </t>
+    </template>
+</odoo>

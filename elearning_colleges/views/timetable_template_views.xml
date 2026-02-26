@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Timetable Entry Tree View (for use in template form) -->
+    <record id="view_timetable_entry_tree_template" model="ir.ui.view">
+        <field name="name">elearning.timetable.tree.template</field>
+        <field name="model">elearning.timetable</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" create="0" delete="0" default_order="day_of_week,time_slot_index">
+                <field name="day_of_week" readonly="1"/>
+                <field name="time_display" readonly="1" string="Time"/>
+                <field name="available_course_ids" invisible="1"/>
+                <field name="course_id" options="{'no_create': True}" 
+                       domain="[('id', 'in', available_course_ids)]"
+                       string="Course"/>
+                <field name="teacher_id" options="{'no_create': True}" string="Teacher"/>
+                <field name="room" string="Room"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Timetable Template List View -->
+    <record id="view_timetable_template_list" model="ir.ui.view">
+        <field name="name">elearning.timetable.template.list</field>
+        <field name="model">elearning.timetable.template</field>
+        <field name="arch" type="xml">
+            <list string="Timetable Templates">
+                <field name="semester_id"/>
+                <field name="department_id"/>
+                <field name="college_id"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="class_duration"/>
+                <field name="off_day_ids" widget="many2many_tags"/>
+                <field name="website_published" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Timetable Template Form View -->
+    <record id="view_timetable_template_form" model="ir.ui.view">
+        <field name="name">elearning.timetable.template.form</field>
+        <field name="model">elearning.timetable.template</field>
+        <field name="arch" type="xml">
+            <form string="Timetable Template">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_generate_grid" type="object" 
+                                class="oe_stat_button" icon="fa-calendar"
+                                invisible="grid_generated"
+                                string="Generate Timetable"/>
+                        <button name="action_update_grid" type="object" 
+                                class="oe_stat_button" icon="fa-refresh"
+                                invisible="not grid_generated"
+                                string="Update Timetable"
+                                confirm="This will regenerate the timetable with new time settings. Existing course/teacher/room data will be preserved where possible. Continue?"/>
+                        <button name="action_clear_grid" type="object" 
+                                class="oe_stat_button" icon="fa-trash"
+                                invisible="not grid_generated"
+                                string="Clear Timetable"
+                                confirm="Are you sure you want to clear all timetable entries? This action cannot be undone."/>
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="website_published"
+                                string="Unpublished"/>
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="not website_published"
+                                string="Published"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Timetable Template" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="semester_id" options="{'no_create': True}" 
+                                   context="{'show_semester_only': True}"
+                                   required="1"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="college_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="start_time" widget="float_time" required="1"/>
+                            <field name="end_time" widget="float_time" required="1"/>
+                            <field name="class_duration" required="1" 
+                                   placeholder="00:55" 
+                                   help="Duration in HH:MM format (e.g., 00:55 for 55 minutes)"/>
+                            <field name="break_duration" 
+                                   placeholder="00:05"
+                                   help="Break duration in HH:MM format (e.g., 00:05 for 5 minutes)"/>
+                            <field name="off_day_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True, 'no_create_edit': True}"
+                                   placeholder="Select off days"
+                                   help="Choose one or more off days. Timetable slots will not be generated for selected days."/>
+                            <field name="website_published"/>
+                            <field name="published_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Timetable Table" name="grid">
+                            <div class="alert alert-info" role="alert" invisible="grid_generated">
+                                <strong>Timetable not generated yet.</strong> Configure the time settings above and click "Generate Timetable" to create entries.
+                            </div>
+                            <div invisible="not grid_generated">
+                                <div class="alert alert-secondary py-2 mb-2" role="alert">
+                                    <i class="fa fa-info-circle me-1"/> Click any row below to add or edit course, teacher and room details.
+                                </div>
+                                <field name="timetable_entry_ids" nolabel="1" 
+                                       context="{'default_timetable_template_id': id, 'from_grid': True}"
+                                       view_id="view_timetable_entry_tree_template"/>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids"/>-->
+<!--                    <field name="activity_ids"/>-->
+<!--                    <field name="message_ids"/>-->
+<!--                </div>-->
+            </form>
+        </field>
+    </record>
+
+    <!-- Timetable Template Search View -->
+    <record id="view_timetable_template_search" model="ir.ui.view">
+        <field name="name">elearning.timetable.template.search</field>
+        <field name="model">elearning.timetable.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Timetable Templates">
+                <field name="semester_id"/>
+                <field name="department_id"/>
+                <field name="college_id"/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Not Published" name="not_published" domain="[('website_published', '=', False)]"/>
+                <filter string="Timetable Generated" name="grid_generated" domain="[('grid_generated', '=', True)]"/>
+                <filter string="Timetable Not Generated" name="grid_not_generated" domain="[('grid_generated', '=', False)]"/>
+                <separator/>
+                <filter string="Group by Department" name="group_department"
+                        context="{'group_by': 'department_id'}"/>
+                <filter string="Group by Semester" name="group_semester"
+                        context="{'group_by': 'semester_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Timetable Template Actions -->
+    <record id="action_timetable_template" model="ir.actions.act_window">
+        <field name="name">Timetable Templates</field>
+        <field name="res_model">elearning.timetable.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_timetable_template_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new timetable template
+            </p>
+            <p>
+                Create a timetable template for a semester by setting the start time, end time, and class duration. 
+                Then generate the grid and fill in the course details.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_view_department_timetable_templates" model="ir.actions.act_window">
+        <field name="name">Department Timetable Templates</field>
+        <field name="res_model">elearning.timetable.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('department_id', '=', active_id)]</field>
+        <field name="context">{'default_department_id': active_id, 'search_default_department_id': active_id}</field>
+    </record>
+
+</odoo>

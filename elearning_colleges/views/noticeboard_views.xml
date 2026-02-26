@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Noticeboard List View -->
+    <record id="view_noticeboard_list" model="ir.ui.view">
+        <field name="name">elearning.noticeboard.list</field>
+        <field name="model">elearning.noticeboard</field>
+        <field name="arch" type="xml">
+            <list string="Noticeboard Messages">
+                <field name="department_id"/>
+                <field name="title"/>
+                <field name="priority" widget="priority"/>
+                <field name="publish_date"/>
+                <field name="author_id"/>
+                <field name="website_published" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Noticeboard Form View -->
+    <record id="view_noticeboard_form" model="ir.ui.view">
+        <field name="name">elearning.noticeboard.form</field>
+        <field name="model">elearning.noticeboard</field>
+        <field name="arch" type="xml">
+            <form string="Noticeboard Message">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="website_published"
+                                string="Unpublished"/>
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="not website_published"
+                                string="Published"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="title" placeholder="Notice Title" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id" options="{'no_create': True}" 
+                                   domain="[('is_college_department', '=', True)]"/>
+                            <field name="college_id" readonly="1"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                        <group>
+                            <field name="publish_date"/>
+                            <field name="author_id" readonly="1"/>
+                            <field name="website_published" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="message" placeholder="Enter notice message here..." required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Noticeboard Search View -->
+    <record id="view_noticeboard_search" model="ir.ui.view">
+        <field name="name">elearning.noticeboard.search</field>
+        <field name="model">elearning.noticeboard</field>
+        <field name="arch" type="xml">
+            <search string="Search Noticeboard">
+                <field name="department_id"/>
+                <field name="title"/>
+                <field name="author_id"/>
+                <field name="publish_date"/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Not Published" name="not_published" domain="[('website_published', '=', False)]"/>
+                <filter string="Urgent" name="urgent" domain="[('priority', '=', '3')]"/>
+                <filter string="High Priority" name="high" domain="[('priority', '=', '2')]"/>
+                <filter string="Medium Priority" name="medium" domain="[('priority', '=', '1')]"/>
+                <filter string="Low Priority" name="low" domain="[('priority', '=', '0')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('publish_date', '>=', datetime.datetime.now().replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')), ('publish_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter string="This Week" name="this_week" domain="[('publish_date', '>=', (datetime.datetime.now() - datetime.timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <separator/>
+                <filter string="Group by Department" name="group_department"
+                        context="{'group_by': 'department_id'}"/>
+                <filter string="Group by Priority" name="group_priority"
+                        context="{'group_by': 'priority'}"/>
+                <filter string="Group by Author" name="group_author"
+                        context="{'group_by': 'author_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Noticeboard Actions -->
+    <record id="action_noticeboard" model="ir.actions.act_window">
+        <field name="name">Noticeboard</field>
+        <field name="res_model">elearning.noticeboard</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_noticeboard_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new noticeboard message
+            </p>
+            <p>
+                Manage noticeboard messages for each department. These messages will be visible on the website when published.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Timetable List View -->
+    <record id="view_timetable_list" model="ir.ui.view">
+        <field name="name">elearning.timetable.list</field>
+        <field name="model">elearning.timetable</field>
+        <field name="arch" type="xml">
+            <list string="Timetable Entries">
+                <field name="semester_id"/>
+                <field name="day_of_week"/>
+                <field name="time_display"/>
+                <field name="course_id"/>
+                <field name="room"/>
+                <field name="teacher_id"/>
+                <field name="website_published" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Timetable Wizard/Form View -->
+    <record id="view_timetable_form" model="ir.ui.view">
+        <field name="name">elearning.timetable.form</field>
+        <field name="model">elearning.timetable</field>
+        <field name="arch" type="xml">
+            <form string="Timetable Entry">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Timetable Entry" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="timetable_template_id" options="{'no_create': True}" invisible="not timetable_template_id" readonly="1"/>
+                            <field name="semester_id" readonly="1"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="college_id" readonly="1"/>
+                            <field name="day_of_week" readonly="context.get('from_grid', False)"/>
+                        </group>
+                        <group>
+                            <field name="start_time" widget="float_time" readonly="context.get('from_grid', False)"/>
+                            <field name="end_time" widget="float_time" readonly="context.get('from_grid', False)"/>
+                            <field name="time_display" readonly="1"/>
+                            <field name="time_slot_index" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="available_course_ids" invisible="1"/>
+                            <field name="course_id" options="{'no_create': True}" 
+                                   domain="[('id', 'in', available_course_ids)]"/>
+                            <field name="room"/>
+                            <field name="teacher_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Timetable Search View -->
+    <record id="view_timetable_search" model="ir.ui.view">
+        <field name="name">elearning.timetable.search</field>
+        <field name="model">elearning.timetable</field>
+        <field name="arch" type="xml">
+            <search string="Search Timetable">
+                <field name="semester_id"/>
+                <field name="day_of_week"/>
+                <field name="course_id"/>
+                <field name="room"/>
+                <field name="teacher_id"/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Not Published" name="not_published" domain="[('website_published', '=', False)]"/>
+                <filter string="Monday" name="monday" domain="[('day_of_week', '=', '0')]"/>
+                <filter string="Tuesday" name="tuesday" domain="[('day_of_week', '=', '1')]"/>
+                <filter string="Wednesday" name="wednesday" domain="[('day_of_week', '=', '2')]"/>
+                <filter string="Thursday" name="thursday" domain="[('day_of_week', '=', '3')]"/>
+                <filter string="Friday" name="friday" domain="[('day_of_week', '=', '4')]"/>
+                <separator/>
+                <filter string="Group by Semester" name="group_semester"
+                        context="{'group_by': 'semester_id'}"/>
+                <filter string="Group by Day" name="group_day"
+                        context="{'group_by': 'day_of_week'}"/>
+                <filter string="Group by Course" name="group_course"
+                        context="{'group_by': 'course_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Timetable Actions -->
+    <record id="action_timetable" model="ir.actions.act_window">
+        <field name="name">Timetables</field>
+        <field name="res_model">elearning.timetable</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_timetable_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new timetable entry
+            </p>
+            <p>
+                Manage timetable entries for each semester including days, time slots, courses, rooms, and teachers.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_view_semester_timetables" model="ir.actions.act_window">
+        <field name="name">Semester Timetables</field>
+        <field name="res_model">elearning.timetable</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('semester_id', '=', active_id)]</field>
+        <field name="context">{'default_semester_id': active_id, 'search_default_semester_id': active_id}</field>
+    </record>
+
+</odoo>

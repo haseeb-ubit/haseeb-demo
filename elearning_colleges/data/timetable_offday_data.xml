@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="offday_monday" model="elearning.timetable.offday">
+        <field name="name">Monday</field>
+        <field name="code">0</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="offday_tuesday" model="elearning.timetable.offday">
+        <field name="name">Tuesday</field>
+        <field name="code">1</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="offday_wednesday" model="elearning.timetable.offday">
+        <field name="name">Wednesday</field>
+        <field name="code">2</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="offday_thursday" model="elearning.timetable.offday">
+        <field name="name">Thursday</field>
+        <field name="code">3</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="offday_friday" model="elearning.timetable.offday">
+        <field name="name">Friday</field>
+        <field name="code">4</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="offday_saturday" model="elearning.timetable.offday">
+        <field name="name">Saturday</field>
+        <field name="code">5</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="offday_sunday" model="elearning.timetable.offday">
+        <field name="name">Sunday</field>
+        <field name="code">6</field>
+        <field name="sequence">70</field>
+    </record>
+</odoo>

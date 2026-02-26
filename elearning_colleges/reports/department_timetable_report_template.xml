@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Department Timetable Report Template  |  Landscape A4 -->
+    <template id="department_timetable_report_template">
+        <t t-call="elearning_colleges.external_layout_no_header_footer_dept">
+            <t t-foreach="docs" t-as="doc">
+                <main>
+                    <!--
+                        Landscape A4 ≈ 297mm × 210mm usable.
+                        One shared left edge: padding-left drives everything.
+                    -->
+                    <div style="font-family: DejaVu Sans, Arial, Tahoma;
+                                padding: 16px 22px 14px 22px;
+                                margin: 0; color: #222; line-height: 1.5;">
+
+                        <!-- ═══ HEADER ═══ -->
+                        <div style="position: relative; min-height: 72px; margin-bottom: 16px;">
+
+                            <!-- Logo: top-right -->
+                            <div style="position: absolute; top: 0; right: 0;">
+                                <img t-attf-src="/elearning_colleges/static/src/img/ust_en.png"
+                                     alt="UST Logo" style="width: 200px; height: auto;"/>
+                            </div>
+
+                            <!-- Left titles — all share the 22px left baseline -->
+                            <div style="width: 62%;">
+                                <!-- Level 1: College — 22px bold navy -->
+                                <div style="font-size: 22px; font-weight: bold; color: #1a365d; margin-bottom: 4px;"
+                                     t-esc="doc.college_id.name if doc.college_id else ''"/>
+                                <!-- Level 2: Department — 18px gold -->
+                                <div style="font-size: 18px; font-weight: bold; color: #c8a85a; margin-bottom: 8px;"
+                                     t-esc="doc.name or ''"/>
+                                <!-- Level 3: Document label — 12px tracked uppercase -->
+                                <div style="font-size: 12px; font-weight: 700; color: #8a9ab0;
+                                            text-transform: uppercase; letter-spacing: 3px;
+                                            border-top: 1px solid #e2e8f0; padding-top: 5px;">
+                                    Academic Schedule
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══ SEMESTER GRIDS ═══ -->
+                        <t t-set="timetable_data" t-value="doc.get_timetable_data_for_report()"/>
+                        <t t-if="timetable_data and timetable_data.get('semesters_data')">
+                            <t t-set="semesters_data" t-value="timetable_data.get('semesters_data', [])"/>
+                            <t t-set="day_names"      t-value="timetable_data.get('day_names', {})"/>
+                            <t t-set="day_keys"       t-value="timetable_data.get('day_keys', [])"/>
+
+                            <t t-foreach="semesters_data" t-as="sem_data">
+                                <div style="margin-top: 24px; page-break-inside: avoid;">
+
+                                    <!-- Semester title bar: same width as table, flush on top  -->
+                                    <t t-set="sem_yr"  t-value="sem_data.get('year', 0)"/>
+                                    <t t-set="sem_num" t-value="sem_data.get('semester_number', 0)"/>
+                                    <div style="background: #f0f4f8;
+                                                padding: 9px 12px;
+                                                border-radius: 4px 4px 0 0;">
+                                        <span style="font-size: 15px; font-weight: 700;
+                                                     color: #1a365d; letter-spacing: .2px;">
+                                            <t t-if="sem_yr and sem_num">
+                                                Year&#160;<t t-esc="sem_yr"/>&#160;&#8212;&#160;Semester&#160;<t t-esc="sem_num"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-esc="sem_data.get('semester_name', 'Semester')"/>
+                                            </t>
+                                        </span>
+                                    </div>
+
+                                    <!-- Table: flush under the grey title bar -->
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 0;">
+                                        <!-- Navy header — no vertical lines -->
+                                        <thead>
+                                            <tr style="background-color: #1a365d; color: #fff;">
+                                                <th style="border-bottom: 2px solid #2c5282;
+                                                           border-right: none; border-left: none; border-top: none;
+                                                           padding: 9px 8px; text-align: center;
+                                                           font-weight: 700; width: 80px;
+                                                           font-size: 11px; letter-spacing: .5px;">
+                                                    DAY
+                                                </th>
+                                                <t t-foreach="sem_data.get('time_slots', [])" t-as="slot">
+                                                    <th style="border-bottom: 2px solid #2c5282;
+                                                               border-right: none; border-left: none; border-top: none;
+                                                               padding: 9px 6px; text-align: center;
+                                                               font-weight: 700; font-size: 11px; min-width: 110px;">
+                                                        <span t-esc="slot.get('start_str', slot.get('start', ''))"/>
+                                                        &#8211;
+                                                        <span t-esc="slot.get('end_str', slot.get('end', ''))"/>
+                                                    </th>
+                                                </t>
+                                            </tr>
+                                        </thead>
+                                        <!-- Body rows: horizontal borders only -->
+                                        <tbody>
+                                            <t t-foreach="day_keys" t-as="day_key">
+                                                <t t-set="day_name"     t-value="day_names.get(day_key, '')"/>
+                                                <t t-set="tslots"       t-value="sem_data.get('time_slots', [])"/>
+                                                <t t-set="day_has_data" t-value="any(sem_data.get('timetable_grid', {}).get(day_key, {}).get(si, []) for si in range(len(tslots)))"/>
+                                                <tr>
+                                                    <!-- Day label: 12px bold, vertically centred -->
+                                                    <td t-attf-style="border-top: none; border-left: none; border-right: none;
+                                                                       border-bottom: 1px solid #e8ecf0;
+                                                                       padding: {{ '10px 6px' if day_has_data else '4px 6px' }};
+                                                                       text-align: center; vertical-align: middle;
+                                                                       font-weight: 700; font-size: 12px;
+                                                                       color: {{ '#1a365d' if day_has_data else '#ccc' }};
+                                                                       background: {{ '#eef4fb' if day_has_data else '#fafafa' }};
+                                                                       width: 80px;
+                                                                       height: {{ '36px' if day_has_data else '12px' }};"
+                                                        t-esc="day_name"/>
+
+                                                    <!-- Time-slot cells -->
+                                                    <t t-foreach="tslots" t-as="slot">
+                                                        <t t-set="s_idx"   t-value="tslots.index(slot)"/>
+                                                        <t t-set="entries" t-value="sem_data.get('timetable_grid', {}).get(day_key, {}).get(s_idx, [])"/>
+                                                        <td t-attf-style="border-top: none; border-left: none; border-right: none;
+                                                                           border-bottom: 1px solid #e8ecf0;
+                                                                           padding: {{ '6px 7px' if entries else '0 7px' }};
+                                                                           vertical-align: top;
+                                                                           background: {{ '#fff' if day_has_data else '#fafafa' }};
+                                                                           height: {{ 'auto' if day_has_data else '12px' }};">
+                                                            <t t-if="entries">
+                                                                <t t-foreach="entries" t-as="entry">
+                                                                    <t t-if="entry.get('course') or entry.get('teacher') or entry.get('room')">
+                                                                        <!-- Course card: fills ~90% of cell, readable at a glance -->
+                                                                        <div style="background: #e8f3fc;
+                                                                                    border: 1px solid #c5d9ee;
+                                                                                    border-left: 5px solid #c8a85a;
+                                                                                    border-radius: 5px;
+                                                                                    padding: 7px 10px;
+                                                                                    margin: 2px 4px 4px 0;
+                                                                                    width: 92%;
+                                                                                    box-sizing: border-box;">
+                                                                            <!-- Course title: 12-13px bold navy -->
+                                                                            <div style="font-weight: 700; font-size: 12px;
+                                                                                        color: #1a365d; line-height: 1.35;
+                                                                                        margin-bottom: 5px;"
+                                                                                 t-esc="entry.get('course', '')"/>
+                                                                            <!-- Separator -->
+                                                                            <div style="border-top: 1px solid #c5d9ee; margin-bottom: 4px;"/>
+                                                                            <!-- Instr + Room on one line: 10px -->
+                                                                            <t t-if="entry.get('teacher') or entry.get('room')">
+                                                                                <div style="font-size: 10px; color: #334155; line-height: 1.4;">
+                                                                                    <t t-if="entry.get('teacher')">
+                                                                                        <span style="color: #8a9ab0; font-weight: 600;">Instr:&#160;</span>
+                                                                                        <span t-esc="entry.get('teacher', '')"/>
+                                                                                    </t>
+                                                                                    <t t-if="entry.get('teacher') and entry.get('room')">
+                                                                                        <span style="color: #c5d9ee; padding: 0 5px;">|</span>
+                                                                                    </t>
+                                                                                    <t t-if="entry.get('room')">
+                                                                                        <span style="color: #8a9ab0; font-weight: 600;">Room:&#160;</span>
+                                                                                        <span t-esc="entry.get('room', '')"/>
+                                                                                    </t>
+                                                                                </div>
+                                                                            </t>
+                                                                        </div>
+                                                                    </t>
+                                                                </t>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <div style="text-align: center; padding: 50px 20px; color: #aaa; font-size: 13px;">
+                                No timetable entries available.
+                            </div>
+                        </t>
+
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

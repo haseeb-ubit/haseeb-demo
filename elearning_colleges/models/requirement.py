@@ -165,17 +165,50 @@ class Semester(models.Model):
     total_courses = fields.Integer('Total Courses', compute='_compute_total_courses', store=True)
     display_name = fields.Char('Display Name', compute='_compute_display_name', store=True)
     
-    @api.depends('year', 'semester_number', 'course_id.name')
+    # Timetable relationships
+    timetable_ids = fields.One2many('elearning.timetable', 'semester_id', string='Timetable Entries')
+    timetable_template_id = fields.Many2one('elearning.timetable.template', string='Timetable Template', 
+                                           compute='_compute_timetable_template_id', store=False, copy=False)
+    
+    def _compute_timetable_template_id(self):
+        """Compute timetable template for this semester"""
+        for semester in self:
+            if semester.id:
+                template = self.env['elearning.timetable.template'].search([
+                    ('semester_id', '=', semester.id)
+                ], limit=1)
+                semester.timetable_template_id = template.id if template else False
+            else:
+                semester.timetable_template_id = False
+    
+    @api.depends('year', 'semester_number')
     def _compute_display_name(self):
-        """Auto-generate name and display_name from year, semester, and course"""
+        """Auto-generate name and display_name from year and semester (without course name)"""
         for semester in self:
             semester_name = f"Year {semester.year} Semester {semester.semester_number}"
             semester.name = semester_name
-            
-            if semester.course_id:
-                semester.display_name = f"Y{semester.year}S{semester.semester_number} - {semester.course_id.name}"
-            else:
-                semester.display_name = f"Y{semester.year}S{semester.semester_number}"
+            semester.display_name = f"Y{semester.year}S{semester.semester_number}"
+    
+    def name_get(self):
+        """Always show compact semester labels like Y1S1."""
+        result = []
+        for record in self:
+            name = f"Y{record.year}S{record.semester_number}"
+            result.append((record.id, name))
+        return result
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """Search semesters by compact label and return compact labels only."""
+        args = args or []
+        records = self.search(args, limit=limit)
+        if name:
+            needle = (name or '').lower().replace(' ', '')
+            records = records.filtered(
+                lambda s: needle in f"y{s.year}s{s.semester_number}".lower()
+                or needle in (s.display_name or '').lower().replace(' ', '')
+            )
+        return records.name_get()
     
     @api.model_create_multi
     def create(self, vals_list):

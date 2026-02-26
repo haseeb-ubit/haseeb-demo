@@ -8,6 +8,98 @@ import json
 
 
 class ElearningCollegesController(http.Controller):
+    def _float_to_time(self, float_time):
+        if float_time is None:
+            return ''
+        hours = int(float_time)
+        minutes = int(round((float_time - hours) * 60))
+        return f"{hours:02d}:{minutes:02d}"
+
+    def _build_department_timetable_data(self, department_id, year=None, semester=None):
+        domain = [
+            ('department_id', '=', department_id),
+            ('website_published', '=', True),
+        ]
+        if year:
+            domain.append(('semester_id.year', '=', int(year)))
+        if semester:
+            domain.append(('semester_id.semester_number', '=', int(semester)))
+
+        entries = request.env['elearning.timetable'].sudo().search(domain, order='semester_id, day_of_week, start_time')
+        
+        day_names = {
+            '0': 'Monday',
+            '1': 'Tuesday',
+            '2': 'Wednesday',
+            '3': 'Thursday',
+            '4': 'Friday',
+            '5': 'Saturday',
+            '6': 'Sunday',
+        }
+        day_keys = ['0', '1', '2', '3', '4', '5', '6']
+
+        # Group entries by semester
+        semesters_data = []
+        semester_groups = {}
+        
+        for entry in entries:
+            sem_id = entry.semester_id.id if entry.semester_id else None
+            if sem_id not in semester_groups:
+                semester_groups[sem_id] = {
+                    'semester_id': entry.semester_id,
+                    'semester_name': entry.semester_id.display_name if entry.semester_id else 'Unknown',
+                    'entries': []
+                }
+            semester_groups[sem_id]['entries'].append(entry)
+        
+        # Build timetable grid for each semester
+        for sem_id, sem_data in semester_groups.items():
+            sem_entries = sem_data['entries']
+            time_slots_raw = sorted(set((e.start_time, e.end_time) for e in sem_entries))
+            time_slots = [{'start': self._float_to_time(s), 'end': self._float_to_time(e), 'start_str': self._float_to_time(s), 'end_str': self._float_to_time(e)} for s, e in time_slots_raw]
+            
+            timetable_grid = {d: {} for d in day_keys}
+            slot_map = {(s, e): idx for idx, (s, e) in enumerate(time_slots_raw)}
+            
+            for entry in sem_entries:
+                slot_idx = slot_map.get((entry.start_time, entry.end_time))
+                if slot_idx is None:
+                    continue
+                timetable_grid.setdefault(entry.day_of_week, {}).setdefault(slot_idx, []).append({
+                    'course': entry.course_id.name if entry.course_id else '',
+                    'teacher': entry.teacher_id.name if entry.teacher_id else '',
+                    'room': entry.room or '',
+                    'start': self._float_to_time(entry.start_time),
+                    'end': self._float_to_time(entry.end_time),
+                })
+            
+            sem_record = sem_data['semester_id']
+            sem_year = sem_record.year if sem_record else 0
+            sem_num = sem_record.semester_number if sem_record else 0
+            semesters_data.append({
+                'semester_id': sem_record,
+                'semester_name': sem_data['semester_name'],
+                'year': sem_year,
+                'semester_number': sem_num,
+                'year_label': f'Year {sem_year}',
+                'timetable_grid': timetable_grid,
+                'time_slots': time_slots,
+                'entries': sem_entries,
+                'no_data': not bool(sem_entries),
+            })
+        
+        # Sort semesters by year and semester number
+        semesters_data.sort(key=lambda x: (
+            x['semester_id'].year if x['semester_id'] else 999,
+            x['semester_id'].semester_number if x['semester_id'] else 999
+        ))
+
+        return {
+            'semesters_data': semesters_data,
+            'day_names': day_names,
+            'day_keys': day_keys,
+            'no_data': not bool(entries),
+        }
 
     @http.route('/colleges/<int:college_id>', type='http', auth='public', website=True)
     def college_detail(self, college_id, **kw):
@@ -391,3 +483,81 @@ class ElearningCollegesController(http.Controller):
 
         return response
 
+    @http.route('/colleges/<int:college_id>/department/<int:department_id>/timetable', type='http', auth='public', website=True)
+    def department_timetable(self, college_id, department_id, year=None, semester=None, **kw):
+        """Department timetable view (all semesters by default)."""
+        department = request.env['hr.department'].sudo().browse(department_id)
+        college = request.env['elearning.college'].sudo().browse(college_id)
+        if (not department.exists() or department.college_id.id != college_id
+                or not college.exists() or not college.active):
+            return request.not_found()
+
+        data = self._build_department_timetable_data(department_id, year=year, semester=semester)
+        return request.render('elearning_colleges.department_timetable_template', {
+            'department': department,
+            'college': college,
+            'year': year,
+            'semester': semester,
+            **data,
+        })
+
+    @http.route(['/report/pdf/elearning_colleges.action_report_department_timetable/<int:department_id>'], type='http', auth='public', website=True, csrf=False)
+    def department_timetable_report_pdf(self, department_id, **kw):
+        """Generate PDF report for complete department timetable (all semesters)."""
+        department_name = self._get_department_name(department_id)
+        if not department_name:
+            return request.not_found()
+
+        department = request.env['hr.department'].sudo().browse(department_id)
+        
+        # Generate PDF using the report action - always all semesters
+        # The timetable data will be fetched by the template via doc.get_timetable_data_for_report()
+        report = request.env.ref('elearning_colleges.action_report_department_timetable')
+        pdf_content, _ = report.sudo()._render_qweb_pdf(
+            'elearning_colleges.department_timetable_report_template', [department_id]
+        )
+
+        # Format filename - always complete department timetable
+        sanitized_name = re.sub(r'[<>:"/\\|?*]', '_', department_name)
+        pdf_filename = f"Timetable-{sanitized_name}.pdf"
+
+        return request.make_response(
+            pdf_content,
+            headers=[
+                ('Content-Type', 'application/pdf'),
+                ('Content-Disposition', f'inline; filename="{pdf_filename}"')
+            ]
+        )
+
+    @http.route('/colleges/<int:college_id>/department/<int:department_id>/noticeboard', type='http', auth='public', website=True)
+    def department_noticeboard(self, college_id, department_id, **kw):
+        """Display department-wide published noticeboard."""
+        department = request.env['hr.department'].sudo().browse(department_id)
+        college = request.env['elearning.college'].sudo().browse(college_id)
+        if (not department.exists() or department.college_id.id != college_id
+                or not college.exists() or not college.active):
+            return request.not_found()
+
+        notices = request.env['elearning.noticeboard'].sudo().search([
+            ('department_id', '=', department_id),
+            ('website_published', '=', True),
+        ], order='priority desc, publish_date desc')
+
+        priority_labels = {'0': 'Low', '1': 'Medium', '2': 'High', '3': 'Urgent'}
+        return request.render('elearning_colleges.semester_noticeboard_template', {
+            'semester': False,
+            'department': department,
+            'college': college,
+            'notices': notices,
+            'priority_labels': priority_labels,
+        })
+
+    @http.route('/colleges/<int:college_id>/department/<int:department_id>/semester/<int:semester_id>/timetable', type='http', auth='public', website=True)
+    def semester_timetable(self, college_id, department_id, semester_id, **kw):
+        """Legacy semester route: redirect to the department timetable (all semesters)."""
+        sem = request.env['elearning.semester'].sudo().browse(semester_id)
+        if not sem.exists():
+            return request.not_found()
+        return request.redirect(
+            f"/colleges/{college_id}/department/{department_id}/timetable"
+        )

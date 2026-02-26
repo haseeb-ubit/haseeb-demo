@@ -8,15 +8,20 @@
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
+        'data/timetable_offday_data.xml',
         'views/college_views.xml',
         'views/course_views.xml',
         'views/requirement_views.xml',
         'views/semester_views.xml',
+        'views/timetable_views.xml',
+        'views/timetable_template_views.xml',
+        'views/noticeboard_views.xml',
         'views/department_views.xml',
         'views/menu.xml',
         'views/website_templates.xml',
         'reports/department_reports.xml',
         'reports/department_reports_template.xml',
+        'reports/department_timetable_report_template.xml',
         'reports/course_outline_report_template.xml'
     ],
     'assets': {

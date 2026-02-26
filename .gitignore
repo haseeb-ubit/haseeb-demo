@@ -1,0 +1,51 @@
+# -------------------------
+# Python cache / bytecode
+# -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -------------------------
+# Odoo generated files
+# -------------------------
+*.log
+*.pot
+*.mo
+*.po
+
+# -------------------------
+# Editor / OS files
+# -------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Virtual environments
+# -------------------------
+venv/
+.venv/
+env/
+
+# -------------------------
+# Node / Assets
+# -------------------------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# -------------------------
+# Odoo runtime data
+# -------------------------
+filestore/
+sessions/
+
+# -------------------------
+# Local configs
+# -------------------------
+odoo.conf
+*.bak
+*.tmp
