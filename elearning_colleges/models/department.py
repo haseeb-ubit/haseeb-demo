@@ -59,6 +59,8 @@ class HrDepartment(models.Model):
     
     def action_view_department_timetables(self):
         """Action to view timetable templates for this department"""
+        # Ensure one semester slot exists per year/semester for this department.
+        self._ensure_semester_placeholders()
         action = self.env['ir.actions.act_window']._for_xml_id('elearning_colleges.action_timetable_template')
         action['domain'] = [('department_id', '=', self.id)]
         action['context'] = {

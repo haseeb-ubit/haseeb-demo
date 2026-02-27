@@ -75,6 +75,7 @@
                     <group>
                         <group>
                             <field name="semester_id" options="{'no_create': True}" 
+                                   domain="[('department_id', '=', context.get('default_department_id'))]"
                                    context="{'show_semester_only': True}"
                                    required="1"/>
                             <field name="department_id" readonly="1"/>

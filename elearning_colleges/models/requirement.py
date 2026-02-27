@@ -165,22 +165,6 @@ class Semester(models.Model):
     total_courses = fields.Integer('Total Courses', compute='_compute_total_courses', store=True)
     display_name = fields.Char('Display Name', compute='_compute_display_name', store=True)
     
-    # Timetable relationships
-    timetable_ids = fields.One2many('elearning.timetable', 'semester_id', string='Timetable Entries')
-    timetable_template_id = fields.Many2one('elearning.timetable.template', string='Timetable Template', 
-                                           compute='_compute_timetable_template_id', store=False, copy=False)
-    
-    def _compute_timetable_template_id(self):
-        """Compute timetable template for this semester"""
-        for semester in self:
-            if semester.id:
-                template = self.env['elearning.timetable.template'].search([
-                    ('semester_id', '=', semester.id)
-                ], limit=1)
-                semester.timetable_template_id = template.id if template else False
-            else:
-                semester.timetable_template_id = False
-    
     @api.depends('year', 'semester_number')
     def _compute_display_name(self):
         """Auto-generate name and display_name from year and semester (without course name)"""
@@ -285,6 +269,72 @@ class Semester(models.Model):
             'target': 'new',
         }
 
+    def write(self, vals):
+        """Prevent changing/removing semester course when used in timetable."""
+        if 'course_id' in vals:
+            Timetable = self.env['elearning.timetable']
+            new_course_id = vals.get('course_id')
+            for rec in self:
+                # If existing course is changing or being cleared, ensure it's not used in timetable.
+                if rec.course_id and rec.course_id.id != new_course_id:
+                    used = Timetable.search_count([
+                        ('department_id', '=', rec.department_id.id),
+                        ('semester_id.year', '=', rec.year),
+                        ('semester_id.semester_number', '=', rec.semester_number),
+                        ('course_id', '=', rec.course_id.id),
+                    ])
+                    if used:
+                        raise ValidationError(
+                            f"Course '{rec.course_id.name}' is already used in timetable entries for "
+                            f"Y{rec.year}S{rec.semester_number}. Remove it from timetable first."
+                        )
+        return super().write(vals)
+
+    def unlink(self):
+        """Prevent deleting semester line when its course is used in timetable."""
+        Timetable = self.env['elearning.timetable']
+        for rec in self:
+            if rec.course_id:
+                used = Timetable.search_count([
+                    ('department_id', '=', rec.department_id.id),
+                    ('semester_id.year', '=', rec.year),
+                    ('semester_id.semester_number', '=', rec.semester_number),
+                    ('course_id', '=', rec.course_id.id),
+                ])
+                if used:
+                    raise ValidationError(
+                        f"Course '{rec.course_id.name}' is already used in timetable entries for "
+                        f"Y{rec.year}S{rec.semester_number}. Remove it from timetable first."
+                    )
+        return super().unlink()
+
+
+class SemesterSlot(models.Model):
+    _name = 'elearning.semester.slot'
+    _description = 'Semester Slot'
+    _order = 'department_id, year, semester_number'
+    _rec_name = 'display_name'
+
+    name = fields.Char('Name', compute='_compute_display_name', store=True)
+    display_name = fields.Char('Display Name', compute='_compute_display_name', store=True)
+    year = fields.Integer('Year', required=True)
+    semester_number = fields.Integer('Semester Number', required=True)
+
+    department_id = fields.Many2one('hr.department', string='Department', required=True, ondelete='cascade')
+    college_id = fields.Many2one('elearning.college', string='College', related='department_id.college_id', store=True, readonly=True)
+    timetable_template_ids = fields.One2many('elearning.timetable.template', 'semester_id', string='Timetable Templates')
+
+    _sql_constraints = [
+        ('slot_unique_per_department', 'unique(department_id, year, semester_number)',
+         'A semester slot already exists for this department and semester.'),
+    ]
+
+    @api.depends('year', 'semester_number')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"Y{rec.year}S{rec.semester_number}"
+            rec.name = rec.display_name
+
 
 class HrDepartment(models.Model):
     _inherit = 'hr.department'
@@ -323,6 +373,40 @@ class HrDepartment(models.Model):
     def _get_year_options(self):
         """Generate year options from 2010 to 2050"""
         return [(str(year), str(year)) for year in range(2010, 2051)]
+
+    def _ensure_semester_placeholders(self):
+        """Synchronize semester slots with current academic year range.
+
+        - Create missing slots for each (year, semester_number) pair.
+        - Remove extra slots outside the range only when they are not used by
+          any timetable template.
+        """
+        Slot = self.env['elearning.semester.slot']
+        for dept in self:
+            # Derive years count directly from selected academic years.
+            years_count = 0
+            if dept.academic_year_start and dept.academic_year_end:
+                years_count = (int(dept.academic_year_end) - int(dept.academic_year_start)) + 1
+            if years_count <= 0:
+                continue
+
+            desired_pairs = {(year, sem_num) for year in range(1, years_count + 1) for sem_num in (1, 2)}
+            existing_slots = Slot.search([('department_id', '=', dept.id)])
+            existing_pairs = {(slot.year, slot.semester_number) for slot in existing_slots}
+
+            # Create missing slots.
+            for year, sem_num in sorted(desired_pairs - existing_pairs):
+                Slot.create({
+                    'department_id': dept.id,
+                    'year': year,
+                    'semester_number': sem_num,
+                })
+
+            # Remove obsolete slots only if unused by timetable templates.
+            obsolete_slots = existing_slots.filtered(lambda s: (s.year, s.semester_number) not in desired_pairs)
+            removable_slots = obsolete_slots.filtered(lambda s: not s.timetable_template_ids)
+            if removable_slots:
+                removable_slots.unlink()
     
     # Computed fields for counts
     total_requirements = fields.Integer('Total Requirements', compute='_compute_total_requirements', store=True)
@@ -469,5 +553,31 @@ class HrDepartment(models.Model):
                             f"The following semesters contain courses:\n{semester_list}\n\n"
                             f"Please remove these courses from the semesters first, then you can reduce the academic years count."
                         )
+
+                    # Also block reduction if hidden-year slots are used in timetable templates.
+                    used_slots = self.env['elearning.semester.slot'].search([
+                        ('department_id', '=', record.id),
+                        ('year', 'in', hidden_years),
+                        ('timetable_template_ids', '!=', False),
+                    ])
+                    if used_slots:
+                        slot_names = "\n".join(
+                            [f"  • Y{s.year}S{s.semester_number}" for s in used_slots]
+                        )
+                        raise UserError(
+                            f"Cannot reduce academic years from {old_years_count} to {new_years_count}.\n\n"
+                            f"The following semester slots are already used in timetable templates:\n{slot_names}\n\n"
+                            f"Please delete those timetable templates first, then reduce academic years."
+                        )
         
-        return super().write(vals)
+        res = super().write(vals)
+        # Keep semester slot placeholders in sync with academic years.
+        if 'academic_year_start' in vals or 'academic_year_end' in vals:
+            self._ensure_semester_placeholders()
+        return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._ensure_semester_placeholders()
+        return records

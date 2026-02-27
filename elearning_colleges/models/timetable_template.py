@@ -28,7 +28,7 @@ class TimetableTemplate(models.Model):
     _order = 'semester_id'
 
     # Relationships
-    semester_id = fields.Many2one('elearning.semester', string='Semester', required=True, 
+    semester_id = fields.Many2one('elearning.semester.slot', string='Semester', required=True, 
                                   ondelete='cascade', tracking=True,
                                   default=lambda self: self.env.context.get('default_semester_id'))
     department_id = fields.Many2one('hr.department', string='Department',
