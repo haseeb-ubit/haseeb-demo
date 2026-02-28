@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- College Exam Report Template -->
+    <template id="college_exam_report_template">
+        <t t-call="elearning_colleges.external_layout_no_header_footer_dept">
+            <t t-foreach="docs" t-as="doc">
+                <main>
+                    <div style="font-family: DejaVu Sans, Arial, Tahoma;
+                                padding: 16px 22px 14px 22px;
+                                margin: 0; color: #222; line-height: 1.5;">
+
+                        <!-- Header -->
+                        <div style="position: relative; min-height: 72px; margin-bottom: 16px;">
+                            <div style="position: absolute; top: 0; right: 0;">
+                                <img t-attf-src="/elearning_colleges/static/src/img/ust_en.png"
+                                     alt="UST Logo" style="width: 200px; height: auto;"/>
+                            </div>
+                            <div style="width: 62%;">
+                                <div style="font-size: 22px; font-weight: bold; color: #1a365d; margin-bottom: 4px;"
+                                     t-esc="doc.name or ''"/>
+                            </div>
+                        </div>
+
+                        <!-- Exam Data -->
+                        <t t-set="exam_data" t-value="doc.get_exam_data_for_report()"/>
+                        <t t-if="exam_data and exam_data.get('exams_by_template')">
+                            <t t-set="exams_by_template" t-value="exam_data.get('exams_by_template', {})"/>
+
+                            <t t-foreach="exams_by_template" t-as="template_data">
+                                <t t-set="template_name" t-value="template_data.get('template_name', 'Unknown')"/>
+                                <t t-set="template_type" t-value="template_data.get('template_type', 'other')"/>
+                                <t t-set="exams_by_date" t-value="template_data.get('exams_by_date', {})"/>
+                                <t t-set="sorted_dates" t-value="template_data.get('sorted_dates', [])"/>
+                                
+                                <!-- Template Header -->
+                                <div style="margin-top: 24px; margin-bottom: 12px;">
+                                    <div style="border-top: 1px solid #e2e8f0; padding-top: 5px;">
+                                        <t t-set="type_map" t-value="{'midterm': 'Midterm Examination', 'final': 'Final Examination', 'supplementary': 'Supplementary Examination', 'quiz': 'Quiz', 'assignment': 'Assignment', 'project': 'Project', 'other': 'Other'}"/>
+                                        <t t-set="exam_type_label" t-value="type_map.get(template_type, 'Exam')"/>
+                                        <div style="font-size: 12px; font-weight: 700; color: #8a9ab0;
+                                                    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 4px;">
+                                            <t t-esc="exam_type_label"/> Schedule
+                                        </div>
+                                        <div style="font-size: 12px; font-weight: 700; color: #8a9ab0;
+                                                    text-transform: uppercase; letter-spacing: 3px;">
+                                            <t t-esc="template_name"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <t t-foreach="sorted_dates" t-as="date_key">
+                                <div style="margin-top: 24px; page-break-inside: avoid;">
+                                    <!-- Date Header -->
+                                    <div style="background: #f0f4f8; padding: 9px 12px; border-radius: 4px 4px 0 0;">
+                                        <span style="font-size: 15px; font-weight: 700; color: #1a365d; letter-spacing: .2px;">
+                                            <t t-set="exam_date" t-value="exams_by_date.get(date_key)[0].get('exam_date')"/>
+                                            <t t-if="exam_date">
+                                                <t t-esc="exam_date.strftime('%A, %B %d, %Y')"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-esc="date_key"/>
+                                            </t>
+                                        </span>
+                                    </div>
+
+                                    <!-- Exam Table -->
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 0;">
+                                        <thead>
+                                            <tr style="background-color: #1a365d; color: #fff;">
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px; width: 80px;">Time</th>
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px;">Course</th>
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px;">Department</th>
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px;">Semester</th>
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px;">Room</th>
+                                                <th style="border-bottom: 2px solid #2c5282; padding: 9px 8px; text-align: center; font-weight: 700; font-size: 11px;">Invigilator</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="exams_by_date.get(date_key, [])" t-as="exam">
+                                                <tr style="border-bottom: 1px solid #e2e8f0;">
+                                                    <td style="padding: 8px; text-align: center; font-weight: 600;">
+                                                        <span t-esc="exam.get('start_time', '')"/> - <span t-esc="exam.get('end_time', '')"/>
+                                                    </td>
+                                                    <td style="padding: 8px; text-align: left;" t-esc="exam.get('course', '')"/>
+                                                    <td style="padding: 8px; text-align: left;" t-esc="exam.get('department', '')"/>
+                                                    <td style="padding: 8px; text-align: center;" t-esc="exam.get('semester', '')"/>
+                                                    <td style="padding: 8px; text-align: left;" t-esc="exam.get('room', '')"/>
+                                                    <td style="padding: 8px; text-align: left;" t-esc="exam.get('invigilator', '')"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-if="not exam_data or not exam_data.get('exams_by_template')">
+                            <div style="padding: 20px; text-align: center; color: #8a9ab0;">
+                                No exam schedule available.
+                            </div>
+                        </t>
+                    </div>
+                </main>
+            </t>
+        </t>
+    </template>
+</odoo>

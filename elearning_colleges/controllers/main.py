@@ -561,3 +561,134 @@ class ElearningCollegesController(http.Controller):
         return request.redirect(
             f"/colleges/{college_id}/department/{department_id}/timetable"
         )
+
+    def _build_college_exam_data(self, college_id, department_id=None, semester_id=None):
+        """Build exam data for website/PDF display"""
+        domain = [
+            ('college_id', '=', college_id),
+            ('website_published', '=', True),
+            ('state', '!=', 'cancelled'),
+        ]
+        
+        if department_id:
+            domain.append(('department_id', '=', department_id))
+        if semester_id:
+            domain.append(('semester_id', '=', semester_id))
+        
+        entries = request.env['elearning.exam'].sudo().search(domain, order='exam_template_id, exam_date, start_time')
+        
+        # Group by exam template, then by date
+        exams_by_template = {}
+        for entry in entries:
+            template_id = entry.exam_template_id.id if entry.exam_template_id else 0
+            template_name = entry.exam_template_id.name if entry.exam_template_id else 'Unknown'
+            template_type = entry.exam_template_id.exam_type if entry.exam_template_id else 'other'
+            
+            if template_id not in exams_by_template:
+                exams_by_template[template_id] = {
+                    'template_name': template_name,
+                    'template_type': template_type,
+                    'exams_by_date': {},
+                }
+            
+            date_key = entry.exam_date.strftime('%Y-%m-%d') if entry.exam_date else 'unknown'
+            if date_key not in exams_by_template[template_id]['exams_by_date']:
+                exams_by_template[template_id]['exams_by_date'][date_key] = []
+            
+            exams_by_template[template_id]['exams_by_date'][date_key].append({
+                'id': entry.id,
+                'exam_date': entry.exam_date,
+                'start_time': entry.start_time,
+                'end_time': entry.end_time,
+                'shift_number': entry.shift_number,
+                'course': entry.course_id.name if entry.course_id else '',
+                'course_id': entry.course_id.id if entry.course_id else False,
+                'department': entry.department_id.name if entry.department_id else '',
+                'department_id': entry.department_id.id if entry.department_id else False,
+                'semester': entry.semester_id.display_name if entry.semester_id else '',
+                'semester_id': entry.semester_id.id if entry.semester_id else False,
+                'room': entry.room or '',
+                'invigilator': entry.invigilator_id.name if entry.invigilator_id else '',
+                'invigilator_id': entry.invigilator_id.id if entry.invigilator_id else False,
+                'state': entry.state,
+            })
+        
+        # Sort dates within each template and convert to list
+        templates_list = []
+        for template_id in exams_by_template:
+            template_info = exams_by_template[template_id]
+            template_info['sorted_dates'] = sorted(template_info['exams_by_date'].keys())
+            templates_list.append(template_info)
+        
+        return {
+            'exams_by_template': templates_list,
+            'total_exams': len(entries),
+            'no_data': not bool(entries),
+        }
+
+    @http.route('/colleges/<int:college_id>/exams', type='http', auth='public', website=True)
+    def college_exams(self, college_id, department_id=None, semester_id=None, **kw):
+        """College exam schedule page"""
+        college = request.env['elearning.college'].sudo().browse(college_id)
+        if not college.exists() or not college.active:
+            return request.not_found()
+        
+        # Get filter values from query params
+        dept_id = int(department_id) if department_id and department_id.isdigit() else None
+        sem_id = int(semester_id) if semester_id and semester_id.isdigit() else None
+        
+        data = self._build_college_exam_data(college_id, department_id=dept_id, semester_id=sem_id)
+        
+        # Get departments and semesters for filters
+        departments = request.env['hr.department'].sudo().search([
+            ('college_id', '=', college_id),
+            ('is_college_department', '=', True),
+            ('active', '=', True),
+        ], order='name')
+        
+        semester_slots = request.env['elearning.semester.slot'].sudo().search([
+            ('department_id.college_id', '=', college_id),
+        ], order='year, semester_number')
+        
+        return request.render('elearning_colleges.college_exam_schedule_template', {
+            'college': college,
+            'departments': departments,
+            'semester_slots': semester_slots,
+            'selected_department_id': dept_id,
+            'selected_semester_id': sem_id,
+            **data,
+        })
+
+    @http.route(['/report/pdf/elearning_colleges.action_report_college_exam/<int:college_id>'], type='http', auth='public', website=True, csrf=False)
+    def college_exam_report_pdf(self, college_id, department_id=None, semester_id=None, **kw):
+        """Generate PDF report for college exam schedule"""
+        college = request.env['elearning.college'].sudo().browse(college_id)
+        if not college.exists() or not college.active:
+            return request.not_found()
+        
+        # Get filter values
+        dept_id = int(department_id) if department_id and department_id.isdigit() else None
+        sem_id = int(semester_id) if semester_id and semester_id.isdigit() else None
+        
+        # Generate PDF using the report action
+        report = request.env.ref('elearning_colleges.action_report_college_exam')
+        context = {}
+        if dept_id:
+            context['department_id'] = dept_id
+        if sem_id:
+            context['semester_id'] = sem_id
+        pdf_content, _ = report.sudo().with_context(**context)._render_qweb_pdf(
+            'elearning_colleges.college_exam_report_template', [college_id]
+        )
+        
+        # Format filename
+        sanitized_name = re.sub(r'[<>:"/\\|?*]', '_', college.name or 'College')
+        pdf_filename = f"Exam-Schedule-{sanitized_name}.pdf"
+        
+        return request.make_response(
+            pdf_content,
+            headers=[
+                ('Content-Type', 'application/pdf'),
+                ('Content-Disposition', f'inline; filename="{pdf_filename}"')
+            ]
+        )

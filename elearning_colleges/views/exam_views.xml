@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Exam List View -->
+    <record id="view_exam_tree" model="ir.ui.view">
+        <field name="name">elearning.exam.tree</field>
+        <field name="model">elearning.exam</field>
+        <field name="arch" type="xml">
+            <list string="Exam Entries" decoration-muted="state == 'cancelled'">
+                <field name="exam_date"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="course_id"/>
+                <field name="department_id"/>
+                <field name="semester_id"/>
+                <field name="room"/>
+                <field name="invigilator_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Exam Form View -->
+    <record id="view_exam_form" model="ir.ui.view">
+        <field name="name">elearning.exam.form</field>
+        <field name="model">elearning.exam</field>
+        <field name="arch" type="xml">
+            <form string="Exam Entry">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" placeholder="Exam Entry" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="exam_template_id" readonly="1"/>
+                            <field name="college_id" readonly="1"/>
+                            <field name="exam_date" readonly="1"/>
+                            <field name="shift_number" readonly="1"/>
+                            <field name="start_time" readonly="1"/>
+                            <field name="end_time" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="department_id" options="{'no_create': True}" 
+                                   domain="[('college_id', '=', college_id)]"/>
+                            <field name="semester_id" options="{'no_create': True}" 
+                                   context="{'show_semester_only': True}"
+                                   domain="[('department_id', '=', department_id)]"/>
+                            <field name="available_course_ids" invisible="1"/>
+                            <field name="course_id" options="{'no_create': True}" 
+                                   domain="[('id', 'in', available_course_ids)]"/>
+                            <field name="room"/>
+                            <field name="invigilator_id" options="{'no_create': True}"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Exam Calendar View -->
+    <record id="view_exam_calendar" model="ir.ui.view">
+        <field name="name">elearning.exam.calendar</field>
+        <field name="model">elearning.exam</field>
+        <field name="arch" type="xml">
+            <calendar string="Exam Schedule" date_start="exam_date" 
+                      color="state" event_open_popup="true" 
+                      quick_create="0">
+                <field name="display_name"/>
+                <field name="course_id"/>
+                <field name="room"/>
+                <field name="invigilator_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Exam Search View -->
+    <record id="view_exam_search" model="ir.ui.view">
+        <field name="name">elearning.exam.search</field>
+        <field name="model">elearning.exam</field>
+        <field name="arch" type="xml">
+            <search string="Search Exam Entries">
+                <field name="display_name"/>
+                <field name="course_id"/>
+                <field name="department_id"/>
+                <field name="semester_id"/>
+                <field name="room"/>
+                <field name="invigilator_id"/>
+                <field name="exam_date"/>
+                <separator/>
+                <filter string="Scheduled" name="scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Upcoming" name="upcoming" domain="[('exam_date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Past" name="past" domain="[('exam_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter string="Group by Date" name="group_date"
+                        context="{'group_by': 'exam_date'}"/>
+                <filter string="Group by Department" name="group_department"
+                        context="{'group_by': 'department_id'}"/>
+                <filter string="Group by Semester" name="group_semester"
+                        context="{'group_by': 'semester_id'}"/>
+                <filter string="Group by Course" name="group_course"
+                        context="{'group_by': 'course_id'}"/>
+                        <filter string="Group by Room" name="group_room"
+                               context="{'group_by': 'room'}"/>
+                <filter string="Group by Invigilator" name="group_invigilator"
+                        context="{'group_by': 'invigilator_id'}"/>
+                <filter string="Group by State" name="group_state"
+                        context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Exam Actions -->
+    <record id="action_exam" model="ir.actions.act_window">
+        <field name="name">Exam Entries</field>
+        <field name="res_model">elearning.exam</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="search_view_id" ref="view_exam_search"/>
+        <field name="context">{'default_exam_template_id': active_id if active_model == 'elearning.exam.template' else False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No exam entries found!
+            </p>
+            <p>
+                Exam entries are created automatically when you generate the grid from an exam template.
+            </p>
+        </field>
+    </record>
+
+    <!-- Bulk Assign Action -->
+    <record id="action_exam_bulk_assign" model="ir.actions.act_window">
+        <field name="name">Bulk Assign Room/Invigilator</field>
+        <field name="res_model">elearning.exam.bulk.assign</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_exam_ids': active_ids if active_model == 'elearning.exam' else []}</field>
+    </record>
+
+</odoo>

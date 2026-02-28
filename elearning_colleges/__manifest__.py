@@ -17,12 +17,17 @@
         'views/timetable_template_views.xml',
         'views/noticeboard_views.xml',
         'views/department_views.xml',
+        'views/exam_template_views.xml',
+        'views/exam_views.xml',
+        'views/exam_wizard_views.xml',
         'views/menu.xml',
         'views/website_templates.xml',
         'reports/department_reports.xml',
         'reports/department_reports_template.xml',
         'reports/department_timetable_report_template.xml',
-        'reports/course_outline_report_template.xml'
+        'reports/course_outline_report_template.xml',
+        'reports/exam_reports.xml',
+        'reports/exam_report_template.xml'
     ],
     'assets': {
         'web.assets_backend': [

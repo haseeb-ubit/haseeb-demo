@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Bulk Assign Wizard Form View -->
+    <record id="view_exam_bulk_assign_form" model="ir.ui.view">
+        <field name="name">elearning.exam.bulk.assign.form</field>
+        <field name="model">elearning.exam.bulk.assign</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Assign Room/Invigilator">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Bulk Assign Room/Invigilator</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room"/>
+                            <field name="invigilator_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="exam_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="exam_date"/>
+                                <field name="start_time"/>
+                                <field name="end_time"/>
+                                <field name="course_id"/>
+                                <field name="room"/>
+                                <field name="invigilator_id"/>
+                            </list>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="action_assign" string="Assign" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Bulk Assign Wizard Action -->
+    <record id="action_exam_bulk_assign_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Assign Room/Invigilator</field>
+        <field name="res_model">elearning.exam.bulk.assign</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_exam_ids': active_ids if active_model == 'elearning.exam' else []}</field>
+    </record>
+
+</odoo>

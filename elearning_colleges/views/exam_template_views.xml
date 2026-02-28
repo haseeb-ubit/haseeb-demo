@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Exam Entry Tree View (for use in template form) -->
+    <record id="view_exam_entry_tree_template" model="ir.ui.view">
+        <field name="name">elearning.exam.tree.template</field>
+        <field name="model">elearning.exam</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" create="0" delete="0" default_order="exam_date,shift_number">
+                <field name="exam_date" readonly="1"/>
+                <field name="shift_number" readonly="1"/>
+                <field name="start_time" readonly="1"/>
+                <field name="end_time" readonly="1"/>
+                <field name="available_course_ids" invisible="1"/>
+                <field name="department_id" options="{'no_create': True}" 
+                       domain="[('college_id', '=', parent.college_id)]"/>
+                <field name="semester_id" options="{'no_create': True}" 
+                       context="{'show_semester_only': True}"
+                       domain="[('department_id', '=', department_id)]"/>
+                <field name="course_id" options="{'no_create': True}" 
+                       domain="[('id', 'in', available_course_ids)]"
+                       string="Course"/>
+                <field name="room"/>
+                <field name="invigilator_id" options="{'no_create': True}"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Exam Template List View -->
+    <record id="view_exam_template_list" model="ir.ui.view">
+        <field name="name">elearning.exam.template.list</field>
+        <field name="model">elearning.exam.template</field>
+        <field name="arch" type="xml">
+            <list string="Exam Templates">
+                <field name="name"/>
+                <field name="college_id"/>
+                <field name="exam_type"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+                <field name="website_published" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Exam Template Form View -->
+    <record id="view_exam_template_form" model="ir.ui.view">
+        <field name="name">elearning.exam.template.form</field>
+        <field name="model">elearning.exam.template</field>
+        <field name="arch" type="xml">
+            <form string="Exam Template">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_generate_grid" type="object" 
+                                class="oe_stat_button" icon="fa-calendar"
+                                invisible="grid_generated"
+                                string="Generate Exam Entries"/>
+                        <button name="action_update_grid" type="object" 
+                                class="oe_stat_button" icon="fa-refresh"
+                                invisible="not grid_generated"
+                                string="Update Exam Entries"
+                                confirm="This will regenerate the exam entries with new time settings. Existing course/department/semester/room/invigilator data will be preserved where possible. Continue?"/>
+                        <button name="action_clear_grid" type="object" 
+                                class="oe_stat_button" icon="fa-trash"
+                                invisible="not grid_generated"
+                                string="Clear Exam Entries"
+                                confirm="Are you sure you want to clear all exam entries? This action cannot be undone."/>
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="website_published">
+                            <span class="o_stat_text text-success">Unpublished</span>
+                        </button>
+                        <button name="toggle_website_published" type="object" 
+                                class="oe_stat_button" icon="fa-globe"
+                                invisible="not website_published">
+                            <span class="o_stat_text text-danger">Published</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Exam Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="college_id" options="{'no_create': True}" required="1"/>
+                            <field name="exam_type" required="1"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="daily_start_time" required="1" 
+                                   placeholder="08:00" 
+                                   help="Format: HH:MM (e.g., 08:00)"/>
+                            <field name="daily_end_time" required="1" 
+                                   placeholder="17:00"
+                                   help="Format: HH:MM (e.g., 17:00)"/>
+                            <field name="shift_duration" required="1" 
+                                   placeholder="02:00"
+                                   help="Format: HH:MM (e.g., 02:00 for 2 hours)"/>
+                            <field name="break_duration" required="1" 
+                                   placeholder="00:30"
+                                   help="Format: HH:MM (e.g., 00:30 for 30 minutes)"/>
+                            <field name="total_shifts_per_day" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="total_days" readonly="1"/>
+                        </group>
+                        <group>
+                            <label for="off_date_ids" string="Off Dates"/>
+                            <p class="text-muted" style="margin-top: 5px; margin-bottom: 10px; font-size: 0.9em;">
+                                Select specific dates to exclude from the exam schedule.
+                            </p>
+                            <field name="off_date_ids" nolabel="1">
+                                <list editable="bottom" create="1" delete="1">
+                                    <field name="off_date" required="1"/>
+                                </list>
+                            </field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Exam Entries" name="entries">
+                            <div class="alert alert-info" role="alert" invisible="grid_generated">
+                                <strong>Exam entries not generated yet.</strong> Configure the date and time settings above and click "Generate Exam Entries" to create exam entries.
+                            </div>
+                            <div invisible="not grid_generated">
+                                <div class="alert alert-secondary py-2 mb-2" role="alert">
+                                    <i class="fa fa-info-circle me-1"/> Click any row below to add or edit course, department, semester, room, and invigilator details.
+                                </div>
+                                <field name="exam_entry_ids" nolabel="1" 
+                                       context="{'default_exam_template_id': id}"
+                                       view_id="view_exam_entry_tree_template"/>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Exam Template Calendar View -->
+    <record id="view_exam_template_calendar" model="ir.ui.view">
+        <field name="name">elearning.exam.template.calendar</field>
+        <field name="model">elearning.exam.template</field>
+        <field name="arch" type="xml">
+            <calendar string="Exam Templates" date_start="start_date" date_stop="end_date" 
+                      color="exam_type" event_open_popup="true">
+                <field name="name"/>
+                <field name="exam_type"/>
+                <field name="college_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Exam Template Search View -->
+    <record id="view_exam_template_search" model="ir.ui.view">
+        <field name="name">elearning.exam.template.search</field>
+        <field name="model">elearning.exam.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Exam Templates">
+                <field name="name"/>
+                <field name="college_id"/>
+                <field name="exam_type"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Not Published" name="not_published" domain="[('website_published', '=', False)]"/>
+                <filter string="Exam Entries Generated" name="grid_generated" domain="[('grid_generated', '=', True)]"/>
+                <filter string="Exam Entries Not Generated" name="grid_not_generated" domain="[('grid_generated', '=', False)]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Scheduled" name="scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                <separator/>
+                <filter string="Group by College" name="group_college"
+                        context="{'group_by': 'college_id'}"/>
+                <filter string="Group by Exam Type" name="group_exam_type"
+                        context="{'group_by': 'exam_type'}"/>
+                <filter string="Group by State" name="group_state"
+                        context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Exam Template Actions -->
+    <record id="action_exam_template" model="ir.actions.act_window">
+        <field name="name">Exam Schedules</field>
+        <field name="res_model">elearning.exam.template</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="search_view_id" ref="view_exam_template_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first exam schedule!
+            </p>
+            <p>
+                Create an exam schedule by setting the exam name, type, date range, and time settings. 
+                Then generate the grid and fill in the course, room, and invigilator details for each exam entry.
+            </p>
+        </field>
+    </record>
+
+</odoo>

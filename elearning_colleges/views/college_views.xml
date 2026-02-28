@@ -38,6 +38,9 @@
                         <button class="oe_stat_button" type="object" name="action_view_college_courses">
                             <field name="total_courses" widget="statinfo" string="Courses"/>
                         </button>
+                        <button class="oe_stat_button" type="object" name="action_view_college_exams" icon="fa-calendar-check-o">
+                            <field name="total_exams" widget="statinfo" string="Exams"/>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <h1>

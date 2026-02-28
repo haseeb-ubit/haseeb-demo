@@ -30,10 +30,12 @@ class College(models.Model):
     # Related fields
     department_ids = fields.One2many('hr.department', 'college_id', string='Departments')
     course_ids = fields.One2many('slide.channel', 'college_id', string='Courses')
+    exam_template_ids = fields.One2many('elearning.exam.template', 'college_id', string='Exam Schedules')
     
     # Computed fields
     total_courses = fields.Integer('Total Courses', compute='_compute_total_courses', store=True)
     total_departments = fields.Integer('Total Departments', compute='_compute_total_departments', store=True)
+    total_exams = fields.Integer('Total Exam Schedules', compute='_compute_total_exams', store=True)
     
     @api.depends('course_ids')
     def _compute_total_courses(self):
@@ -44,6 +46,11 @@ class College(models.Model):
     def _compute_total_departments(self):
         for college in self:
             college.total_departments = len(college.department_ids)
+    
+    @api.depends('exam_template_ids')
+    def _compute_total_exams(self):
+        for college in self:
+            college.total_exams = len(college.exam_template_ids)
     
     @api.model_create_multi
     def create(self, vals_list):
@@ -65,6 +72,79 @@ class College(models.Model):
         action['domain'] = [('college_id', '=', self.id)]
         action['context'] = {'default_college_id': self.id}
         return action
+    
+    def action_view_college_exams(self):
+        """Action to view exam schedules of this college"""
+        action = self.env['ir.actions.act_window']._for_xml_id('elearning_colleges.action_exam_template')
+        action['domain'] = [('college_id', '=', self.id)]
+        action['context'] = {'default_college_id': self.id}
+        return action
+    
+    def get_exam_data_for_report(self):
+        """Get exam data for PDF report"""
+        self.ensure_one()
+        # Get filters from context
+        department_id = self.env.context.get('department_id')
+        semester_id = self.env.context.get('semester_id')
+        start_date = self.env.context.get('start_date')
+        end_date = self.env.context.get('end_date')
+        
+        domain = [
+            ('college_id', '=', self.id),
+            ('website_published', '=', True),
+            ('state', '!=', 'cancelled'),
+        ]
+        
+        if department_id:
+            domain.append(('department_id', '=', department_id))
+        if semester_id:
+            domain.append(('semester_id', '=', semester_id))
+        if start_date:
+            domain.append(('exam_date', '>=', start_date))
+        if end_date:
+            domain.append(('exam_date', '<=', end_date))
+        
+        entries = self.env['elearning.exam'].search(domain, order='exam_template_id, exam_date, start_time')
+        
+        # Group by exam template, then by date
+        exams_by_template = {}
+        for entry in entries:
+            template_id = entry.exam_template_id.id if entry.exam_template_id else 0
+            template_name = entry.exam_template_id.name if entry.exam_template_id else 'Unknown'
+            template_type = entry.exam_template_id.exam_type if entry.exam_template_id else 'other'
+            
+            if template_id not in exams_by_template:
+                exams_by_template[template_id] = {
+                    'template_name': template_name,
+                    'template_type': template_type,
+                    'exams_by_date': {},
+                }
+            
+            date_key = entry.exam_date.strftime('%Y-%m-%d') if entry.exam_date else 'unknown'
+            if date_key not in exams_by_template[template_id]['exams_by_date']:
+                exams_by_template[template_id]['exams_by_date'][date_key] = []
+            
+            exams_by_template[template_id]['exams_by_date'][date_key].append({
+                'exam_date': entry.exam_date,
+                'start_time': entry.start_time,
+                'end_time': entry.end_time,
+                'course': entry.course_id.name if entry.course_id else '',
+                'department': entry.department_id.name if entry.department_id else '',
+                'semester': entry.semester_id.display_name if entry.semester_id else '',
+                'room': entry.room or '',
+                'invigilator': entry.invigilator_id.name if entry.invigilator_id else '',
+            })
+        
+        # Sort dates within each template and convert to list
+        templates_list = []
+        for template_id in exams_by_template:
+            template_info = exams_by_template[template_id]
+            template_info['sorted_dates'] = sorted(template_info['exams_by_date'].keys())
+            templates_list.append(template_info)
+        
+        return {
+            'exams_by_template': templates_list,
+        }
 
 
 class HrDepartment(models.Model):
