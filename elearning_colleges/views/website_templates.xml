@@ -1617,139 +1617,214 @@
         <t t-call="website.layout">
             <t t-set="title" t-value="college.name + ' - Exam Schedule'"/>
             <div id="wrap" class="oe_structure oe_empty">
-                <div class="container">
-                    <!-- College Header -->
+                <div class="container" style="max-width: 1060px;">
+                    <style>
+                        :root{--es-navy:#1a365d;--es-gold:#c8a85a;--es-light:#eef4fb;--es-border:#d0d8e8;--es-text:#2d3748;--es-meta:#718096}
+                        .es-page-title{font-size:1.8rem;font-weight:800;color:var(--es-navy)}
+                        .es-page-subtitle{font-size:1.1rem;color:var(--es-gold);font-weight:600;letter-spacing:.5px}
+                        .es-filter-bar{background:#f8fafc;border:1px solid var(--es-border);border-radius:10px;padding:18px 20px;margin-bottom:28px}
+                        .es-filter-bar .form-label{font-size:.78rem;font-weight:700;color:var(--es-navy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+                        .es-filter-bar .form-select{border:1.5px solid var(--es-border);border-radius:7px;padding:8px 14px;font-size:.9rem;color:var(--es-text)}
+                        .es-filter-bar .form-select:focus{border-color:var(--es-navy);box-shadow:0 0 0 3px rgba(26,54,93,.12)}
+                        .es-btn-filter{background:var(--es-navy);color:#fff;border:none;border-radius:7px;padding:9px 22px;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .18s;width:100%}
+                        .es-btn-filter:hover{background:#2c5282}
+                        .es-btn-pdf{background:#fff;color:var(--es-navy);border:2px solid var(--es-navy);border-radius:7px;padding:9px 18px;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .18s,color .18s;display:inline-flex;align-items:center;gap:6px}
+                        .es-btn-pdf:hover{background:var(--es-navy);color:#fff}
+                        .es-section{border:1px solid var(--es-border);border-radius:12px;overflow:hidden;margin-bottom:32px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+                        .es-section-header{background:var(--es-navy);color:#fff;padding:14px 20px}
+                        .es-section-title{font-size:1.1rem;font-weight:700;margin:0}
+                        .es-section-sub{font-size:.82rem;color:#e8f2ff;margin:2px 0 0}
+                        .es-date-group{border-bottom:1px solid var(--es-border)}
+                        .es-date-group:last-child{border-bottom:none}
+                        .es-date-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--es-light);cursor:pointer;user-select:none;transition:background .15s}
+                        .es-date-header:hover{background:#dae6f5}
+                        .es-date-header.es-today{background:#fff8e8;border-left:4px solid var(--es-gold)}
+                        .es-date-left{display:flex;align-items:center;gap:9px}
+                        .es-date-label{font-size:.93rem;font-weight:700;color:var(--es-navy)}
+                        .es-today-tag{font-size:.68rem;background:var(--es-gold);color:#fff;border-radius:4px;padding:1px 7px;margin-left:6px;font-weight:700}
+                        .es-date-badge{background:#e8f0fa;color:var(--es-navy);font-size:.68rem;font-weight:700;border-radius:20px;padding:2px 9px;letter-spacing:.04em;border:1px solid #c5d7f0}
+                        .es-today .es-date-badge{background:#fef3d8;color:#92650a;border-color:#f0d080}
+                        .es-chevron{font-size:.75rem;color:var(--es-meta);transition:transform .2s}
+                        .es-chevron.open{transform:rotate(180deg)}
+                        .es-date-body{overflow:hidden;transition:max-height .28s ease}
+                        .es-table{width:100%;border-collapse:collapse;font-size:.88rem}
+                        .es-table thead tr{background:#f1f5f9}
+                        .es-table th{padding:7px 14px;text-align:left;font-size:.73rem;font-weight:700;color:var(--es-meta);text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--es-border)}
+                        .es-table td{padding:10px 14px;border-bottom:1px solid #edf2f7;vertical-align:middle;color:var(--es-text)}
+                        .es-table tr:last-child td{border-bottom:none}
+                        .es-table tr:hover td{background:#f8fafc}
+                        .es-table tr.es-match td{background:#f0f7ff}
+                        .es-course{font-size:.92rem;font-weight:700;color:var(--es-navy);display:block}
+                        .es-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+                        .es-chip{display:inline-flex;align-items:center;gap:3px;background:#edf2f7;border-radius:4px;padding:1px 6px;font-size:.75rem;color:var(--es-meta)}
+                        .es-chip.es-chip-sem{background:#fef7e8;color:#92650a;border:1px solid #f0d080}
+                        .es-time{font-size:.88rem;font-weight:700;color:var(--es-navy);white-space:nowrap}
+                        .es-sep{color:var(--es-meta);padding:0 3px}
+                        .es-icon{font-size:.84rem;color:var(--es-text)}
+                        .es-icon i{color:var(--es-meta);margin-right:4px;font-size:.78rem}
+                        .es-empty{text-align:center;padding:56px 24px;color:var(--es-meta)}
+                        .es-empty i{font-size:2.5rem;display:block;margin-bottom:10px;opacity:.35}
+                        .es-empty strong{display:block;font-size:1rem;color:#4a5568;margin-bottom:4px}
+                    </style>
+
                     <div class="row mt-4 mb-4">
                         <div class="col-12 text-center">
-                            <h1 class="mb-2 college-title" t-esc="college.name"/>
-                            <h2 class="mb-3" style="color: #2980b9;">Exam Schedule</h2>
+                            <h1 class="es-page-title mb-1" t-esc="college.name"/>
+                            <p class="es-page-subtitle mb-0">Exam Schedule</p>
                         </div>
                     </div>
 
-                    <!-- Filters -->
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form method="get" action="" class="row g-3">
-                                        <div class="col-md-3">
-                                            <label class="form-label">Department</label>
-                                            <select name="department_id" class="form-select">
-                                                <option value="">All Departments</option>
-                                                <t t-foreach="departments" t-as="dept">
-                                                    <option t-att-value="dept.id" 
-                                                            t-att-selected="selected_department_id == dept.id">
-                                                        <t t-esc="dept.name"/>
-                                                    </option>
-                                                </t>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Semester</label>
-                                            <select name="semester_id" class="form-select">
-                                                <option value="">All Semesters</option>
-                                                <t t-foreach="semester_slots" t-as="sem">
-                                                    <option t-att-value="sem.id" 
-                                                            t-att-selected="selected_semester_id == sem.id">
-                                                        <t t-esc="sem.display_name"/>
-                                                    </option>
-                                                </t>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-end">
-                                            <button type="submit" class="btn btn-primary w-100">Filter</button>
-                                        </div>
-                                    </form>
+                    <div class="es-filter-bar">
+                        <form method="get" action="">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label class="form-label">Department</label>
+                                    <select name="department_id" class="form-select">
+                                        <option value="">All Departments</option>
+                                        <t t-foreach="departments" t-as="dept">
+                                            <option t-att-value="dept.id" t-att-selected="selected_department_id == dept.id">
+                                                <t t-esc="dept.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Semester</label>
+                                    <select name="semester_id" class="form-select">
+                                        <option value="">All Semesters</option>
+                                        <t t-foreach="semester_slots" t-as="sem">
+                                            <option t-att-value="sem.id" t-att-selected="selected_semester_id == sem.id">
+                                                <t t-esc="sem.display_name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="es-btn-filter">
+                                        <i class="fa fa-filter me-1"/>Filter
+                                    </button>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end justify-content-end">
+                                    <a t-attf-href="/report/pdf/elearning_colleges.action_report_college_exam/{{ college.id }}?department_id={{ selected_department_id or '' }}&amp;semester_id={{ selected_semester_id or '' }}"
+                                       class="es-btn-pdf">
+                                        <i class="fa fa-download"/> PDF
+                                    </a>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
-                    <!-- Download PDF Button -->
-                    <div class="row mb-3">
-                        <div class="col-12 text-end">
-                            <a t-attf-href="/report/pdf/elearning_colleges.action_report_college_exam/{{ college.id }}?department_id={{ selected_department_id or '' }}&amp;semester_id={{ selected_semester_id or '' }}"
-                               class="btn btn-outline-primary">
-                                <i class="fa fa-download me-1"></i>Download PDF
-                            </a>
+                    <t t-if="no_data">
+                        <div class="es-empty">
+                            <i class="fa fa-calendar-times-o"/>
+                            <strong>No Exams Found</strong>
+                            No exam schedule available for the selected filters.
                         </div>
-                    </div>
+                    </t>
+                    <t t-if="not no_data">
+                        <t t-foreach="exams_by_template" t-as="template_data">
+                            <t t-set="tmpl_name"     t-value="template_data.get('template_name', 'Unknown')"/>
+                            <t t-set="tmpl_type"     t-value="template_data.get('template_type', 'other')"/>
+                            <t t-set="exams_by_date" t-value="template_data.get('exams_by_date', {})"/>
+                            <t t-set="sorted_dates"  t-value="template_data.get('sorted_dates', [])"/>
+                            <t t-set="type_map"      t-value="{'midterm':'Midterm Examination','final':'Final Examination','supplementary':'Supplementary Examination','quiz':'Quiz','assignment':'Assignment','project':'Project','other':'Exam'}"/>
 
-                    <!-- Exam Schedule -->
-                    <div class="row">
-                        <div class="col-12">
-                            <t t-if="no_data">
-                                <div class="alert alert-info" role="alert">
-                                    <i class="fa fa-info-circle me-2"></i>No exam schedule available for the selected filters.
+                            <div class="es-section">
+                                <div class="es-section-header">
+                                    <h3 class="es-section-title"><t t-esc="type_map.get(tmpl_type, 'Exam')"/> Schedule</h3>
+                                    <p class="es-section-sub"><t t-esc="tmpl_name"/></p>
                                 </div>
-                            </t>
-                            <t t-if="not no_data">
-                                <t t-foreach="exams_by_template" t-as="template_data">
-                                    <t t-set="template_name" t-value="template_data.get('template_name', 'Unknown')"/>
-                                    <t t-set="template_type" t-value="template_data.get('template_type', 'other')"/>
-                                    <t t-set="exams_by_date" t-value="template_data.get('exams_by_date', {})"/>
-                                    <t t-set="sorted_dates" t-value="template_data.get('sorted_dates', [])"/>
-                                    
-                                    <!-- Template Header -->
-                                    <div class="card mb-4" style="border-left: 4px solid #2980b9;">
-                                        <div class="card-header" style="background-color: #f8f9fa; border-bottom: 2px solid #2980b9;">
-                                            <h3 class="mb-1" style="color: #1a365d; font-size: 1.25rem;">
-                                                <t t-set="type_map" t-value="{'midterm': 'Midterm Examination', 'final': 'Final Examination', 'supplementary': 'Supplementary Examination', 'quiz': 'Quiz', 'assignment': 'Assignment', 'project': 'Project', 'other': 'Other'}"/>
-                                                <t t-set="exam_type_label" t-value="type_map.get(template_type, 'Exam')"/>
-                                                <t t-esc="exam_type_label"/> Schedule
-                                            </h3>
-                                            <h4 class="mb-0" style="color: #4a5568; font-size: 1rem; font-weight: 600;">
-                                                <t t-esc="template_name"/>
-                                            </h4>
+
+                                <t t-foreach="sorted_dates" t-as="date_key">
+                                    <t t-set="day_exams"  t-value="exams_by_date.get(date_key, [])"/>
+                                    <t t-set="exam_date"  t-value="day_exams[0].get('exam_date') if day_exams else None"/>
+                                    <t t-set="exam_count" t-value="len(day_exams)"/>
+                                    <t t-set="today_str"  t-value="datetime.date.today().strftime('%Y-%m-%d')"/>
+                                    <t t-set="is_today"   t-value="date_key == today_str"/>
+                                    <t t-set="is_open"    t-value="is_today or date_key_index == 0 or date_key &gt;= today_str"/>
+
+                                    <div class="es-date-group">
+                                        <div t-att-class="'es-date-header es-today' if is_today else 'es-date-header'"
+                                             t-attf-data-target="es-body-{{ template_data_index }}-{{ date_key_index }}"
+                                             onclick="esToggle(this)">
+                                            <div class="es-date-left">
+                                                <i class="fa fa-calendar-o" style="color:#c8a85a;"/>
+                                                <span class="es-date-label">
+                                                    <t t-esc="exam_date.strftime('%A, %B %d, %Y') if exam_date else date_key"/>
+                                                    <t t-if="is_today"><span class="es-today-tag">TODAY</span></t>
+                                                </span>
+                                                <span class="es-date-badge">
+                                                    <t t-esc="str(exam_count)"/>&#160;<t t-if="exam_count == 1">Exam</t><t t-else="">Exams</t>
+                                                </span>
+                                            </div>
+                                            <i t-att-class="'fa fa-chevron-down es-chevron open' if is_open else 'fa fa-chevron-down es-chevron'"/>
                                         </div>
-                                        <div class="card-body">
-                                            <t t-foreach="sorted_dates" t-as="date_key">
-                                                <div class="mb-3">
-                                                    <div class="mb-2" style="background-color: #2980b9; color: white; padding: 8px 12px; border-radius: 4px;">
-                                                        <h5 class="mb-0">
-                                                            <i class="fa fa-calendar me-2"></i>
-                                                            <t t-set="exam_date" t-value="exams_by_date.get(date_key)[0].get('exam_date')"/>
-                                                            <t t-esc="exam_date.strftime('%A, %B %d, %Y') if exam_date else date_key"/>
-                                                        </h5>
-                                                    </div>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Time</th>
-                                                                    <th>Course</th>
-                                                                    <th>Department</th>
-                                                                    <th>Semester</th>
-                                                                    <th>Room</th>
-                                                                    <th>Invigilator</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <t t-foreach="exams_by_date.get(date_key, [])" t-as="exam">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <strong t-esc="exam.get('start_time', '')"/>
-                                                                            <span> - </span>
-                                                                            <span t-esc="exam.get('end_time', '')"/>
-                                                                        </td>
-                                                                        <td t-esc="exam.get('course', '')"/>
-                                                                        <td t-esc="exam.get('department', '')"/>
-                                                                        <td t-esc="exam.get('semester', '')"/>
-                                                                        <td t-esc="exam.get('room', '')"/>
-                                                                        <td t-esc="exam.get('invigilator', '')"/>
-                                                                    </tr>
-                                                                </t>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </t>
+
+                                        <div t-attf-id="es-body-{{ template_data_index }}-{{ date_key_index }}"
+                                             class="es-date-body"
+                                             t-att-style="'max-height:2000px;' if is_open else 'max-height:0;'">
+                                            <table class="es-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:115px;">Time</th>
+                                                        <th>Course</th>
+                                                        <th style="width:130px;">Room</th>
+                                                        <th style="width:160px;">Invigilator</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="day_exams" t-as="exam">
+                                                        <t t-set="is_match" t-value="bool(selected_department_id and exam.get('department_id') == selected_department_id)"/>
+                                                        <tr t-att-class="'es-match' if is_match else ''">
+                                                            <td>
+                                                                <span class="es-time">
+                                                                    <t t-esc="exam.get('start_time', '')"/>
+                                                                    <span class="es-sep">&#8211;</span>
+                                                                    <t t-esc="exam.get('end_time', '')"/>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="es-course" t-esc="exam.get('course', '')"/>
+                                                                <div class="es-chips">
+                                                                    <t t-if="exam.get('department')">
+                                                                        <span class="es-chip"><i class="fa fa-building-o"/><t t-esc="exam.get('department', '')"/></span>
+                                                                    </t>
+                                                                    <t t-if="exam.get('semester')">
+                                                                        <span class="es-chip es-chip-sem"><i class="fa fa-tag"/><t t-esc="exam.get('semester', '')"/></span>
+                                                                    </t>
+                                                                </div>
+                                                            </td>
+                                                            <td class="es-icon">
+                                                                <t t-if="exam.get('room')"><i class="fa fa-map-marker"/><t t-esc="exam.get('room', '')"/></t>
+                                                                <t t-else=""><span style="color:#ccc;">&#8212;</span></t>
+                                                            </td>
+                                                            <td class="es-icon">
+                                                                <t t-if="exam.get('invigilator')"><i class="fa fa-user-o"/><t t-esc="exam.get('invigilator', '')"/></t>
+                                                                <t t-else=""><span style="color:#ccc;">&#8212;</span></t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </t>
-                            </t>
-                        </div>
-                    </div>
+                            </div>
+                        </t>
+                    </t>
+
+                    <script type="text/javascript">
+                    function esToggle(header) {
+                        var id      = header.getAttribute('data-target');
+                        var body    = document.getElementById(id);
+                        var chevron = header.querySelector('.es-chevron');
+                        if (!body) { return; }
+                        var open = body.style.maxHeight !== '0px' &amp;&amp; body.style.maxHeight !== '';
+                        body.style.maxHeight = open ? '0' : '2000px';
+                        if (chevron) { chevron.classList.toggle('open', !open); }
+                    }
+                    </script>
+
                 </div>
             </div>
         </t>
