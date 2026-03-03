@@ -16,50 +16,373 @@
     <template id="portal_alumni_profile" name="Alumni Profile Portal">
         <t t-call="website.layout">
             <t t-set="title">My Alumni Profile</t>
-            <div id="wrap" class="oe_structure oe_empty bg-white pb-5 portal_alumni_profile">
-                <div class="container mt-5">
-                    <div class="row mb-4">
-                        <div class="col-12 text-center">
-                            <h2 class="font-weight-light text-dark mb-2">My Alumni Profile</h2>
-                            <p class="text-muted font-weight-light">Manage your personal information, employment history, and achievements.</p>
+            <style>
+                /* ══════════════════════════════════════════════
+                   ALUMNI PROFILE — PREMIUM DASHBOARD v3
+                   Navy #1a365d  |  Gold #c8a85a
+                   Page bg #f4f7f9
+                ══════════════════════════════════════════════ */
+
+                /* Page background */
+                .portal_alumni_profile { background: #f4f7f9 !important; }
+                .portal_alumni_profile .container { position: relative; }
+
+                /* ── Main container card ── */
+                .ap-main-card {
+                    border: none !important;
+                    border-radius: 16px !important;
+                    overflow: hidden;
+                    box-shadow: 0 4px 32px rgba(26,54,93,.10), 0 1px 4px rgba(0,0,0,.06) !important;
+                    background: #fff;
+                }
+
+                /* ── Hero Banner ── */
+                .ap-hero-banner {
+                    height: 160px;
+                    background: linear-gradient(135deg, #1a2f5a 0%, #1a365d 50%, #2a4a7f 100%);
+                    position: relative;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 28px;
+                }
+                .ap-hero-banner::before {
+                    content: '';
+                    position: absolute; inset: 0;
+                    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a85a' fill-opacity='0.06'%3E%3Ccircle cx='40' cy='40' r='40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+                    opacity: .4;
+                }
+                .ap-hero-banner::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0; left: 0; right: 0; height: 4px;
+                    background: linear-gradient(90deg, #c8a85a, #e8c97a, #c8a85a);
+                }
+                .ap-hero-title {
+                    color: #fff;
+                    position: relative; z-index: 2;
+                    flex: 1;
+                    padding-top: 0;
+                    padding-left: 140px; /* clear the floating avatar */
+                }
+                .ap-hero-title h2 {
+                    font-size: 1.45rem; font-weight: 800;
+                    margin: 0 0 6px; letter-spacing: .01em;
+                    color: #fff;
+                }
+                .ap-hero-title p {
+                    font-size: .86rem;
+                    color: rgba(255,255,255,0.88);
+                    margin: 0;
+                }
+                .ap-hero-badge {
+                    position: relative; z-index: 2;
+                    background: rgba(200,168,90,.18);
+                    border: 1px solid rgba(200,168,90,.4);
+                    color: #c8a85a;
+                    border-radius: 20px;
+                    padding: 4px 14px;
+                    font-size: .75rem; font-weight: 700;
+                    letter-spacing: .06em; text-transform: uppercase;
+                    white-space: nowrap;
+                    margin-left: 20px;
+                }
+
+                /* ── Profile picture overlap zone ── */
+                .ap-profile-zone {
+                    background: #fff;
+                    position: relative;
+                    height: 64px; /* half of the 128px avatar sits below banner */
+                    border-bottom: 1px solid #e8edf5;
+                }
+                .ap-profile-float {
+                    position: absolute;
+                    left: 28px;
+                    top: -54px; /* overlaps 54px up into the banner */
+                    z-index: 30;
+                }
+                .ap-profile-float .ap-avatar-img {
+                    width: 108px; height: 108px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 4px solid #fff;
+                    box-shadow: 0 4px 20px rgba(26,54,93,.22);
+                    display: block;
+                }
+                .ap-profile-float .ap-avatar-placeholder {
+                    width: 108px; height: 108px;
+                    border-radius: 50%;
+                    background: #edf2f7;
+                    border: 4px solid #fff;
+                    box-shadow: 0 4px 20px rgba(26,54,93,.22);
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .ap-profile-float .ap-camera-btn {
+                    position: absolute; bottom: 3px; right: 3px;
+                    width: 28px; height: 28px;
+                    background: #1a365d; color: #fff;
+                    border-radius: 50%;
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: .72rem;
+                    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+                    cursor: pointer; z-index: 31;
+                }
+                /* Name + dept label beside the floating photo */
+                .ap-profile-meta {
+                    position: absolute;
+                    left: 152px; /* 28px left + 108px avatar + 16px gap */
+                    bottom: 12px;
+                }
+                .ap-profile-meta .ap-meta-name {
+                    font-size: 1.1rem; font-weight: 800; color: #1a365d;
+                    margin: 0; text-transform: capitalize;
+                }
+                .ap-profile-meta .ap-meta-dept {
+                    font-size: .8rem; color: #718096; margin: 0;
+                }
+
+                /* ── Segmented tab control ── */
+                .ap-seg-wrap {
+                    background: #fff;
+                    padding: 16px 24px 0;
+                    border-bottom: 1px solid #e8edf5;
+                }
+                .ap-seg-bar {
+                    display: inline-flex;
+                    background: #eef2f7;
+                    border-radius: 10px;
+                    padding: 4px;
+                    gap: 2px;
+                    margin-bottom: 0;
+                    list-style: none;
+                    padding-left: 4px;
+                }
+                .ap-seg-bar .nav-item { list-style: none; }
+                .ap-seg-bar .nav-link {
+                    border: none !important;
+                    background: transparent;
+                    border-radius: 8px;
+                    color: #718096;
+                    font-weight: 600;
+                    font-size: .88rem;
+                    padding: 8px 18px;
+                    transition: all .18s;
+                    display: flex; align-items: center; gap: 6px;
+                }
+                .ap-seg-bar .nav-link i { color: #a0aec0; transition: color .18s; }
+                .ap-seg-bar .nav-link.active {
+                    background: #fff !important;
+                    color: #1a365d !important;
+                    box-shadow: 0 2px 8px rgba(26,54,93,.12) !important;
+                    border-radius: 8px !important;
+                }
+                .ap-seg-bar .nav-link.active i { color: #1a365d !important; }
+                .ap-seg-bar .nav-link:hover:not(.active) { color: #2d3748; background: rgba(255,255,255,.6); }
+
+                /* ── Tab body ── */
+                .ap-tab-body { background: #f8fafc; padding: 28px 24px; }
+
+                /* ── Brand tokens ── */
+                .ap-navy  { color: #1a365d !important; }
+                .ap-gold  { color: #c8a85a !important; }
+
+                /* ── Form labels ── */
+                .ap-label {
+                    font-size: .78rem;
+                    font-weight: 700;
+                    color: #2d3748;
+                    letter-spacing: .03em;
+                    margin-bottom: 6px;
+                    display: block;
+                }
+
+                /* ── Capitalize name fields visually ── */
+                .ap-capitalize { text-transform: capitalize; }
+
+                /* ── Inputs: white, grey border, gold focus, tall ── */
+                .ap-input {
+                    background: #fff !important;
+                    border: 1.5px solid #d0d8e8 !important;
+                    border-radius: 10px !important;
+                    padding: 8px 12px !important;
+                    font-size: .92rem !important;
+                    color: #2d3748 !important;
+                    min-height: 40px !important;
+                    transition: border-color .18s, box-shadow .18s !important;
+                }
+                .ap-input:focus {
+                    border-color: #c8a85a !important;
+                    box-shadow: 0 0 0 3px rgba(200,168,90,.15) !important;
+                    outline: none !important;
+                }
+                .ap-input::placeholder { color: #b0bec5 !important; font-size: .88rem; }
+
+                /* ── Section header strip ── */
+                .ap-section-hdr {
+                    display: flex; align-items: center;
+                    border-left: 4px solid #c8a85a;
+                    padding-left: 12px;
+                    margin-bottom: 0;
+                }
+                .ap-section-hdr h5 {
+                    font-size: 1rem; font-weight: 800;
+                    color: #1a365d; margin: 0;
+                }
+
+                /* ── Section header icon circle ── */
+                .ap-icon-circle {
+                    display: inline-flex; align-items: center; justify-content: center;
+                    width: 34px; height: 34px; border-radius: 50%;
+                    background: #edf2f7; color: #1a365d;
+                    font-size: .9rem; margin-right: 10px; flex-shrink: 0;
+                }
+                /* Force navy on every icon inside the circle (overrides FA default colors) */
+                .ap-icon-circle i,
+                .ap-icon-circle .fa { color: #1a365d !important; }
+
+                /* ── Sidebar unified card ── */
+                .ap-sidebar-card {
+                    background: #fff;
+                    border-radius: 14px !important;
+                    border-top: 4px solid #c8a85a !important;
+                    box-shadow: 0 4px 20px rgba(26,54,93,.08) !important;
+                    overflow: hidden;
+                    border: none;
+                }
+                .ap-sidebar-section {
+                    padding: 20px 20px;
+                    border-bottom: 1px solid #f0f2f7;
+                }
+                .ap-sidebar-section:last-child { border-bottom: none; }
+
+                /* ── Camera overlay on profile pic ── */
+                .ap-avatar-wrap { position: relative; display: inline-block; }
+                .ap-camera-btn {
+                    position: absolute; bottom: 4px; right: 4px;
+                    width: 30px; height: 30px;
+                    background: #1a365d; color: #fff;
+                    border-radius: 50%;
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: .75rem;
+                    box-shadow: 0 2px 6px rgba(0,0,0,.25);
+                    cursor: pointer;
+                }
+                /* ── 'Update Photo' trigger link ── */
+                .ap-photo-link {
+                    font-size: .82rem; font-weight: 700; color: #1a365d;
+                    text-decoration: underline; cursor: pointer;
+                    display: inline-block; margin-top: 8px;
+                }
+                .ap-photo-link:hover { color: #c8a85a; }
+                #ap-photo-input { display: none; }
+
+                /* ── Sidebar info labels ── */
+                .ap-info-label {
+                    font-size: .72rem; font-weight: 700; color: #718096;
+                    text-transform: uppercase; letter-spacing: .04em;
+                    display: block; margin-bottom: 2px;
+                }
+
+                /* ── Save button — navy ── */
+                .btn-ap-save {
+                    background: #1a365d !important;
+                    border: none !important;
+                    color: #fff !important;
+                    font-weight: 700 !important;
+                    padding: 12px 40px !important;
+                    border-radius: 50px !important;
+                    font-size: 1rem !important;
+                    transition: background .18s, box-shadow .18s !important;
+                }
+                .btn-ap-save:hover {
+                    background: #2c5282 !important;
+                    box-shadow: 0 4px 16px rgba(26,54,93,.3) !important;
+                }
+
+                /* ── Form section cards ── */
+                .ap-form-card {
+                    background: #fff;
+                    border-radius: 14px !important;
+                    border: none !important;
+                    box-shadow: 0 2px 12px rgba(26,54,93,.06) !important;
+                    margin-bottom: 20px;
+                }
+            </style>
+            <div id="wrap" class="oe_structure oe_empty pb-5 portal_alumni_profile" style="background:#f4f7f9;">
+                <div class="container mt-4">
+                    <!-- page title above card -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <p class="text-muted small mb-0" style="color:#718096;">
+                                <i class="fa fa-home me-1"/>&#160;
+                                <a href="/my/home" style="color:#1a365d;font-weight:600;">My Account</a>
+                                &#160;/&#160; Alumni Profile
+                            </p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="card shadow-sm border-0 rounded-lg overflow-hidden bg-light">
-                                <div class="card-header border-bottom-0 pt-4 pb-0 px-4 bg-transparent">
-                                    <ul class="nav nav-tabs border-bottom-0" role="tablist">
+                            <div class="ap-main-card">
+                                <!-- ═══ HERO BANNER ═══ -->
+                                <div class="ap-hero-banner">
+                                    <div class="ap-hero-title">
+                                        <h2>My Alumni Profile</h2>
+                                        <p>Manage your personal information, employment and achievements</p>
+                                    </div>
+                                </div>
+
+                                <!-- ═══ PROFILE OVERLAP ZONE ═══ -->
+                                <div class="ap-profile-zone">
+                                    <div class="ap-profile-float ap-avatar-wrap">
+                                        <t t-if="alumni.photo">
+                                            <img t-att-src="'/web/image/alumni.profile/%s/photo' % alumni.id"
+                                                 class="ap-avatar-img"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="ap-avatar-placeholder">
+                                                <i class="fa fa-user fa-3x" style="color:#a0aec0;"/>
+                                            </div>
+                                        </t>
+                                        <span class="ap-camera-btn" onclick="document.getElementById('ap-photo-input').click()">
+                                            <i class="fa fa-camera"/>
+                                        </span>
+                                    </div>
+                                    <div class="ap-profile-meta">
+                                        <p class="ap-meta-name"><t t-esc="alumni.name or 'Alumni'"/></p>
+                                        <p class="ap-meta-dept"><t t-esc="alumni.department_id.name or ''"/></p>
+                                    </div>
+                                </div>
+
+                                <!-- ═══ SEGMENTED TAB CONTROL ═══ -->
+                                <div class="ap-seg-wrap">
+                                    <ul class="ap-seg-bar" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active font-weight-medium border-0 rounded-top" data-bs-toggle="tab" href="#general_info" role="tab">
-                                                <i class="fa fa-user me-1"/> General Information
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#general_info" role="tab">
+                                                <i class="fa fa-user"/> General Information
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link font-weight-medium border-0 rounded-top" data-bs-toggle="tab" href="#employment" role="tab">
-                                                <i class="fa fa-briefcase me-1"/> Employment
+                                            <a class="nav-link" data-bs-toggle="tab" href="#employment" role="tab">
+                                                <i class="fa fa-briefcase"/> Employment
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link font-weight-medium border-0 rounded-top" data-bs-toggle="tab" href="#achievements" role="tab">
-                                                <i class="fa fa-trophy me-1"/> Achievements
+                                            <a class="nav-link" data-bs-toggle="tab" href="#achievements" role="tab">
+                                                <i class="fa fa-trophy"/> Achievements
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                                
-                                <div class="card-body p-4 bg-white rounded-bottom shadow-sm">
+
+                                <!-- ═══ TAB CONTENT ═══ -->
+                                <div class="ap-tab-body">
                                     <div class="tab-content">
-                                        <!-- General Information Tab -->
                                         <div class="tab-pane fade show active" id="general_info" role="tabpanel">
                                             <t t-call="ust_alumni_management.portal_alumni_general_info"/>
                                         </div>
-                                        
-                                        <!-- Employment Tab -->
                                         <div class="tab-pane fade" id="employment" role="tabpanel">
                                             <t t-call="ust_alumni_management.portal_alumni_employment"/>
                                         </div>
-                                        
-                                        <!-- Achievements Tab -->
                                         <div class="tab-pane fade" id="achievements" role="tabpanel">
                                             <t t-call="ust_alumni_management.portal_alumni_achievements"/>
                                         </div>
@@ -75,9 +398,10 @@
             <t t-call="ust_alumni_management.portal_alumni_add_employment_modal"/>
             <t t-call="ust_alumni_management.portal_alumni_add_achievement_modal"/>
             
-            <!-- JS fix for modals in portal view (fallbacks if Boostrap 5 data-bs-target fails) -->
+            <!-- JS: modals + live photo preview -->
             <script type="text/javascript">
                 document.addEventListener('DOMContentLoaded', function() {
+                    /* ── Modal buttons ── */
                     const addEmpBtn = document.getElementById('btn-add-emp');
                     if (addEmpBtn) {
                         addEmpBtn.addEventListener('click', function() {
@@ -85,12 +409,39 @@
                             empModal.show();
                         });
                     }
-                    
+
                     const addAchieveBtn = document.getElementById('btn-add-achieve');
                     if (addAchieveBtn) {
                         addAchieveBtn.addEventListener('click', function() {
                             const achieveModal = new bootstrap.Modal(document.getElementById('addAchievementModal'));
                             achieveModal.show();
+                        });
+                    }
+
+                    /* ── Live photo preview ── */
+                    const photoInput = document.getElementById('ap-photo-input');
+                    if (photoInput) {
+                        photoInput.addEventListener('change', function(e) {
+                            const file = e.target.files[0];
+                            if (!file || !file.type.startsWith('image/')) return;
+                            const reader = new FileReader();
+                            reader.onload = function(ev) {
+                                /* Replace existing img tag */
+                                let img = document.querySelector('.ap-profile-float .ap-avatar-img');
+                                if (img) {
+                                    img.src = ev.target.result;
+                                } else {
+                                    /* If placeholder div exists, swap it for an img */
+                                    const placeholder = document.querySelector('.ap-profile-float .ap-avatar-placeholder');
+                                    if (placeholder) {
+                                        const newImg = document.createElement('img');
+                                        newImg.src = ev.target.result;
+                                        newImg.className = 'ap-avatar-img';
+                                        placeholder.parentNode.replaceChild(newImg, placeholder);
+                                    }
+                                }
+                            };
+                            reader.readAsDataURL(file);
                         });
                     }
                 });
@@ -106,35 +457,38 @@
             
             <div class="row g-4">
                 <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm rounded-lg mb-4">
-                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-                            <h5 class="mb-0 text-dark font-weight-bold"><i class="fa fa-info-circle text-primary me-2"/> Personal Details</h5>
+                    <div class="card border-0 shadow-sm rounded-lg mb-2">
+                        <div class="card-header bg-white border-bottom pt-3 pb-3 px-4">
+                            <div class="ap-section-hdr">
+                                <span class="ap-icon-circle"><i class="fa fa-info-circle"/></span>
+                                <h5>Personal Details</h5>
+                            </div>
                         </div>
                         <div class="card-body p-4">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Full Name</label>
-                                    <input type="text" name="name" t-att-value="alumni.name" class="form-control form-control-lg bg-light border-0" required="1"/>
+                                    <label class="ap-label">Full Name</label>
+                                    <input type="text" name="name" t-att-value="alumni.name" class="form-control ap-input ap-capitalize" placeholder="Enter full name" required="1"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Email</label>
-                                    <input type="email" name="email" t-att-value="alumni.email" class="form-control form-control-lg bg-light border-0" required="1"/>
+                                    <label class="ap-label">Email</label>
+                                    <input type="email" name="email" t-att-value="alumni.email" class="form-control ap-input" placeholder="Enter email address" required="1"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Phone</label>
-                                    <input type="text" name="phone" t-att-value="alumni.phone" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">Phone</label>
+                                    <input type="text" name="phone" t-att-value="alumni.phone" class="form-control ap-input" placeholder="Enter phone number"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Mobile</label>
-                                    <input type="text" name="mobile" t-att-value="alumni.mobile" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">Mobile</label>
+                                    <input type="text" name="mobile" t-att-value="alumni.mobile" class="form-control ap-input" placeholder="Enter mobile number"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Date of Birth</label>
-                                    <input type="date" name="date_of_birth" t-att-value="alumni.date_of_birth" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">Date of Birth</label>
+                                    <input type="date" name="date_of_birth" t-att-value="alumni.date_of_birth" class="form-control ap-input"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Nationality</label>
-                                    <select name="nationality_id" class="form-select form-control bg-light border-0">
+                                    <label class="ap-label">Nationality</label>
+                                    <select name="nationality_id" class="form-select form-control ap-input">
                                         <option value="">-- Select --</option>
                                         <t t-foreach="request.env['res.country'].search([])" t-as="country">
                                             <option t-att-value="country.id" t-att-selected="alumni.nationality.id == country.id">
@@ -148,22 +502,25 @@
                     </div>
 
                     <div class="card border-0 shadow-sm rounded-lg mb-4">
-                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-                            <h5 class="mb-0 text-dark font-weight-bold"><i class="fa fa-map-marker text-danger me-2"/> Address Information</h5>
+                        <div class="card-header bg-white border-bottom pt-3 pb-3 px-4">
+                            <div class="ap-section-hdr">
+                                <span class="ap-icon-circle"><i class="fa fa-map-marker"/></span>
+                                <h5>Address Information</h5>
+                            </div>
                         </div>
                         <div class="card-body p-4">
                             <div class="row">
                                 <div class="col-12 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Street</label>
-                                    <input type="text" name="street" t-att-value="alumni.street" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">Street</label>
+                                    <input type="text" name="street" t-att-value="alumni.street" class="form-control ap-input" placeholder="Enter street address"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">City</label>
-                                    <input type="text" name="city" t-att-value="alumni.city" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">City</label>
+                                    <input type="text" name="city" t-att-value="alumni.city" class="form-control ap-input" placeholder="Enter city"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">State</label>
-                                    <select name="state_id" class="form-select form-control bg-light border-0">
+                                    <label class="ap-label">State</label>
+                                    <select name="state_id" class="form-select form-control ap-input">
                                         <option value="">-- Select --</option>
                                         <t t-foreach="request.env['res.country.state'].search([])" t-as="state">
                                             <option t-att-value="state.id" t-att-selected="alumni.state_id.id == state.id">
@@ -173,12 +530,12 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">ZIP Code</label>
-                                    <input type="text" name="zip" t-att-value="alumni.zip" class="form-control bg-light border-0"/>
+                                    <label class="ap-label">ZIP Code</label>
+                                    <input type="text" name="zip" t-att-value="alumni.zip" class="form-control ap-input" placeholder="e.g. 12345"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted small text-uppercase font-weight-bold">Country</label>
-                                    <select name="country_id" class="form-select form-control bg-light border-0">
+                                    <label class="ap-label">Country</label>
+                                    <select name="country_id" class="form-select form-control ap-input">
                                         <option value="">-- Select --</option>
                                         <t t-foreach="request.env['res.country'].search([])" t-as="country">
                                             <option t-att-value="country.id" t-att-selected="alumni.country_id.id == country.id">
@@ -193,56 +550,48 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm rounded-lg mb-4 text-center">
-                        <div class="card-body p-4">
-                            <h5 class="mb-4 text-dark font-weight-bold">Profile Picture</h5>
-                            <div class="position-relative d-inline-block mb-3">
-                                <t t-if="alumni.photo">
-                                    <img t-att-src="'/web/image/alumni.profile/%s/photo' % alumni.id" 
-                                         class="rounded-circle shadow profile-avatar"/>
-                                </t>
-                                <t t-else="">
-                                    <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center shadow profile-avatar">
-                                        <i class="fa fa-camera fa-3x text-secondary"/>
-                                    </div>
-                                </t>
-                            </div>
-                            <input type="file" name="photo" class="form-control form-control-sm" accept="image/*"/>
-                        </div>
-                    </div>
+                    <!-- Unified sidebar card with gold top border -->
+                    <div class="ap-sidebar-card">
+                        <!-- file input inside form for photo upload -->
+                        <input type="file" name="photo" id="ap-photo-input" accept="image/*" style="display:none;"/>
 
-                    <div class="card border-0 shadow-sm rounded-lg mb-4">
-                        <div class="card-body p-4">
-                            <h5 class="mb-3 text-dark font-weight-bold"><i class="fa fa-graduation-cap text-info me-2"/> Academic Details</h5>
-                            <div class="mb-2 pb-2 border-bottom">
-                                <small class="text-muted d-block text-uppercase font-weight-bold">Department</small>
-                                <span class="text-dark"><t t-esc="alumni.department_id.name or 'N/A'"/></span>
+                        <!-- Academic Details section -->
+                        <div class="ap-sidebar-section">
+                            <div class="ap-section-hdr mb-3">
+                                <span class="ap-icon-circle"><i class="fa fa-graduation-cap"/></span>
+                                <h5>Academic Details</h5>
                             </div>
-                            <div class="mb-2 pb-2 border-bottom">
-                                <small class="text-muted d-block text-uppercase font-weight-bold">Graduation Year</small>
-                                <span class="text-dark"><t t-esc="alumni.graduation_year or 'N/A'"/></span>
+                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
+                                <span class="ap-info-label">Department</span>
+                                <span class="text-dark fw-semibold"><t t-esc="alumni.department_id.name or 'N/A'"/></span>
                             </div>
-                            <div class="mb-2 pb-2 border-bottom">
-                                <small class="text-muted d-block text-uppercase font-weight-bold">Degree</small>
-                                <span class="text-dark"><t t-esc="alumni.degree or 'N/A'"/></span>
+                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
+                                <span class="ap-info-label">Graduation Year</span>
+                                <span class="text-dark fw-semibold"><t t-esc="alumni.graduation_year or 'N/A'"/></span>
                             </div>
-                            <div class="mb-2">
-                                <small class="text-muted d-block text-uppercase font-weight-bold">Major</small>
-                                <span class="text-dark"><t t-esc="alumni.major or 'N/A'"/></span>
+                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
+                                <span class="ap-info-label">Degree</span>
+                                <span class="text-dark fw-semibold"><t t-esc="alumni.degree or 'N/A'"/></span>
+                            </div>
+                            <div class="mb-0">
+                                <span class="ap-info-label">Major</span>
+                                <span class="text-dark fw-semibold"><t t-esc="alumni.major or 'N/A'"/></span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card border-0 shadow-sm rounded-lg mb-4">
-                        <div class="card-body p-4">
-                            <h5 class="mb-3 text-dark font-weight-bold"><i class="fa fa-globe text-primary me-2"/> Web Links</h5>
+                        <!-- Web Links section -->
+                        <div class="ap-sidebar-section">
+                            <div class="ap-section-hdr mb-3">
+                                <span class="ap-icon-circle"><i class="fa fa-globe"/></span>
+                                <h5>Web Links</h5>
+                            </div>
                             <div class="mb-3">
-                                <label class="form-label text-muted small text-uppercase font-weight-bold"><i class="fa fa-linkedin-square text-primary"/> LinkedIn</label>
-                                <input type="url" name="linkedin" t-att-value="alumni.linkedin" class="form-control bg-light border-0" placeholder="https://linkedin.com/in/..."/>
+                                <label class="ap-label"><i class="fa fa-linkedin-square" style="color:#0077b5;"/> LinkedIn</label>
+                                <input type="url" name="linkedin" t-att-value="alumni.linkedin" class="form-control ap-input" placeholder="https://linkedin.com/in/..."/>
                             </div>
                             <div>
-                                <label class="form-label text-muted small text-uppercase font-weight-bold"><i class="fa fa-link text-secondary"/> Personal Website</label>
-                                <input type="url" name="website" t-att-value="alumni.website" class="form-control bg-light border-0" placeholder="https://..."/>
+                                <label class="ap-label"><i class="fa fa-link" style="color:#718096;"/> Personal Website</label>
+                                <input type="url" name="website" t-att-value="alumni.website" class="form-control ap-input" placeholder="https://..."/>
                             </div>
                         </div>
                     </div>
@@ -251,7 +600,7 @@
             
             <div class="row mt-4">
                 <div class="col-12 text-end text-md-right">
-                    <button type="submit" class="btn btn-custom-blue btn-lg rounded-pill px-5 shadow-sm font-weight-bold"><i class="fa fa-save me-2"/> Save Changes</button>
+                    <button type="submit" class="btn btn-ap-save btn-lg shadow-sm"><i class="fa fa-save me-2"/> Save Changes</button>
                 </div>
             </div>
         </form>
@@ -259,58 +608,82 @@
 
     <!-- Employment Section -->
     <template id="portal_alumni_employment" name="Portal Alumni Employment">
+        <style>
+            /* ── Employment and Achievement Polish ── */
+            .ap-table-row:hover { background-color: #f8fafc !important; cursor: pointer; transition: background 0.2s; }
+            .ap-table-row td { padding-top: 22px !important; padding-bottom: 22px !important; }
+            .ap-table-row .btn-ap-save { background: #1a365d; color: #fff; border:none; }
+            .ap-table-row .btn-ap-save:hover { background: #122849; }
+            .btn-ap-outline {
+                background: #fff; border: 1.5px solid #1a365d; color: #1a365d;
+                font-weight: 600; transition: all 0.2s;
+            }
+            .btn-ap-outline:hover {
+                background: #1a365d; color: #fff;
+            }
+            .badge-ap-gold {
+                background-color: #FFF9E6 !important;
+                border: 1px solid #c8a85a !important;
+                color: #1a365d !important;
+            }
+            .badge-ap-gold i { color: #1a365d !important; }
+            .ap-modal-label {
+                font-size: .8rem; font-weight: 800; color: #4a5568;
+                text-transform: uppercase; letter-spacing: .04em;
+            }
+        </style>
         <div class="row mb-4 align-items-center">
             <div class="col-md-8">
-                <h4 class="mb-1 text-dark font-weight-bold"><i class="fa fa-briefcase me-2 text-custom-blue"/> Employment History</h4>
+                <h4 class="mb-1 text-dark font-weight-bold"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Employment History</h4>
                 <p class="text-muted small mb-0">Manage your employment records here. Unverified records await administration confirmation.</p>
             </div>
             <div class="col-md-4 text-md-right text-end mt-3 mt-md-0">
-                <button type="button" id="btn-add-emp" class="btn btn-custom-blue rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addEmploymentModal">
+                <button type="button" id="btn-add-emp" class="btn btn-ap-save rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addEmploymentModal">
                     <i class="fa fa-plus me-1"/> Add Employment
                 </button>
             </div>
         </div>
         
         <div class="table-responsive bg-white rounded-lg shadow-sm border border-light">
-            <table class="table table-hover mb-0 align-middle">
-                <thead class="bg-light text-muted">
+            <table class="table mb-0 align-middle">
+                <thead class="bg-light" style="color:#4a5568;">
                     <tr>
-                        <th class="border-0 font-weight-bold text-uppercase small py-3 px-4">Job Title</th>
-                        <th class="border-0 font-weight-bold text-uppercase small py-3">Company</th>
-                        <th class="border-0 font-weight-bold text-uppercase small py-3">Duration</th>
-                        <th class="border-0 font-weight-bold text-uppercase small py-3">Status</th>
-                        <th class="border-0 font-weight-bold text-uppercase small py-3 text-end px-4">Actions</th>
+                        <th class="border-0 font-weight-bold py-3 px-4" style="font-size:.9rem; width:35%;">Job Title</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:25%;">Company</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:20%;">Duration</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:10%;">Status</th>
+                        <th class="border-0 font-weight-bold py-3 text-end px-4" style="font-size:.9rem; width:10%;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <t t-foreach="alumni.employment_ids" t-as="employment">
-                        <tr class="cursor-pointer" data-bs-toggle="modal" t-attf-data-bs-target="#viewEmpModal{{employment.id}}">
-                            <td class="px-4 py-3">
+                        <tr class="ap-table-row" data-bs-toggle="modal" t-attf-data-bs-target="#viewEmpModal{{employment.id}}">
+                            <td class="px-4 py-3 align-middle">
                                 <span class="font-weight-bold text-dark d-block fs-6"><t t-esc="employment.job_title"/></span>
                             </td>
-                            <td class="py-3 text-secondary fs-6"><t t-esc="employment.company_name"/></td>
-                            <td class="py-3 text-secondary fs-6">
+                            <td class="py-3 align-middle fs-6" style="color:#1a365d; font-weight:500;"><t t-esc="employment.company_name"/></td>
+                            <td class="py-3 align-middle fs-6 text-muted">
                                 <t t-esc="employment.start_date"/> - 
                                 <t t-if="employment.end_date"><t t-esc="employment.end_date"/></t>
-                                <t t-else=""><span class="badge bg-info text-white rounded-pill px-2 py-1">Present</span></t>
+                                <t t-else=""><span class="badge bg-info text-white rounded-pill px-2 py-1 fs-6" style="padding: 4px 10px !important;">Present</span></t>
                             </td>
-                            <td class="py-3">
+                            <td class="py-3 align-middle">
                                 <t t-if="employment.verification_status == 'verified'">
-                                    <span class="badge bg-success text-white rounded-pill px-3 py-1"><i class="fa fa-check-circle me-1"/> Verified</span>
+                                    <span class="badge bg-success text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-check-circle me-1"/> Verified</span>
                                 </t>
                                 <t t-if="employment.verification_status == 'pending_verification'">
-                                    <span class="badge bg-warning text-dark rounded-pill px-3 py-1"><i class="fa fa-hourglass-half me-1"/> Pending</span>
+                                    <span class="badge badge-ap-gold rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-hourglass-half me-1"/> Pending</span>
                                 </t>
                                 <t t-if="employment.verification_status == 'rejected'">
-                                    <span class="badge bg-danger text-white rounded-pill px-3 py-1"><i class="fa fa-times-circle me-1"/> Rejected</span>
+                                    <span class="badge bg-danger text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-times-circle me-1"/> Rejected</span>
                                 </t>
                                 <t t-if="employment.verification_status == 'draft'">
-                                    <span class="badge bg-secondary text-white rounded-pill px-3 py-1"><i class="fa fa-file-o me-1"/> Draft</span>
+                                    <span class="badge badge-ap-gold rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-file-o me-1"/> Draft</span>
                                 </t>
                             </td>
-                            <td class="py-3 text-end px-4">
+                            <td class="py-3 text-end px-4 align-middle">
                                 <t t-if="employment.verification_status == 'draft'">
-                                    <span class="text-muted small"><i class="fa fa-info-circle me-1"/>Awaiting admin verification</span>
+                                     <span class="badge bg-light border border-light rounded-pill fs-6" style="padding: 4px 10px !important; color:#4a5568;"><i class="fa fa-clock-o me-1" style="color:#4a5568;"/> Awaiting verification</span>
                                 </t>
                             </td>
                         </tr>
@@ -332,37 +705,43 @@
         <t t-foreach="alumni.employment_ids" t-as="employment">
             <div class="modal fade" t-attf-id="viewEmpModal{{employment.id}}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow">
+                    <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
                         <div class="modal-header bg-light border-0">
-                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2 text-custom-blue"/> Employment Details</h5>
+                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Employment Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-4">
                             <h4 class="font-weight-bold text-dark mb-1"><t t-esc="employment.job_title"/></h4>
-                            <h6 class="text-secondary mb-3"><t t-esc="employment.company_name"/></h6>
+                            <h6 class="mb-3" style="color:#1a365d; font-weight:700;"><t t-esc="employment.company_name"/></h6>
                             <hr class="my-3"/>
-                            <div class="row mb-2">
-                                <div class="col-4 text-muted small text-uppercase font-weight-bold">Duration</div>
-                                <div class="col-8">
-                                    <t t-esc="employment.start_date"/> to 
-                                    <t t-if="employment.end_date"><t t-esc="employment.end_date"/></t>
-                                    <t t-else="">Present</t>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <div class="ap-modal-label mb-1">Employment Period</div>
+                                    <div class="text-dark font-weight-medium">
+                                        <t t-esc="employment.start_date"/> to 
+                                        <t t-if="employment.end_date"><t t-esc="employment.end_date"/></t>
+                                        <t t-else="">Present</t>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-4 text-muted small text-uppercase font-weight-bold">Status</div>
-                                <div class="col-8">
-                                    <span t-attf-class="badge {{ 'bg-success' if employment.verification_status == 'verified' else 'bg-warning text-dark' if employment.verification_status == 'pending_verification' else 'bg-secondary' }} text-white rounded-pill px-2 py-1">
+                                <div class="col-6">
+                                    <div class="ap-modal-label mb-1">Status</div>
+                                    <span t-attf-class="badge {{ 'bg-success text-white' if employment.verification_status == 'verified' else 'badge-ap-gold' if employment.verification_status in ['pending_verification', 'draft'] else 'bg-secondary text-white' }} rounded-pill fs-6" style="padding: 4px 10px !important;">
                                         <t t-esc="employment.verification_status.replace('_', ' ').title()"/>
                                     </span>
                                 </div>
                             </div>
                             <t t-if="employment.description">
                                 <div class="row mt-3">
-                                    <div class="col-12 text-muted small text-uppercase font-weight-bold mb-1">Description</div>
-                                    <div class="col-12"><p class="text-secondary small"><t t-esc="employment.description"/></p></div>
+                                    <div class="col-12 ap-modal-label" style="margin-bottom:12px;">Description</div>
+                                    <div class="col-12" style="max-height: 250px; overflow-y: auto; padding-right: 8px;">
+                                        <p style="color:#333; line-height:1.65; font-size:.92rem; margin-bottom:0;"><t t-esc="employment.description"/></p>
+                                    </div>
                                 </div>
                             </t>
+                            
+                            <div class="mt-4 pt-3 border-top text-end">
+                                <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -374,92 +753,111 @@
     <template id="portal_alumni_achievements" name="Portal Alumni Achievements">
         <div class="row mb-4 align-items-center">
             <div class="col-md-8">
-                <h4 class="mb-1 text-dark font-weight-bold"><i class="fa fa-trophy me-2 text-custom-blue"/> Achievements &amp; Awards</h4>
+                <h4 class="mb-1 text-dark font-weight-bold"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Achievements &amp; Awards</h4>
                 <p class="text-muted small mb-0">Showcase your notable honors, certifications, and publications.</p>
             </div>
             <div class="col-md-4 text-md-right text-end mt-3 mt-md-0">
-                <button type="button" id="btn-add-achieve" class="btn btn-custom-blue font-weight-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addAchievementModal">
+                <button type="button" id="btn-add-achieve" class="btn btn-ap-save rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addAchievementModal">
                     <i class="fa fa-plus me-1"/> Add Achievement
                 </button>
             </div>
         </div>
         
-        <div class="row g-4">
-            <t t-foreach="alumni.achievement_ids" t-as="achievement">
-                <div class="col-md-6">
-                    <div class="card h-100 border-0 shadow-sm rounded-lg hover-elevate transition-hover position-relative overflow-hidden cursor-pointer" data-bs-toggle="modal" t-attf-data-bs-target="#viewAchieveModal{{achievement.id}}">
-                        <div class="position-absolute bg-custom-blue" style="top: 0; left: 0; width: 4px; height: 100%;"></div>
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <h5 class="card-title font-weight-bold text-dark mb-0 pe-2 fs-5"><t t-esc="achievement.title"/></h5>
+        <div class="table-responsive bg-white rounded-lg shadow-sm border border-light">
+            <table class="table mb-0 align-middle">
+                <thead class="bg-light" style="color:#4a5568;">
+                    <tr>
+                        <th class="border-0 font-weight-bold py-3 px-4" style="font-size:.9rem; width:35%;">Title</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:20%;">Type</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:20%;">Issuer</th>
+                        <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:10%;">Date</th>
+                        <th class="border-0 font-weight-bold py-3 text-end px-4" style="font-size:.9rem; width:15%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="alumni.achievement_ids" t-as="achievement">
+                        <tr class="ap-table-row" data-bs-toggle="modal" t-attf-data-bs-target="#viewAchieveModal{{achievement.id}}">
+                            <td class="px-4 py-3 align-middle">
+                                <span class="font-weight-bold text-dark d-block fs-6"><t t-esc="achievement.title"/></span>
+                            </td>
+                            <td class="py-3 align-middle">
+                                <span class="badge bg-light text-dark border py-1 px-2 fs-6"><i class="fa fa-tag me-1" style="color:#4a5568;"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
+                            </td>
+                            <td class="py-3 align-middle fs-6" style="color:#1a365d; font-weight:500;">
+                                <t t-if="achievement.issuer_organization"><t t-esc="achievement.issuer_organization"/></t>
+                                <t t-else=""><span class="text-muted">—</span></t>
+                            </td>
+                            <td class="py-3 align-middle text-muted fs-6">
+                                <t t-if="achievement.date_achieved"><t t-esc="achievement.date_achieved"/></t>
+                                <t t-else=""><span class="text-muted">—</span></t>
+                            </td>
+                            <td class="py-3 text-end px-4 align-middle">
                                 <t t-if="achievement.is_verified">
-                                    <span class="badge bg-success text-white rounded-pill shadow-sm"><i class="fa fa-check-circle"/> Verified</span>
+                                    <span class="badge bg-success text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-check-circle me-1"/> Verified</span>
                                 </t>
                                 <t t-else="">
-                                    <span class="badge bg-secondary text-white rounded-pill shadow-sm">Pending</span>
+                                    <span class="badge badge-ap-gold rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-hourglass-half me-1"/> Pending</span>
                                 </t>
-                            </div>
-                            
-                            <div class="mb-2">
-                                <span class="badge bg-light text-dark border me-2 py-2 px-3 fs-6"><i class="fa fa-tag text-muted me-1"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
-                                <t t-if="achievement.date_achieved">
-                                    <span class="text-muted fs-6"><i class="fa fa-calendar-o me-1"/> <t t-esc="achievement.date_achieved"/></span>
-                                </t>
-                            </div>
-                            
-                            <t t-if="achievement.issuer_organization">
-                                <p class="mb-2 text-secondary font-weight-medium fs-6"><i class="fa fa-certificate text-muted me-2"/> <t t-esc="achievement.issuer_organization"/></p>
-                            </t>
-                            <t t-if="achievement.description">
-                                <p class="card-text text-muted mt-3 border-top pt-3 fs-6"><t t-esc="achievement.description"/></p>
-                            </t>
-                        </div>
-                    </div>
-                </div>
-            </t>
-            <t t-if="not alumni.achievement_ids">
-                <div class="col-12 text-center py-5 bg-white rounded-lg shadow-sm border border-light">
-                    <i class="fa fa-trophy fa-4x mb-3 text-light"></i>
-                    <h5 class="text-muted">No achievements added yet.</h5>
-                    <p class="text-muted mb-4">Adding achievements helps you stand out in the directory.</p>
-                </div>
-            </t>
+                            </td>
+                        </tr>
+                    </t>
+                    <t t-if="not alumni.achievement_ids">
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fa fa-trophy fa-3x mb-3 text-light"></i>
+                                <h5>No achievements added yet.</h5>
+                                <p>Click "Add Achievement" to showcase your honors.</p>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
         </div>
         
         <!-- View Achievement Modals (Rendered outside grid to preserve invalid HTML stripping issue) -->
         <t t-foreach="alumni.achievement_ids" t-as="achievement">
             <div class="modal fade" t-attf-id="viewAchieveModal{{achievement.id}}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow">
-                        <div class="modal-header bg-light border-0">
-                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2 text-custom-blue"/> Achievement Details</h5>
+                    <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                        <div class="modal-header bg-light border-0 px-4 py-3">
+                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Achievement Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body p-4">
-                            <h4 class="font-weight-bold text-dark mb-2"><t t-esc="achievement.title"/></h4>
+                        <div class="modal-body" style="padding: 25px;">
+                            <h4 class="font-weight-bold mb-1" style="color:#1a365d;"><t t-esc="achievement.title"/></h4>
                             <div class="mb-3">
-                                <span class="badge bg-light text-dark border me-2 py-1 px-2"><i class="fa fa-tag text-muted me-1"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
+                                <span class="badge bg-light text-dark border me-2 py-1 px-2 fs-6"><i class="fa fa-tag me-1" style="color:#4a5568;"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
                                 <t t-if="achievement.is_verified">
-                                    <span class="badge bg-success text-white rounded-pill shadow-sm"><i class="fa fa-check-circle"/> Verified</span>
+                                    <span class="badge bg-success text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-check-circle me-1"/> Verified</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="badge badge-ap-gold rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-hourglass-half me-1"/> Pending</span>
                                 </t>
                             </div>
-                            <hr class="my-3"/>
-                            <div class="row mb-2">
-                                <div class="col-4 text-muted small text-uppercase font-weight-bold">Date</div>
-                                <div class="col-8"><t t-esc="achievement.date_achieved" t-if="achievement.date_achieved"/></div>
-                            </div>
-                            <t t-if="achievement.issuer_organization">
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted small text-uppercase font-weight-bold">Issuer</div>
-                                    <div class="col-8"><t t-esc="achievement.issuer_organization"/></div>
+                            <hr class="my-2" style="border-top:1px solid #e8edf5;"/>
+                            <div class="row mb-2 mt-3">
+                                <div class="col-4">
+                                    <div class="ap-modal-label">Date</div>
+                                    <div class="text-dark font-weight-medium"><t t-esc="achievement.date_achieved" t-if="achievement.date_achieved"/><t t-else="">—</t></div>
                                 </div>
-                            </t>
+                                <t t-if="achievement.issuer_organization">
+                                    <div class="col-8">
+                                        <div class="ap-modal-label">Issuer</div>
+                                        <div class="text-dark font-weight-medium"><t t-esc="achievement.issuer_organization"/></div>
+                                    </div>
+                                </t>
+                            </div>
                             <t t-if="achievement.description">
                                 <div class="row mt-3">
-                                    <div class="col-12 text-muted small text-uppercase font-weight-bold mb-1">Description</div>
-                                    <div class="col-12"><p class="text-secondary small"><t t-esc="achievement.description"/></p></div>
+                                    <div class="col-12 ap-modal-label" style="margin-bottom:10px;">Description</div>
+                                    <div class="col-12">
+                                        <p class="text-secondary fs-6"><t t-esc="achievement.description"/></p>
+                                    </div>
                                 </div>
                             </t>
+                        </div>
+                        <div class="modal-footer bg-light border-0 px-4 py-3">
+                            <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -510,54 +908,68 @@
     <template id="portal_alumni_add_employment_modal" name="Add Employment Modal">
         <div class="modal fade" id="addEmploymentModal" tabindex="-1" aria-labelledby="addEmploymentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content border-0 shadow">
-                    <div class="modal-header bg-light border-0">
-                        <h5 class="modal-title font-weight-bold text-dark" id="addEmploymentModalLabel"><i class="fa fa-briefcase me-2 text-custom-blue"/> Add Employment Record</h5>
+                <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                    <div class="modal-header bg-light border-0 px-4 py-3">
+                        <h5 class="modal-title font-weight-bold text-dark" id="addEmploymentModalLabel"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Add Employment Record</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="/my/alumni/employment/add" method="post" class="needs-validation">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <div class="modal-body p-4">
+                        <div class="modal-body" style="padding: 25px;">
                             <div class="row g-3">
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Job Title <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control bg-light" name="job_title" required="1" placeholder="e.g. Software Engineer"/>
+                                <div class="col-12 mb-1 mt-0">
+                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Company Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control bg-light" name="company_name" required="1" placeholder="e.g. Odoo S.A."/>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Job Title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control ap-input" name="job_title" required="1" placeholder="e.g. Software Engineer"/>
                                 </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label font-weight-bold">Company Website</label>
-                                    <input type="url" class="form-control bg-light" name="company_website" placeholder="https://..."/>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Company Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control ap-input" name="company_name" required="1" placeholder="e.g. Odoo S.A."/>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Start Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control bg-light" name="start_date" required="1"/>
+                                <div class="col-12 mb-2">
+                                    <label class="ap-label mb-1">Company Website</label>
+                                    <input type="url" class="form-control ap-input" name="company_website" placeholder="https://..."/>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">End Date</label>
-                                    <input type="date" class="form-control bg-light" name="end_date"/>
-                                    <small class="text-muted">Leave blank if currently employed here.</small>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Start Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control ap-input" name="start_date" required="1"/>
                                 </div>
-                                <div class="col-12"><hr/></div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">HR Email</label>
-                                    <input type="email" class="form-control bg-light" name="hr_email" placeholder="For verification purposes"/>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="ap-label mb-0">End Date</label>
+                                        <div class="form-check m-0 d-flex align-items-center">
+                                            <input class="form-check-input m-0 me-2" type="checkbox" value="1" id="ap-current-job" onchange="document.getElementById('ap-end-date').disabled = this.checked; if (this.checked) document.getElementById('ap-end-date').value = '';" style="cursor:pointer; width:14px; height:14px;"/>
+                                            <label class="form-check-label text-dark" for="ap-current-job" style="cursor:pointer; font-size:.8rem; line-height:1;">
+                                                I currently work here
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="date" class="form-control ap-input" name="end_date" id="ap-end-date"/>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Manager Email</label>
-                                    <input type="email" class="form-control bg-light" name="gm_email" placeholder="For verification purposes"/>
+                                
+                                <div class="col-12 mt-3 mb-1">
+                                    <hr class="mt-0 mb-2" style="border-top:1px solid #e8edf5;"/>
+                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Verification &amp; Description</h6>
                                 </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label font-weight-bold">Job Description</label>
-                                    <textarea class="form-control bg-light" name="description" rows="3" placeholder="Briefly describe your responsibilities..."></textarea>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">HR Email</label>
+                                    <input type="email" class="form-control ap-input" name="hr_email" placeholder="For verification purposes"/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Manager Email</label>
+                                    <input type="email" class="form-control ap-input" name="gm_email" placeholder="For verification purposes"/>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <label class="ap-label mb-1">Job Description</label>
+                                    <textarea class="form-control ap-input" name="description" rows="3" placeholder="Briefly describe your responsibilities..." style="height:auto !important;"></textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer bg-light border-0">
-                            <button type="button" class="btn btn-light rounded-pill px-4 border" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-custom-blue rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Record</button>
+                        <div class="modal-footer bg-light border-0 px-4 py-3">
+                            <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Record</button>
                         </div>
                     </form>
                 </div>
@@ -569,22 +981,25 @@
     <template id="portal_alumni_add_achievement_modal" name="Add Achievement Modal">
         <div class="modal fade" id="addAchievementModal" tabindex="-1" aria-labelledby="addAchievementModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content border-0 shadow">
-                    <div class="modal-header bg-light border-0">
-                        <h5 class="modal-title font-weight-bold text-dark" id="addAchievementModalLabel"><i class="fa fa-trophy me-2 text-custom-blue"/> Add Achievement</h5>
+                <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                    <div class="modal-header bg-light border-0 px-4 py-3">
+                        <h5 class="modal-title font-weight-bold text-dark" id="addAchievementModalLabel"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Add Achievement</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="/my/alumni/achievement/add" method="post" enctype="multipart/form-data" class="needs-validation">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <div class="modal-body p-4">
+                        <div class="modal-body" style="padding: 25px;">
                             <div class="row g-3">
-                                <div class="col-12 mb-3">
-                                    <label class="form-label font-weight-bold">Achievement Title <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control bg-light" name="title" required="1" placeholder="e.g. Employee of the Year or Published Paper"/>
+                                <div class="col-12 mb-1 mt-0">
+                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Type <span class="text-danger">*</span></label>
-                                    <select class="form-select form-control bg-light" name="achievement_type" required="1">
+                                <div class="col-12 mb-2">
+                                    <label class="ap-label mb-1">Achievement Title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control ap-input" name="title" required="1" placeholder="e.g. Employee of the Year or Published Paper"/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Type <span class="text-danger">*</span></label>
+                                    <select class="form-select form-control ap-input" name="achievement_type" required="1">
                                         <option value="">-- Select Type --</option>
                                         <option value="award">Award</option>
                                         <option value="promotion">Promotion</option>
@@ -594,31 +1009,36 @@
                                         <option value="other">Other</option>
                                     </select>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Date Achieved</label>
-                                    <input type="date" class="form-control bg-light" name="date_achieved"/>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Date Achieved</label>
+                                    <input type="date" class="form-control ap-input" name="date_achieved"/>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Issuer Organization</label>
-                                    <input type="text" class="form-control bg-light" name="issuer_organization" placeholder="e.g. Microsoft"/>
+                                <div class="col-12 mb-2">
+                                    <label class="ap-label mb-1">Issuer Organization</label>
+                                    <input type="text" class="form-control ap-input" name="issuer_organization" placeholder="e.g. Microsoft, UST, IEEE"/>
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label font-weight-bold">Certificate / Proof Image</label>
-                                    <input type="file" class="form-control bg-light" name="certificate_file" accept="image/*,application/pdf"/>
+
+                                <div class="col-12 mt-3 mb-1">
+                                    <hr class="mt-0 mb-2" style="border-top:1px solid #e8edf5;"/>
+                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Documentation</h6>
                                 </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label font-weight-bold">Certificate URL (if available online)</label>
-                                    <input type="url" class="form-control bg-light" name="certificate_url" placeholder="https://..."/>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Certificate / Proof Image</label>
+                                    <input type="file" class="form-control ap-input" name="certificate_file" accept="image/*,application/pdf"/>
                                 </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label font-weight-bold">Description</label>
-                                    <textarea class="form-control bg-light" name="description" rows="3" placeholder="Briefly describe what this achievement is about..."></textarea>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <label class="ap-label mb-1">Certificate URL (if online)</label>
+                                    <input type="url" class="form-control ap-input" name="certificate_url" placeholder="https://..."/>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <label class="ap-label mb-1">Description</label>
+                                    <textarea class="form-control ap-input" name="description" rows="3" placeholder="Briefly describe what this achievement is about..." style="height:auto !important;"></textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer bg-light border-0">
-                            <button type="button" class="btn btn-light rounded-pill px-4 border" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-custom-blue rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Achievement</button>
+                        <div class="modal-footer bg-light border-0 px-4 py-3">
+                            <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Achievement</button>
                         </div>
                     </form>
                 </div>

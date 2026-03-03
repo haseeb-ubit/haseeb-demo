@@ -4,136 +4,377 @@
     <template id="website_alumni_directory" name="Alumni Directory">
         <t t-call="website.layout">
             <t t-set="title">Alumni Directory</t>
-            <div id="wrap" class="oe_structure directory-wrap">
-                <div class="container mt-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <h1 class="alumni-directory-title">Alumni Directory</h1>
-                            
-                            <!-- Search and Filters -->
-                            <div class="filter-card">
-                                <form method="get" action="/alumni" class="row align-items-center">
-                                    <div class="col-md-3 mb-3 mb-md-0">
-                                        <input type="text" name="search" t-att-value="search" 
-                                               class="form-control custom-input" placeholder="Search by name or email..."/>
-                                    </div>
-                                    <div class="col-md-2 mb-3 mb-md-0">
-                                        <select name="department_id" class="form-control custom-input">
-                                            <option value="">All Departments</option>
-                                            <t t-foreach="departments" t-as="dept">
-                                                <option t-att-value="dept.id" 
-                                                        t-att-selected="department_id == dept.id">
-                                                    <t t-esc="dept.name"/>
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 mb-3 mb-md-0">
-                                        <select name="graduation_year" class="form-control custom-input">
-                                            <option value="">All Years</option>
-                                            <t t-foreach="years" t-as="year">
-                                                <option t-att-value="year" 
-                                                        t-att-selected="graduation_year == year">
-                                                    <t t-esc="year"/>
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 mb-3 mb-md-0">
-                                        <select name="degree" class="form-control custom-input">
-                                            <option value="">All Degrees</option>
-                                            <t t-foreach="degrees" t-as="deg">
-                                                <option t-att-value="deg" 
-                                                        t-att-selected="degree == deg">
-                                                    <t t-esc="deg"/>
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 mb-3 mb-md-0">
-                                        <select name="country_id" class="form-control custom-input">
-                                            <option value="">All Countries</option>
-                                            <t t-foreach="countries" t-as="country">
-                                                <option t-att-value="country.id" 
-                                                        t-att-selected="country_id == country.id">
-                                                    <t t-esc="country.name"/>
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button type="submit" class="btn btn-filter w-100">Filter</button>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <!-- Alumni Cards -->
-                            <div class="row">
-                                <t t-foreach="alumni" t-as="alum">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="alumni-card h-100 text-center">
-                                            <div class="alumni-avatar-wrapper">
-                                                <t t-if="alum.photo">
-                                                    <img t-att-src="'/web/image/alumni.profile/%s/photo' % alum.id" 
-                                                         class="alumni-avatar" alt="Alumni Photo"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <div class="alumni-avatar bg-light d-inline-flex align-items-center justify-content-center">
-                                                        <i class="fa fa-user fa-4x text-muted"/>
-                                                    </div>
-                                                </t>
-                                            </div>
-                                            
-                                            <div class="mb-2">
-                                                <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="alumni-name">
-                                                    <t t-esc="alum.name"/>
-                                                </a>
-                                            </div>
-                                            
-                                            <div class="alumni-info">
-                                                <t t-if="alum.department_id">
-                                                    <strong>Department:</strong> <t t-esc="alum.department_id.name"/><br/>
-                                                </t>
-                                                <t t-if="alum.graduation_year">
-                                                    <strong>Graduation Year:</strong> <t t-esc="alum.graduation_year"/><br/>
-                                                </t>
-                                                <t t-if="alum.degree">
-                                                    <strong>Degree:</strong> <t t-esc="alum.degree"/><br/>
-                                                </t>
-                                                <t t-if="alum.current_employment_id">
-                                                    <strong>Current:</strong> <t t-esc="alum.current_employment_id.job_title"/> 
-                                                    at <t t-esc="alum.current_employment_id.company_name"/>
-                                                </t>
-                                            </div>
-                                            
-                                            <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" 
-                                               class="btn-view-profile">View Profile</a>
-                                        </div>
-                                    </div>
-                                </t>
-                                <t t-if="not alumni">
-                                    <div class="col-12 text-center py-5">
-                                        <i class="fa fa-search fa-4x text-muted mb-3"></i>
-                                        <h4 class="text-muted">No alumni found</h4>
-                                        <p class="text-muted">Try adjusting your filters criteria.</p>
-                                    </div>
-                                </t>
-                            </div>
-                            
-                            <!-- Pagination -->
-                            <t t-if="pager">
-                                <div class="row mt-4">
-                                    <div class="col-12 d-flex justify-content-center">
-                                        <t t-call="website.pager"/>
+            <style>
+                /* ─── Premium Directory CSS ─── */
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap');
+                body { font-family: 'Inter', sans-serif; background: #f4f6fb; }
+
+                /* ── Hero ── */
+                .dir-hero {
+                    background: linear-gradient(135deg, #0f2240 0%, #1a365d 50%, #2a4a7f 100%);
+                    padding: 52px 0 90px;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .dir-hero::before {
+                    content: '';
+                    position: absolute; inset: 0;
+                    background-image:
+                        radial-gradient(circle at 20% 50%, rgba(200,168,90,.12) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,.05) 0%, transparent 45%);
+                    pointer-events: none;
+                }
+                /* SVG geometric rings */
+                .dir-hero-rings {
+                    position: absolute; top: -60px; right: -60px;
+                    width: 340px; height: 340px; opacity: .09;
+                    pointer-events: none;
+                }
+                .dir-hero-breadcrumb {
+                    font-size: .8rem; color: rgba(255,255,255,.55);
+                    margin-bottom: 10px; letter-spacing: .02em;
+                }
+                .dir-hero-breadcrumb a { color: rgba(255,255,255,.55); text-decoration: none; }
+                .dir-hero-breadcrumb a:hover { color: #c8a85a; }
+                .dir-hero-breadcrumb span { color: #c8a85a; }
+                .dir-hero h1 {
+                    color: #fff; font-size: 2.4rem; font-weight: 800;
+                    letter-spacing: -.03em; margin-bottom: 8px;
+                }
+                .dir-hero-sub { color: rgba(255,255,255,.65); font-size: .95rem; }
+                .dir-hero-stat {
+                    display: inline-flex; align-items: center; gap: 6px;
+                    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+                    border-radius: 30px; padding: 5px 14px;
+                    color: rgba(255,255,255,.8); font-size: .8rem; font-weight: 600;
+                    backdrop-filter: blur(4px); margin-top: 16px;
+                }
+                .dir-hero-stat i { color: #c8a85a; }
+
+                /* ── Filter Card ── */
+                .dir-filter-card {
+                    background: #fff;
+                    border-radius: 18px;
+                    box-shadow: 0 12px 40px rgba(26,54,93,.13);
+                    padding: 22px 26px;
+                    position: relative; z-index: 10;
+                    margin-top: -44px;
+                }
+                .dir-filter-card .form-control,
+                .dir-filter-card .form-select {
+                    border: 1.5px solid #dde3ef; border-radius: 10px;
+                    height: 42px; font-size: .88rem; color: #2d3748;
+                    background: #f8fafd;
+                }
+                .dir-filter-card .form-control:focus,
+                .dir-filter-card .form-select:focus {
+                    border-color: #c8a85a;
+                    box-shadow: 0 0 0 3px rgba(200,168,90,.14);
+                    background: #fff;
+                }
+                .dir-filter-card .form-control::placeholder { color: #a0aec0; }
+                .btn-dir-filter {
+                    background: #1a365d; color: #fff;
+                    border: none; border-radius: 10px;
+                    height: 42px; font-weight: 700; font-size: .88rem;
+                    padding: 0 20px; white-space: nowrap; cursor: pointer;
+                    transition: background .18s, box-shadow .18s;
+                    box-shadow: 0 4px 12px rgba(26,54,93,.25);
+                }
+                .btn-dir-filter:hover { background: #c8a85a; box-shadow: 0 4px 14px rgba(200,168,90,.35); color: #fff; }
+
+                /* ── Alumni Card ── */
+                .dir-card-col { padding-top: 52px; }
+                .alumni-dir-card {
+                    background: #fff;
+                    border-radius: 20px;
+                    border: none;
+                    box-shadow: 0 4px 20px rgba(26,54,93,.07);
+                    border-top: 4px solid #c8a85a;
+                    transition: transform .25s cubic-bezier(.4,0,.2,1),
+                                box-shadow .25s cubic-bezier(.4,0,.2,1),
+                                border-top-color .25s ease;
+                    overflow: visible;
+                    height: 100%; min-height: 320px;
+                    display: flex; flex-direction: column;
+                    position: relative;
+                }
+                .alumni-dir-card:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 24px 52px rgba(26,54,93,.17);
+                    border-top-color: #1a365d;
+                }
+                .alumni-dir-card:hover .alumni-dir-avatar,
+                .alumni-dir-card:hover .alumni-dir-avatar-placeholder {
+                    box-shadow: 0 8px 24px rgba(26,54,93,.28);
+                    border-color: #c8a85a;
+                }
+
+                /* Overlapping avatar — breaks top edge of card */
+                .alumni-dir-avatar-wrap {
+                    position: absolute;
+                    top: -44px; left: 50%;
+                    transform: translateX(-50%);
+                }
+                .alumni-dir-avatar {
+                    width: 88px; height: 88px;
+                    border-radius: 50%; object-fit: cover;
+                    border: 3px solid #1a365d;
+                    box-shadow: 0 6px 18px rgba(26,54,93,.2);
+                    transition: border-color .25s, box-shadow .25s;
+                    background: #edf2f7;
+                }
+                .alumni-dir-avatar-placeholder {
+                    width: 88px; height: 88px;
+                    border-radius: 50%;
+                    border: 3px solid #1a365d;
+                    background: #edf2f7;
+                    display: inline-flex; align-items: center; justify-content: center;
+                    box-shadow: 0 6px 18px rgba(26,54,93,.15);
+                    transition: border-color .25s, box-shadow .25s;
+                }
+
+                /* Social icons row */
+                .alumni-dir-social { margin-bottom: 6px; }
+                .alumni-dir-social a {
+                    display: inline-flex; align-items: center; justify-content: center;
+                    width: 28px; height: 28px; border-radius: 50%;
+                    background: #edf2f7; color: #4a5568;
+                    font-size: .78rem; margin: 0 2px;
+                    text-decoration: none; transition: background .18s, color .18s;
+                }
+                .alumni-dir-social a:hover { background: #1a365d; color: #fff; }
+
+                .alumni-dir-name {
+                    font-size: 1.1rem; font-weight: 800;
+                    color: #1a365d; display: block;
+                    text-decoration: none; line-height: 1.25;
+                    margin-bottom: 3px;
+                    text-transform: capitalize;
+                }
+                .alumni-dir-name:hover { color: #c8a85a; text-decoration: none; }
+                .alumni-dir-dept { font-size: .8rem; color: #718096; font-weight: 500; margin-bottom: 10px; }
+                .alumni-dir-tags { margin-bottom: 10px; }
+                .alumni-dir-tag {
+                    display: inline-block;
+                    background: #edf2f7; color: #4a5568;
+                    border-radius: 30px; font-size: .73rem;
+                    font-weight: 600; padding: 3px 10px; margin: 2px;
+                }
+                .alumni-dir-tag-gold {
+                    display: inline-block;
+                    background: #FFF9E6; color: #92640a;
+                    border: 1px solid rgba(200,168,90,.4);
+                    border-radius: 30px; font-size: .73rem;
+                    font-weight: 700; padding: 3px 10px; margin: 2px;
+                }
+
+                /* Employment badge — bottom of body, above button */
+                .alumni-dir-current {
+                    background: #F8F9FC;
+                    border-top: 1px solid #e8edf5;
+                    padding: 10px 18px;
+                    font-size: .8rem; color: #1a365d; font-weight: 600;
+                    display: flex; align-items: center; gap: 8px;
+                    text-align: left;
+                }
+                .alumni-dir-current i { color: #c8a85a; flex-shrink: 0; }
+
+                .alumni-dir-body {
+                    padding: 56px 20px 14px;
+                    flex: 1;
+                    display: flex; flex-direction: column; align-items: center; text-align: center;
+                }
+
+                /* Pill button (not full-width footer) */
+                .btn-dir-view {
+                    display: inline-block;
+                    background: #1a365d; color: #fff;
+                    border-radius: 30px;
+                    border: none; font-weight: 700;
+                    font-size: .85rem; padding: 10px 26px;
+                    text-decoration: none; text-align: center;
+                    transition: background .2s, box-shadow .2s, transform .2s;
+                    margin: 12px auto 18px;
+                    box-shadow: 0 4px 12px rgba(26,54,93,.2);
+                }
+                .btn-dir-view:hover {
+                    background: #c8a85a; color: #fff; text-decoration: none;
+                    box-shadow: 0 6px 18px rgba(200,168,90,.35);
+                    transform: translateY(-1px);
+                }
+            </style>
+            <div id="wrap" class="oe_structure">
+                <!-- Hero Banner -->
+                <div class="dir-hero">
+                    <!-- SVG geometric rings decoration -->
+                    <svg class="dir-hero-rings" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="170" cy="170" r="160" stroke="white" stroke-width="1.5"/>
+                        <circle cx="170" cy="170" r="120" stroke="white" stroke-width="1"/>
+                        <circle cx="170" cy="170" r="80" stroke="white" stroke-width=".8"/>
+                        <circle cx="170" cy="170" r="40" stroke="white" stroke-width=".6"/>
+                    </svg>
+                    <div class="container" style="position:relative; z-index:2;">
+                        <!-- Breadcrumb -->
+                        <div class="dir-hero-breadcrumb">
+                            <a href="/">Home</a> <i class="fa fa-angle-right mx-1"/> <a href="#">Alumni</a> <i class="fa fa-angle-right mx-1"/> <span>Directory</span>
+                        </div>
+                        <h1>Alumni Directory</h1>
+                        <p class="dir-hero-sub">Connect with distinguished graduates from across the university.</p>
+                        <div class="dir-hero-stat"><i class="fa fa-users"/> Professional Network</div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <!-- Filter Bar -->
+                    <div class="dir-filter-card mb-5">
+                        <form method="get" action="/alumni">
+                            <div class="row g-2 align-items-center">
+                                <div class="col-12 col-md">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border-end-0" style="border:1.5px solid #dde3ef; border-radius:10px 0 0 10px; color:#a0aec0; background:#f8fafd !important;"><i class="fa fa-search"/></span>
+                                        <input type="text" name="search" t-att-value="search"
+                                               class="form-control border-start-0" placeholder="Search by name or email…" style="border-radius:0 10px 10px 0; border-left:none; height:42px;"/>
                                     </div>
                                 </div>
-                            </t>
-                        </div>
+                                <div class="col-6 col-md-auto" style="min-width:170px;">
+                                    <select name="department_id" class="form-select" style="height:42px;">
+                                        <option value="">All Departments</option>
+                                        <t t-foreach="departments" t-as="dept">
+                                            <option t-att-value="dept.id" t-att-selected="department_id == dept.id">
+                                                <t t-esc="dept.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-auto" style="min-width:125px;">
+                                    <select name="graduation_year" class="form-select" style="height:42px;">
+                                        <option value="">All Years</option>
+                                        <t t-foreach="years" t-as="year">
+                                            <option t-att-value="year" t-att-selected="graduation_year == year">
+                                                <t t-esc="year"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-auto" style="min-width:125px;">
+                                    <select name="degree" class="form-select" style="height:42px;">
+                                        <option value="">All Degrees</option>
+                                        <t t-foreach="degrees" t-as="deg">
+                                            <option t-att-value="deg" t-att-selected="degree == deg">
+                                                <t t-esc="deg"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-auto" style="min-width:140px;">
+                                    <select name="country_id" class="form-select" style="height:42px;">
+                                        <option value="">All Countries</option>
+                                        <t t-foreach="countries" t-as="country">
+                                            <option t-att-value="country.id" t-att-selected="country_id == country.id">
+                                                <t t-esc="country.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-auto">
+                                    <button type="submit" class="btn-dir-filter w-100"><i class="fa fa-search me-1"/> Search</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+
+                    <!-- Alumni Cards -->
+                    <div class="row g-4 mb-5">
+                        <t t-foreach="alumni" t-as="alum">
+                            <div class="col-md-4 col-sm-6 dir-card-col">
+                                <div class="alumni-dir-card">
+                                    <!-- Overlapping avatar -->
+                                    <div class="alumni-dir-avatar-wrap">
+                                        <t t-if="alum.photo">
+                                            <img t-att-src="'/web/image/alumni.profile/%s/photo' % alum.id"
+                                                 class="alumni-dir-avatar" alt="Alumni Photo"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="alumni-dir-avatar-placeholder">
+                                                <i class="fa fa-user fa-2x" style="color:#1a365d;"/>
+                                            </div>
+                                        </t>
+                                    </div>
+
+                                    <div class="alumni-dir-body">
+                                        <!-- Social icons (LinkedIn + website) -->
+                                        <div class="alumni-dir-social">
+                                            <t t-if="alum.linkedin">
+                                                <a t-att-href="alum.linkedin" target="_blank" title="LinkedIn">
+                                                    <i class="fa fa-linkedin"/>
+                                                </a>
+                                            </t>
+                                            <t t-if="alum.website">
+                                                <a t-att-href="alum.website" target="_blank" title="Website">
+                                                    <i class="fa fa-globe"/>
+                                                </a>
+                                            </t>
+                                        </div>
+
+                                        <!-- Name -->
+                                        <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="alumni-dir-name">
+                                            <t t-esc="alum.name"/>
+                                        </a>
+
+                                        <!-- Department -->
+                                        <t t-if="alum.department_id">
+                                            <div class="alumni-dir-dept"><t t-esc="alum.department_id.name"/></div>
+                                        </t>
+
+                                        <!-- Degree + Year pills -->
+                                        <div class="alumni-dir-tags">
+                                            <t t-if="alum.degree">
+                                                <span class="alumni-dir-tag"><t t-esc="alum.degree"/></span>
+                                            </t>
+                                            <t t-if="alum.graduation_year">
+                                                <span class="alumni-dir-tag-gold">Class of <t t-esc="alum.graduation_year"/></span>
+                                            </t>
+                                        </div>
+
+                                        <!-- View Profile Pill Button -->
+                                        <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="btn-dir-view mt-auto">
+                                            View Profile <i class="fa fa-arrow-right ms-1"/>
+                                        </a>
+                                    </div>
+
+                                    <!-- Works At employment badge — above the pill, inside card bottom -->
+                                    <t t-if="alum.current_employment_id">
+                                        <div class="alumni-dir-current">
+                                            <i class="fa fa-briefcase"/>
+                                            <span>Works at: <strong><t t-esc="alum.current_employment_id.company_name"/></strong></span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="not alumni">
+                            <div class="col-12 text-center py-5">
+                                <i class="fa fa-search fa-4x text-muted mb-3"></i>
+                                <h4 class="text-muted">No alumni found</h4>
+                                <p class="text-muted">Try adjusting your filter criteria.</p>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Pagination -->
+                    <t t-if="pager">
+                        <div class="row mt-2 mb-5">
+                            <div class="col-12 d-flex justify-content-center">
+                                <t t-call="website.pager"/>
+                            </div>
+                        </div>
+                    </t>
                 </div>
             </div>
         </t>
     </template>
+
 
     <!-- Individual Alumni Profile Page -->
     <template id="website_alumni_profile" name="Alumni Profile">
