@@ -90,34 +90,4 @@
     </record>
 
     <!-- Event Invitation Email Template -->
-    <record id="email_template_event_invitation" model="mail.template">
-        <field name="name">Alumni Event Invitation</field>
-        <field name="model_id" ref="model_event_event"/>
-        <field name="subject">Event Invitation: {{ object.name }}</field>
-        <field name="email_from">{{ (user.email_formatted or user.email) }}</field>
-        <field name="email_to">{{ ctx.get('alumni_email', '') }}</field>
-        <field name="body_html" type="html">
-            <div style="margin: 0px; padding: 0px;">
-                <p>Dear Alumni,</p>
-                <p>You are cordially invited to attend the following event:</p>
-                <p><strong><t t-out="object.name"/></strong></p>
-                <p t-if="object.description"><t t-out="object.description"/></p>
-                <p><strong>Event Details:</strong></p>
-                <ul>
-                    <li>Date: <t t-out="object.date_begin"/></li>
-                    <li t-if="object.date_end">End Date: <t t-out="object.date_end"/></li>
-                    <li t-if="object.address_id">Location: <t t-out="object.address_id.name"/></li>
-                </ul>
-                <p>To register for this event, please click on the following link:</p>
-                <p style="margin: 16px 0px;">
-                    <a t-attf-href="{{ object.get_base_url() }}/event/{{ object.id }}/register" 
-                       style="background-color: #875A7B; padding: 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; display: inline-block;">
-                        Register for Event
-                    </a>
-                </p>
-                <p>We look forward to seeing you there!</p>
-                <p>Best regards,<br/>Alumni Management Team</p>
-            </div>
-        </field>
-    </record>
 </odoo>

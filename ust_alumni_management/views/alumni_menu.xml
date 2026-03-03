@@ -20,6 +20,5 @@
     <menuitem id="menu_alumni_reports" name="Reports &amp; Dashboard" 
               parent="menu_alumni_management" action="action_alumni_dashboard" sequence="5"/>
     <!-- Import Menu -->
-    <menuitem id="menu_alumni_import" name="Import Alumni" 
               parent="menu_alumni_management" action="action_alumni_import_wizard" sequence="50"/>
 </odoo>

@@ -5,21 +5,14 @@
         <field name="name">alumni.profile.tree</field>
         <field name="model">alumni.profile</field>
         <field name="arch" type="xml">
-            <list string="Alumni Profiles" decoration-info="not active" decoration-muted="not portal_access_granted">
+            <list string="Alumni Profiles">
                 <field name="name"/>
                 <field name="email"/>
                 <field name="department_id"/>
-                <field name="graduation_year"/>
+                <field name="graduation_year" widget="formatted_date" options="{'month_format': 'long', 'year_format': 'numeric'}"/>
                 <field name="degree"/>
-                <field name="current_employment_id" invisible="1"/>
-                <field name="current_employment_id" column_invisible="1">
-                    <list>
-                        <field name="job_title"/>
-                        <field name="company_name"/>
-                    </list>
-                </field>
-                <field name="active" widget="boolean_toggle"/>
-                <field name="portal_access_granted" widget="boolean_toggle"/>
+                <field name="major"/>
+                <field name="user_state" widget="badge" decoration-success="user_state == 'active'" decoration-info="user_state == 'new'"/>
             </list>
         </field>
     </record>
@@ -32,11 +25,11 @@
             <form string="Alumni Profile">
                 <header>
                     <button string="Send Portal Invitation" type="object" name="action_send_portal_invitation" 
-                            class="btn-primary" invisible="portal_access_granted"/>
-                    <button string="Grant Portal Access" type="object" name="action_grant_portal_access" 
-                            class="btn-primary" invisible="portal_access_granted"/>
+                            class="btn-primary" invisible="invitation_sent"/>
+                    <button string="Resend Portal Invitation" type="object" name="action_send_portal_invitation" 
+                            class="btn-secondary" invisible="not invitation_sent"/>
                     <field name="active" invisible="1"/>
-                    <field name="portal_access_granted" invisible="1"/>
+                    <field name="invitation_sent" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -50,36 +43,39 @@
                     <notebook>
                         <page string="Personal Information" name="personal_info">
                             <group>
-                                <group>
+                                <group string="Contact Details">
                                     <field name="email"/>
                                     <field name="phone"/>
                                     <field name="mobile"/>
                                     <field name="date_of_birth"/>
-                                    <field name="nationality"/>
                                 </group>
-                                <group>
+                                <group string="Other Information">
+                                    <field name="nationality"/>
                                     <field name="linkedin"/>
                                     <field name="website"/>
-                                    <field name="photo"/>
                                 </group>
                             </group>
                             <group string="Address">
-                                <field name="street"/>
-                                <field name="street2"/>
-                                <field name="city"/>
-                                <field name="state_id"/>
-                                <field name="zip"/>
-                                <field name="country_id"/>
+                                <group>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="city"/>
+                                </group>
+                                <group>
+                                    <field name="state_id"/>
+                                    <field name="zip"/>
+                                    <field name="country_id"/>
+                                </group>
                             </group>
                         </page>
                         <page string="Academic Information" name="academic_info">
                             <group>
                                 <group>
-                                    <field name="department_id" required="1"/>
-                                    <field name="graduation_year" required="1"/>
+                                    <field name="college_id"/>
+                                    <field name="department_id" required="1" domain="[('college_id', '=', college_id)]"/>
+                                    <field name="graduation_year" required="1" widget="date" options="{'min_precision': 'months', 'max_precision': 'months'}"/>
                                     <field name="degree"/>
                                     <field name="major"/>
-                                    <field name="student_id"/>
                                 </group>
                             </group>
                         </page>
@@ -129,7 +125,6 @@
                                     <field name="title"/>
                                     <field name="date_achieved"/>
                                     <field name="is_verified" widget="boolean_toggle"/>
-                                    <field name="website_published" widget="boolean_toggle"/>
                                 </list>
                                 <form>
                                     <sheet>
@@ -146,25 +141,13 @@
                                                 <field name="is_verified" widget="boolean_toggle"/>
                                                 <field name="verified_by" readonly="1"/>
                                                 <field name="verified_date" readonly="1"/>
-                                                <field name="website_published" widget="boolean_toggle"/>
-                                                <field name="published_date" readonly="1"/>
+                                                <field name="published_date" readonly="1" string="Published Date"/>
                                                 <field name="verification_notes"/>
                                                 <field name="supporting_document" filename="supporting_document_filename"/>
                                             </group>
                                         </group>
                                     </sheet>
                                 </form>
-                            </field>
-                        </page>
-                        <page string="Event Registrations" name="events">
-                            <field name="event_registration_ids">
-                                <list>
-                                    <field name="event_id"/>
-                                    <field name="name"/>
-                                    <field name="email"/>
-                                    <field name="state"/>
-                                    <field name="create_date"/>
-                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -185,7 +168,6 @@
                 <field name="department_id"/>
                 <field name="graduation_year"/>
                 <field name="active"/>
-                <field name="portal_access_granted"/>
                 <field name="current_employment_id"/>
                 <templates>
                     <t t-name="kanban-box">
@@ -202,7 +184,7 @@
                                     <div class="o_kanban_record_subtitle">
                                         <field name="department_id"/>
                                         <span t-if="record.graduation_year.raw_value">
-                                            - <field name="graduation_year"/>
+                                            - <field name="graduation_year" widget="formatted_date" options="{'month_format': 'long', 'year_format': 'numeric'}"/>
                                         </span>
                                     </div>
                                     <div t-if="record.current_employment_id.raw_value" class="text-muted">
@@ -214,7 +196,6 @@
                                     </div>
                                     <div class="o_kanban_record_bottom">
                                         <field name="active" widget="boolean_toggle"/>
-                                        <field name="portal_access_granted" widget="boolean_toggle"/>
                                     </div>
                                 </div>
                             </div>
@@ -239,11 +220,9 @@
                 <field name="country_id"/>
                 <field name="current_employment_id"/>
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
-                <filter string="Portal Access Granted" name="portal_access" domain="[('portal_access_granted', '=', True)]"/>
-                <filter string="No Portal Access" name="no_portal" domain="[('portal_access_granted', '=', False)]"/>
                 <separator/>
-                <filter string="This Year" name="this_year" domain="[('graduation_year', '=', context_today().year)]"/>
-                <filter string="Last 5 Years" name="last_5_years" domain="[('graduation_year', '&gt;=', context_today().year - 5)]"/>
+                <filter string="This Year" name="this_year" domain="[('graduation_year', '&gt;=', context_today().strftime('%Y-01-01')), ('graduation_year', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
+                <filter string="Last 5 Years" name="last_5_years" domain="[('graduation_year', '&gt;=', (context_today() - relativedelta(years=5)).strftime('%Y-01-01'))]"/>
                 <separator/>
                 <filter string="With Current Employment" name="with_employment" 
                         domain="[('employment_ids.employment_type', '=', 'current'), ('employment_ids.verification_status', '=', 'verified')]"/>

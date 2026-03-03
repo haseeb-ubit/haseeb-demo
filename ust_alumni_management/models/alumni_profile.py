@@ -32,24 +32,24 @@ class AlumniProfile(models.Model):
     
     # Academic Information (Read-only in portal)
     department_id = fields.Many2one('hr.department', string='Department', required=True)
-    graduation_year = fields.Integer(string='Graduation Year', required=True)
+    college_id = fields.Many2one('elearning.college', string='College')
+    graduation_year = fields.Date(string='Graduation Year', required=True)
     degree = fields.Char(string='Degree')
-    major = fields.Char(string='Major/Field of Study')
-    student_id = fields.Char(string='Student ID')
-    
+    major = fields.Char(string='Major')
+
     # Contact Information
     linkedin = fields.Char(string='LinkedIn Profile')
-    website = fields.Char(string='Personal Website')
+    website = fields.Char(string='Portfolio Website')
     
     # Status
     active = fields.Boolean(string='Active', default=True)
-    portal_access_granted = fields.Boolean(string='Portal Access Granted', default=False)
+    invitation_sent = fields.Boolean(string='Invitation Sent', default=False)
     url_slug = fields.Char(string='URL Slug', copy=False, index=True, help='URL-friendly identifier for website')
+    user_state = fields.Selection(string='User Status', related='user_id.state', store=False)
     
     # Related Records
     employment_ids = fields.One2many('alumni.employment', 'alumni_id', string='Employment History')
     achievement_ids = fields.One2many('alumni.achievement', 'alumni_id', string='Achievements')
-    event_registration_ids = fields.One2many('event.registration', 'alumni_profile_id', string='Event Registrations')
     
     # Computed Fields
     current_employment_id = fields.Many2one('alumni.employment', string='Current Employment', 
@@ -60,6 +60,11 @@ class AlumniProfile(models.Model):
     published_achievements_count = fields.Integer(string='Published Achievements', 
                                                   compute='_compute_achievements_count', store=False)
     
+    @api.onchange('college_id')
+    def _onchange_college_id(self):
+        if self.college_id and self.department_id and self.department_id.college_id != self.college_id:
+            self.department_id = False
+
     @api.depends('employment_ids', 'employment_ids.employment_type')
     def _compute_current_employment(self):
         for record in self:
@@ -193,7 +198,7 @@ class AlumniProfile(models.Model):
         current_year = fields.Date.today().year
         for record in self:
             if record.graduation_year:
-                if record.graduation_year < 1900 or record.graduation_year > current_year + 5:
+                if record.graduation_year.year < 1900 or record.graduation_year.year > current_year + 5:
                     raise ValidationError(_("Graduation year must be between 1900 and %s.") % (current_year + 5))
     
     def get_base_url(self):
@@ -209,7 +214,7 @@ class AlumniProfile(models.Model):
         template = self.env.ref('ust_alumni_management.email_template_portal_invitation', False)
         if template:
             template.send_mail(self.id, force_send=True)
-            self.portal_access_granted = True
+            self.invitation_sent = True
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
@@ -222,38 +227,6 @@ class AlumniProfile(models.Model):
             }
         return False
     
-    def action_grant_portal_access(self):
-        """Grant portal access to alumni"""
-        self.ensure_one()
-        if not self.partner_id:
-            raise ValidationError(_("Partner is required to grant portal access."))
-        
-        # Create portal user if not exists
-        if not self.user_id:
-            user = self.env['res.users'].with_context(no_reset_password=True).create({
-                'name': self.name,
-                'login': self.email,
-                'partner_id': self.partner_id.id,
-                'group_ids': [(6, 0, [self.env.ref('base.group_portal').id])],
-            })
-            self.user_id = user.id
-        else:
-            # Add portal group if not already added
-            portal_group = self.env.ref('base.group_portal')
-            if portal_group not in self.user_id.group_ids:
-                self.user_id.write({'group_ids': [(4, portal_group.id)]})
-        
-        self.portal_access_granted = True
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Success'),
-                'message': _('Portal access granted successfully.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
     
     def action_view_employment(self):
         """Open employment records for this alumni"""

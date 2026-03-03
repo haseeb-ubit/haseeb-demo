@@ -14,7 +14,6 @@
                 <field name="date_achieved"/>
                 <field name="issuer_organization"/>
                 <field name="is_verified" widget="boolean_toggle"/>
-                <field name="website_published" widget="boolean_toggle"/>
                 <field name="verified_by" invisible="1"/>
                 <field name="verified_date" invisible="1"/>
             </list>
@@ -32,10 +31,6 @@
                             class="btn-primary" invisible="is_verified"/>
                     <button string="Unverify" type="object" name="action_unverify" 
                             invisible="not is_verified"/>
-                    <button string="Publish" type="object" name="action_publish" 
-                            class="btn-primary" invisible="website_published or not is_verified"/>
-                    <button string="Unpublish" type="object" name="action_unpublish" 
-                            invisible="not website_published"/>
                     <field name="is_verified" invisible="1"/>
                     <field name="website_published" invisible="1"/>
                 </header>

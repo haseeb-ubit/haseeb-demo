@@ -46,32 +46,35 @@ class AlumniAchievement(models.Model):
                     raise ValidationError(_("Achievement date cannot be in the future."))
     
     def action_verify(self):
-        """Verify achievement"""
+        """Verify achievement and auto-publish on website"""
         self.ensure_one()
         self.write({
             'is_verified': True,
             'verified_by': self.env.user.id,
             'verified_date': fields.Datetime.now(),
+            'website_published': True,
+            'published_date': fields.Datetime.now(),
         })
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('Verified'),
-                'message': _('Achievement verified successfully.'),
+                'title': _('Verified & Published'),
+                'message': _('Achievement verified and published on website.'),
                 'type': 'success',
                 'sticky': False,
             }
         }
     
     def action_unverify(self):
-        """Unverify achievement"""
+        """Unverify achievement and unpublish from website"""
         self.ensure_one()
         self.write({
             'is_verified': False,
             'verified_by': False,
             'verified_date': False,
-            'website_published': False,  # Unpublish if unverified
+            'website_published': False,
+            'published_date': False,
         })
         return {
             'type': 'ir.actions.client',

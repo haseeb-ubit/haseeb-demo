@@ -95,7 +95,7 @@
                                                     <strong>Department:</strong> <t t-esc="alum.department_id.name"/><br/>
                                                 </t>
                                                 <t t-if="alum.graduation_year">
-                                                    <strong>Graduation Year:</strong> <t t-esc="alum.graduation_year"/><br/>
+                                                    <strong>Graduation Year:</strong> <t t-esc="alum.graduation_year.strftime('%B %Y') if alum.graduation_year else ''"/><br/>
                                                 </t>
                                                 <t t-if="alum.degree">
                                                     <strong>Degree:</strong> <t t-esc="alum.degree"/><br/>
@@ -276,7 +276,7 @@
                                 <div class="profile-stats mt-4 px-3 text-left">
                                     <t t-if="alumni.graduation_year">
                                         <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                            <strong>Graduated:</strong> <span class="text-muted"><t t-esc="alumni.graduation_year"/></span>
+                                            <strong>Graduated:</strong> <span class="text-muted"><t t-esc="alumni.graduation_year.strftime('%B %Y') if alumni.graduation_year else ''"/></span>
                                         </div>
                                     </t>
                                     <t t-if="alumni.degree">
