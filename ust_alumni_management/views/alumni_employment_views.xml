@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Alumni Employment Tree View -->
+    <record id="view_alumni_employment_tree" model="ir.ui.view">
+        <field name="name">alumni.employment.tree</field>
+        <field name="model">alumni.employment</field>
+        <field name="arch" type="xml">
+            <list string="Employment Records" decoration-success="verification_status == 'verified'" 
+                  decoration-warning="verification_status == 'pending_verification'"
+                  decoration-danger="verification_status == 'rejected'"
+                  decoration-muted="verification_status == 'draft'">
+                <field name="alumni_id"/>
+                <field name="employment_type"/>
+                <field name="job_title"/>
+                <field name="company_name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="verification_status" widget="badge" 
+                       decoration-success="verification_status == 'verified'"
+                       decoration-warning="verification_status == 'pending_verification'"
+                       decoration-danger="verification_status == 'rejected'"/>
+                <field name="verified_by" invisible="1"/>
+                <field name="verified_date" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Alumni Employment Form View -->
+    <record id="view_alumni_employment_form" model="ir.ui.view">
+        <field name="name">alumni.employment.form</field>
+        <field name="model">alumni.employment</field>
+        <field name="arch" type="xml">
+            <form string="Employment Record">
+                <header>
+                    <button string="Send Verification Email" type="object" name="action_verify" 
+                            class="btn-primary" 
+                            invisible="verification_status in ['verified', 'pending_verification']"/>
+                    <button string="Verify Manually" type="object" name="action_verify_manually" 
+                            class="btn-primary" 
+                            invisible="verification_status == 'verified'"/>
+                    <button string="Reject" type="object" name="action_reject" 
+                            invisible="verification_status == 'rejected'"/>
+                    <button string="Reset to Draft" type="object" name="action_reset_to_draft" 
+                            invisible="verification_status == 'draft'"/>
+                    <field name="verification_status" widget="statusbar" statusbar_visible="draft,pending_verification,verified"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="alumni_id"/>
+                            <field name="employment_type"/>
+                            <field name="job_title"/>
+                            <field name="company_name"/>
+                            <field name="company_website"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="hr_email"/>
+                            <field name="gm_email"/>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="verified_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" placeholder="Job description and responsibilities..."/>
+                    </group>
+                    <group string="Verification Notes" invisible="not verification_notes">
+                        <field name="verification_notes" readonly="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Alumni Employment Search View -->
+    <record id="view_alumni_employment_search" model="ir.ui.view">
+        <field name="name">alumni.employment.search</field>
+        <field name="model">alumni.employment</field>
+        <field name="arch" type="xml">
+            <search string="Employment Records">
+                <field name="alumni_id"/>
+                <field name="job_title"/>
+                <field name="company_name"/>
+                <filter string="Draft" name="draft" domain="[('verification_status', '=', 'draft')]"/>
+                <filter string="Pending Verification" name="pending" domain="[('verification_status', '=', 'pending_verification')]"/>
+                <filter string="Verified" name="verified" domain="[('verification_status', '=', 'verified')]"/>
+                <filter string="Rejected" name="rejected" domain="[('verification_status', '=', 'rejected')]"/>
+                <separator/>
+                <filter string="Current Employment" name="current" domain="[('employment_type', '=', 'current')]"/>
+                <filter string="Previous Employment" name="previous" domain="[('employment_type', '=', 'previous')]"/>
+                <group>
+                    <filter string="Verification Status" name="group_status" context="{'group_by': 'verification_status'}"/>
+                    <filter string="Employment Type" name="group_type" context="{'group_by': 'employment_type'}"/>
+                    <filter string="Alumni" name="group_alumni" context="{'group_by': 'alumni_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Alumni Employment Action -->
+    <record id="action_alumni_employment" model="ir.actions.act_window">
+        <field name="name">Employment Records</field>
+        <field name="res_model">alumni.employment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_alumni_employment_search"/>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No employment records found!
+            </p>
+            <p>
+                Employment records are created by alumni through the portal or by administrators.
+            </p>
+        </field>
+    </record>
+</odoo>

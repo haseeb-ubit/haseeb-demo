@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Security Groups -->
+    <record id="privilege_alumni" model="res.groups.privilege">
+        <field name="name">Alumni Management</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+    </record>
+
+    <record id="group_alumni_manager" model="res.groups">
+        <field name="name">Alumni Manager</field>
+        <field name="privilege_id" ref="ust_alumni_management.privilege_alumni"/>
+        <field name="comment">Full access to alumni management system</field>
+    </record>
+
+    <record id="group_alumni_user" model="res.groups">
+        <field name="name">Alumni User</field>
+        <field name="privilege_id" ref="ust_alumni_management.privilege_alumni"/>
+        <field name="comment">Read and create access to alumni records</field>
+    </record>
+
+    <!-- Record Rules -->
+    <!-- Alumni can only see/edit their own profile -->
+    <record id="rule_alumni_profile_own" model="ir.rule">
+        <field name="name">Alumni: own profile only</field>
+        <field name="model_id" ref="model_alumni_profile"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Portal users can only edit personal info (not academic) -->
+    <record id="rule_alumni_profile_portal_readonly_academic" model="ir.rule">
+        <field name="name">Alumni: portal readonly academic fields</field>
+        <field name="model_id" ref="model_alumni_profile"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Public users can only see published achievements -->
+    <record id="rule_alumni_achievement_public" model="ir.rule">
+        <field name="name">Alumni Achievement: public published only</field>
+        <field name="model_id" ref="model_alumni_achievement"/>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="domain_force">[('website_published', '=', True)]</field>
+    </record>
+
+    <!-- Alumni can only see their own employment records -->
+    <record id="rule_alumni_employment_own" model="ir.rule">
+        <field name="name">Alumni Employment: own records only</field>
+        <field name="model_id" ref="model_alumni_employment"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('alumni_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Alumni can only see their own achievements -->
+    <record id="rule_alumni_achievement_own" model="ir.rule">
+        <field name="name">Alumni Achievement: own records only</field>
+        <field name="model_id" ref="model_alumni_achievement"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">[('alumni_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Public users can only see published alumni profiles -->
+    <record id="rule_alumni_profile_public" model="ir.rule">
+        <field name="name">Alumni Profile: public access</field>
+        <field name="model_id" ref="model_alumni_profile"/>
+        <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+        <field name="domain_force">[('active', '=', True)]</field>
+    </record>
+</odoo>

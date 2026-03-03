@@ -1,0 +1,76 @@
+/* Alumni Portal Styles */
+.portal_alumni_profile {
+    padding: 20px;
+}
+
+/* Custom Blue Theme & Nav Tabs */
+.portal_alumni_profile .nav-tabs .nav-link {
+    transition: all 0.3s ease;
+    color: #0F52BA;
+    opacity: 0.8;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.portal_alumni_profile .nav-tabs .nav-link:hover {
+    color: #0F52BA;
+    opacity: 1;
+    background-color: #f8f9fa;
+}
+
+.portal_alumni_profile .nav-tabs .nav-link.active {
+    color: #0F52BA !important;
+    background-color: #fff !important;
+    border-bottom: 3px solid #0F52BA !important;
+}
+
+/* Custom Blue Buttons */
+.btn-custom-blue {
+    background-color: #0F52BA !important;
+    border-color: #0F52BA !important;
+    color: white !important;
+    box-shadow: 0 4px 6px rgba(15, 82, 186, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-custom-blue:hover {
+    background-color: #0c45a0 !important;
+    border-color: #0c45a0 !important;
+    box-shadow: 0 6px 12px rgba(15, 82, 186, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Custom Colors */
+.text-custom-blue {
+    color: #0F52BA !important;
+}
+
+.bg-custom-blue {
+    background-color: #0F52BA !important;
+}
+
+/* Soft UI Input Fields */
+.portal_alumni_profile .form-control.bg-light {
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    transition: border-color 0.2s;
+}
+
+.portal_alumni_profile .form-control.bg-light:focus {
+    border-color: #0F52BA !important;
+    box-shadow: 0 0 0 0.2rem rgba(15, 82, 186, 0.15);
+    background-color: #fff !important;
+}
+
+.portal_alumni_profile .card {
+    margin-bottom: 20px;
+}
+
+.portal_alumni_profile .form-group {
+    margin-bottom: 15px;
+}
+
+.portal_alumni_profile .readonly-field {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}

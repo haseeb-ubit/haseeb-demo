@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Portal Invitation Email Template -->
+    <record id="email_template_portal_invitation" model="mail.template">
+        <field name="name">Alumni Portal Invitation</field>
+        <field name="model_id" ref="model_alumni_profile"/>
+        <field name="subject">Portal Access Invitation - {{ object.name }}</field>
+        <field name="email_from">{{ (user.email_formatted or user.email) }}</field>
+        <field name="email_to">{{ object.email }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear <t t-out="object.name"/>,</p>
+                <p>You have been invited to access the Alumni Portal where you can manage your profile, employment history, and achievements.</p>
+                <p>To access your portal, please click on the following link:</p>
+                <p style="margin: 16px 0px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/web/login" 
+                       style="background-color: #875A7B; padding: 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; display: inline-block;">
+                        Access Portal
+                    </a>
+                </p>
+                <p>Your login credentials:</p>
+                <ul>
+                    <li>Email: <strong><t t-out="object.email"/></strong></li>
+                    <li>You will need to set your password when you first log in.</li>
+                </ul>
+                <p>If you have any questions, please don't hesitate to contact us.</p>
+                <p>Best regards,<br/>Alumni Management Team</p>
+            </div>
+        </field>
+    </record>
+
+    <!-- Employment Verification Request Email Template -->
+    <record id="email_template_employment_verification" model="mail.template">
+        <field name="name">Employment Verification Request</field>
+        <field name="model_id" ref="model_alumni_employment"/>
+        <field name="subject">Employment Verification Request - {{ object.alumni_id.name }}</field>
+        <field name="email_from">{{ (user.email_formatted or user.email) }}</field>
+        <field name="email_to">{{ object.hr_email or object.gm_email }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear HR/Manager,</p>
+                <p>We are writing to verify the employment information of <strong><t t-out="object.alumni_id.name"/></strong> who has listed your company in their alumni profile.</p>
+                <p><strong>Employment Details:</strong></p>
+                <ul>
+                    <li>Job Title: <t t-out="object.job_title"/></li>
+                    <li>Company: <t t-out="object.company_name"/></li>
+                    <li>Start Date: <t t-out="object.start_date"/></li>
+                    <li t-if="object.end_date">End Date: <t t-out="object.end_date"/></li>
+                    <li t-if="not object.end_date">Status: Current Employment</li>
+                </ul>
+                <p>If this information is correct and you can confirm that this person works/worked at your company, please click the button below:</p>
+                <p style="margin: 16px 0px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/my/alumni/employment/{{ object.id }}/verify/{{ object.verification_token }}" 
+                       style="background-color: #28a745; padding: 10px 20px; text-decoration: none; color: #fff; border-radius: 5px; display: inline-block; font-weight: bold;">
+                        ✓ Confirm Employment
+                    </a>
+                </p>
+                <p>If the information is incorrect, please reply to this email with the correct details.</p>
+                <p>Thank you for your cooperation.</p>
+                <p>Best regards,<br/>Alumni Management Team</p>
+            </div>
+        </field>
+    </record>
+
+    <!-- Employment Verified Confirmation Email Template -->
+    <record id="email_template_employment_verified" model="mail.template">
+        <field name="name">Employment Verified Confirmation</field>
+        <field name="model_id" ref="model_alumni_employment"/>
+        <field name="subject">Employment Verification Confirmed - {{ object.alumni_id.name }}</field>
+        <field name="email_from">{{ (user.email_formatted or user.email) }}</field>
+        <field name="email_to">{{ object.alumni_id.email }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear <t t-out="object.alumni_id.name"/>,</p>
+                <p>Your employment record has been verified successfully!</p>
+                <p><strong>Verified Employment:</strong></p>
+                <ul>
+                    <li>Job Title: <t t-out="object.job_title"/></li>
+                    <li>Company: <t t-out="object.company_name"/></li>
+                    <li>Start Date: <t t-out="object.start_date"/></li>
+                    <li t-if="object.end_date">End Date: <t t-out="object.end_date"/></li>
+                    <li t-if="not object.end_date">Status: Current Employment</li>
+                </ul>
+                <p>Verified by: <t t-out="object.verified_by.name if object.verified_by else 'System'"/></p>
+                <p>Verified on: <t t-out="object.verified_date"/></p>
+                <p>You can view your verified employment records in your <a t-attf-href="{{ object.get_base_url() }}/my/alumni/profile">Alumni Portal</a>.</p>
+                <p>Best regards,<br/>Alumni Management Team</p>
+            </div>
+        </field>
+    </record>
+
+    <!-- Event Invitation Email Template -->
+    <record id="email_template_event_invitation" model="mail.template">
+        <field name="name">Alumni Event Invitation</field>
+        <field name="model_id" ref="model_event_event"/>
+        <field name="subject">Event Invitation: {{ object.name }}</field>
+        <field name="email_from">{{ (user.email_formatted or user.email) }}</field>
+        <field name="email_to">{{ ctx.get('alumni_email', '') }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear Alumni,</p>
+                <p>You are cordially invited to attend the following event:</p>
+                <p><strong><t t-out="object.name"/></strong></p>
+                <p t-if="object.description"><t t-out="object.description"/></p>
+                <p><strong>Event Details:</strong></p>
+                <ul>
+                    <li>Date: <t t-out="object.date_begin"/></li>
+                    <li t-if="object.date_end">End Date: <t t-out="object.date_end"/></li>
+                    <li t-if="object.address_id">Location: <t t-out="object.address_id.name"/></li>
+                </ul>
+                <p>To register for this event, please click on the following link:</p>
+                <p style="margin: 16px 0px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/event/{{ object.id }}/register" 
+                       style="background-color: #875A7B; padding: 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; display: inline-block;">
+                        Register for Event
+                    </a>
+                </p>
+                <p>We look forward to seeing you there!</p>
+                <p>Best regards,<br/>Alumni Management Team</p>
+            </div>
+        </field>
+    </record>
+</odoo>

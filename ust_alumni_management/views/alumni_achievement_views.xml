@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Alumni Achievement Tree View -->
+    <record id="view_alumni_achievement_tree" model="ir.ui.view">
+        <field name="name">alumni.achievement.tree</field>
+        <field name="model">alumni.achievement</field>
+        <field name="arch" type="xml">
+            <list string="Achievements" decoration-success="is_verified and website_published"
+                  decoration-info="is_verified and not website_published"
+                  decoration-muted="not is_verified">
+                <field name="alumni_id"/>
+                <field name="achievement_type"/>
+                <field name="title"/>
+                <field name="date_achieved"/>
+                <field name="issuer_organization"/>
+                <field name="is_verified" widget="boolean_toggle"/>
+                <field name="website_published" widget="boolean_toggle"/>
+                <field name="verified_by" invisible="1"/>
+                <field name="verified_date" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Alumni Achievement Form View -->
+    <record id="view_alumni_achievement_form" model="ir.ui.view">
+        <field name="name">alumni.achievement.form</field>
+        <field name="model">alumni.achievement</field>
+        <field name="arch" type="xml">
+            <form string="Achievement">
+                <header>
+                    <button string="Verify" type="object" name="action_verify" 
+                            class="btn-primary" invisible="is_verified"/>
+                    <button string="Unverify" type="object" name="action_unverify" 
+                            invisible="not is_verified"/>
+                    <button string="Publish" type="object" name="action_publish" 
+                            class="btn-primary" invisible="website_published or not is_verified"/>
+                    <button string="Unpublish" type="object" name="action_unpublish" 
+                            invisible="not website_published"/>
+                    <field name="is_verified" invisible="1"/>
+                    <field name="website_published" invisible="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="alumni_id"/>
+                            <field name="achievement_type"/>
+                            <field name="title"/>
+                            <field name="date_achieved"/>
+                            <field name="issuer_organization"/>
+                        </group>
+                        <group>
+                            <field name="is_verified" readonly="1"/>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="verified_date" readonly="1"/>
+                            <field name="website_published" readonly="1"/>
+                            <field name="published_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" placeholder="Achievement description..."/>
+                    </group>
+                    <group string="Supporting Document">
+                        <field name="supporting_document" filename="supporting_document_filename"/>
+                    </group>
+                    <group string="Verification Notes" invisible="not verification_notes">
+                        <field name="verification_notes" readonly="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Alumni Achievement Search View -->
+    <record id="view_alumni_achievement_search" model="ir.ui.view">
+        <field name="name">alumni.achievement.search</field>
+        <field name="model">alumni.achievement</field>
+        <field name="arch" type="xml">
+            <search string="Achievements">
+                <field name="alumni_id"/>
+                <field name="title"/>
+                <field name="achievement_type"/>
+                <field name="issuer_organization"/>
+                <filter string="Verified" name="verified" domain="[('is_verified', '=', True)]"/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Not Verified" name="not_verified" domain="[('is_verified', '=', False)]"/>
+                <separator/>
+                <filter string="Awards" name="awards" domain="[('achievement_type', '=', 'award')]"/>
+                <filter string="Publications" name="publications" domain="[('achievement_type', '=', 'publication')]"/>
+                <filter string="Research" name="research" domain="[('achievement_type', '=', 'research')]"/>
+                <group>
+                    <filter string="Achievement Type" name="group_type" context="{'group_by': 'achievement_type'}"/>
+                    <filter string="Alumni" name="group_alumni" context="{'group_by': 'alumni_id'}"/>
+                    <filter string="Verified Status" name="group_verified" context="{'group_by': 'is_verified'}"/>
+                    <filter string="Published Status" name="group_published" context="{'group_by': 'website_published'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Alumni Achievement Action -->
+    <record id="action_alumni_achievement" model="ir.actions.act_window">
+        <field name="name">Achievements</field>
+        <field name="res_model">alumni.achievement</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_alumni_achievement_search"/>
+        <field name="context">{'search_default_not_verified': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No achievements found!
+            </p>
+            <p>
+                Achievements are created by alumni through the portal or by administrators.
+            </p>
+        </field>
+    </record>
+</odoo>

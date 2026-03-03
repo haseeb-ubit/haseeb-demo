@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Alumni Profile Tree View -->
+    <record id="view_alumni_profile_tree" model="ir.ui.view">
+        <field name="name">alumni.profile.tree</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <list string="Alumni Profiles" decoration-info="not active" decoration-muted="not portal_access_granted">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="department_id"/>
+                <field name="graduation_year"/>
+                <field name="degree"/>
+                <field name="current_employment_id" invisible="1"/>
+                <field name="current_employment_id" column_invisible="1">
+                    <list>
+                        <field name="job_title"/>
+                        <field name="company_name"/>
+                    </list>
+                </field>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="portal_access_granted" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Alumni Profile Form View -->
+    <record id="view_alumni_profile_form" model="ir.ui.view">
+        <field name="name">alumni.profile.form</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <form string="Alumni Profile">
+                <header>
+                    <button string="Send Portal Invitation" type="object" name="action_send_portal_invitation" 
+                            class="btn-primary" invisible="portal_access_granted"/>
+                    <button string="Grant Portal Access" type="object" name="action_grant_portal_access" 
+                            class="btn-primary" invisible="portal_access_granted"/>
+                    <field name="active" invisible="1"/>
+                    <field name="portal_access_granted" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Full Name"/>
+                        </h1>
+                        <div class="oe_avatar" style="position:absolute; top:20px; right:20px;">
+                            <field name="photo" widget="image" nolabel="1" class="oe_avatar" options="{'preview_image': 'photo'}"/>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Personal Information" name="personal_info">
+                            <group>
+                                <group>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="mobile"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="nationality"/>
+                                </group>
+                                <group>
+                                    <field name="linkedin"/>
+                                    <field name="website"/>
+                                    <field name="photo"/>
+                                </group>
+                            </group>
+                            <group string="Address">
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="zip"/>
+                                <field name="country_id"/>
+                            </group>
+                        </page>
+                        <page string="Academic Information" name="academic_info">
+                            <group>
+                                <group>
+                                    <field name="department_id" required="1"/>
+                                    <field name="graduation_year" required="1"/>
+                                    <field name="degree"/>
+                                    <field name="major"/>
+                                    <field name="student_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Employment History" name="employment">
+                            <field name="employment_ids" context="{'default_alumni_id': id}">
+                                <list>
+                                    <field name="employment_type"/>
+                                    <field name="job_title"/>
+                                    <field name="company_name"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="verification_status" widget="badge" 
+                                           decoration-success="verification_status == 'verified'"
+                                           decoration-warning="verification_status == 'pending_verification'"
+                                           decoration-danger="verification_status == 'rejected'"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="alumni_id" invisible="1"/>
+                                                <field name="employment_type"/>
+                                                <field name="job_title"/>
+                                                <field name="company_name"/>
+                                                <field name="company_website"/>
+                                                <field name="start_date"/>
+                                                <field name="end_date"/>
+                                                <field name="description"/>
+                                            </group>
+                                            <group>
+                                                <field name="hr_email"/>
+                                                <field name="gm_email"/>
+                                                <field name="verification_status"/>
+                                                <field name="verified_by" readonly="1"/>
+                                                <field name="verified_date" readonly="1"/>
+                                                <field name="verification_notes"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Achievements" name="achievements">
+                            <field name="achievement_ids" context="{'default_alumni_id': id}">
+                                <list>
+                                    <field name="achievement_type"/>
+                                    <field name="title"/>
+                                    <field name="date_achieved"/>
+                                    <field name="is_verified" widget="boolean_toggle"/>
+                                    <field name="website_published" widget="boolean_toggle"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="alumni_id" invisible="1"/>
+                                                <field name="achievement_type"/>
+                                                <field name="title"/>
+                                                <field name="date_achieved"/>
+                                                <field name="issuer_organization"/>
+                                                <field name="description"/>
+                                            </group>
+                                            <group>
+                                                <field name="is_verified" widget="boolean_toggle"/>
+                                                <field name="verified_by" readonly="1"/>
+                                                <field name="verified_date" readonly="1"/>
+                                                <field name="website_published" widget="boolean_toggle"/>
+                                                <field name="published_date" readonly="1"/>
+                                                <field name="verification_notes"/>
+                                                <field name="supporting_document" filename="supporting_document_filename"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Event Registrations" name="events">
+                            <field name="event_registration_ids">
+                                <list>
+                                    <field name="event_id"/>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="state"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Alumni Profile Kanban View -->
+    <record id="view_alumni_profile_kanban" model="ir.ui.view">
+        <field name="name">alumni.profile.kanban</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="department_id" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="photo"/>
+                <field name="department_id"/>
+                <field name="graduation_year"/>
+                <field name="active"/>
+                <field name="portal_access_granted"/>
+                <field name="current_employment_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('alumni.profile', 'photo', record.id.raw_value)" 
+                                         alt="Avatar" style="max-width: 80px; max-height: 80px;"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <div class="o_kanban_record_subtitle">
+                                        <field name="department_id"/>
+                                        <span t-if="record.graduation_year.raw_value">
+                                            - <field name="graduation_year"/>
+                                        </span>
+                                    </div>
+                                    <div t-if="record.current_employment_id.raw_value" class="text-muted">
+                                        <field name="current_employment_id">
+                                            <list>
+                                                <field name="job_title"/> at <field name="company_name"/>
+                                            </list>
+                                        </field>
+                                    </div>
+                                    <div class="o_kanban_record_bottom">
+                                        <field name="active" widget="boolean_toggle"/>
+                                        <field name="portal_access_granted" widget="boolean_toggle"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Alumni Profile Search View -->
+    <record id="view_alumni_profile_search" model="ir.ui.view">
+        <field name="name">alumni.profile.search</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <search string="Alumni Profiles">
+                <field name="name" string="Name" filter_domain="['|', ('name', 'ilike', self), ('email', 'ilike', self)]"/>
+                <field name="email"/>
+                <field name="department_id"/>
+                <field name="graduation_year"/>
+                <field name="degree"/>
+                <field name="country_id"/>
+                <field name="current_employment_id"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Portal Access Granted" name="portal_access" domain="[('portal_access_granted', '=', True)]"/>
+                <filter string="No Portal Access" name="no_portal" domain="[('portal_access_granted', '=', False)]"/>
+                <separator/>
+                <filter string="This Year" name="this_year" domain="[('graduation_year', '=', context_today().year)]"/>
+                <filter string="Last 5 Years" name="last_5_years" domain="[('graduation_year', '&gt;=', context_today().year - 5)]"/>
+                <separator/>
+                <filter string="With Current Employment" name="with_employment" 
+                        domain="[('employment_ids.employment_type', '=', 'current'), ('employment_ids.verification_status', '=', 'verified')]"/>
+                <group>
+                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
+                    <filter string="Graduation Year" name="group_year" context="{'group_by': 'graduation_year'}"/>
+                    <filter string="Country" name="group_country" context="{'group_by': 'country_id'}"/>
+                    <filter string="Degree" name="group_degree" context="{'group_by': 'degree'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Alumni Profile Action -->
+    <record id="action_alumni_profile" model="ir.actions.act_window">
+        <field name="name">Alumni Profiles</field>
+        <field name="res_model">alumni.profile</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_alumni_profile_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first alumni profile!
+            </p>
+            <p>
+                Manage alumni information, employment history, and achievements.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard Action -->
+    <record id="action_alumni_dashboard" model="ir.actions.act_window">
+        <field name="name">Alumni Dashboard</field>
+        <field name="res_model">alumni.profile</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{
+            'search_default_group_department': 1,
+            'search_default_group_year': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Alumni Dashboard
+            </p>
+            <p>
+                View statistics and analytics about alumni.
+            </p>
+        </field>
+    </record>
+
+    <!-- Graph View - Alumni by Year -->
+    <record id="view_alumni_graph_year" model="ir.ui.view">
+        <field name="name">alumni.profile.graph.year</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <graph string="Alumni by Graduation Year" type="bar">
+                <field name="graduation_year" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph View - Alumni by Department -->
+    <record id="view_alumni_graph_department" model="ir.ui.view">
+        <field name="name">alumni.profile.graph.department</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <graph string="Alumni by Department" type="pie">
+                <field name="department_id" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph View - Alumni by Country -->
+    <record id="view_alumni_graph_country" model="ir.ui.view">
+        <field name="name">alumni.profile.graph.country</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <graph string="Alumni by Country" type="bar">
+                <field name="country_id" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph View - Employment Trends -->
+    <record id="view_alumni_employment_graph" model="ir.ui.view">
+        <field name="name">alumni.employment.graph</field>
+        <field name="model">alumni.employment</field>
+        <field name="arch" type="xml">
+            <graph string="Employment Verification Status" type="bar">
+                <field name="verification_status" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph View - Achievement Types -->
+    <record id="view_alumni_achievement_graph" model="ir.ui.view">
+        <field name="name">alumni.achievement.graph</field>
+        <field name="model">alumni.achievement</field>
+        <field name="arch" type="xml">
+            <graph string="Achievements by Type" type="pie">
+                <field name="achievement_type" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot View - Alumni Distribution -->
+    <record id="view_alumni_pivot" model="ir.ui.view">
+        <field name="name">alumni.profile.pivot</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <pivot string="Alumni Distribution">
+                <field name="department_id" type="row"/>
+                <field name="graduation_year" type="col"/>
+                <field name="id" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Pivot View - Employment by Department -->
+    <record id="view_alumni_employment_pivot" model="ir.ui.view">
+        <field name="name">alumni.employment.pivot</field>
+        <field name="model">alumni.employment</field>
+        <field name="arch" type="xml">
+            <pivot string="Employment by Department">
+                <field name="alumni_id" type="row" domain="[]"/>
+                <field name="verification_status" type="col"/>
+                <field name="id" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

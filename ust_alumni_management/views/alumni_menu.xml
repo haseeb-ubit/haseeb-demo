@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_alumni_management" name="Alumni Management" 
+              sequence="50" web_icon="ust_alumni_management,static/description/icon.png"/>
+
+    <!-- Alumni Profiles Submenu -->
+    <menuitem id="menu_alumni_profiles" name="Alumni Profiles" 
+              parent="menu_alumni_management" action="action_alumni_profile" sequence="10"/>
+
+    <!-- Employment Submenu -->
+    <menuitem id="menu_alumni_employment" name="Employment Records" 
+              parent="menu_alumni_management" action="action_alumni_employment" sequence="20"/>
+
+    <!-- Achievements Submenu -->
+    <menuitem id="menu_alumni_achievements" name="Achievements" 
+              parent="menu_alumni_management" action="action_alumni_achievement" sequence="30"/>
+
+    <!-- Reports Submenu -->
+    <menuitem id="menu_alumni_reports" name="Reports &amp; Dashboard" 
+              parent="menu_alumni_management" action="action_alumni_dashboard" sequence="5"/>
+    <!-- Import Menu -->
+    <menuitem id="menu_alumni_import" name="Import Alumni" 
+              parent="menu_alumni_management" action="action_alumni_import_wizard" sequence="50"/>
+</odoo>

@@ -1,0 +1,224 @@
+/* Alumni Profile Layout */
+
+.profile-wrap {
+    font-family: 'Inter', sans-serif;
+    background-color: #fcfcfc;
+    /* User set inline to white, but original was fcfcfc. Let's use white for now based on recent edits if needed, 
+       but we will stick to what the user had in the style tag */
+    padding-bottom: 50px;
+}
+
+.profile-sidebar-card {
+    border: none;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-sidebar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar-wrapper img,
+.profile-avatar-wrapper .rounded-circle {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.5s ease;
+}
+
+.profile-avatar {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 5px solid #fff;
+}
+
+.profile-avatar-wrapper:hover img,
+.profile-avatar-wrapper:hover .rounded-circle {
+    transform: scale(1.05);
+}
+
+.profile-stats .border-bottom {
+    border-bottom: 1px dashed #e9ecef !important;
+}
+
+.profile-section-card {
+    border: none;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-section-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+.employment-item {
+    border-radius: 12px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 1px solid transparent;
+    padding: 15px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.employment-item:hover {
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border-color: #e6f0ff;
+    transform: translateX(5px);
+}
+
+.employment-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.employment-item:hover .employment-icon {
+    background-color: #0F52BA !important;
+    color: white !important;
+    transform: scale(1.1);
+}
+
+.achievement-card {
+    border-radius: 15px !important;
+    border-left: 5px solid #0F52BA !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03) !important;
+    transition: all 0.3s ease;
+    background: linear-gradient(to right, #ffffff, #fafcfc);
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 50, 150, 0.1) !important;
+    border-left-width: 8px !important;
+}
+
+.contact-item {
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    padding: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.contact-item:hover {
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.contact-icon {
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+
+.contact-text {
+    overflow: hidden;
+    text-align: left;
+}
+
+.contact-text small {
+    font-size: 0.70rem;
+}
+
+.contact-text span,
+.contact-text a {
+    font-size: 0.9rem;
+}
+
+.contact-text a {
+    word-break: break-all;
+}
+
+.company-name {
+    font-size: 1.1rem;
+}
+
+.contact-item:hover .contact-icon,
+.contact-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+    background-color: #0F52BA !important;
+    color: white !important;
+}
+
+.section-title {
+    color: #0F52BA !important;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ebedf0;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #0F52BA;
+    transition: width 0.3s ease;
+    border-radius: 3px;
+}
+
+.profile-section-card:hover .section-title::after {
+    width: 100px;
+}
+
+.social-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.3);
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 119, 181, 0.4);
+}
+
+.font-weight-medium {
+    font-weight: 500;
+}
+
+/* Responsiveness enhancements */
+@media (max-width: 768px) {
+    .profile-sidebar-card {
+        margin-bottom: 20px;
+    }
+
+    .employment-item {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 10px;
+    }
+
+    .contact-item {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .profile-avatar-wrapper img,
+    .profile-avatar-wrapper .rounded-circle {
+        width: 140px !important;
+        height: 140px !important;
+    }
+
+    .section-title::after {
+        width: 40px;
+    }
+
+    .profile-section-card:hover .section-title::after {
+        width: 80px;
+    }
+}

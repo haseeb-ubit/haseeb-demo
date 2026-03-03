@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Event Form View -->
+    <record id="view_event_form_alumni" model="ir.ui.view">
+        <field name="name">event.event.form.alumni</field>
+        <field name="model">event.event</field>
+        <field name="inherit_id" ref="event.view_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_alumni_event" widget="boolean_toggle"/>
+                <field name="alumni_filters" invisible="not is_alumni_event"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button string="Invite Alumni" type="object" name="action_invite_alumni" 
+                        class="btn-primary" invisible="not is_alumni_event"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_alumni_registrations"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-users"
+                        invisible="not is_alumni_event">
+                    <field name="alumni_registration_count" widget="statinfo" string="Alumni"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Alumni Event Invite Wizard -->
+    <record id="view_alumni_event_invite_wizard_form" model="ir.ui.view">
+        <field name="name">alumni.event.invite.wizard.form</field>
+        <field name="model">alumni.event.invite.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Invite Alumni to Event">
+                <sheet>
+                    <group>
+                        <field name="event_id" readonly="1"/>
+                        <field name="is_alumni_event" readonly="1"/>
+                    </group>
+                    <group string="Filter Alumni">
+                        <field name="department_ids" widget="many2many_tags"/>
+                        <field name="graduation_year_from"/>
+                        <field name="graduation_year_to"/>
+                        <field name="degree"/>
+                        <field name="country_ids" widget="many2many_tags"/>
+                    </group>
+                    <group string="Selected Alumni" invisible="not selected_alumni_ids">
+                        <field name="selected_alumni_ids" widget="many2many_tags" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Search Alumni" type="object" name="action_search_alumni" class="btn-secondary"/>
+                    <button string="Send Invitations" type="object" name="action_send_invitations" 
+                            class="btn-primary" invisible="not selected_alumni_ids"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_alumni_event_invite_wizard" model="ir.actions.act_window">
+        <field name="name">Invite Alumni</field>
+        <field name="res_model">alumni.event.invite.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

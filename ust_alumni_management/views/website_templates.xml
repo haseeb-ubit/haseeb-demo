@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Alumni Directory Page -->
+    <template id="website_alumni_directory" name="Alumni Directory">
+        <t t-call="website.layout">
+            <t t-set="title">Alumni Directory</t>
+            <div id="wrap" class="oe_structure directory-wrap">
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="alumni-directory-title">Alumni Directory</h1>
+                            
+                            <!-- Search and Filters -->
+                            <div class="filter-card">
+                                <form method="get" action="/alumni" class="row align-items-center">
+                                    <div class="col-md-3 mb-3 mb-md-0">
+                                        <input type="text" name="search" t-att-value="search" 
+                                               class="form-control custom-input" placeholder="Search by name or email..."/>
+                                    </div>
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <select name="department_id" class="form-control custom-input">
+                                            <option value="">All Departments</option>
+                                            <t t-foreach="departments" t-as="dept">
+                                                <option t-att-value="dept.id" 
+                                                        t-att-selected="department_id == dept.id">
+                                                    <t t-esc="dept.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <select name="graduation_year" class="form-control custom-input">
+                                            <option value="">All Years</option>
+                                            <t t-foreach="years" t-as="year">
+                                                <option t-att-value="year" 
+                                                        t-att-selected="graduation_year == year">
+                                                    <t t-esc="year"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <select name="degree" class="form-control custom-input">
+                                            <option value="">All Degrees</option>
+                                            <t t-foreach="degrees" t-as="deg">
+                                                <option t-att-value="deg" 
+                                                        t-att-selected="degree == deg">
+                                                    <t t-esc="deg"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mb-3 mb-md-0">
+                                        <select name="country_id" class="form-control custom-input">
+                                            <option value="">All Countries</option>
+                                            <t t-foreach="countries" t-as="country">
+                                                <option t-att-value="country.id" 
+                                                        t-att-selected="country_id == country.id">
+                                                    <t t-esc="country.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="submit" class="btn btn-filter w-100">Filter</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Alumni Cards -->
+                            <div class="row">
+                                <t t-foreach="alumni" t-as="alum">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="alumni-card h-100 text-center">
+                                            <div class="alumni-avatar-wrapper">
+                                                <t t-if="alum.photo">
+                                                    <img t-att-src="'/web/image/alumni.profile/%s/photo' % alum.id" 
+                                                         class="alumni-avatar" alt="Alumni Photo"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="alumni-avatar bg-light d-inline-flex align-items-center justify-content-center">
+                                                        <i class="fa fa-user fa-4x text-muted"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                            
+                                            <div class="mb-2">
+                                                <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="alumni-name">
+                                                    <t t-esc="alum.name"/>
+                                                </a>
+                                            </div>
+                                            
+                                            <div class="alumni-info">
+                                                <t t-if="alum.department_id">
+                                                    <strong>Department:</strong> <t t-esc="alum.department_id.name"/><br/>
+                                                </t>
+                                                <t t-if="alum.graduation_year">
+                                                    <strong>Graduation Year:</strong> <t t-esc="alum.graduation_year"/><br/>
+                                                </t>
+                                                <t t-if="alum.degree">
+                                                    <strong>Degree:</strong> <t t-esc="alum.degree"/><br/>
+                                                </t>
+                                                <t t-if="alum.current_employment_id">
+                                                    <strong>Current:</strong> <t t-esc="alum.current_employment_id.job_title"/> 
+                                                    at <t t-esc="alum.current_employment_id.company_name"/>
+                                                </t>
+                                            </div>
+                                            
+                                            <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" 
+                                               class="btn-view-profile">View Profile</a>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="not alumni">
+                                    <div class="col-12 text-center py-5">
+                                        <i class="fa fa-search fa-4x text-muted mb-3"></i>
+                                        <h4 class="text-muted">No alumni found</h4>
+                                        <p class="text-muted">Try adjusting your filters criteria.</p>
+                                    </div>
+                                </t>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <t t-if="pager">
+                                <div class="row mt-4">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <t t-call="website.pager"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Individual Alumni Profile Page -->
+    <template id="website_alumni_profile" name="Alumni Profile">
+        <t t-call="website.layout">
+            <style>
+                .profile-wrap {
+                    font-family: 'Inter', sans-serif;
+                }
+                .profile-sidebar-card {
+                    border: none;
+                    border-radius: 20px !important;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                .profile-sidebar-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+                }
+                .profile-avatar-wrapper img, .profile-avatar-wrapper .rounded-circle {
+                    transition: transform 0.5s ease;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+                }
+                .profile-avatar-wrapper:hover img, .profile-avatar-wrapper:hover .rounded-circle {
+                    transform: scale(1.05);
+                }
+                .profile-section-card {
+                    border: none;
+                    border-radius: 20px !important;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                .profile-section-card:hover {
+                    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+                }
+                .employment-item {
+                    border-radius: 12px;
+                    transition: background-color 0.3s ease, transform 0.3s ease;
+                    border: 1px solid transparent;
+                    padding: 15px;
+                    margin-left: -15px;
+                    margin-right: -15px;
+                }
+                .employment-item:hover {
+                    background-color: #ffffff;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+                    border-color: #e6f0ff;
+                    transform: translateX(5px);
+                }
+                .achievement-card {
+                    border-radius: 15px !important;
+                    border-left: 5px solid #0F52BA !important;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.03) !important;
+                    transition: all 0.3s ease;
+                    background: linear-gradient(to right, #ffffff, #fafcfc);
+                }
+                .achievement-card:hover {
+                    transform: translateY(-5px) scale(1.02);
+                    box-shadow: 0 12px 25px rgba(0, 50, 150, 0.1) !important;
+                    border-left-width: 8px !important;
+                }
+                .contact-item {
+                    transition: background-color 0.3s ease;
+                    border-radius: 10px;
+                    padding: 8px;
+                    margin-left: -8px;
+                    margin-right: -8px;
+                }
+                .contact-item:hover {
+                    background-color: #ffffff;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+                }
+                .contact-icon {
+                    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+                }
+                .contact-item:hover .contact-icon {
+                    transform: scale(1.15) rotate(5deg);
+                    background-color: #0F52BA !important;
+                    color: white !important;
+                }
+                .section-title {
+                    color: #0F52BA !important;
+                    font-weight: 700;
+                    position: relative;
+                    padding-bottom: 12px;
+                    margin-bottom: 25px;
+                    border-bottom: 2px solid #ebedf0;
+                }
+                .section-title::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 50px;
+                    height: 3px;
+                    background-color: #0F52BA;
+                    transition: width 0.3s ease;
+                    border-radius: 3px;
+                }
+                .profile-section-card:hover .section-title::after {
+                    width: 100px;
+                }
+                .social-btn {
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.3);
+                }
+                .social-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 15px rgba(0, 119, 181, 0.4);
+                }
+                .employment-icon {
+                    transition: all 0.3s ease;
+                }
+                .employment-item:hover .employment-icon {
+                    background-color: #0F52BA !important;
+                    color: white !important;
+                    transform: scale(1.1);
+                }
+            </style>
+            <div id="wrap" class="oe_structure profile-wrap">
+                <div class="container mt-5">
+                    <div class="row">
+                        <!-- Sidebar: Profile Overview -->
+                        <div class="col-lg-4 col-md-5 mb-4">
+                            <div class="profile-sidebar-card shadow-sm bg-white rounded p-4 text-center h-100">
+                                <div class="profile-avatar-wrapper mb-3">
+                                    <t t-if="alumni.photo">
+                                        <img t-att-src="'/web/image/alumni.profile/%s/photo' % alumni.id" 
+                                             class="img-fluid rounded-circle shadow-sm profile-avatar"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center shadow-sm profile-avatar">
+                                            <i class="fa fa-user fa-5x text-secondary"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                <h3 class="font-weight-bold text-dark mb-1"><t t-esc="alumni.name"/></h3>
+                                <t t-if="alumni.department_id">
+                                    <p class="text-secondary mb-3"><t t-esc="alumni.department_id.name"/></p>
+                                </t>
+                                <div class="profile-stats mt-4 px-3 text-left">
+                                    <t t-if="alumni.graduation_year">
+                                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                            <strong>Graduated:</strong> <span class="text-muted"><t t-esc="alumni.graduation_year"/></span>
+                                        </div>
+                                    </t>
+                                    <t t-if="alumni.degree">
+                                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                            <strong>Degree:</strong> <span class="text-muted"><t t-esc="alumni.degree"/></span>
+                                        </div>
+                                    </t>
+                                    <t t-if="alumni.linkedin">
+                                        <div class="mt-4 text-center">
+                                            <a t-att-href="alumni.linkedin" target="_blank" class="btn btn-primary social-btn rounded-pill px-4">
+                                                <i class="fa fa-linkedin me-1"/> LinkedIn
+                                            </a>
+                                        </div>
+                                    </t>
+                                    
+                                    <hr class="my-4"/>
+                                    
+                                    <!-- Contact Information (Merged) -->
+                                    <h6 class="font-weight-bold section-title mb-3"><i class="fa fa-address-card me-2"/> Contact Info</h6>
+                                    <t t-if="alumni.email">
+                                        <div class="mb-2 contact-item">
+                                            <div class="d-flex align-items-center">
+                                                <div class="contact-icon bg-light rounded-circle text-info d-flex align-items-center justify-content-center me-3">
+                                                    <i class="fa fa-envelope"/>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Email</small>
+                                                    <a t-att-href="'mailto:' + alumni.email" class="text-dark font-weight-medium"><t t-esc="alumni.email"/></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    <t t-if="alumni.phone">
+                                        <div class="mb-2 contact-item">
+                                            <div class="d-flex align-items-center">
+                                                <div class="contact-icon bg-light rounded-circle text-success d-flex align-items-center justify-content-center me-3">
+                                                    <i class="fa fa-phone"/>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Phone</small>
+                                                    <span class="text-dark font-weight-medium"><t t-esc="alumni.phone"/></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    <t t-if="alumni.city or alumni.country_id">
+                                        <div class="mb-2 contact-item">
+                                            <div class="d-flex align-items-center">
+                                                <div class="contact-icon bg-light rounded-circle text-danger d-flex align-items-center justify-content-center me-3">
+                                                    <i class="fa fa-map-marker"/>
+                                                </div>
+                                                <div class="contact-text">
+                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Location</small>
+                                                    <span class="text-dark font-weight-medium">
+                                                        <t t-if="alumni.city"><t t-esc="alumni.city"/>, </t>
+                                                        <t t-if="alumni.country_id"><t t-esc="alumni.country_id.name"/></t>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Content -->
+                        <div class="col-lg-8 col-md-7">
+                            <!-- Employment History -->
+                            <t t-if="employments">
+                                <div class="profile-section-card shadow-sm bg-white rounded p-4 mb-4 transition-hover">
+                                    <h5 class="section-title mb-4"><i class="fa fa-briefcase me-2"/> Employment History</h5>
+                                    <div class="employment-list">
+                                        <t t-foreach="employments" t-as="emp">
+                                            <div class="d-flex align-items-center mb-2 employment-item">
+                                                <div class="employment-icon bg-light rounded p-3 me-4 text-primary">
+                                                    <i class="fa fa-building fa-2x"/>
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-weight-bold mb-1"><t t-esc="emp.job_title"/></h5>
+                                                    <p class="text-secondary mb-1 company-name"><t t-esc="emp.company_name"/></p>
+                                                    <small class="text-muted">
+                                                        <i class="fa fa-calendar-o me-1"/> <t t-esc="emp.start_date"/> - 
+                                                        <t t-if="emp.end_date">
+                                                            <t t-esc="emp.end_date"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            Present
+                                                        </t>
+                                                        <t t-if="emp.employment_type == 'current'">
+                                                            <span class="badge badge-success badge-custom ms-2">Current</span>
+                                                        </t>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                            
+                            <!-- Achievements -->
+                            <t t-if="achievements">
+                                <div class="profile-section-card shadow-sm bg-white rounded p-4 mb-4 transition-hover">
+                                    <h5 class="section-title mb-4"><i class="fa fa-trophy me-2"/> Achievements</h5>
+                                    <div class="row">
+                                        <t t-foreach="achievements" t-as="achievement">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="achievement-card rounded h-100 p-3">
+                                                    <h6 class="font-weight-bold text-dark mb-2"><t t-esc="achievement.title"/></h6>
+                                                    <p class="text-secondary small mb-2">
+                                                        <span class="badge badge-light border text-dark me-1"><t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
+                                                        <t t-if="achievement.date_achieved"> - <t t-esc="achievement.date_achieved"/></t>
+                                                    </p>
+                                                    <t t-if="achievement.issuer_organization">
+                                                        <p class="text-muted small mb-2">
+                                                            <i class="fa fa-certificate text-warning me-1"/> Issued by: <t t-esc="achievement.issuer_organization"/>
+                                                        </p>
+                                                    </t>
+                                                    <t t-if="achievement.description">
+                                                        <p class="mb-0 text-dark small overflow-hidden"><t t-esc="achievement.description"/></p>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

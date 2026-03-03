@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_alumni_employment_reject_wizard_form" model="ir.ui.view">
+        <field name="name">alumni.employment.reject.wizard.form</field>
+        <field name="model">alumni.employment.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Employment Verification">
+                <sheet>
+                    <group>
+                        <field name="employment_id" readonly="1"/>
+                        <field name="rejection_reason" placeholder="Please provide a reason for rejection..."/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Reject" type="object" name="action_reject" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

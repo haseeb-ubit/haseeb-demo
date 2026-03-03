@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Alumni Directory Snippet -->
+    <template id="snippet_alumni_directory" name="Alumni Directory" inherit_id="website.snippets">
+        <xpath expr="//t[@t-snippet='website.s_cover']" position="after">
+            <t t-snippet="ust_alumni_management.s_alumni_directory" 
+               t-thumbnail="/ust_alumni_management/static/description/alumni_snippet.png"/>
+        </xpath>
+    </template>
+
+    <template id="s_alumni_directory" name="Alumni Directory Snippet">
+        <section class="s_alumni_directory">
+            <div class="container">
+                <h2>Featured Alumni</h2>
+                <div class="row" t-att-data-alumni-limit="limit or 6">
+                    <t t-foreach="request.env['alumni.profile'].sudo().search([('active', '=', True)], limit=limit or 6, order='graduation_year desc')" t-as="alum">
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <t t-if="alum.photo">
+                                        <img t-att-src="'/web/image/alumni.profile/%s/photo' % alum.id" 
+                                             class="rounded-circle mb-3" 
+                                             style="width: 100px; height: 100px; object-fit: cover;"/>
+                                    </t>
+                                    <h5><t t-esc="alum.name"/></h5>
+                                    <p class="text-muted">
+                                        <t t-if="alum.department_id"><t t-esc="alum.department_id.name"/></t>
+                                        <t t-if="alum.graduation_year"> - <t t-esc="alum.graduation_year"/></t>
+                                    </p>
+                                    <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" 
+                                       class="btn btn-sm btn-primary">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
