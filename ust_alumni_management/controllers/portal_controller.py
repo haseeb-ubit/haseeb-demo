@@ -28,6 +28,7 @@ class AlumniPortalController(http.Controller):
         values = {
             'alumni': alumni,
             'page_name': 'alumni_profile',
+            'active_tab': kw.get('tab', 'general_info'),
         }
         return request.render('ust_alumni_management.portal_alumni_profile', values)
     
@@ -158,7 +159,7 @@ class AlumniPortalController(http.Controller):
         }
         
         request.env['alumni.employment'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile')
+        return request.redirect('/my/alumni/profile?tab=employment#employment')
 
     @http.route(['/my/alumni/achievement/add'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_add_achievement(self, **kw):
@@ -189,26 +190,26 @@ class AlumniPortalController(http.Controller):
                 vals['supporting_document_filename'] = cert_file.filename
                 
         request.env['alumni.achievement'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile')
+        return request.redirect('/my/alumni/profile?tab=achievements#achievements')
 
     @http.route(['/my/alumni/employment/<int:employment_id>/update'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_update_employment(self, employment_id, **kw):
         """Update existing employment from portal (only draft/pending)"""
         user = request.env.user
         employment = request.env['alumni.employment'].sudo().browse(employment_id)
-        
+
         if not employment.exists():
             return request.redirect('/my/alumni/profile')
-        
+
         # Verify ownership
         alumni = employment.alumni_id
         if alumni.user_id != user and alumni.partner_id != user.partner_id:
             return request.redirect('/my/alumni/profile#employment')
-        
+
         # Only allow editing draft or pending records
         if employment.verification_status not in ('draft', 'pending_verification'):
             return request.redirect('/my/alumni/profile#employment')
-        
+
         vals = {
             'job_title': kw.get('job_title'),
             'company_name': kw.get('company_name'),
@@ -220,7 +221,7 @@ class AlumniPortalController(http.Controller):
             'gm_email': kw.get('gm_email'),
             'description': kw.get('description'),
         }
-        
+
         # Remove empty values but keep False for end_date
         vals = {k: v for k, v in vals.items() if v or k == 'end_date'}
         employment.write(vals)
@@ -231,19 +232,19 @@ class AlumniPortalController(http.Controller):
         """Update existing achievement from portal (only unverified)"""
         user = request.env.user
         achievement = request.env['alumni.achievement'].sudo().browse(achievement_id)
-        
+
         if not achievement.exists():
             return request.redirect('/my/alumni/profile')
-        
+
         # Verify ownership
         alumni = achievement.alumni_id
         if alumni.user_id != user and alumni.partner_id != user.partner_id:
             return request.redirect('/my/alumni/profile')
-        
+
         # Only allow editing unverified records
         if achievement.is_verified:
             return request.redirect('/my/alumni/profile')
-        
+
         vals = {
             'title': kw.get('title'),
             'achievement_type': kw.get('achievement_type'),
@@ -259,7 +260,7 @@ class AlumniPortalController(http.Controller):
             if cert_file and cert_file.filename:
                 vals['supporting_document'] = base64.b64encode(cert_file.read())
                 vals['supporting_document_filename'] = cert_file.filename
-        
+
         # Remove empty values but keep False for date_achieved
         vals = {k: v for k, v in vals.items() if v or k == 'date_achieved'}
         achievement.write(vals)

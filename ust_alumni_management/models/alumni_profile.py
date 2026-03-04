@@ -33,7 +33,7 @@ class AlumniProfile(models.Model):
     # Academic Information (Read-only in portal)
     department_id = fields.Many2one('hr.department', string='Department', required=True)
     college_id = fields.Many2one('elearning.college', string='College')
-    graduation_year = fields.Date(string='Graduation Year', required=True)
+    graduation_year = fields.Integer(string='Graduation Year', required=True)
     degree = fields.Char(string='Degree')
     major = fields.Char(string='Major')
 
@@ -64,6 +64,30 @@ class AlumniProfile(models.Model):
     def _onchange_college_id(self):
         if self.college_id and self.department_id and self.department_id.college_id != self.college_id:
             self.department_id = False
+    
+    @api.onchange('graduation_year')
+    def _onchange_graduation_year(self):
+        """Validate and format graduation year to ensure 4 digits"""
+        if self.graduation_year:
+            year_str = str(self.graduation_year)
+            # If it's less than 4 digits, pad with zeros (e.g., 202 -> 0202, but we'll show warning)
+            if len(year_str) < 4:
+                # Show warning but don't auto-correct (let user enter full year)
+                return {
+                    'warning': {
+                        'title': _('Invalid Year Format'),
+                        'message': _('Graduation year must be exactly 4 digits (e.g., 2026). Please enter the full year.'),
+                    }
+                }
+            elif len(year_str) > 4:
+                # If more than 4 digits, truncate to first 4
+                self.graduation_year = int(year_str[:4])
+                return {
+                    'warning': {
+                        'title': _('Year Truncated'),
+                        'message': _('Graduation year has been truncated to 4 digits: %s') % self.graduation_year,
+                    }
+                }
 
     @api.depends('employment_ids', 'employment_ids.employment_type')
     def _compute_current_employment(self):
@@ -114,7 +138,12 @@ class AlumniProfile(models.Model):
         """Auto-generate URL slug from name if not provided"""
         for vals in vals_list:
             if not vals.get('url_slug') and vals.get('name'):
-                vals['url_slug'] = self._generate_url_slug(vals['name'])
+                # Generate unique slug, checking against existing records
+                vals['url_slug'] = self._generate_url_slug(
+                    vals['name'], 
+                    exclude_id=None,  # No ID yet during create
+                    email=vals.get('email')
+                )
             
             # Create partner if not provided
             if not vals.get('partner_id'):
@@ -137,7 +166,11 @@ class AlumniProfile(models.Model):
         if 'name' in vals and 'url_slug' not in vals:
             for record in self:
                 if not record.url_slug:
-                    vals['url_slug'] = self._generate_url_slug(vals['name'])
+                    vals['url_slug'] = record._generate_url_slug(
+                        vals['name'],
+                        exclude_id=record.id,
+                        email=vals.get('email') or record.email
+                    )
         
         # Update partner if name/email/mobile changed
         if 'name' in vals or 'email' in vals or 'mobile' in vals:
@@ -154,8 +187,8 @@ class AlumniProfile(models.Model):
         
         return super().write(vals)
     
-    def _generate_url_slug(self, name):
-        """Generate a URL-friendly slug from a name"""
+    def _generate_url_slug(self, name, exclude_id=None, email=None):
+        """Generate a URL-friendly slug from a name, ensuring uniqueness"""
         if not name:
             return ''
         
@@ -165,14 +198,41 @@ class AlumniProfile(models.Model):
         slug = re.sub(r'-+', '-', slug)
         slug = slug.strip('-')
         
-        # Ensure uniqueness
-        if self.id:
-            existing = self.search([
-                ('url_slug', '=', slug),
-                ('id', '!=', self.id)
-            ], limit=1)
-            if existing:
-                slug = f"{slug}-{self.id}"
+        # Ensure uniqueness - check for existing slugs
+        base_slug = slug
+        counter = 1
+        while True:
+            domain = [('url_slug', '=', slug)]
+            if exclude_id:
+                domain.append(('id', '!=', exclude_id))
+            elif self.id:
+                domain.append(('id', '!=', self.id))
+            
+            existing = self.search(domain, limit=1)
+            if not existing:
+                # Slug is unique, return it
+                break
+            
+            # If email is available and different, try using email part
+            if email and counter == 1:
+                email_part = email.split('@')[0].lower()
+                email_part = re.sub(r'[^\w\s-]', '', email_part)
+                email_part = re.sub(r'[\s]+', '-', email_part)
+                email_part = re.sub(r'-+', '-', email_part).strip('-')
+                if email_part and email_part != slug:
+                    slug = f"{base_slug}-{email_part}"
+                    continue
+            
+            # Otherwise, append counter
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+            
+            # Safety limit to prevent infinite loop
+            if counter > 1000:
+                # Fallback: use timestamp
+                import time
+                slug = f"{base_slug}-{int(time.time())}"
+                break
         
         return slug
     
@@ -194,13 +254,14 @@ class AlumniProfile(models.Model):
     
     @api.constrains('graduation_year')
     def _check_graduation_year(self):
-        """Validate graduation year"""
+        """Validate graduation year - must be exactly 4 digits"""
         current_year = fields.Date.today().year
         for record in self:
             if record.graduation_year:
-                if record.graduation_year.year < 1900 or record.graduation_year.year > current_year + 5:
-                    raise ValidationError(_("Graduation year must be between 1900 and %s.") % (current_year + 5))
-    
+                year_str = str(record.graduation_year)
+                if len(year_str) != 4 or not year_str.isdigit():
+                    raise ValidationError(_("Graduation year must be exactly 4 digits (e.g., 2026)."))
+               
     def get_base_url(self):
         """Get base URL for email templates"""
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url', '')

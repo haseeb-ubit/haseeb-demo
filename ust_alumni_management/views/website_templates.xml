@@ -27,7 +27,7 @@
                 /* SVG geometric rings */
                 .dir-hero-rings {
                     position: absolute; top: -60px; right: -60px;
-                    width: 340px; height: 340px; opacity: .09;
+                    width: 340px; height: 340px; opacity: .18;
                     pointer-events: none;
                 }
                 .dir-hero-breadcrumb {
@@ -44,12 +44,12 @@
                 .dir-hero-sub { color: rgba(255,255,255,.65); font-size: .95rem; }
                 .dir-hero-stat {
                     display: inline-flex; align-items: center; gap: 6px;
-                    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
-                    border-radius: 30px; padding: 5px 14px;
-                    color: rgba(255,255,255,.8); font-size: .8rem; font-weight: 600;
-                    backdrop-filter: blur(4px); margin-top: 16px;
+                    background: #c8a85a; border: 1px solid rgba(200,168,90,.6);
+                    border-radius: 30px; padding: 5px 16px;
+                    color: #1a365d; font-size: .8rem; font-weight: 700;
+                    box-shadow: 0 2px 10px rgba(200,168,90,.35); margin-top: 16px;
                 }
-                .dir-hero-stat i { color: #c8a85a; }
+                .dir-hero-stat i { color: #1a365d; }
 
                 /* ── Filter Card ── */
                 .dir-filter-card {
@@ -73,8 +73,75 @@
                     background: #fff;
                 }
                 .dir-filter-card .form-control::placeholder { color: #a0aec0; }
-                .btn-dir-filter {
-                    background: #1a365d; color: #fff;
+                /* ── Custom Elite Dropdown ── */
+                .dir-dd {
+                    position: relative;
+                    display: inline-block;
+                    width: 100%;
+                }
+                .dir-dd-trigger {
+                    display: flex; align-items: center; justify-content: space-between;
+                    height: 42px; padding: 0 14px;
+                    border: 1.5px solid #dde3ef; border-radius: 10px;
+                    background: #f8fafd; color: #2d3748;
+                    font-size: .88rem; font-weight: 500;
+                    cursor: pointer; user-select: none;
+                    transition: border-color .18s, box-shadow .18s, background .18s;
+                    white-space: nowrap; overflow: hidden;
+                }
+                .dir-dd-trigger:hover {
+                    border-color: #b0bccc;
+                    background: #f0f4fa;
+                }
+                .dir-dd.open .dir-dd-trigger,
+                .dir-dd-trigger:focus {
+                    border-color: #c8a85a;
+                    box-shadow: 0 0 0 3px rgba(200,168,90,.18);
+                    background: #fff;
+                    outline: none;
+                }
+                .dir-dd-chevron {
+                    flex-shrink: 0; margin-left: 8px;
+                    transition: transform .2s;
+                }
+                .dir-dd.open .dir-dd-chevron { transform: rotate(180deg); }
+                .dir-dd-panel {
+                    display: none;
+                    position: absolute; top: calc(100% + 6px); left: 0;
+                    min-width: 100%; max-height: 240px;
+                    overflow-y: auto; z-index: 9999;
+                    background: #fff;
+                    border: 1.5px solid #dde3ef;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 32px rgba(26,54,93,.16), 0 2px 8px rgba(26,54,93,.08);
+                    padding: 6px;
+                    animation: ddFadeIn .15s ease;
+                }
+                @keyframes ddFadeIn {
+                    from { opacity: 0; transform: translateY(-6px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+                .dir-dd.open .dir-dd-panel { display: block; }
+                .dir-dd-option {
+                    padding: 9px 12px; border-radius: 7px;
+                    font-size: .87rem; color: #2d3748; font-weight: 500;
+                    cursor: pointer;
+                    transition: background .13s, color .13s;
+                    white-space: nowrap;
+                }
+                .dir-dd-option:hover {
+                    background: #EEF2F8; color: #1a365d;
+                }
+                .dir-dd-option.selected {
+                    background: #1a365d; color: #fff; font-weight: 700;
+                }
+                .dir-dd-option.selected:hover { background: #122d50; color: #fff; }
+                /* scrollbar in panel */
+                .dir-dd-panel::-webkit-scrollbar { width: 5px; }
+                .dir-dd-panel::-webkit-scrollbar-track { background: transparent; }
+                .dir-dd-panel::-webkit-scrollbar-thumb { background: #c8a85a; border-radius: 4px; }
+
+                .btn-dir-filter { background: #1a365d; color: #fff;
                     border: none; border-radius: 10px;
                     height: 42px; font-weight: 700; font-size: .88rem;
                     padding: 0 20px; white-space: nowrap; cursor: pointer;
@@ -134,16 +201,17 @@
                     transition: border-color .25s, box-shadow .25s;
                 }
 
-                /* Social icons row */
-                .alumni-dir-social { margin-bottom: 6px; }
+                /* Social icons — pinned row below name, tighter gap */
+                .alumni-dir-social { margin: 2px 0 4px; display: flex; justify-content: center; gap: 6px; }
                 .alumni-dir-social a {
                     display: inline-flex; align-items: center; justify-content: center;
-                    width: 28px; height: 28px; border-radius: 50%;
+                    width: 30px; height: 30px; border-radius: 50%;
                     background: #edf2f7; color: #4a5568;
-                    font-size: .78rem; margin: 0 2px;
-                    text-decoration: none; transition: background .18s, color .18s;
+                    font-size: .8rem;
+                    text-decoration: none; transition: background .18s, color .18s, transform .18s;
+                    border: 1.5px solid #dde3ef;
                 }
-                .alumni-dir-social a:hover { background: #1a365d; color: #fff; }
+                .alumni-dir-social a:hover { background: #1a365d; color: #fff; border-color: #1a365d; transform: translateY(-2px); }
 
                 .alumni-dir-name {
                     font-size: 1.1rem; font-weight: 800;
@@ -169,19 +237,24 @@
                     font-weight: 700; padding: 3px 10px; margin: 2px;
                 }
 
-                /* Employment badge — bottom of body, above button */
+                /* Employment badge — permanent card footer strip */
                 .alumni-dir-current {
-                    background: #F8F9FC;
+                    background: #f8f9fb;
                     border-top: 1px solid #e8edf5;
-                    padding: 10px 18px;
+                    padding: 11px 18px;
+                    min-height: 44px;
                     font-size: .8rem; color: #1a365d; font-weight: 600;
                     display: flex; align-items: center; gap: 8px;
-                    text-align: left;
+                    text-align: left; border-radius: 0 0 16px 16px;
                 }
                 .alumni-dir-current i { color: #c8a85a; flex-shrink: 0; }
+                .alumni-dir-current.alumni-dir-current-empty {
+                    color: #64748b; font-weight: 500; font-style: italic;
+                }
+                .alumni-dir-current.alumni-dir-current-empty i { color: #94a3b8; }
 
                 .alumni-dir-body {
-                    padding: 56px 20px 14px;
+                    padding: 50px 20px 10px;
                     flex: 1;
                     display: flex; flex-direction: column; align-items: center; text-align: center;
                 }
@@ -238,44 +311,86 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-auto" style="min-width:170px;">
-                                    <select name="department_id" class="form-select" style="height:42px;">
-                                        <option value="">All Departments</option>
+                                    <!-- Hidden native select (form submit) -->
+                                    <select name="department_id" id="dd-native-dept" class="d-none">
+                                        <option value=""></option>
                                         <t t-foreach="departments" t-as="dept">
-                                            <option t-att-value="dept.id" t-att-selected="department_id == dept.id">
-                                                <t t-esc="dept.name"/>
-                                            </option>
+                                            <option t-att-value="dept.id" t-att-selected="department_id == dept.id"><t t-esc="dept.name"/></option>
                                         </t>
                                     </select>
+                                    <!-- Custom dropdown -->
+                                    <div class="dir-dd" data-target="dd-native-dept">
+                                        <div class="dir-dd-trigger" tabindex="0">
+                                            <span class="dir-dd-label">All Departments</span>
+                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="dir-dd-panel">
+                                            <div class="dir-dd-option selected" data-value="">All Departments</div>
+                                            <t t-foreach="departments" t-as="dept">
+                                                <div t-att-class="'dir-dd-option' + (' selected' if department_id == dept.id else '')" t-att-data-value="dept.id"><t t-esc="dept.name"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-6 col-md-auto" style="min-width:125px;">
-                                    <select name="graduation_year" class="form-select" style="height:42px;">
-                                        <option value="">All Years</option>
+                                    <select name="graduation_year" id="dd-native-year" class="d-none">
+                                        <option value=""></option>
                                         <t t-foreach="years" t-as="year">
-                                            <option t-att-value="year" t-att-selected="graduation_year == year">
-                                                <t t-esc="year"/>
-                                            </option>
+                                            <option t-att-value="year" t-att-selected="graduation_year == year"><t t-esc="year"/></option>
                                         </t>
                                     </select>
+                                    <div class="dir-dd" data-target="dd-native-year">
+                                        <div class="dir-dd-trigger" tabindex="0">
+                                            <span class="dir-dd-label">All Years</span>
+                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="dir-dd-panel">
+                                            <div class="dir-dd-option selected" data-value="">All Years</div>
+                                            <t t-foreach="years" t-as="year">
+                                                <div t-att-class="'dir-dd-option' + (' selected' if graduation_year == year else '')" t-att-data-value="year"><t t-esc="year"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-6 col-md-auto" style="min-width:125px;">
-                                    <select name="degree" class="form-select" style="height:42px;">
-                                        <option value="">All Degrees</option>
+                                    <select name="degree" id="dd-native-degree" class="d-none">
+                                        <option value=""></option>
                                         <t t-foreach="degrees" t-as="deg">
-                                            <option t-att-value="deg" t-att-selected="degree == deg">
-                                                <t t-esc="deg"/>
-                                            </option>
+                                            <option t-att-value="deg" t-att-selected="degree == deg"><t t-esc="deg"/></option>
                                         </t>
                                     </select>
+                                    <div class="dir-dd" data-target="dd-native-degree">
+                                        <div class="dir-dd-trigger" tabindex="0">
+                                            <span class="dir-dd-label">All Degrees</span>
+                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="dir-dd-panel">
+                                            <div class="dir-dd-option selected" data-value="">All Degrees</div>
+                                            <t t-foreach="degrees" t-as="deg">
+                                                <div t-att-class="'dir-dd-option' + (' selected' if degree == deg else '')" t-att-data-value="deg"><t t-esc="deg"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-6 col-md-auto" style="min-width:140px;">
-                                    <select name="country_id" class="form-select" style="height:42px;">
-                                        <option value="">All Countries</option>
+                                    <select name="country_id" id="dd-native-country" class="d-none">
+                                        <option value=""></option>
                                         <t t-foreach="countries" t-as="country">
-                                            <option t-att-value="country.id" t-att-selected="country_id == country.id">
-                                                <t t-esc="country.name"/>
-                                            </option>
+                                            <option t-att-value="country.id" t-att-selected="country_id == country.id"><t t-esc="country.name"/></option>
                                         </t>
                                     </select>
+                                    <div class="dir-dd" data-target="dd-native-country">
+                                        <div class="dir-dd-trigger" tabindex="0">
+                                            <span class="dir-dd-label">All Countries</span>
+                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="dir-dd-panel">
+                                            <div class="dir-dd-option selected" data-value="">All Countries</div>
+                                            <t t-foreach="countries" t-as="country">
+                                                <div t-att-class="'dir-dd-option' + (' selected' if country_id == country.id else '')" t-att-data-value="country.id"><t t-esc="country.name"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-auto">
                                     <button type="submit" class="btn-dir-filter w-100"><i class="fa fa-search me-1"/> Search</button>
@@ -283,6 +398,65 @@
                             </div>
                         </form>
                     </div>
+
+                    <!-- Elite Dropdown JS -->
+                    <script>
+                    (function(){
+                        function initDropdowns(){
+                            var dds = document.querySelectorAll('.dir-dd');
+                            dds.forEach(function(dd){
+                                var trigger = dd.querySelector('.dir-dd-trigger');
+                                var panel   = dd.querySelector('.dir-dd-panel');
+                                var label   = dd.querySelector('.dir-dd-label');
+                                var native  = document.getElementById(dd.dataset.target);
+                                // Init label from native selected value
+                                if(native){
+                                    var sel = native.options[native.selectedIndex];
+                                    if(sel &amp;&amp; sel.value) label.textContent = sel.text;
+                                }
+                                // Toggle open
+                                trigger.addEventListener('click', function(e){
+                                    e.stopPropagation();
+                                    var isOpen = dd.classList.contains('open');
+                                    document.querySelectorAll('.dir-dd.open').forEach(function(x){ x.classList.remove('open'); });
+                                    if(!isOpen) dd.classList.add('open');
+                                });
+                                trigger.addEventListener('keydown', function(e){
+                                    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); trigger.click(); }
+                                    if(e.key==='Escape') dd.classList.remove('open');
+                                });
+                                // Option click
+                                panel.addEventListener('click', function(e){
+                                    var opt = e.target.closest('.dir-dd-option');
+                                    if(!opt) return;
+                                    // Update selected class
+                                    panel.querySelectorAll('.dir-dd-option').forEach(function(o){ o.classList.remove('selected'); });
+                                    opt.classList.add('selected');
+                                    // Update label
+                                    label.textContent = opt.textContent.trim();
+                                    // Sync native select
+                                    if(native){
+                                        for(var i=0;i&lt;native.options.length;i++){
+                                            if(String(native.options[i].value)===String(opt.dataset.value)){
+                                                native.selectedIndex=i; break;
+                                            }
+                                        }
+                                    }
+                                    dd.classList.remove('open');
+                                });
+                            });
+                            // Close on outside click
+                            document.addEventListener('click', function(){
+                                document.querySelectorAll('.dir-dd.open').forEach(function(x){ x.classList.remove('open'); });
+                            });
+                        }
+                        if(document.readyState==='loading'){
+                            document.addEventListener('DOMContentLoaded', initDropdowns);
+                        } else {
+                            initDropdowns();
+                        }
+                    })();
+                    </script>
 
                     <!-- Alumni Cards -->
                     <div class="row g-4 mb-5">
@@ -296,14 +470,26 @@
                                                  class="alumni-dir-avatar" alt="Alumni Photo"/>
                                         </t>
                                         <t t-else="">
+                                            <!-- Branded Navy placeholder with gold ring -->
                                             <div class="alumni-dir-avatar-placeholder">
-                                                <i class="fa fa-user fa-2x" style="color:#1a365d;"/>
+                                                <svg width="48" height="54" viewBox="0 0 48 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="24" cy="16" r="12" fill="#1a365d" opacity=".18"/>
+                                                    <circle cx="24" cy="16" r="8" fill="#1a365d" opacity=".35"/>
+                                                    <circle cx="24" cy="16" r="4.5" fill="#1a365d"/>
+                                                    <path d="M4 46c0-11.046 8.954-20 20-20s20 8.954 20 20" fill="#1a365d" opacity=".22"/>
+                                                    <path d="M9 46c0-8.284 6.716-15 15-15s15 6.716 15 15" fill="#1a365d" opacity=".45"/>
+                                                </svg>
                                             </div>
                                         </t>
                                     </div>
 
                                     <div class="alumni-dir-body">
-                                        <!-- Social icons (LinkedIn + website) -->
+                                        <!-- Name -->
+                                        <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="alumni-dir-name">
+                                            <t t-esc="alum.name"/>
+                                        </a>
+
+                                        <!-- Social icons directly under name -->
                                         <div class="alumni-dir-social">
                                             <t t-if="alum.linkedin">
                                                 <a t-att-href="alum.linkedin" target="_blank" title="LinkedIn">
@@ -317,23 +503,18 @@
                                             </t>
                                         </div>
 
-                                        <!-- Name -->
-                                        <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" class="alumni-dir-name">
-                                            <t t-esc="alum.name"/>
-                                        </a>
-
                                         <!-- Department -->
                                         <t t-if="alum.department_id">
                                             <div class="alumni-dir-dept"><t t-esc="alum.department_id.name"/></div>
                                         </t>
 
-                                        <!-- Degree + Year pills -->
+                                        <!-- Degree + Year pills (year trimmed to 4 digits) -->
                                         <div class="alumni-dir-tags">
                                             <t t-if="alum.degree">
                                                 <span class="alumni-dir-tag"><t t-esc="alum.degree"/></span>
                                             </t>
                                             <t t-if="alum.graduation_year">
-                                                <span class="alumni-dir-tag-gold">Class of <t t-esc="alum.graduation_year"/></span>
+                                                <span class="alumni-dir-tag-gold">Class of <t t-esc="str(alum.graduation_year)[:4]"/></span>
                                             </t>
                                         </div>
 
@@ -343,11 +524,17 @@
                                         </a>
                                     </div>
 
-                                    <!-- Works At employment badge — above the pill, inside card bottom -->
+                                    <!-- Employment footer — permanent, always shown -->
                                     <t t-if="alum.current_employment_id">
                                         <div class="alumni-dir-current">
                                             <i class="fa fa-briefcase"/>
                                             <span>Works at: <strong><t t-esc="alum.current_employment_id.company_name"/></strong></span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="alumni-dir-current alumni-dir-current-empty">
+                                            <i class="fa fa-graduation-cap"/>
+                                            <span>Open to opportunities</span>
                                         </div>
                                     </t>
                                 </div>
@@ -380,263 +567,435 @@
     <template id="website_alumni_profile" name="Alumni Profile">
         <t t-call="website.layout">
             <style>
-                .profile-wrap {
-                    font-family: 'Inter', sans-serif;
+                /* ─── Elite Profile Page ─── */
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap');
+                .oe_website_page { background: #f4f7f9 !important; }
+                #wrap { background: #f4f7f9; font-family: 'Inter', sans-serif; }
+
+                /* ── Profile Hero ── */
+                .prof-hero {
+                    background: linear-gradient(135deg, #0c1d38 0%, #0f2240 30%, #1a365d 65%, #2a4a7f 100%);
+                    padding: 44px 0 80px;
+                    position: relative; overflow: hidden;
+                    border-bottom: 2px solid #c8a85a;
                 }
-                .profile-sidebar-card {
-                    border: none;
-                    border-radius: 20px !important;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
-                }
-                .profile-sidebar-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
-                }
-                .profile-avatar-wrapper img, .profile-avatar-wrapper .rounded-circle {
-                    transition: transform 0.5s ease;
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
-                }
-                .profile-avatar-wrapper:hover img, .profile-avatar-wrapper:hover .rounded-circle {
-                    transform: scale(1.05);
-                }
-                .profile-section-card {
-                    border: none;
-                    border-radius: 20px !important;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
-                }
-                .profile-section-card:hover {
-                    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
-                }
-                .employment-item {
-                    border-radius: 12px;
-                    transition: background-color 0.3s ease, transform 0.3s ease;
-                    border: 1px solid transparent;
-                    padding: 15px;
-                    margin-left: -15px;
-                    margin-right: -15px;
-                }
-                .employment-item:hover {
-                    background-color: #ffffff;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-                    border-color: #e6f0ff;
-                    transform: translateX(5px);
-                }
-                .achievement-card {
-                    border-radius: 15px !important;
-                    border-left: 5px solid #0F52BA !important;
-                    box-shadow: 0 5px 15px rgba(0,0,0,0.03) !important;
-                    transition: all 0.3s ease;
-                    background: linear-gradient(to right, #ffffff, #fafcfc);
-                }
-                .achievement-card:hover {
-                    transform: translateY(-5px) scale(1.02);
-                    box-shadow: 0 12px 25px rgba(0, 50, 150, 0.1) !important;
-                    border-left-width: 8px !important;
-                }
-                .contact-item {
-                    transition: background-color 0.3s ease;
-                    border-radius: 10px;
-                    padding: 8px;
-                    margin-left: -8px;
-                    margin-right: -8px;
-                }
-                .contact-item:hover {
-                    background-color: #ffffff;
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-                }
-                .contact-icon {
-                    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-                }
-                .contact-item:hover .contact-icon {
-                    transform: scale(1.15) rotate(5deg);
-                    background-color: #0F52BA !important;
-                    color: white !important;
-                }
-                .section-title {
-                    color: #0F52BA !important;
-                    font-weight: 700;
-                    position: relative;
-                    padding-bottom: 12px;
-                    margin-bottom: 25px;
-                    border-bottom: 2px solid #ebedf0;
-                }
-                .section-title::after {
+                .prof-hero::before {
                     content: '';
-                    position: absolute;
-                    bottom: -2px;
-                    left: 0;
-                    width: 50px;
-                    height: 3px;
-                    background-color: #0F52BA;
-                    transition: width 0.3s ease;
-                    border-radius: 3px;
+                    position: absolute; inset: 0;
+                    background-image:
+                        radial-gradient(circle at 15% 60%, rgba(200,168,90,.16) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 10%, rgba(255,255,255,.06) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 100%, rgba(26,54,93,.4) 0%, transparent 60%);
+                    pointer-events: none;
                 }
-                .profile-section-card:hover .section-title::after {
-                    width: 100px;
+                .prof-hero-rings {
+                    position: absolute; top: -50px; right: -50px;
+                    width: 280px; height: 280px; opacity: .14;
+                    pointer-events: none;
                 }
-                .social-btn {
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 10px rgba(0, 119, 181, 0.3);
+                .prof-hero-back {
+                    display: inline-flex; align-items: center; gap: 8px;
+                    color: rgba(255,255,255,.75); font-size: .82rem; font-weight: 600;
+                    text-decoration: none; margin-bottom: 14px;
+                    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+                    border-radius: 30px; padding: 6px 15px 6px 12px;
+                    transition: background .18s, border-color .18s, color .18s;
+                    backdrop-filter: blur(4px);
                 }
-                .social-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 6px 15px rgba(0, 119, 181, 0.4);
+                .prof-hero-back:hover { background: rgba(255,255,255,.18); border-color: #c8a85a; color: #c8a85a; text-decoration: none; }
+                .prof-hero-breadcrumb {
+                    font-size: .78rem; color: rgba(255,255,255,.45); margin-bottom: 12px;
                 }
-                .employment-icon {
-                    transition: all 0.3s ease;
+                .prof-hero-breadcrumb a { color: rgba(255,255,255,.45); text-decoration: none; }
+                .prof-hero-breadcrumb a:hover { color: #c8a85a; }
+                .prof-hero-breadcrumb span { color: #c8a85a; text-transform: capitalize; }
+                .prof-hero h1 {
+                    color: #fff; font-size: 1.9rem; font-weight: 800;
+                    letter-spacing: -.02em; text-transform: capitalize; margin-bottom: 5px;
                 }
-                .employment-item:hover .employment-icon {
-                    background-color: #0F52BA !important;
-                    color: white !important;
-                    transform: scale(1.1);
+                .prof-hero-dept { color: rgba(255,255,255,.6); font-size: .9rem; }
+                /* Hero action buttons (right side) */
+                .prof-hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+                .btn-hero-linkedin {
+                    display: inline-flex; align-items: center; gap: 7px;
+                    background: #0077b5; color: #fff;
+                    border-radius: 30px; padding: 9px 20px;
+                    font-size: .85rem; font-weight: 700; text-decoration: none;
+                    transition: background .18s, box-shadow .18s;
+                    box-shadow: 0 4px 12px rgba(0,119,181,.35);
                 }
+                .btn-hero-linkedin:hover { background: #005f94; color: #fff; text-decoration: none; box-shadow: 0 6px 18px rgba(0,119,181,.45); }
+                .btn-hero-contact {
+                    display: inline-flex; align-items: center; gap: 7px;
+                    background: rgba(255,255,255,.12); color: #fff;
+                    border: 1.5px solid rgba(255,255,255,.3);
+                    border-radius: 30px; padding: 9px 20px;
+                    font-size: .85rem; font-weight: 600; text-decoration: none;
+                    transition: background .18s, border-color .18s;
+                    backdrop-filter: blur(4px);
+                }
+                .btn-hero-contact:hover { background: rgba(255,255,255,.22); border-color: #c8a85a; color: #fff; text-decoration: none; }
+
+                /* ── Layout overlap ── */
+                .prof-layout { margin-top: -50px; position: relative; z-index: 10; }
+
+                /* ── Sidebar ── */
+                .prof-sidebar {
+                    background: #fff; border-radius: 20px;
+                    box-shadow: 0 2px 8px rgba(26,54,93,.06), 0 12px 36px rgba(26,54,93,.09);
+                    padding: 28px 24px 24px; text-align: center;
+                }
+                .prof-avatar {
+                    width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+                    border: 4px solid #1a365d;
+                    box-shadow: 0 2px 6px rgba(26,54,93,.12), 0 8px 22px rgba(26,54,93,.2);
+                    transition: transform .3s, box-shadow .3s;
+                }
+                .prof-avatar:hover { transform: scale(1.04); box-shadow: 0 4px 10px rgba(26,54,93,.14), 0 12px 30px rgba(26,54,93,.28); }
+                .prof-avatar-placeholder {
+                    width: 110px; height: 110px; border-radius: 50%;
+                    border: 4px solid #1a365d; background: #edf2f7;
+                    display: inline-flex; align-items: center; justify-content: center;
+                    box-shadow: 0 2px 6px rgba(26,54,93,.1), 0 8px 22px rgba(26,54,93,.15);
+                }
+                /* Sidebar label under avatar — small grey 'Class of YYYY' */
+                .prof-sidebar-class {
+                    font-size: .75rem; font-weight: 600; color: #a0aec0;
+                    margin: 10px 0 14px; letter-spacing: .02em;
+                }
+                .prof-stat-row {
+                    display: flex; justify-content: space-between; align-items: center;
+                    padding: 9px 0; border-bottom: 1px solid #f0f4f8; font-size: .85rem;
+                }
+                .prof-stat-row:last-of-type { border-bottom: none; }
+                .prof-stat-label { color: #718096; font-weight: 600; }
+                .prof-stat-val { color: #1a365d; font-weight: 700; }
+                .btn-prof-linkedin {
+                    display: inline-flex; align-items: center; gap: 7px;
+                    background: #0077b5; color: #fff;
+                    border-radius: 30px; padding: 9px 22px;
+                    font-size: .85rem; font-weight: 700; text-decoration: none; margin-top: 16px;
+                    transition: background .18s, box-shadow .18s;
+                    box-shadow: 0 4px 12px rgba(0,119,181,.3);
+                }
+                .btn-prof-linkedin:hover { background: #005f94; color: #fff; text-decoration: none; }
+                .prof-contact-title {
+                    font-size: .7rem; font-weight: 800; color: #a0aec0;
+                    letter-spacing: .1em; text-transform: uppercase;
+                    margin: 20px 0 10px; text-align: left;
+                }
+                .prof-contact-item {
+                    display: flex; align-items: center; gap: 12px;
+                    padding: 7px 6px; border-radius: 8px;
+                    transition: background .15s; text-align: left; cursor: default;
+                }
+                .prof-contact-item:hover { background: #f8fafd; }
+                .prof-contact-icon {
+                    width: 34px; height: 34px; border-radius: 50%;
+                    background: #EEF2F8; color: #1a365d;
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: .82rem; flex-shrink: 0;
+                    transition: background .18s, color .18s;
+                }
+                .prof-contact-item:hover .prof-contact-icon { background: #1a365d; color: #fff; }
+                .prof-contact-label { font-size: .68rem; color: #a0aec0; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; display: block; }
+                .prof-contact-val { font-size: .85rem; color: #2d3748; font-weight: 500; word-break: break-all; }
+                .prof-contact-val a { color: #1a365d; text-decoration: none; }
+                .prof-contact-val a:hover { color: #c8a85a; }
+
+                /* ── Section Cards — Apple stacked shadow ── */
+                .prof-card {
+                    background: #fff; border-radius: 20px;
+                    box-shadow: 0 2px 8px rgba(26,54,93,.05), 0 12px 36px rgba(26,54,93,.08);
+                    padding: 26px 26px 18px; margin-bottom: 22px;
+                    transition: box-shadow .25s;
+                }
+                .prof-card:hover {
+                    box-shadow: 0 4px 12px rgba(26,54,93,.07), 0 20px 48px rgba(26,54,93,.12);
+                }
+                .prof-section-title {
+                    font-size: 1rem; font-weight: 800; color: #1a365d;
+                    margin-bottom: 18px; padding-bottom: 12px;
+                    border-bottom: 2px solid #f0f4f8;
+                    display: flex; align-items: center; gap: 8px;
+                    position: relative;
+                }
+                .prof-section-title::after {
+                    content: '';
+                    position: absolute; bottom: -2px; left: 0;
+                    width: 42px; height: 2px; background: #c8a85a;
+                    border-radius: 2px; transition: width .3s;
+                }
+                .prof-card:hover .prof-section-title::after { width: 84px; }
+                .prof-section-title i { color: #c8a85a; }
+
+                /* ── Employment Timeline ── */
+                .emp-timeline { position: relative; padding-left: 0; }
+                /* Timeline: dashed connecting line */
+                .emp-timeline::before {
+                    content: '';
+                    position: absolute; top: 36px; bottom: 36px; left: 22px;
+                    width: 0; border-left: 2px dashed #d1dae6;
+                }
+                .emp-item {
+                    display: flex; align-items: flex-start; gap: 16px;
+                    padding: 14px 12px 14px 0; border-radius: 12px;
+                    transition: background .18s, transform .18s;
+                    border: 1px solid transparent;
+                    position: relative;
+                }
+                .emp-item:hover { background: #f8fafd; border-color: #e8edf5; transform: translateX(4px); }
+                .emp-item + .emp-item { margin-top: 2px; }
+                /* Company initial badge — pale navy tint */
+                .emp-initial {
+                    width: 44px; height: 44px; border-radius: 12px;
+                    background: #f0f4f8; color: #1a365d;
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+                    border: 1.5px solid #d4dce8;
+                    box-shadow: 0 2px 8px rgba(26,54,93,.1);
+                    transition: background .18s, color .18s, border-color .18s;
+                    position: relative; z-index: 1;
+                    text-transform: uppercase; letter-spacing: 0;
+                }
+                .emp-item:hover .emp-initial { background: #1a365d; color: #fff; border-color: #1a365d; }
+                /* Company name is NOW the primary bold element */
+                .emp-company { font-size: 1rem; font-weight: 800; color: #1a365d; margin-bottom: 2px; }
+                .emp-title { font-size: .85rem; font-weight: 500; color: #4a5568; margin-bottom: 5px; }
+                .emp-dates { font-size: .78rem; color: #718096; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+                .badge-current-role {
+                    background: #FFF9E6; color: #92640a;
+                    border: 1px solid rgba(200,168,90,.4);
+                    border-radius: 30px; font-size: .68rem; font-weight: 700; padding: 2px 8px;
+                }
+
+                /* ── Achievements — single-column horizontal card ── */
+                .ach-card {
+                    border-radius: 14px;
+                    /* Thin grey border all round + 4px left gold accent */
+                    border: 1px solid #e8edf5;
+                    border-left: 4px solid #c8a85a;
+                    background: #fff;
+                    box-shadow: 0 2px 8px rgba(26,54,93,.04), 0 6px 16px rgba(26,54,93,.05);
+                    padding: 18px 20px;
+                    display: flex; align-items: flex-start; gap: 16px;
+                    transition: transform .22s, box-shadow .22s, border-left-color .22s;
+                }
+                .ach-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 4px 12px rgba(26,54,93,.07), 0 14px 32px rgba(26,54,93,.1);
+                    border-left-color: #1a365d;
+                    border-color: #d4dce8;
+                }
+                /* Left trophy badge */
+                .ach-badge {
+                    width: 46px; height: 46px; border-radius: 12px;
+                    background: #FFF9E6; border: 1.5px solid rgba(200,168,90,.35);
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: 1.15rem; flex-shrink: 0;
+                    transition: background .18s;
+                }
+                .ach-card:hover .ach-badge { background: #c8a85a; }
+                .ach-card:hover .ach-badge span { filter: brightness(10); }
+                .ach-body { flex: 1; min-width: 0; }
+                .ach-title { font-size: .95rem; font-weight: 800; color: #1a365d; margin-bottom: 7px; }
+                .ach-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 7px; }
+                .ach-pill {
+                    display: inline-flex; align-items: center; gap: 4px;
+                    background: #FFF9E6; color: #92640a;
+                    border: 1px solid rgba(200,168,90,.4);
+                    border-radius: 30px; font-size: .7rem; font-weight: 700; padding: 2px 9px;
+                }
+                .ach-pill-navy {
+                    display: inline-flex; align-items: center; gap: 4px;
+                    background: #EEF2F8; color: #1a365d;
+                    border-radius: 30px; font-size: .7rem; font-weight: 600; padding: 2px 9px;
+                }
+                .ach-issuer { font-size: .78rem; color: #c8a85a; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+                .ach-desc { font-size: .82rem; color: #4a5568; line-height: 1.75; margin: 0; }
             </style>
-            <div id="wrap" class="oe_structure profile-wrap">
-                <div class="container mt-5">
-                    <div class="row">
-                        <!-- Sidebar: Profile Overview -->
-                        <div class="col-lg-4 col-md-5 mb-4">
-                            <div class="profile-sidebar-card shadow-sm bg-white rounded p-4 text-center h-100">
-                                <div class="profile-avatar-wrapper mb-3">
+
+            <div id="wrap" class="oe_structure">
+                <!-- ── Hero Banner ── -->
+                <div class="prof-hero">
+                    <svg class="prof-hero-rings" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="140" cy="140" r="130" stroke="white" stroke-width="1.2"/>
+                        <circle cx="140" cy="140" r="95" stroke="white" stroke-width=".9"/>
+                        <circle cx="140" cy="140" r="60" stroke="white" stroke-width=".6"/>
+                        <circle cx="140" cy="140" r="28" stroke="white" stroke-width=".5"/>
+                    </svg>
+                    <div class="container" style="position:relative; z-index:2;">
+                        <a href="/alumni-profiles" class="prof-hero-back">
+                            <i class="fa fa-arrow-left"/> Back to Directory
+                        </a>
+                        <div class="prof-hero-breadcrumb">
+                            <a href="/">Home</a> <i class="fa fa-angle-right mx-1"/> <a href="/alumni-profiles">Alumni</a> <i class="fa fa-angle-right mx-1"/> <span><t t-esc="alumni.name"/></span>
+                        </div>
+                        <!-- Hero: identity + action buttons row -->
+                        <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+                            <div>
+                                <h1><t t-esc="alumni.name"/></h1>
+                                <p class="prof-hero-dept mb-0"><t t-if="alumni.department_id"><t t-esc="alumni.department_id.name"/></t></p>
+                            </div>
+                            <div class="prof-hero-actions">
+                                <t t-if="alumni.linkedin">
+                                    <a t-att-href="alumni.linkedin" target="_blank" class="btn-hero-linkedin">
+                                        <i class="fa fa-linkedin"/> LinkedIn
+                                    </a>
+                                </t>
+                                <t t-if="alumni.email">
+                                    <a t-att-href="'mailto:' + alumni.email + '?subject=Contact from University Alumni Portal'" class="btn-hero-contact">
+                                        <i class="fa fa-envelope"/> Contact
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Main layout overlaps hero ── -->
+                <div class="container prof-layout pb-5">
+                    <div class="row g-4">
+
+                        <!-- Sidebar -->
+                        <div class="col-lg-4 col-md-5">
+                            <div class="prof-sidebar">
+                                <div class="mb-1">
                                     <t t-if="alumni.photo">
-                                        <img t-att-src="'/web/image/alumni.profile/%s/photo' % alumni.id" 
-                                             class="img-fluid rounded-circle shadow-sm profile-avatar"/>
+                                        <img t-att-src="'/web/image/alumni.profile/%s/photo' % alumni.id" class="prof-avatar" alt="Photo"/>
                                     </t>
                                     <t t-else="">
-                                        <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center shadow-sm profile-avatar">
-                                            <i class="fa fa-user fa-5x text-secondary"/>
+                                        <div class="prof-avatar-placeholder">
+                                            <svg width="50" height="56" viewBox="0 0 48 54" fill="none">
+                                                <circle cx="24" cy="16" r="12" fill="#1a365d" opacity=".15"/>
+                                                <circle cx="24" cy="16" r="8" fill="#1a365d" opacity=".3"/>
+                                                <circle cx="24" cy="16" r="4.5" fill="#1a365d"/>
+                                                <path d="M4 46c0-11 8.954-20 20-20s20 9 20 20" fill="#1a365d" opacity=".2"/>
+                                                <path d="M9 46c0-8.284 6.716-15 15-15s15 6.716 15 15" fill="#1a365d" opacity=".42"/>
+                                            </svg>
                                         </div>
                                     </t>
                                 </div>
-                                <h3 class="font-weight-bold text-dark mb-1"><t t-esc="alumni.name"/></h3>
-                                <t t-if="alumni.department_id">
-                                    <p class="text-secondary mb-3"><t t-esc="alumni.department_id.name"/></p>
+                                <!-- Sidebar: avatar + 'Class of YYYY' sub-label -->
+                                <t t-if="alumni.graduation_year">
+                                    <div class="prof-sidebar-class">Class of <t t-esc="str(alumni.graduation_year)[:4]"/></div>
                                 </t>
-                                <div class="profile-stats mt-4 px-3 text-left">
+                                <div class="mt-1 mb-2 text-left">
                                     <t t-if="alumni.graduation_year">
-                                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                            <strong>Graduated:</strong> <span class="text-muted"><t t-esc="alumni.graduation_year"/></span>
+                                        <div class="prof-stat-row">
+                                            <span class="prof-stat-label">Graduated</span>
+                                            <span class="prof-stat-val"><t t-esc="str(alumni.graduation_year)[:4]"/></span>
                                         </div>
                                     </t>
                                     <t t-if="alumni.degree">
-                                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                            <strong>Degree:</strong> <span class="text-muted"><t t-esc="alumni.degree"/></span>
-                                        </div>
-                                    </t>
-                                    <t t-if="alumni.linkedin">
-                                        <div class="mt-4 text-center">
-                                            <a t-att-href="alumni.linkedin" target="_blank" class="btn btn-primary social-btn rounded-pill px-4">
-                                                <i class="fa fa-linkedin me-1"/> LinkedIn
-                                            </a>
-                                        </div>
-                                    </t>
-                                    
-                                    <hr class="my-4"/>
-                                    
-                                    <!-- Contact Information (Merged) -->
-                                    <h6 class="font-weight-bold section-title mb-3"><i class="fa fa-address-card me-2"/> Contact Info</h6>
-                                    <t t-if="alumni.email">
-                                        <div class="mb-2 contact-item">
-                                            <div class="d-flex align-items-center">
-                                                <div class="contact-icon bg-light rounded-circle text-info d-flex align-items-center justify-content-center me-3">
-                                                    <i class="fa fa-envelope"/>
-                                                </div>
-                                                <div class="contact-text">
-                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Email</small>
-                                                    <a t-att-href="'mailto:' + alumni.email" class="text-dark font-weight-medium"><t t-esc="alumni.email"/></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </t>
-                                    <t t-if="alumni.phone">
-                                        <div class="mb-2 contact-item">
-                                            <div class="d-flex align-items-center">
-                                                <div class="contact-icon bg-light rounded-circle text-success d-flex align-items-center justify-content-center me-3">
-                                                    <i class="fa fa-phone"/>
-                                                </div>
-                                                <div class="contact-text">
-                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Phone</small>
-                                                    <span class="text-dark font-weight-medium"><t t-esc="alumni.phone"/></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </t>
-                                    <t t-if="alumni.city or alumni.country_id">
-                                        <div class="mb-2 contact-item">
-                                            <div class="d-flex align-items-center">
-                                                <div class="contact-icon bg-light rounded-circle text-danger d-flex align-items-center justify-content-center me-3">
-                                                    <i class="fa fa-map-marker"/>
-                                                </div>
-                                                <div class="contact-text">
-                                                    <small class="text-muted d-block text-uppercase font-weight-bold">Location</small>
-                                                    <span class="text-dark font-weight-medium">
-                                                        <t t-if="alumni.city"><t t-esc="alumni.city"/>, </t>
-                                                        <t t-if="alumni.country_id"><t t-esc="alumni.country_id.name"/></t>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                        <div class="prof-stat-row">
+                                            <span class="prof-stat-label">Degree</span>
+                                            <span class="prof-stat-val"><t t-esc="alumni.degree"/></span>
                                         </div>
                                     </t>
                                 </div>
+                                <!-- LinkedIn moved to hero; sidebar omits it -->
+                                <div class="prof-contact-title"><i class="fa fa-address-card me-1"/> Contact Info</div>
+                                <t t-if="alumni.email">
+                                    <div class="prof-contact-item">
+                                        <div class="prof-contact-icon"><i class="fa fa-envelope"/></div>
+                                        <div>
+                                            <span class="prof-contact-label">Email</span>
+                                            <span class="prof-contact-val"><a t-att-href="'mailto:' + alumni.email"><t t-esc="alumni.email"/></a></span>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="alumni.phone">
+                                    <div class="prof-contact-item">
+                                        <div class="prof-contact-icon"><i class="fa fa-phone"/></div>
+                                        <div>
+                                            <span class="prof-contact-label">Phone</span>
+                                            <span class="prof-contact-val"><t t-esc="alumni.phone"/></span>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="alumni.city or alumni.country_id">
+                                    <div class="prof-contact-item">
+                                        <div class="prof-contact-icon" style="color:#c8a85a;"><i class="fa fa-map-marker"/></div>
+                                        <div>
+                                            <span class="prof-contact-label">Location</span>
+                                            <span class="prof-contact-val">
+                                                <t t-if="alumni.city"><t t-esc="alumni.city"/>, </t>
+                                                <t t-if="alumni.country_id"><t t-esc="alumni.country_id.name"/></t>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </t>
+                                <!-- Portfolio / Website link -->
+                                <t t-if="alumni.website">
+                                    <div class="prof-contact-item">
+                                        <div class="prof-contact-icon" style="color:#1a365d;"><i class="fa fa-globe"/></div>
+                                        <div>
+                                            <span class="prof-contact-label">Portfolio</span>
+                                            <span class="prof-contact-val"><a t-att-href="alumni.website" target="_blank"><t t-esc="alumni.website"/></a></span>
+                                        </div>
+                                    </div>
+                                </t>
                             </div>
                         </div>
-                        
-                        <!-- Main Content -->
+
+                        <!-- Main content -->
                         <div class="col-lg-8 col-md-7">
-                            <!-- Employment History -->
+                            <!-- Employment History — Vertical Timeline -->
                             <t t-if="employments">
-                                <div class="profile-section-card shadow-sm bg-white rounded p-4 mb-4 transition-hover">
-                                    <h5 class="section-title mb-4"><i class="fa fa-briefcase me-2"/> Employment History</h5>
-                                    <div class="employment-list">
+                                <div class="prof-card">
+                                    <div class="prof-section-title"><i class="fa fa-briefcase"/> Employment History</div>
+                                    <div class="emp-timeline">
                                         <t t-foreach="employments" t-as="emp">
-                                            <div class="d-flex align-items-center mb-2 employment-item">
-                                                <div class="employment-icon bg-light rounded p-3 me-4 text-primary">
-                                                    <i class="fa fa-building fa-2x"/>
+                                            <div class="emp-item">
+                                                <!-- Company initial badge -->
+                                                <div class="emp-initial">
+                                                    <t t-esc="(emp.company_name or 'C')[:1]"/>
                                                 </div>
-                                                <div>
-                                                    <h5 class="font-weight-bold mb-1"><t t-esc="emp.job_title"/></h5>
-                                                    <p class="text-secondary mb-1 company-name"><t t-esc="emp.company_name"/></p>
-                                                    <small class="text-muted">
-                                                        <i class="fa fa-calendar-o me-1"/> <t t-esc="emp.start_date"/> - 
-                                                        <t t-if="emp.end_date">
-                                                            <t t-esc="emp.end_date"/>
-                                                        </t>
-                                                        <t t-else="">
-                                                            Present
-                                                        </t>
+                                                <div style="flex:1; min-width:0;">
+                                                    <!-- Company name = PRIMARY bold -->
+                                                    <div class="emp-company"><t t-esc="emp.company_name"/></div>
+                                                    <!-- Job title = secondary -->
+                                                    <div class="emp-title"><t t-esc="emp.job_title"/></div>
+                                                    <div class="emp-dates">
+                                                        <i class="fa fa-calendar-o"/>
+                                                        <t t-esc="emp.start_date"/> –
+                                                        <t t-if="emp.end_date"><t t-esc="emp.end_date"/></t>
+                                                        <t t-else="">Present</t>
                                                         <t t-if="emp.employment_type == 'current'">
-                                                            <span class="badge badge-success badge-custom ms-2">Current</span>
+                                                            <span class="badge-current-role">Current Role</span>
                                                         </t>
-                                                    </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </t>
                                     </div>
                                 </div>
                             </t>
-                            
-                            <!-- Achievements -->
+                            <!-- Achievements — single-column horizontal cards -->
                             <t t-if="achievements">
-                                <div class="profile-section-card shadow-sm bg-white rounded p-4 mb-4 transition-hover">
-                                    <h5 class="section-title mb-4"><i class="fa fa-trophy me-2"/> Achievements</h5>
-                                    <div class="row">
+                                <div class="prof-card">
+                                    <div class="prof-section-title"><i class="fa fa-trophy"/> Achievements</div>
+                                    <div style="display:flex; flex-direction:column; gap:12px;">
                                         <t t-foreach="achievements" t-as="achievement">
-                                            <div class="col-md-6 mb-3">
-                                                <div class="achievement-card rounded h-100 p-3">
-                                                    <h6 class="font-weight-bold text-dark mb-2"><t t-esc="achievement.title"/></h6>
-                                                    <p class="text-secondary small mb-2">
-                                                        <span class="badge badge-light border text-dark me-1"><t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
-                                                        <t t-if="achievement.date_achieved"> - <t t-esc="achievement.date_achieved"/></t>
-                                                    </p>
+                                            <div class="ach-card">
+                                                <!-- Left trophy badge -->
+                                                <div class="ach-badge"><span>&#127942;</span></div>
+                                                <div class="ach-body">
+                                                    <div class="ach-title"><t t-esc="achievement.title"/></div>
+                                                    <div class="ach-meta">
+                                                        <!-- Gold Award pill with trophy icon -->
+                                                        <span class="ach-pill">&#127942; <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
+                                                        <!-- Navy date pill -->
+                                                        <t t-if="achievement.date_achieved">
+                                                            <span class="ach-pill-navy"><i class="fa fa-calendar-o me-1"/><t t-esc="str(achievement.date_achieved)[:4]"/></span>
+                                                        </t>
+                                                    </div>
                                                     <t t-if="achievement.issuer_organization">
-                                                        <p class="text-muted small mb-2">
-                                                            <i class="fa fa-certificate text-warning me-1"/> Issued by: <t t-esc="achievement.issuer_organization"/>
-                                                        </p>
+                                                        <div class="ach-issuer"><i class="fa fa-certificate"/> <t t-esc="achievement.issuer_organization"/></div>
                                                     </t>
                                                     <t t-if="achievement.description">
-                                                        <p class="mb-0 text-dark small overflow-hidden"><t t-esc="achievement.description"/></p>
+                                                        <p class="ach-desc"><t t-esc="achievement.description"/></p>
                                                     </t>
                                                 </div>
                                             </div>

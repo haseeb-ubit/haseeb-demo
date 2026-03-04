@@ -444,6 +444,73 @@
                             reader.readAsDataURL(file);
                         });
                     }
+                    
+                    /* ── Tab activation based on URL query/hash ── */
+                    function activateTabFromLocation() {
+                        var params = new URLSearchParams(window.location.search);
+                        var tabFromQuery = params.get('tab');
+                        var hash = window.location.hash;
+                        var tabFromHash = hash ? hash.substring(1) : null;
+                        var tabFromServer = "<t t-esc='active_tab'/>";
+                        var tabId = tabFromQuery || tabFromHash || tabFromServer || 'general_info';
+
+                        var tabMapping = {
+                            'employment': '#employment',
+                            'achievements': '#achievements',
+                            'general_info': '#general_info',
+                            'general': '#general_info'
+                        };
+
+                        var targetTab = tabMapping[tabId] || '#general_info';
+                        var tabLink = document.querySelector('a[href="' + targetTab + '"]');
+                        if (tabLink) {
+                            if (window.bootstrap &amp;&amp; bootstrap.Tab) {
+                                var tab = new bootstrap.Tab(tabLink);
+                                tab.show();
+                            } else {
+                                // Fallback when bootstrap.Tab is unavailable
+                                document.querySelectorAll('.ap-seg-bar .nav-link').forEach(function(link) {
+                                    link.classList.remove('active');
+                                });
+                                document.querySelectorAll('.tab-content .tab-pane').forEach(function(pane) {
+                                    pane.classList.remove('show', 'active');
+                                });
+                                tabLink.classList.add('active');
+                                var pane = document.querySelector(targetTab);
+                                if (pane) {
+                                    pane.classList.add('show', 'active');
+                                }
+                            }
+
+                            setTimeout(function() {
+                                var tabBody = document.querySelector('.ap-tab-body');
+                                if (tabBody) {
+                                    tabBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }, 100);
+                        }
+                    }
+
+                    // Activate tab on page load
+                    activateTabFromLocation();
+
+                    // Also handle hash changes (when user clicks browser back/forward)
+                    window.addEventListener('hashchange', activateTabFromLocation);
+                    
+                    // Update hash when tabs are clicked (for browser history)
+                    document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function(link) {
+                        link.addEventListener('shown.bs.tab', function(e) {
+                            var href = e.target.getAttribute('href');
+                            if (href &amp;&amp; href.startsWith('#')) {
+                                // Update URL hash without scrolling
+                                if (history.pushState) {
+                                    history.pushState(null, null, href);
+                                } else {
+                                    window.location.hash = href.substring(1);
+                                }
+                            }
+                        });
+                    });
                 });
             </script>
         </t>
@@ -567,7 +634,12 @@
                             </div>
                             <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
                                 <span class="ap-info-label">Graduation Year</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.graduation_year or 'N/A'"/></span>
+                                <span class="text-dark fw-semibold">
+                                    <t t-if="alumni.graduation_year">
+                                        <t t-esc="str(alumni.graduation_year).zfill(4)"/>
+                                    </t>
+                                    <t t-else="">N/A</t>
+                                </span>
                             </div>
                             <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
                                 <span class="ap-info-label">Degree</span>

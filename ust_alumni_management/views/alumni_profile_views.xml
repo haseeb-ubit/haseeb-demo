@@ -9,7 +9,7 @@
                 <field name="name"/>
                 <field name="email"/>
                 <field name="department_id"/>
-                <field name="graduation_year" widget="formatted_date" options="{'month_format': 'long', 'year_format': 'numeric'}"/>
+                <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
                 <field name="degree"/>
                 <field name="major"/>
                 <field name="user_state" widget="badge" decoration-success="user_state == 'active'" decoration-info="user_state == 'new'"/>
@@ -73,7 +73,7 @@
                                 <group>
                                     <field name="college_id"/>
                                     <field name="department_id" required="1" domain="[('college_id', '=', college_id)]"/>
-                                    <field name="graduation_year" required="1" widget="date" options="{'min_precision': 'months', 'max_precision': 'months'}"/>
+                                    <field name="graduation_year" required="1" widget="integer" options="{'format': '0', 'grouping': False}"/>
                                     <field name="degree"/>
                                     <field name="major"/>
                                 </group>
@@ -166,7 +166,7 @@
                 <field name="name"/>
                 <field name="photo"/>
                 <field name="department_id"/>
-                <field name="graduation_year"/>
+                <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
                 <field name="active"/>
                 <field name="current_employment_id"/>
                 <templates>
@@ -184,7 +184,7 @@
                                     <div class="o_kanban_record_subtitle">
                                         <field name="department_id"/>
                                         <span t-if="record.graduation_year.raw_value">
-                                            - <field name="graduation_year" widget="formatted_date" options="{'month_format': 'long', 'year_format': 'numeric'}"/>
+                                            - <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
                                         </span>
                                     </div>
                                     <div t-if="record.current_employment_id.raw_value" class="text-muted">
@@ -221,8 +221,8 @@
                 <field name="current_employment_id"/>
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                 <separator/>
-                <filter string="This Year" name="this_year" domain="[('graduation_year', '&gt;=', context_today().strftime('%Y-01-01')), ('graduation_year', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
-                <filter string="Last 5 Years" name="last_5_years" domain="[('graduation_year', '&gt;=', (context_today() - relativedelta(years=5)).strftime('%Y-01-01'))]"/>
+                <filter string="This Year" name="this_year" domain="[('graduation_year', '=', context_today().year)]"/>
+                <filter string="Last 5 Years" name="last_5_years" domain="[('graduation_year', '&gt;=', context_today().year - 5)]"/>
                 <separator/>
                 <filter string="With Current Employment" name="with_employment" 
                         domain="[('employment_ids.employment_type', '=', 'current'), ('employment_ids.verification_status', '=', 'verified')]"/>
