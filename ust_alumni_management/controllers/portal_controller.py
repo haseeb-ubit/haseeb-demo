@@ -28,6 +28,7 @@ class AlumniPortalController(http.Controller):
         values = {
             'alumni': alumni,
             'page_name': 'alumni_profile',
+            'active_tab': kw.get('tab', 'general_info'),
         }
         return request.render('ust_alumni_management.portal_alumni_profile', values)
     
@@ -158,7 +159,7 @@ class AlumniPortalController(http.Controller):
         }
         
         request.env['alumni.employment'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile#employment')
+        return request.redirect('/my/alumni/profile?tab=employment#employment')
 
     @http.route(['/my/alumni/achievement/add'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_add_achievement(self, **kw):
@@ -188,4 +189,4 @@ class AlumniPortalController(http.Controller):
                 vals['supporting_document_filename'] = cert_file.filename
                 
         request.env['alumni.achievement'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile#achievements')
+        return request.redirect('/my/alumni/profile?tab=achievements#achievements')
