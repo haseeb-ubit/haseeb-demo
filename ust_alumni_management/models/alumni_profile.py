@@ -103,11 +103,11 @@ class AlumniProfile(models.Model):
         # Fallback
         return []
     
-    @api.depends('achievement_ids', 'achievement_ids.is_verified', 'achievement_ids.website_published')
+    @api.depends('achievement_ids', 'achievement_ids.is_verified')
     def _compute_achievements_count(self):
         for record in self:
             record.verified_achievements_count = len(record.achievement_ids.filtered('is_verified'))
-            record.published_achievements_count = len(record.achievement_ids.filtered('website_published'))
+            record.published_achievements_count = record.verified_achievements_count
     
     @api.model_create_multi
     def create(self, vals_list):

@@ -5,8 +5,7 @@
         <field name="name">alumni.achievement.tree</field>
         <field name="model">alumni.achievement</field>
         <field name="arch" type="xml">
-            <list string="Achievements" decoration-success="is_verified and website_published"
-                  decoration-info="is_verified and not website_published"
+            <list string="Achievements" decoration-success="is_verified"
                   decoration-muted="not is_verified">
                 <field name="alumni_id"/>
                 <field name="achievement_type"/>
@@ -14,8 +13,8 @@
                 <field name="date_achieved"/>
                 <field name="issuer_organization"/>
                 <field name="is_verified" widget="boolean_toggle"/>
-                <field name="verified_by" invisible="1"/>
-                <field name="verified_date" invisible="1"/>
+                <field name="verified_by"/>
+                <field name="verified_date"/>
             </list>
         </field>
     </record>
@@ -32,7 +31,6 @@
                     <button string="Unverify" type="object" name="action_unverify" 
                             invisible="not is_verified"/>
                     <field name="is_verified" invisible="1"/>
-                    <field name="website_published" invisible="1"/>
                 </header>
                 <sheet>
                     <group>
@@ -47,7 +45,6 @@
                             <field name="is_verified" readonly="1"/>
                             <field name="verified_by" readonly="1"/>
                             <field name="verified_date" readonly="1"/>
-                            <field name="website_published" readonly="1"/>
                             <field name="published_date" readonly="1"/>
                         </group>
                     </group>
@@ -77,7 +74,6 @@
                 <field name="achievement_type"/>
                 <field name="issuer_organization"/>
                 <filter string="Verified" name="verified" domain="[('is_verified', '=', True)]"/>
-                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
                 <filter string="Not Verified" name="not_verified" domain="[('is_verified', '=', False)]"/>
                 <separator/>
                 <filter string="Awards" name="awards" domain="[('achievement_type', '=', 'award')]"/>
@@ -87,7 +83,6 @@
                     <filter string="Achievement Type" name="group_type" context="{'group_by': 'achievement_type'}"/>
                     <filter string="Alumni" name="group_alumni" context="{'group_by': 'alumni_id'}"/>
                     <filter string="Verified Status" name="group_verified" context="{'group_by': 'is_verified'}"/>
-                    <filter string="Published Status" name="group_published" context="{'group_by': 'website_published'}"/>
                 </group>
             </search>
         </field>

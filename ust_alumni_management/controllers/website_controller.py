@@ -7,7 +7,7 @@ import json
 
 class AlumniWebsiteController(http.Controller):
 
-    @http.route(['/alumni', '/alumni/page/<int:page>'], type='http', auth="public", website=True)
+    @http.route(['/alumni-profiles', '/alumni-profiles/page/<int:page>'], type='http', auth="public", website=True)
     def alumni_directory(self, page=1, **kw):
         """Alumni directory listing page"""
         AlumniProfile = request.env['alumni.profile']
@@ -43,7 +43,7 @@ class AlumniWebsiteController(http.Controller):
         per_page = 12
         total = AlumniProfile.sudo().search_count(domain)
         pager = request.website.pager(
-            url='/alumni',
+            url='/alumni-profiles',
             total=total,
             page=page,
             step=per_page,
@@ -94,8 +94,8 @@ class AlumniWebsiteController(http.Controller):
         if not alumni:
             raise MissingError("Alumni profile not found.")
         
-        # Get published achievements
-        achievements = alumni.achievement_ids.filtered(lambda a: a.website_published and a.is_verified)
+        # Get verified achievements
+        achievements = alumni.achievement_ids.filtered(lambda a: a.is_verified)
         
         # Get verified current employment
         current_employment = alumni.current_employment_id

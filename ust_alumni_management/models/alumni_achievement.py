@@ -34,7 +34,6 @@ class AlumniAchievement(models.Model):
     verification_notes = fields.Text(string='Verification Notes')
     
     # Website Publishing
-    website_published = fields.Boolean(string='Published on Website', default=False, tracking=True)
     published_date = fields.Datetime(string='Published Date', readonly=True)
     
     @api.constrains('date_achieved')
@@ -52,7 +51,6 @@ class AlumniAchievement(models.Model):
             'is_verified': True,
             'verified_by': self.env.user.id,
             'verified_date': fields.Datetime.now(),
-            'website_published': True,
             'published_date': fields.Datetime.now(),
         })
         return {
@@ -73,7 +71,6 @@ class AlumniAchievement(models.Model):
             'is_verified': False,
             'verified_by': False,
             'verified_date': False,
-            'website_published': False,
             'published_date': False,
         })
         return {
@@ -87,51 +84,4 @@ class AlumniAchievement(models.Model):
             }
         }
     
-    def action_publish(self):
-        """Publish achievement to website"""
-        self.ensure_one()
-        if not self.is_verified:
-            raise ValidationError(_("Only verified achievements can be published on the website."))
-        
-        self.write({
-            'website_published': True,
-            'published_date': fields.Datetime.now() if not self.published_date else self.published_date,
-        })
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Published'),
-                'message': _('Achievement published on website.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
-    
-    def action_unpublish(self):
-        """Unpublish achievement from website"""
-        self.ensure_one()
-        self.write({
-            'website_published': False,
-        })
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Unpublished'),
-                'message': _('Achievement removed from website.'),
-                'type': 'info',
-                'sticky': False,
-            }
-        }
-    
-    def write(self, vals):
-        """Handle publish/unpublish date"""
-        res = super().write(vals)
-        if 'website_published' in vals:
-            for record in self:
-                if record.website_published and not record.published_date:
-                    record.published_date = fields.Datetime.now()
-                elif not record.website_published and record.published_date:
-                    record.published_date = False
-        return res
+

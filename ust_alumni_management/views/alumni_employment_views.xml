@@ -19,8 +19,8 @@
                        decoration-success="verification_status == 'verified'"
                        decoration-warning="verification_status == 'pending_verification'"
                        decoration-danger="verification_status == 'rejected'"/>
-                <field name="verified_by" invisible="1"/>
-                <field name="verified_date" invisible="1"/>
+                <field name="verified_by"/>
+                <field name="verified_date"/>
             </list>
         </field>
     </record>
