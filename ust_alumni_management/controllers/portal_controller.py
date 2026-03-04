@@ -158,7 +158,7 @@ class AlumniPortalController(http.Controller):
         }
         
         request.env['alumni.employment'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile?tab=employment')
+        return request.redirect('/my/alumni/profile')
 
     @http.route(['/my/alumni/achievement/add'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_add_achievement(self, **kw):
@@ -189,7 +189,7 @@ class AlumniPortalController(http.Controller):
                 vals['supporting_document_filename'] = cert_file.filename
                 
         request.env['alumni.achievement'].sudo().create(vals)
-        return request.redirect('/my/alumni/profile?tab=achievements')
+        return request.redirect('/my/alumni/profile')
 
     @http.route(['/my/alumni/employment/<int:employment_id>/update'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_update_employment(self, employment_id, **kw):
@@ -198,7 +198,7 @@ class AlumniPortalController(http.Controller):
         employment = request.env['alumni.employment'].sudo().browse(employment_id)
         
         if not employment.exists():
-            return request.redirect('/my/alumni/profile?tab=employment')
+            return request.redirect('/my/alumni/profile')
         
         # Verify ownership
         alumni = employment.alumni_id
@@ -224,7 +224,7 @@ class AlumniPortalController(http.Controller):
         # Remove empty values but keep False for end_date
         vals = {k: v for k, v in vals.items() if v or k == 'end_date'}
         employment.write(vals)
-        return request.redirect('/my/alumni/profile?tab=employment')
+        return request.redirect('/my/alumni/profile')
 
     @http.route(['/my/alumni/achievement/<int:achievement_id>/update'], type='http', auth="user", website=True, methods=['POST'], csrf=True)
     def portal_update_achievement(self, achievement_id, **kw):
@@ -233,16 +233,16 @@ class AlumniPortalController(http.Controller):
         achievement = request.env['alumni.achievement'].sudo().browse(achievement_id)
         
         if not achievement.exists():
-            return request.redirect('/my/alumni/profile?tab=achievements')
+            return request.redirect('/my/alumni/profile')
         
         # Verify ownership
         alumni = achievement.alumni_id
         if alumni.user_id != user and alumni.partner_id != user.partner_id:
-            return request.redirect('/my/alumni/profile?tab=achievements')
+            return request.redirect('/my/alumni/profile')
         
         # Only allow editing unverified records
         if achievement.is_verified:
-            return request.redirect('/my/alumni/profile?tab=achievements')
+            return request.redirect('/my/alumni/profile')
         
         vals = {
             'title': kw.get('title'),
@@ -263,5 +263,5 @@ class AlumniPortalController(http.Controller):
         # Remove empty values but keep False for date_achieved
         vals = {k: v for k, v in vals.items() if v or k == 'date_achieved'}
         achievement.write(vals)
-        return request.redirect('/my/alumni/profile?tab=achievements')
+        return request.redirect('/my/alumni/profile')
 
