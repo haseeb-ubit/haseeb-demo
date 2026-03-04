@@ -24,7 +24,19 @@ class AlumniEmployment(models.Model):
     company_website = fields.Char(string='Company Website')
     start_date = fields.Date(string='Start Date', required=True)
     end_date = fields.Date(string='End Date')
+    end_date_display = fields.Char(string='End Date', compute='_compute_end_date_display')
     description = fields.Text(string='Job Description')
+    
+    @api.depends('end_date', 'employment_type')
+    def _compute_end_date_display(self):
+        for record in self:
+            if record.employment_type == 'current':
+                record.end_date_display = _('Present')
+            elif record.end_date:
+                # Format date as string according to user locale
+                record.end_date_display = fields.Date.to_string(record.end_date)
+            else:
+                record.end_date_display = ''
     
     # Verification Details
     hr_email = fields.Char(string='HR Email')
@@ -127,18 +139,9 @@ class AlumniEmployment(models.Model):
                 template.send_mail(self.id, force_send=True, email_values={'email_to': self.gm_email})
                 emails_sent.append(self.gm_email)
             
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Verification Email Sent'),
-                    'message': _('Verification email sent to: %s. Awaiting confirmation from HR/Manager.') % ', '.join(emails_sent),
-                    'type': 'success',
-                    'sticky': False,
-                }
-            }
+            return True
         
-        return False
+        return True
     
     def action_verify_via_link(self, token=None):
         """HR/GR confirms employment via the confirmation link in email"""
@@ -170,16 +173,7 @@ class AlumniEmployment(models.Model):
         if template:
             template.send_mail(self.id, force_send=True)
         
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Verified'),
-                'message': _('Employment record verified successfully.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
+        return True
     
     def action_verify_manually(self):
         """Manually verify employment (admin action)"""
@@ -195,16 +189,7 @@ class AlumniEmployment(models.Model):
         if template:
             template.send_mail(self.id, force_send=True)
         
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Verified'),
-                'message': _('Employment record verified successfully.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
+        return True
     
     def action_reject(self):
         """Reject verification"""

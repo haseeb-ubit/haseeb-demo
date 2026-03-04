@@ -650,8 +650,8 @@
                     <tr>
                         <th class="border-0 font-weight-bold py-3 px-4" style="font-size:.9rem; width:35%;">Job Title</th>
                         <th class="border-0 font-weight-bold py-3" style="font-size:.9rem; width:30%;">Company</th>
-                       <th class="border-0 font-weight-bold py-3 text-center" style="font-size:.9rem; width:20%;">Duration</th>
-<th class="border-0 font-weight-bold py-3 px-4 text-center" style="font-size:.9rem; width:15%;">Status</th>
+                        <th class="border-0 font-weight-bold py-3 text-center" style="font-size:.9rem; width:20%;">Duration</th>
+                        <th class="border-0 font-weight-bold py-3 px-4 text-center" style="font-size:.9rem; width:15%;">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -695,50 +695,128 @@
             </table>
         </div>
         
-        <!-- View Employment Modals (Rendered outside table to preserve invalid HTML stripping issue) -->
+        <!-- View/Edit Employment Modals -->
         <t t-foreach="alumni.employment_ids" t-as="employment">
             <div class="modal fade" t-attf-id="viewEmpModal{{employment.id}}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
-                        <div class="modal-header bg-light border-0">
-                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Employment Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body p-4">
-                            <h4 class="font-weight-bold text-dark mb-1"><t t-esc="employment.job_title"/></h4>
-                            <h6 class="mb-3" style="color:#1a365d; font-weight:700;"><t t-esc="employment.company_name"/></h6>
-                            <hr class="my-3"/>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <div class="ap-modal-label mb-1">Employment Period</div>
-                                    <div class="text-dark font-weight-medium">
-                                        <t t-esc="employment.start_date"/> to 
-                                        <t t-if="employment.end_date"><t t-esc="employment.end_date"/></t>
-                                        <t t-else="">Present</t>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="ap-modal-label mb-1">Status</div>
-                                    <span t-attf-class="badge {{ 'bg-success text-white' if employment.verification_status == 'verified' else 'badge-ap-gold' if employment.verification_status in ['pending_verification', 'draft'] else 'bg-secondary text-white' }} rounded-pill fs-6" style="padding: 4px 10px !important;">
-                                        <t t-esc="employment.verification_status.replace('_', ' ').title()"/>
-                                    </span>
-                                </div>
+                <t t-if="employment.verification_status in ['draft', 'pending_verification']">
+                    <!-- EDITABLE modal for draft/pending records -->
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                            <div class="modal-header bg-light border-0 px-4 py-3">
+                                <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Edit Employment Record</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <t t-if="employment.description">
-                                <div class="row mt-3">
-                                    <div class="col-12 ap-modal-label" style="margin-bottom:12px;">Description</div>
-                                    <div class="col-12" style="max-height: 250px; overflow-y: auto; padding-right: 8px;">
-                                        <p style="color:#333; line-height:1.65; font-size:.92rem; margin-bottom:0;"><t t-esc="employment.description"/></p>
+                            <form t-attf-action="/my/alumni/employment/{{employment.id}}/update" method="post" class="needs-validation">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="modal-body" style="padding: 25px;">
+                                    <div class="row g-3">
+                                        <div class="col-12 mb-1 mt-0">
+                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Job Title <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control ap-input" name="job_title" t-att-value="employment.job_title" required="1" placeholder="e.g. Software Engineer"/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Company Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control ap-input" name="company_name" t-att-value="employment.company_name" required="1" placeholder="e.g. Odoo S.A."/>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <label class="ap-label mb-1">Company Website</label>
+                                            <input type="url" class="form-control ap-input" name="company_website" t-att-value="employment.company_website" placeholder="https://..."/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Start Date <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control ap-input" name="start_date" t-att-value="employment.start_date" required="1"/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <label class="ap-label mb-0">End Date</label>
+                                                <div class="form-check m-0 d-flex align-items-center">
+                                                    <input class="form-check-input m-0 me-2" type="checkbox" value="1"
+                                                           t-attf-id="ap-current-job-edit-{{employment.id}}"
+                                                           t-att-checked="not employment.end_date"
+                                                           t-attf-onchange="document.getElementById('ap-end-date-edit-{{employment.id}}').disabled = this.checked; if (this.checked) document.getElementById('ap-end-date-edit-{{employment.id}}').value = '';"
+                                                           style="cursor:pointer; width:14px; height:14px;"/>
+                                                    <label class="form-check-label text-dark" t-attf-for="ap-current-job-edit-{{employment.id}}" style="cursor:pointer; font-size:.8rem; line-height:1;">
+                                                        I currently work here
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <input type="date" class="form-control ap-input" name="end_date"
+                                                   t-attf-id="ap-end-date-edit-{{employment.id}}"
+                                                   t-att-value="employment.end_date"
+                                                   t-att-disabled="not employment.end_date"/>
+                                        </div>
+                                        <div class="col-12 mt-3 mb-1">
+                                            <hr class="mt-0 mb-2" style="border-top:1px solid #e8edf5;"/>
+                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Verification &amp; Description</h6>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">HR Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control ap-input" name="hr_email" t-att-value="employment.hr_email" placeholder="For verification purposes" required="1"/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Manager Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control ap-input" name="gm_email" t-att-value="employment.gm_email" placeholder="For verification purposes" required="1"/>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <label class="ap-label mb-1">Job Description</label>
+                                            <textarea class="form-control ap-input" name="description" rows="3" placeholder="Briefly describe your responsibilities..." style="height:auto !important;"><t t-esc="employment.description"/></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </t>
-                            
-                            <div class="mt-4 pt-3 border-top text-end">
-                                <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                                <div class="modal-footer bg-light border-0 px-4 py-3">
+                                    <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Update Record</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <!-- READ-ONLY modal for verified/rejected records -->
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                            <div class="modal-header bg-light border-0">
+                                <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Employment Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <h4 class="font-weight-bold text-dark mb-1"><t t-esc="employment.job_title"/></h4>
+                                <h6 class="mb-3" style="color:#1a365d; font-weight:700;"><t t-esc="employment.company_name"/></h6>
+                                <hr class="my-3"/>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="ap-modal-label mb-1">Employment Period</div>
+                                        <div class="text-dark font-weight-medium">
+                                            <t t-esc="employment.start_date"/> to 
+                                            <t t-if="employment.end_date"><t t-esc="employment.end_date"/></t>
+                                            <t t-else="">Present</t>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="ap-modal-label mb-1">Status</div>
+                                        <span t-attf-class="badge {{ 'bg-success text-white' if employment.verification_status == 'verified' else 'badge-ap-gold' if employment.verification_status in ['pending_verification', 'draft'] else 'bg-secondary text-white' }} rounded-pill fs-6" style="padding: 4px 10px !important;">
+                                            <t t-esc="employment.verification_status.replace('_', ' ').title()"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <t t-if="employment.description">
+                                    <div class="row mt-3">
+                                        <div class="col-12 ap-modal-label" style="margin-bottom:12px;">Description</div>
+                                        <div class="col-12" style="max-height: 250px; overflow-y: auto; padding-right: 8px;">
+                                            <p style="color:#333; line-height:1.65; font-size:.92rem; margin-bottom:0;"><t t-esc="employment.description"/></p>
+                                        </div>
+                                    </div>
+                                </t>
+                                <div class="mt-4 pt-3 border-top text-end">
+                                    <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </t>
             </div>
         </t>
     </template>
@@ -808,53 +886,129 @@
             </table>
         </div>
         
-        <!-- View Achievement Modals (Rendered outside grid to preserve invalid HTML stripping issue) -->
+        <!-- View/Edit Achievement Modals -->
         <t t-foreach="alumni.achievement_ids" t-as="achievement">
             <div class="modal fade" t-attf-id="viewAchieveModal{{achievement.id}}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
-                        <div class="modal-header bg-light border-0 px-4 py-3">
-                            <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Achievement Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="padding: 25px;">
-                            <h4 class="font-weight-bold mb-1" style="color:#1a365d;"><t t-esc="achievement.title"/></h4>
-                            <div class="mb-3">
-                                <span class="badge bg-light text-dark border me-2 py-1 px-2 fs-6"><i class="fa fa-tag me-1" style="color:#4a5568;"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
-                                <t t-if="achievement.is_verified">
-                                    <span class="badge bg-success text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-check-circle me-1"/> Verified</span>
-                                </t>
-                                <t t-else="">
-                                    <span class="badge badge-ap-gold rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-hourglass-half me-1"/> Pending</span>
-                                </t>
+                <t t-if="not achievement.is_verified">
+                    <!-- EDITABLE modal for pending/unverified records -->
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                            <div class="modal-header bg-light border-0 px-4 py-3">
+                                <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Edit Achievement</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <hr class="my-2" style="border-top:1px solid #e8edf5;"/>
-                            <div class="row mb-2 mt-3">
-                                <div class="col-4">
-                                    <div class="ap-modal-label">Date</div>
-                                    <div class="text-dark font-weight-medium"><t t-esc="achievement.date_achieved" t-if="achievement.date_achieved"/><t t-else="">—</t></div>
+                            <form t-attf-action="/my/alumni/achievement/{{achievement.id}}/update" method="post" enctype="multipart/form-data" class="needs-validation">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="modal-body" style="padding: 25px;">
+                                    <div class="row g-3">
+                                        <div class="col-12 mb-1 mt-0">
+                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <label class="ap-label mb-1">Achievement Title <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control ap-input" name="title" t-att-value="achievement.title" required="1" placeholder="e.g. Employee of the Year"/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Type <span class="text-danger">*</span></label>
+                                            <select class="form-select form-control ap-input" name="achievement_type" required="1">
+                                                <option value="">-- Select Type --</option>
+                                                <option value="award" t-att-selected="achievement.achievement_type == 'award'">Award</option>
+                                                <option value="promotion" t-att-selected="achievement.achievement_type == 'promotion'">Promotion</option>
+                                                <option value="publication" t-att-selected="achievement.achievement_type == 'publication'">Publication</option>
+                                                <option value="research" t-att-selected="achievement.achievement_type == 'research'">Research</option>
+                                                <option value="community_work" t-att-selected="achievement.achievement_type == 'community_work'">Community Work</option>
+                                                <option value="other" t-att-selected="achievement.achievement_type == 'other'">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Date Achieved</label>
+                                            <input type="date" class="form-control ap-input" name="date_achieved" t-att-value="achievement.date_achieved"/>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <label class="ap-label mb-1">Issuer Organization</label>
+                                            <input type="text" class="form-control ap-input" name="issuer_organization" t-att-value="achievement.issuer_organization" placeholder="e.g. Microsoft, UST, IEEE"/>
+                                        </div>
+                                        <div class="col-12 mt-3 mb-1">
+                                            <hr class="mt-0 mb-2" style="border-top:1px solid #e8edf5;"/>
+                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Documentation</h6>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Certificate / Proof Image</label>
+                                            <input type="file" class="form-control ap-input" name="certificate_file" accept="image/*,application/pdf"/>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <label class="ap-label mb-1">Certificate URL (Online)</label>
+                                            <input type="url" class="form-control ap-input" name="certificate_url" t-att-value="achievement.certificate_url" placeholder="https://..."/>
+                                        </div>
+
+                                        <div class="col-12 mb-2">
+                                            <label class="ap-label mb-1">Description</label>
+                                            <textarea class="form-control ap-input" name="description" rows="3" placeholder="Briefly describe what this achievement is about..." style="height:auto !important;"><t t-esc="achievement.description"/></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <t t-if="achievement.issuer_organization">
-                                    <div class="col-8">
-                                        <div class="ap-modal-label">Issuer</div>
-                                        <div class="text-dark font-weight-medium"><t t-esc="achievement.issuer_organization"/></div>
+                                <div class="modal-footer bg-light border-0 px-4 py-3">
+                                    <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Update Achievement</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <!-- READ-ONLY modal for verified records -->
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                            <div class="modal-header bg-light border-0 px-4 py-3">
+                                <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Achievement Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding: 25px;">
+                                <h4 class="font-weight-bold mb-1" style="color:#1a365d;"><t t-esc="achievement.title"/></h4>
+                                <div class="mb-3">
+                                    <span class="badge bg-light text-dark border me-2 py-1 px-2 fs-6"><i class="fa fa-tag me-1" style="color:#4a5568;"/> <t t-esc="achievement.achievement_type.replace('_', ' ').title()"/></span>
+                                    <span class="badge bg-success text-white rounded-pill fs-6" style="padding: 4px 10px !important;"><i class="fa fa-check-circle me-1"/> Verified</span>
+                                </div>
+                                <hr class="my-2" style="border-top:1px solid #e8edf5;"/>
+                                <div class="row mb-2 mt-3">
+                                    <div class="col-4">
+                                        <div class="ap-modal-label">Date</div>
+                                        <div class="text-dark font-weight-medium"><t t-esc="achievement.date_achieved" t-if="achievement.date_achieved"/><t t-else="">—</t></div>
+                                    </div>
+                                    <t t-if="achievement.issuer_organization">
+                                        <div class="col-8">
+                                            <div class="ap-modal-label">Issuer</div>
+                                            <div class="text-dark font-weight-medium"><t t-esc="achievement.issuer_organization"/></div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <t t-if="achievement.certificate_url">
+                                    <div class="row mb-2">
+                                        <div class="col-12">
+                                            <div class="ap-modal-label">Certificate URL</div>
+                                            <div class="text-dark font-weight-medium">
+                                                <a t-att-href="achievement.certificate_url" target="_blank" class="text-primary text-decoration-none">
+                                                    <i class="fa fa-external-link me-1"/> <t t-esc="achievement.certificate_url"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="achievement.description">
+                                    <div class="row mt-3">
+                                        <div class="col-12 ap-modal-label" style="margin-bottom:10px;">Description</div>
+                                        <div class="col-12">
+                                            <p class="text-dark fs-6"><t t-esc="achievement.description"/></p>
+                                        </div>
                                     </div>
                                 </t>
                             </div>
-                            <t t-if="achievement.description">
-                                <div class="row mt-3">
-                                    <div class="col-12 ap-modal-label" style="margin-bottom:10px;">Description</div>
-                                    <div class="col-12">
-                                        <p class="text-dark fs-6"><t t-esc="achievement.description"/></p>
-                                    </div>￼
-                                </div>
-                            </t>
-                        </div>
-                        <div class="modal-footer bg-light border-0 px-4 py-3">
-                            <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer bg-light border-0 px-4 py-3">
+                                <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </t>
             </div>
         </t>
     </template>

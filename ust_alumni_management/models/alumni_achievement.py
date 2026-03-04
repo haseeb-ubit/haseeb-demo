@@ -22,7 +22,7 @@ class AlumniAchievement(models.Model):
     
     title = fields.Char(string='Title', required=True)
     description = fields.Text(string='Description')
-    date_achieved = fields.Date(string='Date Achieved', required=True, default=fields.Date.today)
+    date_achieved = fields.Date(string='Achievement Date', required=True, default=fields.Date.today)
     issuer_organization = fields.Char(string='Issuer Organization')
     supporting_document = fields.Binary(string='Supporting Document')
     supporting_document_filename = fields.Char(string='Document Filename')
@@ -32,6 +32,7 @@ class AlumniAchievement(models.Model):
     verified_by = fields.Many2one('res.users', string='Verified By', readonly=True)
     verified_date = fields.Datetime(string='Verified Date', readonly=True)
     verification_notes = fields.Text(string='Verification Notes')
+    certificate_url = fields.Char(string='Certificate URL (if online)')
     
     # Website Publishing
     published_date = fields.Datetime(string='Published Date', readonly=True)
@@ -51,18 +52,8 @@ class AlumniAchievement(models.Model):
             'is_verified': True,
             'verified_by': self.env.user.id,
             'verified_date': fields.Datetime.now(),
-            'published_date': fields.Datetime.now(),
         })
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Verified & Published'),
-                'message': _('Achievement verified and published on website.'),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
+        return True
     
     def action_unverify(self):
         """Unverify achievement and unpublish from website"""
@@ -71,17 +62,16 @@ class AlumniAchievement(models.Model):
             'is_verified': False,
             'verified_by': False,
             'verified_date': False,
-            'published_date': False,
         })
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Unverified'),
-                'message': _('Achievement unverified.'),
-                'type': 'info',
-                'sticky': False,
-            }
-        }
+        return True
     
-
+    def write(self, vals):
+        """Handle is_verified toggle from list view"""
+        if 'is_verified' in vals and 'verified_by' not in vals:
+            if vals['is_verified']:
+                vals['verified_by'] = self.env.user.id
+                vals['verified_date'] = fields.Datetime.now()
+            else:
+                vals['verified_by'] = False
+                vals['verified_date'] = False
+        return super().write(vals)

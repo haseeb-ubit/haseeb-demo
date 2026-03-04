@@ -14,7 +14,7 @@
                 <field name="job_title"/>
                 <field name="company_name"/>
                 <field name="start_date"/>
-                <field name="end_date"/>
+                <field name="end_date_display"/>
                 <field name="verification_status" widget="badge" 
                        decoration-success="verification_status == 'verified'"
                        decoration-warning="verification_status == 'pending_verification'"
@@ -53,7 +53,8 @@
                             <field name="company_name"/>
                             <field name="company_website"/>
                             <field name="start_date"/>
-                            <field name="end_date"/>
+                            <field name="end_date" invisible="1"/>
+                            <field name="end_date_display"/>
                         </group>
                         <group>
                             <field name="hr_email"/>
