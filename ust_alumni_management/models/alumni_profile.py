@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, AccessError
+from odoo.tools import email_normalize
 import re
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class AlumniProfile(models.Model):
@@ -133,6 +137,20 @@ class AlumniProfile(models.Model):
             record.verified_achievements_count = len(record.achievement_ids.filtered('is_verified'))
             record.published_achievements_count = record.verified_achievements_count
     
+    @api.constrains('email')
+    def _check_unique_email(self):
+        """Ensure email is unique across alumni profiles"""
+        for record in self:
+            if record.email:
+                duplicate = self.search([
+                    ('email', '=', record.email),
+                    ('id', '!=', record.id)
+                ], limit=1)
+                if duplicate:
+                    raise ValidationError(
+                        _("An alumni profile with email '%s' already exists.", record.email)
+                    )
+
     @api.model_create_multi
     def create(self, vals_list):
         """Auto-generate URL slug from name if not provided"""
@@ -159,7 +177,86 @@ class AlumniProfile(models.Model):
                 partner = self.env['res.partner'].create(partner_vals)
                 vals['partner_id'] = partner.id
             
-        return super().create(vals_list)
+        records = super().create(vals_list)
+
+        # Auto-create portal user for each new alumni
+        for record in records:
+            if record.email:
+                try:
+                    record._auto_create_portal_user()
+                except Exception as e:
+                    _logger.warning(
+                        "Failed to auto-create portal user for alumni '%s' (%s): %s",
+                        record.name, record.email, str(e)
+                    )
+
+        return records
+
+    def _auto_create_portal_user(self):
+        """Auto-create portal user and send invitation for this alumni."""
+        self.ensure_one()
+        normalized_email = email_normalize(self.email)
+        if not normalized_email:
+            return
+
+        # Check if user already exists for this partner
+        existing_user = self.env['res.users'].sudo().search([
+            ('partner_id', '=', self.partner_id.id)
+        ], limit=1)
+        if existing_user:
+            self.write({'user_id': existing_user.id, 'invitation_sent': True})
+            return
+
+        # Check if a user with the same login already exists
+        existing_login = self.env['res.users'].sudo().search([
+            ('login', '=', normalized_email)
+        ], limit=1)
+        if existing_login:
+            self.write({'user_id': existing_login.id, 'invitation_sent': True})
+            return
+
+        # Create portal user using Odoo's template mechanism
+        group_portal = self.env.ref('base.group_portal')
+        group_public = self.env.ref('base.group_public')
+        group_alumni = self.env.ref('ust_alumni_management.group_alumni_user')
+
+        company = self.partner_id.company_id or self.env.company
+        user = self.env['res.users'].with_context(
+            no_reset_password=True
+        ).sudo().with_company(company.id)._create_user_from_template({
+            'email': normalized_email,
+            'login': normalized_email,
+            'partner_id': self.partner_id.id,
+            'company_id': company.id,
+            'company_ids': [(6, 0, company.ids)],
+        })
+
+        # Set proper groups: portal + alumni user, remove public
+        user.write({
+            'active': True,
+            'group_ids': [
+                (4, group_portal.id),
+                (3, group_public.id),
+                (4, group_alumni.id),
+            ],
+        })
+
+        # Link user to alumni profile
+        self.write({'user_id': user.id, 'invitation_sent': True})
+
+        # Send password setup email (portal invitation)
+        user.partner_id.signup_prepare()
+        template = self.env.ref('auth_signup.portal_set_password_email', raise_if_not_found=False)
+        if template:
+            template.with_context(
+                dbname=self._cr.dbname,
+                lang=user.lang,
+            ).send_mail(user.id, force_send=True)
+
+        _logger.info(
+            "Auto-created portal user for alumni '%s' (login: %s)",
+            self.name, normalized_email
+        )
     
     def write(self, vals):
         """Handle URL slug updates"""
@@ -266,28 +363,7 @@ class AlumniProfile(models.Model):
         """Get base URL for email templates"""
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url', '')
     
-    def action_send_portal_invitation(self):
-        """Send portal invitation email to alumni"""
-        self.ensure_one()
-        if not self.email:
-            raise ValidationError(_("Email is required to send portal invitation."))
-        
-        template = self.env.ref('ust_alumni_management.email_template_portal_invitation', False)
-        if template:
-            template.send_mail(self.id, force_send=True)
-            self.invitation_sent = True
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Success'),
-                    'message': _('Portal invitation sent successfully.'),
-                    'type': 'success',
-                    'sticky': False,
-                }
-            }
-        return False
-    
+
     
     def action_view_employment(self):
         """Open employment records for this alumni"""

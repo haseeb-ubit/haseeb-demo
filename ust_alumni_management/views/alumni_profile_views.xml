@@ -24,12 +24,7 @@
         <field name="arch" type="xml">
             <form string="Alumni Profile">
                 <header>
-                    <button string="Send Portal Invitation" type="object" name="action_send_portal_invitation" 
-                            class="btn-primary" invisible="invitation_sent"/>
-                    <button string="Resend Portal Invitation" type="object" name="action_send_portal_invitation" 
-                            class="btn-secondary" invisible="not invitation_sent"/>
                     <field name="active" invisible="1"/>
-                    <field name="invitation_sent" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

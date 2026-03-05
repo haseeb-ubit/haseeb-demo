@@ -3,11 +3,13 @@
     <!-- Portal Home Link -->
     <template id="portal_alumni_link" inherit_id="portal.portal_my_home" name="Portal Alumni Link">
         <xpath expr="//div[@id='portal_common_category']" position="inside">
-            <t t-call="portal.portal_docs_entry">
-                <t t-set="title">My Alumni Profile</t>
-                <t t-set="text">View and manage your alumni profile details</t>
-                <t t-set="url" t-value="'/my/alumni/profile'"/>
-                <t t-set="config_card" t-value="True"/>
+            <t t-if="request.env.user.has_group('ust_alumni_management.group_alumni_user')">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">My Alumni Profile</t>
+                    <t t-set="text">View and manage your alumni profile details</t>
+                    <t t-set="url" t-value="'/my/alumni/profile'"/>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
             </t>
         </xpath>
     </template>

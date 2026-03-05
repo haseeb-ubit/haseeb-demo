@@ -66,4 +66,29 @@
         <field name="groups" eval="[(4, ref('base.group_public'))]"/>
         <field name="domain_force">[('active', '=', True)]</field>
     </record>
+
+    <!-- Alumni User Group Record Rules -->
+    <!-- Alumni User: own profile only -->
+    <record id="rule_alumni_profile_alumni_user" model="ir.rule">
+        <field name="name">Alumni User: own profile only</field>
+        <field name="model_id" ref="model_alumni_profile"/>
+        <field name="groups" eval="[(4, ref('ust_alumni_management.group_alumni_user'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Alumni User: own employment only -->
+    <record id="rule_alumni_employment_alumni_user" model="ir.rule">
+        <field name="name">Alumni User: own employment only</field>
+        <field name="model_id" ref="model_alumni_employment"/>
+        <field name="groups" eval="[(4, ref('ust_alumni_management.group_alumni_user'))]"/>
+        <field name="domain_force">[('alumni_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Alumni User: own achievements only -->
+    <record id="rule_alumni_achievement_alumni_user" model="ir.rule">
+        <field name="name">Alumni User: own achievements only</field>
+        <field name="model_id" ref="model_alumni_achievement"/>
+        <field name="groups" eval="[(4, ref('ust_alumni_management.group_alumni_user'))]"/>
+        <field name="domain_force">[('alumni_id.user_id', '=', user.id)]</field>
+    </record>
 </odoo>
