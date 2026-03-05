@@ -881,6 +881,12 @@
                                     <div class="prof-sidebar-class">Class of <t t-esc="str(alumni.graduation_year)[:4]"/></div>
                                 </t>
                                 <div class="mt-1 mb-2 text-left">
+                                    <t t-if="alumni.college_id">
+                                        <div class="prof-stat-row">
+                                            <span class="prof-stat-label">College</span>
+                                            <span class="prof-stat-val"><t t-esc="alumni.college_id.name"/></span>
+                                        </div>
+                                    </t>
                                     <t t-if="alumni.graduation_year">
                                         <div class="prof-stat-row">
                                             <span class="prof-stat-label">Graduated</span>
@@ -929,7 +935,7 @@
                                 <!-- Portfolio / Website link -->
                                 <t t-if="alumni.website">
                                     <div class="prof-contact-item">
-                                        <div class="prof-contact-icon" style="color:#1a365d;"><i class="fa fa-globe"/></div>
+                                        <div class="prof-contact-icon"><i class="fa fa-globe"/></div>
                                         <div>
                                             <span class="prof-contact-label">Portfolio</span>
                                             <span class="prof-contact-val"><a t-att-href="alumni.website" target="_blank"><t t-esc="alumni.website"/></a></span>

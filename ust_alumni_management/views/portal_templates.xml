@@ -220,8 +220,6 @@
                 /* ── Section header strip ── */
                 .ap-section-hdr {
                     display: flex; align-items: center;
-                    border-left: 4px solid #c8a85a;
-                    padding-left: 12px;
                     margin-bottom: 0;
                 }
                 .ap-section-hdr h5 {
