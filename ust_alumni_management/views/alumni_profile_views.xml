@@ -8,6 +8,7 @@
             <list string="Alumni Profiles">
                 <field name="name"/>
                 <field name="email"/>
+                <field name="college_id"/>
                 <field name="department_id"/>
                 <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
                 <field name="degree"/>
@@ -67,7 +68,7 @@
                             <group>
                                 <group>
                                     <field name="college_id"/>
-                                    <field name="department_id" required="1" domain="[('college_id', '=', college_id)]"/>
+                                    <field name="department_id" required="1" domain="[('college_id', '=?', college_id)]"/>
                                     <field name="graduation_year" required="1" widget="integer" options="{'format': '0', 'grouping': False}"/>
                                     <field name="degree"/>
                                     <field name="major"/>

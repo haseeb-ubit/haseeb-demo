@@ -68,6 +68,11 @@ class AlumniProfile(models.Model):
     def _onchange_college_id(self):
         if self.college_id and self.department_id and self.department_id.college_id != self.college_id:
             self.department_id = False
+            
+    @api.onchange('department_id')
+    def _onchange_department_id(self):
+        if self.department_id and self.department_id.college_id:
+            self.college_id = self.department_id.college_id
     
     @api.onchange('graduation_year')
     def _onchange_graduation_year(self):
