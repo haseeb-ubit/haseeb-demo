@@ -772,18 +772,17 @@
             <div class="modal fade" t-attf-id="viewEmpModal{{employment.id}}" tabindex="-1" aria-hidden="true">
                 <t t-if="employment.verification_status in ['draft', 'pending_verification']">
                     <!-- EDITABLE modal for draft/pending records -->
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                        <form t-attf-action="/my/alumni/employment/{{employment.id}}/update" method="post" class="modal-content border-0 shadow needs-validation" style="border-top: 4px solid #c8a85a;">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-header bg-light border-0 px-4 py-3">
                                 <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Edit Employment Record</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form t-attf-action="/my/alumni/employment/{{employment.id}}/update" method="post" class="needs-validation">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <div class="modal-body" style="padding: 25px;">
-                                    <div class="row g-3">
-                                        <div class="col-12 mb-1 mt-0">
-                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
+                            <div class="modal-body" style="padding: 25px;">
+                                <div class="row g-3">
+                                    <div class="col-12 mb-1 mt-0">
+                                        <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
                                         </div>
                                         <div class="col-12 col-md-6 mb-2">
                                             <label class="ap-label mb-1">Job Title <span class="text-danger">*</span></label>
@@ -842,13 +841,12 @@
                                     <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Update Record</button>
                                 </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </t>
                 <t t-else="">
                     <!-- READ-ONLY modal for verified/rejected records -->
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
                             <div class="modal-header bg-light border-0">
                                 <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Employment Details</h5>
@@ -963,18 +961,17 @@
             <div class="modal fade" t-attf-id="viewAchieveModal{{achievement.id}}" tabindex="-1" aria-hidden="true">
                 <t t-if="not achievement.is_verified">
                     <!-- EDITABLE modal for pending/unverified records -->
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                        <form t-attf-action="/my/alumni/achievement/{{achievement.id}}/update" method="post" enctype="multipart/form-data" class="modal-content border-0 shadow needs-validation" style="border-top: 4px solid #c8a85a;">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-header bg-light border-0 px-4 py-3">
                                 <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Edit Achievement</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form t-attf-action="/my/alumni/achievement/{{achievement.id}}/update" method="post" enctype="multipart/form-data" class="needs-validation">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                <div class="modal-body" style="padding: 25px;">
-                                    <div class="row g-3">
-                                        <div class="col-12 mb-1 mt-0">
-                                            <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
+                            <div class="modal-body" style="padding: 25px;">
+                                <div class="row g-3">
+                                    <div class="col-12 mb-1 mt-0">
+                                        <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
                                         </div>
                                         <div class="col-12 mb-2">
                                             <label class="ap-label mb-1">Achievement Title <span class="text-danger">*</span></label>
@@ -1023,13 +1020,12 @@
                                     <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Update Achievement</button>
                                 </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </t>
                 <t t-else="">
                     <!-- READ-ONLY modal for verified records -->
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
                             <div class="modal-header bg-light border-0 px-4 py-3">
                                 <h5 class="modal-title font-weight-bold text-dark"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Achievement Details</h5>
@@ -1127,18 +1123,17 @@
     <!-- Add Employment Modal -->
     <template id="portal_alumni_add_employment_modal" name="Add Employment Modal">
         <div class="modal fade" id="addEmploymentModal" tabindex="-1" aria-labelledby="addEmploymentModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <form action="/my/alumni/employment/add" method="post" class="modal-content border-0 shadow needs-validation" style="border-top: 4px solid #c8a85a;">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <div class="modal-header bg-light border-0 px-4 py-3">
                         <h5 class="modal-title font-weight-bold text-dark" id="addEmploymentModalLabel"><i class="fa fa-briefcase me-2" style="color:#1a365d;"/> Add Employment Record</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/my/alumni/employment/add" method="post" class="needs-validation">
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <div class="modal-body" style="padding: 25px;">
-                            <div class="row g-3">
-                                <div class="col-12 mb-1 mt-0">
-                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
+                    <div class="modal-body" style="padding: 25px;">
+                        <div class="row g-3">
+                            <div class="col-12 mb-1 mt-0">
+                                <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Position Details</h6>
                                 </div>
                                 <div class="col-12 col-md-6 mb-2">
                                     <label class="ap-label mb-1">Job Title <span class="text-danger">*</span></label>
@@ -1191,8 +1186,7 @@
                             <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Record</button>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </template>
@@ -1200,18 +1194,17 @@
     <!-- Add Achievement Modal -->
     <template id="portal_alumni_add_achievement_modal" name="Add Achievement Modal">
         <div class="modal fade" id="addAchievementModal" tabindex="-1" aria-labelledby="addAchievementModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content border-0 shadow" style="border-top: 4px solid #c8a85a;">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <form action="/my/alumni/achievement/add" method="post" enctype="multipart/form-data" class="modal-content border-0 shadow needs-validation" style="border-top: 4px solid #c8a85a;">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <div class="modal-header bg-light border-0 px-4 py-3">
                         <h5 class="modal-title font-weight-bold text-dark" id="addAchievementModalLabel"><i class="fa fa-trophy me-2" style="color:#1a365d;"/> Add Achievement</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/my/alumni/achievement/add" method="post" enctype="multipart/form-data" class="needs-validation">
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <div class="modal-body" style="padding: 25px;">
-                            <div class="row g-3">
-                                <div class="col-12 mb-1 mt-0">
-                                    <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
+                    <div class="modal-body" style="padding: 25px;">
+                        <div class="row g-3">
+                            <div class="col-12 mb-1 mt-0">
+                                <h6 style="color:#1a365d; font-weight:800; text-transform:uppercase; letter-spacing:.06em; font-size:.8rem; margin-bottom:0;">Achievement Details</h6>
                                 </div>
                                 <div class="col-12 mb-2">
                                     <label class="ap-label mb-1">Achievement Title <span class="text-danger">*</span></label>
@@ -1260,8 +1253,7 @@
                             <button type="button" class="btn btn-ap-outline rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-ap-save rounded-pill px-4 shadow-sm font-weight-bold"><i class="fa fa-save me-1"/> Save Achievement</button>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </template>
