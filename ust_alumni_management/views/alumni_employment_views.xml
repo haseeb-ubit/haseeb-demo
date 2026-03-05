@@ -53,8 +53,8 @@
                             <field name="company_name"/>
                             <field name="company_website"/>
                             <field name="start_date"/>
-                            <field name="end_date" invisible="1"/>
-                            <field name="end_date_display"/>
+                            <field name="end_date" invisible="employment_type == 'current'"/>
+                            <field name="end_date_display" invisible="employment_type == 'previous'"/>
                         </group>
                         <group>
                             <field name="hr_email"/>
