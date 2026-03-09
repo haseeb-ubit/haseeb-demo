@@ -1,4 +1,4 @@
-name,email,phone,mobile,date_of_birth,nationality/id,department_id/id,graduation_year,degree,major,linkedin,website,street,city,state_id/id,zip,country_id/id
+name,email,phone,mobile,date_of_birth,nationality/id,department,graduation_year,degree,major,linkedin,website,street,city,state_id/id,zip,country_id/id
 Ahmed Al-Rashid,ahmed.rashid@email.com,+971501234567,+971551234567,1998-05-15,base.ae,hr.dep_rd,2022-06-01,Bachelor,Computer Science,https://linkedin.com/in/ahmed-rashid,https://ahmedrashid.dev,Al Nahda Street,Dubai,,00000,base.ae
 Fatima Hassan,fatima.hassan@email.com,+971502345678,+971552345678,1997-03-22,base.ae,hr.dep_rd,2021-06-01,Master,Information Technology,https://linkedin.com/in/fatima-hassan,,Sheikh Zayed Road,Abu Dhabi,,00000,base.ae
 Omar Khalil,omar.khalil@email.com,+971503456789,+971553456789,1999-11-10,base.jo,hr.dep_rd,2023-06-01,Bachelor,Software Engineering,https://linkedin.com/in/omar-khalil,https://omarkhalil.com,King Hussein St,Amman,,11937,base.jo

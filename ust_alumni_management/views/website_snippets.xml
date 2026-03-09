@@ -24,8 +24,8 @@
                                     </t>
                                     <h5><t t-esc="alum.name"/></h5>
                                     <p class="text-muted">
-                                        <t t-if="alum.department_id"><t t-esc="alum.department_id.name"/></t>
                                         <t t-if="alum.graduation_year"> - <t t-esc="alum.graduation_year"/></t>
+                                        <t t-if="alum.department"><t t-esc="alum.department"/></t>
                                     </p>
                                     <a t-attf-href="/alumni/{{ alum.url_slug or alum.id }}" 
                                        class="btn btn-sm btn-primary">View Profile</a>

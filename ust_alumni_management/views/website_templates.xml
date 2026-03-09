@@ -310,29 +310,7 @@
                                                class="form-control border-start-0" placeholder="Search by name or email…" style="border-radius:0 10px 10px 0; border-left:none; height:42px;"/>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-auto" style="min-width:170px;">
-                                    <!-- Hidden native select (form submit) -->
-                                    <select name="department_id" id="dd-native-dept" class="d-none">
-                                        <option value=""></option>
-                                        <t t-foreach="departments" t-as="dept">
-                                            <option t-att-value="dept.id" t-att-selected="department_id == dept.id"><t t-esc="dept.name"/></option>
-                                        </t>
-                                    </select>
-                                    <!-- Custom dropdown -->
-                                    <div class="dir-dd" data-target="dd-native-dept">
-                                        <div class="dir-dd-trigger" tabindex="0">
-                                            <span class="dir-dd-label">All Departments</span>
-                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                        </div>
-                                        <div class="dir-dd-panel">
-                                            <div class="dir-dd-option selected" data-value="">All Departments</div>
-                                            <t t-foreach="departments" t-as="dept">
-                                                <div t-att-class="'dir-dd-option' + (' selected' if department_id == dept.id else '')" t-att-data-value="dept.id"><t t-esc="dept.name"/></div>
-                                            </t>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-auto" style="min-width:125px;">
+                                 <div class="col-6 col-md-auto" style="min-width:125px;">
                                     <select name="graduation_year" id="dd-native-year" class="d-none">
                                         <option value=""></option>
                                         <t t-foreach="years" t-as="year">
@@ -348,6 +326,28 @@
                                             <div class="dir-dd-option selected" data-value="">All Years</div>
                                             <t t-foreach="years" t-as="year">
                                                 <div t-att-class="'dir-dd-option' + (' selected' if graduation_year == year else '')" t-att-data-value="year"><t t-esc="year"/></div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-auto" style="min-width:170px;">
+                                    <!-- Hidden native select (form submit) -->
+                                    <select name="department" id="dd-native-dept" class="d-none">
+                                        <option value=""></option>
+                                        <t t-foreach="departments" t-as="dept">
+                                            <option t-att-value="dept" t-att-selected="department == dept"><t t-esc="dept"/></option>
+                                        </t>
+                                    </select>
+                                    <!-- Custom dropdown -->
+                                    <div class="dir-dd" data-target="dd-native-dept">
+                                        <div class="dir-dd-trigger" tabindex="0">
+                                            <span class="dir-dd-label">All Departments</span>
+                                            <svg class="dir-dd-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#1a365d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                        </div>
+                                        <div class="dir-dd-panel">
+                                            <div class="dir-dd-option selected" data-value="">All Departments</div>
+                                            <t t-foreach="departments" t-as="dept">
+                                                <div t-att-class="'dir-dd-option' + (' selected' if department == dept else '')" t-att-data-value="dept"><t t-esc="dept"/></div>
                                             </t>
                                         </div>
                                     </div>
@@ -504,8 +504,8 @@
                                         </div>
 
                                         <!-- Department -->
-                                        <t t-if="alum.department_id">
-                                            <div class="alumni-dir-dept"><t t-esc="alum.department_id.name"/></div>
+                                        <t t-if="alum.department">
+                                            <div class="alumni-dir-dept"><t t-esc="alum.department"/></div>
                                         </t>
 
                                         <!-- Degree + Year pills (year trimmed to 4 digits) -->
@@ -514,7 +514,7 @@
                                                 <span class="alumni-dir-tag"><t t-esc="alum.degree"/></span>
                                             </t>
                                             <t t-if="alum.graduation_year">
-                                                <span class="alumni-dir-tag-gold">Class of <t t-esc="str(alum.graduation_year)[:4]"/></span>
+                                                <span class="alumni-dir-tag-gold"><t t-esc="alum.graduation_year"/></span>
                                             </t>
                                         </div>
 
@@ -835,7 +835,7 @@
                         <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px;">
                             <div>
                                 <h1><t t-esc="alumni.name"/></h1>
-                                <p class="prof-hero-dept mb-0"><t t-if="alumni.department_id"><t t-esc="alumni.department_id.name"/></t></p>
+                                <p class="prof-hero-dept mb-0"><t t-if="alumni.department"><t t-esc="alumni.department"/></t></p>
                             </div>
                             <div class="prof-hero-actions">
                                 <t t-if="alumni.linkedin">
@@ -878,19 +878,19 @@
                                 </div>
                                 <!-- Sidebar: avatar + 'Class of YYYY' sub-label -->
                                 <t t-if="alumni.graduation_year">
-                                    <div class="prof-sidebar-class">Class of <t t-esc="str(alumni.graduation_year)[:4]"/></div>
+                                    <div class="prof-sidebar-class"><t t-esc="alumni.graduation_year"/></div>
                                 </t>
                                 <div class="mt-1 mb-2 text-left">
-                                    <t t-if="alumni.college_id">
+                                    <t t-if="alumni.college">
                                         <div class="prof-stat-row">
-                                            <span class="prof-stat-label">College</span>
-                                            <span class="prof-stat-val"><t t-esc="alumni.college_id.name"/></span>
+                                            <span class="prof-stat-label">Last university</span>
+                                            <span class="prof-stat-val"><t t-esc="alumni.college"/></span>
                                         </div>
                                     </t>
                                     <t t-if="alumni.graduation_year">
                                         <div class="prof-stat-row">
-                                            <span class="prof-stat-label">Graduated</span>
-                                            <span class="prof-stat-val"><t t-esc="str(alumni.graduation_year)[:4]"/></span>
+                                            <span class="prof-stat-label">Duration</span>
+                                            <span class="prof-stat-val"><t t-esc="alumni.graduation_year"/></span>
                                         </div>
                                     </t>
                                     <t t-if="alumni.degree">

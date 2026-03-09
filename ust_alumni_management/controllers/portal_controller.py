@@ -111,6 +111,11 @@ class AlumniPortalController(http.Controller):
                 'street2': kw.get('street2'),
                 'city': kw.get('city'),
                 'zip': kw.get('zip'),
+                'department': kw.get('department'),
+                'college': kw.get('college'),
+                'graduation_year': kw.get('graduation_year'),
+                'degree': kw.get('degree'),
+                'major': kw.get('major'),
             }
             
             if kw.get('nationality_id'):

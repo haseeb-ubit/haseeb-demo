@@ -37,7 +37,7 @@
         <field name="model">alumni.profile</field>
         <field name="arch" type="xml">
             <graph string="Alumni by Department" type="pie">
-                <field name="department_id" type="row"/>
+                <field name="department" type="row"/>
                 <field name="id" type="measure"/>
             </graph>
         </field>
@@ -85,7 +85,7 @@
         <field name="model">alumni.profile</field>
         <field name="arch" type="xml">
             <pivot string="Alumni Distribution">
-                <field name="department_id" type="row"/>
+                <field name="department" type="row"/>
                 <field name="graduation_year" type="col"/>
                 <field name="id" type="measure"/>
             </pivot>

@@ -349,7 +349,7 @@
                                     </div>
                                     <div class="ap-profile-meta">
                                         <p class="ap-meta-name"><t t-esc="alumni.name or 'Alumni'"/></p>
-                                        <p class="ap-meta-dept"><t t-esc="alumni.department_id.name or ''"/></p>
+                                        <p class="ap-meta-dept"><t t-esc="alumni.department or ''"/></p>
                                     </div>
                                 </div>
 
@@ -628,26 +628,25 @@
                                 <span class="ap-icon-circle"><i class="fa fa-graduation-cap"/></span>
                                 <h5>Academic Details</h5>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Department</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.department_id.name or 'N/A'"/></span>
+                            <div class="mb-3">
+                                <label class="ap-label">Last university</label>
+                                <input type="text" name="college" t-att-value="alumni.college" class="form-control ap-input" placeholder="e.g. Stanford University"/>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Graduation Year</span>
-                                <span class="text-dark fw-semibold">
-                                    <t t-if="alumni.graduation_year">
-                                        <t t-esc="str(alumni.graduation_year).zfill(4)"/>
-                                    </t>
-                                    <t t-else="">N/A</t>
-                                </span>
+                            <div class="mb-3">
+                                <label class="ap-label">Duration of university</label>
+                                <input type="text" name="graduation_year" t-att-value="alumni.graduation_year" class="form-control ap-input" placeholder="e.g. 2020 - 2024"/>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Degree</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.degree or 'N/A'"/></span>
+                            <div class="mb-3">
+                                <label class="ap-label">Department</label>
+                                <input type="text" name="department" t-att-value="alumni.department" class="form-control ap-input" placeholder="e.g. Engineering"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="ap-label">Degree</label>
+                                <input type="text" name="degree" t-att-value="alumni.degree" class="form-control ap-input" placeholder="e.g. Bachelor of Science"/>
                             </div>
                             <div class="mb-0">
-                                <span class="ap-info-label">Major</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.major or 'N/A'"/></span>
+                                <label class="ap-label">Major</label>
+                                <input type="text" name="major" t-att-value="alumni.major" class="form-control ap-input" placeholder="e.g. Computer Science"/>
                             </div>
                         </div>
 

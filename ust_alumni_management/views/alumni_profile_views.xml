@@ -8,9 +8,9 @@
             <list string="Alumni Profiles">
                 <field name="name"/>
                 <field name="email"/>
-                <field name="college_id"/>
-                <field name="department_id"/>
-                <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
+                <field name="college"/>
+                <field name="graduation_year"/>
+                <field name="department"/>
                 <field name="degree"/>
                 <field name="major"/>
                 <field name="user_state" widget="badge" decoration-success="user_state == 'active'" decoration-info="user_state == 'new'"/>
@@ -67,9 +67,9 @@
                         <page string="Academic Information" name="academic_info">
                             <group>
                                 <group>
-                                    <field name="college_id"/>
-                                    <field name="department_id" required="1" domain="[('college_id', '=?', college_id)]"/>
-                                    <field name="graduation_year" required="1" widget="integer" options="{'format': '0', 'grouping': False}"/>
+                                    <field name="college"/>
+                                    <field name="graduation_year"/>
+                                    <field name="department"/>
                                     <field name="degree"/>
                                     <field name="major"/>
                                 </group>
@@ -158,11 +158,11 @@
         <field name="name">alumni.profile.kanban</field>
         <field name="model">alumni.profile</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="department_id" class="o_kanban_small_column">
+            <kanban default_group_by="department" class="o_kanban_small_column">
                 <field name="name"/>
                 <field name="photo"/>
-                <field name="department_id"/>
-                <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
+                <field name="graduation_year"/>
+                <field name="department"/>
                 <field name="active"/>
                 <field name="current_employment_id"/>
                 <templates>
@@ -178,9 +178,9 @@
                                         <field name="name"/>
                                     </strong>
                                     <div class="o_kanban_record_subtitle">
-                                        <field name="department_id"/>
+                                        <field name="department"/>
                                         <span t-if="record.graduation_year.raw_value">
-                                            - <field name="graduation_year" widget="integer" options="{'format': '0', 'grouping': False}"/>
+                                            - <field name="graduation_year"/>
                                         </span>
                                     </div>
                                     <div t-if="record.current_employment_id.raw_value" class="text-muted">
@@ -210,8 +210,8 @@
             <search string="Alumni Profiles">
                 <field name="name" string="Name" filter_domain="['|', ('name', 'ilike', self), ('email', 'ilike', self)]"/>
                 <field name="email"/>
-                <field name="department_id"/>
                 <field name="graduation_year"/>
+                <field name="department"/>
                 <field name="degree"/>
                 <field name="country_id"/>
                 <field name="current_employment_id"/>
@@ -223,8 +223,8 @@
                 <filter string="With Current Employment" name="with_employment" 
                         domain="[('employment_ids.employment_type', '=', 'current'), ('employment_ids.verification_status', '=', 'verified')]"/>
                 <group>
-                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
                     <filter string="Graduation Year" name="group_year" context="{'group_by': 'graduation_year'}"/>
+                    <filter string="Department" name="group_department" context="{'group_by': 'department'}"/>
                     <filter string="Country" name="group_country" context="{'group_by': 'country_id'}"/>
                     <filter string="Degree" name="group_degree" context="{'group_by': 'degree'}"/>
                 </group>

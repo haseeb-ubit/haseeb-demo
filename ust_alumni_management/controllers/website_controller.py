@@ -14,7 +14,7 @@ class AlumniWebsiteController(http.Controller):
         
         # Get search parameters
         search = kw.get('search', '')
-        department_id = kw.get('department_id', False)
+        department = kw.get('department', '')
         graduation_year = kw.get('graduation_year', False)
         degree = kw.get('degree', '')
         country_id = kw.get('country_id', False)
@@ -27,11 +27,11 @@ class AlumniWebsiteController(http.Controller):
             domain.append(('name', 'ilike', search))
             domain.append(('email', 'ilike', search))
         
-        if department_id:
-            domain.append(('department_id', '=', int(department_id)))
+        if department:
+            domain.append(('department', 'ilike', department))
         
         if graduation_year:
-            domain.append(('graduation_year', '=', int(graduation_year)))
+            domain.append(('graduation_year', '=', graduation_year))
         
         if degree:
             domain.append(('degree', 'ilike', degree))
@@ -53,22 +53,18 @@ class AlumniWebsiteController(http.Controller):
         alumni = AlumniProfile.sudo().search(domain, limit=per_page, offset=(page - 1) * per_page, order='graduation_year desc, name')
         
         # Get filter options
-        departments = request.env['hr.department'].sudo().search([])
-        years = AlumniProfile.sudo().search_read([], ['graduation_year'], order='graduation_year desc')
-        unique_years = sorted(set([y['graduation_year'] for y in years if y['graduation_year']]), reverse=True)
+        all_alumni = AlumniProfile.sudo().search_read([], ['department', 'graduation_year', 'degree'])
+        unique_departments = sorted(set([a['department'] for a in all_alumni if a['department']]))
+        unique_years = sorted(set([a['graduation_year'] for a in all_alumni if a['graduation_year']]), reverse=True)
+        unique_degrees = sorted(set([a['degree'] for a in all_alumni if a['degree']]))
         countries = request.env['res.country'].sudo().search([])
-        degrees = AlumniProfile.sudo().search_read([('degree', '!=', False)], ['degree'])
-        unique_degrees = sorted(set([d['degree'] for d in degrees if d['degree']]))
         
         values = {
             'alumni': alumni,
             'pager': pager,
             'search': search,
-            'department_id': int(department_id) if department_id else False,
-            'graduation_year': int(graduation_year) if graduation_year else False,
-            'degree': degree,
-            'country_id': int(country_id) if country_id else False,
-            'departments': departments,
+            'department': department,
+            'departments': unique_departments,
             'years': unique_years,
             'countries': countries,
             'degrees': unique_degrees,
@@ -129,11 +125,11 @@ class AlumniWebsiteController(http.Controller):
             domain.append(('name', 'ilike', search_term))
             domain.append(('email', 'ilike', search_term))
         
-        if filters.get('department_id'):
-            domain.append(('department_id', '=', int(filters['department_id'])))
+        if filters.get('department'):
+            domain.append(('department', 'ilike', filters['department']))
         
         if filters.get('graduation_year'):
-            domain.append(('graduation_year', '=', int(filters['graduation_year'])))
+            domain.append(('graduation_year', '=', filters['graduation_year']))
         
         if filters.get('degree'):
             domain.append(('degree', 'ilike', filters['degree']))
@@ -149,7 +145,7 @@ class AlumniWebsiteController(http.Controller):
                 'id': alum.id,
                 'name': alum.name,
                 'email': alum.email,
-                'department': alum.department_id.name if alum.department_id else '',
+                'department': alum.department or '',
                 'graduation_year': alum.graduation_year,
                 'degree': alum.degree or '',
                 'photo': f'/web/image/alumni.profile/{alum.id}/photo' if alum.photo else False,
