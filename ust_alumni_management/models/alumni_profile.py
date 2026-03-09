@@ -252,9 +252,20 @@ class AlumniProfile(models.Model):
                     partner_vals['mobile'] = vals['mobile']
                 if partner_vals:
                     record.partner_id.write(partner_vals)
-        
-        return super().write(vals)
-    
+
+        res = super().write(vals)
+
+        # Auto-create portal user if email was added/updated and no user exists
+        if 'email' in vals:
+            for record in self:
+                if record.email and not record.user_id and not record.invitation_sent:
+                    try:
+                        record._auto_create_portal_user()
+                    except Exception as e:
+                        _logger.warning("Failed to auto-create portal user for alumni '%s' upon update: %s",
+                                        record.name, str(e))
+
+        return res
     def _generate_url_slug(self, name, exclude_id=None, email=None):
         """Generate a URL-friendly slug from a name, ensuring uniqueness"""
         if not name:
