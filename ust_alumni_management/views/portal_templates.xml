@@ -349,7 +349,7 @@
                                     </div>
                                     <div class="ap-profile-meta">
                                         <p class="ap-meta-name"><t t-esc="alumni.name or 'Alumni'"/></p>
-                                        <p class="ap-meta-dept"><t t-esc="alumni.department_id.name or ''"/></p>
+                                        <p class="ap-meta-dept"><t t-esc="alumni.department or ''"/></p>
                                     </div>
                                 </div>
 
@@ -622,32 +622,31 @@
                         <!-- file input inside form for photo upload -->
                         <input type="file" name="photo" id="ap-photo-input" accept="image/*" style="display:none;"/>
 
-                        <!-- Academic Details section -->
+                        <!-- Academic Details section (editable) -->
                         <div class="ap-sidebar-section">
                             <div class="ap-section-hdr mb-3">
                                 <span class="ap-icon-circle"><i class="fa fa-graduation-cap"/></span>
                                 <h5>Academic Details</h5>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Department</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.department_id.name or 'N/A'"/></span>
+                            <div class="mb-3">
+                                <label class="ap-label">Last University</label>
+                                <input type="text" name="last_university" t-att-value="alumni.last_university" class="form-control ap-input" placeholder="e.g. University of Science and Technology"/>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Graduation Year</span>
-                                <span class="text-dark fw-semibold">
-                                    <t t-if="alumni.graduation_year">
-                                        <t t-esc="str(alumni.graduation_year).zfill(4)"/>
-                                    </t>
-                                    <t t-else="">N/A</t>
-                                </span>
+                            <div class="mb-3">
+                                <label class="ap-label">Duration of University</label>
+                                <input type="text" name="university_duration" t-att-value="alumni.university_duration" class="form-control ap-input" placeholder="e.g. 2008 - 2014"/>
                             </div>
-                            <div class="mb-2 pb-2" style="border-bottom: 1px solid #f0f0f0;">
-                                <span class="ap-info-label">Degree</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.degree or 'N/A'"/></span>
+                            <div class="mb-3">
+                                <label class="ap-label">Department</label>
+                                <input type="text" name="department" t-att-value="alumni.department" class="form-control ap-input" placeholder="e.g. Computer Engineering"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="ap-label">Degree</label>
+                                <input type="text" name="degree" t-att-value="alumni.degree" class="form-control ap-input" placeholder="e.g. BCS, MSc"/>
                             </div>
                             <div class="mb-0">
-                                <span class="ap-info-label">Major</span>
-                                <span class="text-dark fw-semibold"><t t-esc="alumni.major or 'N/A'"/></span>
+                                <label class="ap-label">Major</label>
+                                <input type="text" name="major" t-att-value="alumni.major" class="form-control ap-input" placeholder="e.g. Computer Science"/>
                             </div>
                         </div>
 

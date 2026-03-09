@@ -13,7 +13,7 @@ class AlumniProfile(models.Model):
     _description = 'Alumni Profile'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
-    _order = 'graduation_year desc, name'
+    _order = 'name'
 
     # Partner and User Links
     partner_id = fields.Many2one('res.partner', string='Contact', required=True, ondelete='cascade')
@@ -34,10 +34,10 @@ class AlumniProfile(models.Model):
     date_of_birth = fields.Date(string='Date of Birth')
     nationality = fields.Many2one('res.country', string='Nationality')
     
-    # Academic Information (Read-only in portal)
-    department_id = fields.Many2one('hr.department', string='Department', required=True)
-    college_id = fields.Many2one('elearning.college', string='College')
-    graduation_year = fields.Integer(string='Graduation Year', required=True)
+    # Academic Information
+    last_university = fields.Char(string='Last University')
+    university_duration = fields.Char(string='Duration of University', help='e.g. 2008 - 2014')
+    department = fields.Char(string='Department')
     degree = fields.Char(string='Degree')
     major = fields.Char(string='Major')
 
@@ -64,40 +64,6 @@ class AlumniProfile(models.Model):
     published_achievements_count = fields.Integer(string='Published Achievements', 
                                                   compute='_compute_achievements_count', store=False)
     
-    @api.onchange('college_id')
-    def _onchange_college_id(self):
-        if self.college_id and self.department_id and self.department_id.college_id != self.college_id:
-            self.department_id = False
-            
-    @api.onchange('department_id')
-    def _onchange_department_id(self):
-        if self.department_id and self.department_id.college_id:
-            self.college_id = self.department_id.college_id
-    
-    @api.onchange('graduation_year')
-    def _onchange_graduation_year(self):
-        """Validate and format graduation year to ensure 4 digits"""
-        if self.graduation_year:
-            year_str = str(self.graduation_year)
-            # If it's less than 4 digits, pad with zeros (e.g., 202 -> 0202, but we'll show warning)
-            if len(year_str) < 4:
-                # Show warning but don't auto-correct (let user enter full year)
-                return {
-                    'warning': {
-                        'title': _('Invalid Year Format'),
-                        'message': _('Graduation year must be exactly 4 digits (e.g., 2026). Please enter the full year.'),
-                    }
-                }
-            elif len(year_str) > 4:
-                # If more than 4 digits, truncate to first 4
-                self.graduation_year = int(year_str[:4])
-                return {
-                    'warning': {
-                        'title': _('Year Truncated'),
-                        'message': _('Graduation year has been truncated to 4 digits: %s') % self.graduation_year,
-                    }
-                }
-
     @api.depends('employment_ids', 'employment_ids.employment_type')
     def _compute_current_employment(self):
         for record in self:
@@ -354,16 +320,6 @@ class AlumniProfile(models.Model):
                 if duplicate:
                     raise ValidationError(_("URL slug '%s' is already used. Please choose a different slug.") % record.url_slug)
     
-    @api.constrains('graduation_year')
-    def _check_graduation_year(self):
-        """Validate graduation year - must be exactly 4 digits"""
-        current_year = fields.Date.today().year
-        for record in self:
-            if record.graduation_year:
-                year_str = str(record.graduation_year)
-                if len(year_str) != 4 or not year_str.isdigit():
-                    raise ValidationError(_("Graduation year must be exactly 4 digits (e.g., 2026)."))
-               
     def get_base_url(self):
         """Get base URL for email templates"""
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url', '')

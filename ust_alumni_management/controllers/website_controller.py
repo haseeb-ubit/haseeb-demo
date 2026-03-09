@@ -14,10 +14,10 @@ class AlumniWebsiteController(http.Controller):
         
         # Get search parameters
         search = kw.get('search', '')
-        department_id = kw.get('department_id', False)
-        graduation_year = kw.get('graduation_year', False)
+        department = kw.get('department', '')
         degree = kw.get('degree', '')
         country_id = kw.get('country_id', False)
+        company_name = kw.get('company_name', '')
         
         # Build domain
         domain = [('active', '=', True)]
@@ -27,17 +27,22 @@ class AlumniWebsiteController(http.Controller):
             domain.append(('name', 'ilike', search))
             domain.append(('email', 'ilike', search))
         
-        if department_id:
-            domain.append(('department_id', '=', int(department_id)))
-        
-        if graduation_year:
-            domain.append(('graduation_year', '=', int(graduation_year)))
+        if department:
+            domain.append(('department', 'ilike', department))
         
         if degree:
             domain.append(('degree', 'ilike', degree))
         
         if country_id:
             domain.append(('country_id', '=', int(country_id)))
+        
+        # Company name filter — find alumni who work(ed) at the selected company
+        if company_name:
+            employment_records = request.env['alumni.employment'].sudo().search([
+                ('company_name', 'ilike', company_name),
+            ])
+            alumni_ids = employment_records.mapped('alumni_id').ids
+            domain.append(('id', 'in', alumni_ids))
         
         # Pagination
         per_page = 12
@@ -50,28 +55,34 @@ class AlumniWebsiteController(http.Controller):
             url_args=kw
         )
         
-        alumni = AlumniProfile.sudo().search(domain, limit=per_page, offset=(page - 1) * per_page, order='graduation_year desc, name')
+        alumni = AlumniProfile.sudo().search(domain, limit=per_page, offset=(page - 1) * per_page, order='name')
         
-        # Get filter options
-        departments = request.env['hr.department'].sudo().search([])
-        years = AlumniProfile.sudo().search_read([], ['graduation_year'], order='graduation_year desc')
-        unique_years = sorted(set([y['graduation_year'] for y in years if y['graduation_year']]), reverse=True)
+        # Get filter options — departments are now free text, so get unique values
+        dept_records = AlumniProfile.sudo().search_read([('department', '!=', False)], ['department'])
+        unique_departments = sorted(set([d['department'] for d in dept_records if d['department']]))
+        
         countries = request.env['res.country'].sudo().search([])
-        degrees = AlumniProfile.sudo().search_read([('degree', '!=', False)], ['degree'])
-        unique_degrees = sorted(set([d['degree'] for d in degrees if d['degree']]))
+        degree_records = AlumniProfile.sudo().search_read([('degree', '!=', False)], ['degree'])
+        unique_degrees = sorted(set([d['degree'] for d in degree_records if d['degree']]))
+        
+        # Get unique company names from employment records
+        emp_records = request.env['alumni.employment'].sudo().search_read(
+            [('company_name', '!=', False)], ['company_name']
+        )
+        unique_companies = sorted(set([e['company_name'] for e in emp_records if e['company_name']]))
         
         values = {
             'alumni': alumni,
             'pager': pager,
             'search': search,
-            'department_id': int(department_id) if department_id else False,
-            'graduation_year': int(graduation_year) if graduation_year else False,
+            'department': department,
             'degree': degree,
             'country_id': int(country_id) if country_id else False,
-            'departments': departments,
-            'years': unique_years,
+            'company_name': company_name,
+            'departments': unique_departments,
             'countries': countries,
             'degrees': unique_degrees,
+            'companies': unique_companies,
             'page_name': 'alumni_directory',
         }
         
@@ -129,11 +140,8 @@ class AlumniWebsiteController(http.Controller):
             domain.append(('name', 'ilike', search_term))
             domain.append(('email', 'ilike', search_term))
         
-        if filters.get('department_id'):
-            domain.append(('department_id', '=', int(filters['department_id'])))
-        
-        if filters.get('graduation_year'):
-            domain.append(('graduation_year', '=', int(filters['graduation_year'])))
+        if filters.get('department'):
+            domain.append(('department', 'ilike', filters['department']))
         
         if filters.get('degree'):
             domain.append(('degree', 'ilike', filters['degree']))
@@ -141,7 +149,14 @@ class AlumniWebsiteController(http.Controller):
         if filters.get('country_id'):
             domain.append(('country_id', '=', int(filters['country_id'])))
         
-        alumni = AlumniProfile.sudo().search(domain, limit=50, order='graduation_year desc, name')
+        if filters.get('company_name'):
+            employment_records = request.env['alumni.employment'].sudo().search([
+                ('company_name', 'ilike', filters['company_name']),
+            ])
+            alumni_ids = employment_records.mapped('alumni_id').ids
+            domain.append(('id', 'in', alumni_ids))
+        
+        alumni = AlumniProfile.sudo().search(domain, limit=50, order='name')
         
         results = []
         for alum in alumni:
@@ -149,8 +164,8 @@ class AlumniWebsiteController(http.Controller):
                 'id': alum.id,
                 'name': alum.name,
                 'email': alum.email,
-                'department': alum.department_id.name if alum.department_id else '',
-                'graduation_year': alum.graduation_year,
+                'department': alum.department or '',
+                'last_university': alum.last_university or '',
                 'degree': alum.degree or '',
                 'photo': f'/web/image/alumni.profile/{alum.id}/photo' if alum.photo else False,
                 'url': f'/alumni/{alum.url_slug or alum.id}',
