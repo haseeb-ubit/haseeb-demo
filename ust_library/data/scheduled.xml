@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_library_overdue_update" model="ir.cron">
+        <field name="name">Library: Mark Overdue Borrows</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_mark_overdue_and_penalties()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_library_due_reminder" model="ir.cron">
+        <field name="name">Library: Due Date Reminder</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_due_reminders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_library_overdue_notice" model="ir.cron">
+        <field name="name">Library: Overdue Notice</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_overdue_alerts()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_library_space_booking_complete" model="ir.cron">
+        <field name="name">Library: Complete Past Space Bookings</field>
+        <field name="model_id" ref="model_library_space_booking"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_complete_past_bookings()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

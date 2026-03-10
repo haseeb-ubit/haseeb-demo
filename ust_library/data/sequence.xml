@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_library_borrow" model="ir.sequence">
+        <field name="name">Library Borrow</field>
+        <field name="code">library.borrow</field>
+        <field name="prefix">BRW/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_library_reservation" model="ir.sequence">
+        <field name="name">Library Reservation</field>
+        <field name="code">library.reservation</field>
+        <field name="prefix">RSV/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_library_book_incident" model="ir.sequence">
+        <field name="name">Library Book Incident</field>
+        <field name="code">library.book.incident</field>
+        <field name="prefix">INC/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_library_purchase_request" model="ir.sequence">
+        <field name="name">Library Purchase Request</field>
+        <field name="code">library.purchase.request</field>
+        <field name="prefix">PUR/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <record id="seq_library_space_booking" model="ir.sequence">
+        <field name="name">Library Space Booking</field>
+        <field name="code">library.space.booking</field>
+        <field name="prefix">SBK/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

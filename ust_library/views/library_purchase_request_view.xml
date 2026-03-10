@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_library_purchase_request_tree" model="ir.ui.view">
+        <field name="name">library.purchase.request.tree</field>
+        <field name="model">library.purchase.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="book_title"/>
+                <field name="author_name"/>
+                <field name="isbn"/>
+                <field name="request_count"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'requested'"
+                       decoration-success="state in ('approved', 'purchased')"
+                       decoration-danger="state == 'rejected'"
+                       decoration-warning="state == 'on_hold'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_purchase_request_form" model="ir.ui.view">
+        <field name="name">library.purchase.request.form</field>
+        <field name="model">library.purchase.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="oe_highlight" invisible="state != 'requested'"
+                            groups="ust_library.group_library_manager"/>
+                    <button name="action_reject" string="Reject" type="object"
+                            invisible="state not in ['requested', 'on_hold']"
+                            groups="ust_library.group_library_manager"/>
+                    <button name="action_hold" string="Put on Hold" type="object"
+                            invisible="state != 'requested'"
+                            groups="ust_library.group_library_manager"/>
+                    <button name="action_mark_purchased" string="Mark Purchased" type="object"
+                            class="oe_highlight" invisible="state != 'approved'"
+                            groups="ust_library.group_library_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="requested,approved,purchased"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Request Details">
+                            <field name="book_title" readonly="state != 'requested'"/>
+                            <field name="author_name" readonly="state != 'requested'"/>
+                            <field name="publisher_name" readonly="state != 'requested'"/>
+                            <field name="isbn" readonly="state != 'requested'"/>
+                        </group>
+                        <group string="Student Info">
+                            <field name="student_id" readonly="1"/>
+                            <field name="request_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason" readonly="state != 'requested'"/>
+                    </group>
+                    <group string="Manager" invisible="state == 'requested'" groups="ust_library.group_library_manager">
+                        <field name="created_book_id"/>
+                        <field name="manager_notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_library_purchase_request_search" model="ir.ui.view">
+        <field name="name">library.purchase.request.search</field>
+        <field name="model">library.purchase.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="book_title"/>
+                <filter name="filter_requested" string="Requested" domain="[('state', '=', 'requested')]"/>
+                <filter name="filter_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="filter_on_hold" string="On Hold" domain="[('state', '=', 'on_hold')]"/>
+                <filter name="filter_purchased" string="Purchased" domain="[('state', '=', 'purchased')]"/>
+                <group>
+                    <filter string="Student" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_library_purchase_request" model="ir.actions.act_window">
+        <field name="name">Purchase Requests</field>
+        <field name="res_model">library.purchase.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_library_purchase_request_search"/>
+    </record>
+</odoo>

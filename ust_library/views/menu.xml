@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root menu (visible to managers only – students use portal) -->
+    <menuitem id="menu_library_root" name="Library"
+              groups="ust_library.group_library_manager"
+              sequence="10"/>
+
+    <!-- Dashboard as first item -->
+    <menuitem id="menu_library_dashboard" name="Dashboard"
+              parent="menu_library_root"
+              action="action_library_dashboard"
+              sequence="1"
+              groups="ust_library.group_library_manager"/>
+
+    <!-- Catalog -->
+    <menuitem id="menu_library_catalog" name="Catalog"
+              parent="menu_library_root" sequence="10"
+              groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_authors" name="Authors"
+              parent="menu_library_catalog" action="action_library_author"
+              sequence="10" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_publishers" name="Publishers"
+              parent="menu_library_catalog" action="action_library_publisher"
+              sequence="20" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_categories" name="Categories"
+              parent="menu_library_catalog" action="action_library_category"
+              sequence="30" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_books" name="Books"
+              parent="menu_library_catalog" action="action_library_book"
+              sequence="40" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_copies" name="Book Copies"
+              parent="menu_library_catalog" action="action_library_copy"
+              sequence="50" groups="ust_library.group_library_manager"/>
+
+    <!-- Operations -->
+    <menuitem id="menu_library_operations" name="Operations"
+              parent="menu_library_root" sequence="20"
+              groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_borrow_requests" name="Borrow Requests"
+              parent="menu_library_operations" action="action_library_borrow_requests"
+              sequence="10" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_borrows" name="Borrows"
+              parent="menu_library_operations" action="action_library_borrow"
+              sequence="20" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_reservations" name="Reservations"
+              parent="menu_library_operations" action="action_library_reservation"
+              sequence="30" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_penalty_rule" name="Penalty Rules"
+              parent="menu_library_operations" action="action_library_penalty_rule"
+              sequence="40" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_incidents" name="Book Incidents"
+              parent="menu_library_operations" action="action_library_book_incident"
+              sequence="50" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_purchase_requests" name="Purchase Requests"
+              parent="menu_library_operations" action="action_library_purchase_request"
+              sequence="60" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_reviews" name="Book Reviews"
+              parent="menu_library_operations" action="action_library_book_review"
+              sequence="70" groups="ust_library.group_library_manager"/>
+
+    <!-- Facilities -->
+    <menuitem id="menu_library_facilities" name="Facilities"
+              parent="menu_library_root" sequence="25"
+              groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_spaces" name="Study Spaces"
+              parent="menu_library_facilities" action="action_library_space"
+              sequence="10" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_space_bookings" name="Space Bookings"
+              parent="menu_library_facilities" action="action_library_space_booking"
+              sequence="20" groups="ust_library.group_library_manager"/>
+
+    <!-- Monitoring / Reports -->
+    <menuitem id="menu_library_monitoring" name="Monitoring"
+              parent="menu_library_root" sequence="30"
+              groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_monitoring_overdue" name="Overdue Borrows"
+              parent="menu_library_monitoring" action="action_library_borrow_overdue"
+              sequence="10" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_reports_root" name="Reports"
+              parent="menu_library_monitoring" sequence="30"
+              groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_report_most_borrowed" name="Most Borrowed Books"
+              parent="menu_library_reports_root" action="action_library_report_most_borrowed"
+              sequence="10" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_report_active_borrowers" name="Active Borrowers"
+              parent="menu_library_reports_root" action="action_library_report_active_borrowers"
+              sequence="20" groups="ust_library.group_library_manager"/>
+    <menuitem id="menu_library_report_overdue" name="Overdue Books Report"
+              parent="menu_library_reports_root" action="action_library_report_overdue"
+              sequence="30" groups="ust_library.group_library_manager"/>
+</odoo>

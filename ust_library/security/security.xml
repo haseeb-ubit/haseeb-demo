@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_library_user" model="res.groups">
+        <field name="name">Library User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <record id="group_library_manager" model="res.groups">
+        <field name="name">Library Manager</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Portal students: see only own borrows -->
+    <record id="rule_library_borrow_user_own" model="ir.rule">
+        <field name="name">Library Borrow: own records only (portal)</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_user'))]"/>
+        <field name="domain_force">[('student_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Portal students: see only own reservations -->
+    <record id="rule_library_reservation_user_own" model="ir.rule">
+        <field name="name">Library Reservation: own records only (portal)</field>
+        <field name="model_id" ref="model_library_reservation"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_user'))]"/>
+        <field name="domain_force">[('student_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Manager: full access to all borrows -->
+    <record id="rule_library_borrow_manager_all" model="ir.rule">
+        <field name="name">Library Borrow: manager full access</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Manager: full access to all reservations -->
+    <record id="rule_library_reservation_manager_all" model="ir.rule">
+        <field name="name">Library Reservation: manager full access</field>
+        <field name="model_id" ref="model_library_reservation"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- ===== Book Incident Rules ===== -->
+    <record id="rule_library_incident_user_own" model="ir.rule">
+        <field name="name">Library Incident: own records only (portal)</field>
+        <field name="model_id" ref="model_library_book_incident"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_user'))]"/>
+        <field name="domain_force">[('student_id', '=', user.id)]</field>
+    </record>
+    <record id="rule_library_incident_manager_all" model="ir.rule">
+        <field name="name">Library Incident: manager full access</field>
+        <field name="model_id" ref="model_library_book_incident"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- ===== Purchase Request Rules ===== -->
+    <record id="rule_library_purchase_request_user_own" model="ir.rule">
+        <field name="name">Library Purchase Request: own records only (portal)</field>
+        <field name="model_id" ref="model_library_purchase_request"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_user'))]"/>
+        <field name="domain_force">[('student_id', '=', user.id)]</field>
+    </record>
+    <record id="rule_library_purchase_request_manager_all" model="ir.rule">
+        <field name="name">Library Purchase Request: manager full access</field>
+        <field name="model_id" ref="model_library_purchase_request"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- ===== Space Booking Rules ===== -->
+    <record id="rule_library_space_booking_user_own" model="ir.rule">
+        <field name="name">Library Space Booking: own records only (portal)</field>
+        <field name="model_id" ref="model_library_space_booking"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_user'))]"/>
+        <field name="domain_force">[('student_id', '=', user.id)]</field>
+    </record>
+    <record id="rule_library_space_booking_manager_all" model="ir.rule">
+        <field name="name">Library Space Booking: manager full access</field>
+        <field name="model_id" ref="model_library_space_booking"/>
+        <field name="groups" eval="[(4, ref('ust_library.group_library_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>
