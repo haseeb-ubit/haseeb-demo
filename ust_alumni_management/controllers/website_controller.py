@@ -15,10 +15,10 @@ class AlumniWebsiteController(http.Controller):
         # Get search parameters
         search = kw.get('search', '')
         department = kw.get('department', '')
-        graduation_year = kw.get('graduation_year', False)
         degree = kw.get('degree', '')
         country_id = kw.get('country_id', False)
-        
+        company_name = kw.get('company_name', '')
+
         # Build domain
         domain = [('active', '=', True)]
         
@@ -30,15 +30,20 @@ class AlumniWebsiteController(http.Controller):
         if department:
             domain.append(('department', 'ilike', department))
         
-        if graduation_year:
-            domain.append(('graduation_year', '=', graduation_year))
-        
         if degree:
             domain.append(('degree', 'ilike', degree))
         
         if country_id:
             domain.append(('country_id', '=', int(country_id)))
         
+        # Company name filter — find alumni who work(ed) at the selected company
+        if company_name:
+            employment_records = request.env['alumni.employment'].sudo().search([
+                ('company_name', 'ilike', company_name),
+            ])
+            alumni_ids = employment_records.mapped('alumni_id').ids
+            domain.append(('id', 'in', alumni_ids))
+
         # Pagination
         per_page = 12
         total = AlumniProfile.sudo().search_count(domain)
@@ -50,24 +55,34 @@ class AlumniWebsiteController(http.Controller):
             url_args=kw
         )
         
-        alumni = AlumniProfile.sudo().search(domain, limit=per_page, offset=(page - 1) * per_page, order='graduation_year desc, name')
+        alumni = AlumniProfile.sudo().search(domain, limit=per_page, offset=(page - 1) * per_page, order='name')
         
-        # Get filter options
-        all_alumni = AlumniProfile.sudo().search_read([], ['department', 'graduation_year', 'degree'])
-        unique_departments = sorted(set([a['department'] for a in all_alumni if a['department']]))
-        unique_years = sorted(set([a['graduation_year'] for a in all_alumni if a['graduation_year']]), reverse=True)
-        unique_degrees = sorted(set([a['degree'] for a in all_alumni if a['degree']]))
+        # Get filter options — departments are now free text, so get unique values
+        dept_records = AlumniProfile.sudo().search_read([('department', '!=', False)], ['department'])
+        unique_departments = sorted(set([d['department'] for d in dept_records if d['department']]))
+
         countries = request.env['res.country'].sudo().search([])
+        degree_records = AlumniProfile.sudo().search_read([('degree', '!=', False)], ['degree'])
+        unique_degrees = sorted(set([d['degree'] for d in degree_records if d['degree']]))
+
+        # Get unique company names from employment records
+        emp_records = request.env['alumni.employment'].sudo().search_read(
+            [('company_name', '!=', False)], ['company_name']
+        )
+        unique_companies = sorted(set([e['company_name'] for e in emp_records if e['company_name']]))
         
         values = {
             'alumni': alumni,
             'pager': pager,
             'search': search,
             'department': department,
+            'degree': degree,
+            'country_id': int(country_id) if country_id else False,
+            'company_name': company_name,
             'departments': unique_departments,
-            'years': unique_years,
             'countries': countries,
             'degrees': unique_degrees,
+            'companies': unique_companies,
             'page_name': 'alumni_directory',
         }
         
@@ -128,16 +143,20 @@ class AlumniWebsiteController(http.Controller):
         if filters.get('department'):
             domain.append(('department', 'ilike', filters['department']))
         
-        if filters.get('graduation_year'):
-            domain.append(('graduation_year', '=', filters['graduation_year']))
-        
         if filters.get('degree'):
             domain.append(('degree', 'ilike', filters['degree']))
         
         if filters.get('country_id'):
             domain.append(('country_id', '=', int(filters['country_id'])))
         
-        alumni = AlumniProfile.sudo().search(domain, limit=50, order='graduation_year desc, name')
+        if filters.get('company_name'):
+            employment_records = request.env['alumni.employment'].sudo().search([
+                ('company_name', 'ilike', filters['company_name']),
+            ])
+            alumni_ids = employment_records.mapped('alumni_id').ids
+            domain.append(('id', 'in', alumni_ids))
+
+        alumni = AlumniProfile.sudo().search(domain, limit=50, order='name')
         
         results = []
         for alum in alumni:
@@ -146,7 +165,7 @@ class AlumniWebsiteController(http.Controller):
                 'name': alum.name,
                 'email': alum.email,
                 'department': alum.department or '',
-                'graduation_year': alum.graduation_year,
+                'last_university': alum.last_university or '',
                 'degree': alum.degree or '',
                 'photo': f'/web/image/alumni.profile/{alum.id}/photo' if alum.photo else False,
                 'url': f'/alumni/{alum.url_slug or alum.id}',

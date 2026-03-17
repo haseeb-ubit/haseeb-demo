@@ -13,7 +13,7 @@ class AlumniProfile(models.Model):
     _description = 'Alumni Profile'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
-    _order = 'graduation_year desc, name'
+    _order = 'name'
 
     # Partner and User Links
     partner_id = fields.Many2one('res.partner', string='Contact', required=True, ondelete='cascade')
@@ -34,10 +34,10 @@ class AlumniProfile(models.Model):
     date_of_birth = fields.Date(string='Date of Birth')
     nationality = fields.Many2one('res.country', string='Nationality')
     
-    # Academic Information (Read-only in portal)
+    # Academic Information
+    last_university = fields.Char(string='Last University')
+    university_duration = fields.Char(string='Duration of University', help='e.g. 2008 - 2014')
     department = fields.Char(string='Department')
-    college = fields.Char(string='Last university')
-    graduation_year = fields.Char(string='Duration of university')
     degree = fields.Char(string='Degree')
     major = fields.Char(string='Major')
 
@@ -63,7 +63,6 @@ class AlumniProfile(models.Model):
                                                 compute='_compute_achievements_count', store=False)
     published_achievements_count = fields.Integer(string='Published Achievements', 
                                                   compute='_compute_achievements_count', store=False)
-    
 
     @api.depends('employment_ids', 'employment_ids.employment_type')
     def _compute_current_employment(self):
@@ -253,9 +252,9 @@ class AlumniProfile(models.Model):
                     partner_vals['mobile'] = vals['mobile']
                 if partner_vals:
                     record.partner_id.write(partner_vals)
-        
+
         res = super().write(vals)
-        
+
         # Auto-create portal user if email was added/updated and no user exists
         if 'email' in vals:
             for record in self:
@@ -263,10 +262,10 @@ class AlumniProfile(models.Model):
                     try:
                         record._auto_create_portal_user()
                     except Exception as e:
-                        _logger.warning("Failed to auto-create portal user for alumni '%s' upon update: %s", record.name, str(e))
-        
+                        _logger.warning("Failed to auto-create portal user for alumni '%s' upon update: %s",
+                                        record.name, str(e))
+
         return res
-    
     def _generate_url_slug(self, name, exclude_id=None, email=None):
         """Generate a URL-friendly slug from a name, ensuring uniqueness"""
         if not name:

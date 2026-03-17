@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_library_due_reminder" model="mail.template">
+        <field name="name">Library Due Reminder</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="subject">Library Reminder: Return Due Tomorrow (${object.name})</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="email_to">${object.student_partner_id.email or ''}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello ${object.student_partner_id.name},</p>
+                <p>Your borrowed book <strong>${object.book_id.name}</strong> is due on <strong>${object.expected_return_date}</strong>.</p>
+                <p>Borrowing is free, but late returns will incur penalties.</p>
+            </div>
+        </field>
+    </record>
+
+    <record id="mail_template_library_overdue_notice" model="mail.template">
+        <field name="name">Library Overdue Notice</field>
+        <field name="model_id" ref="model_library_borrow"/>
+        <field name="subject">Library Overdue Notice (${object.name})</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="email_to">${object.student_partner_id.email or ''}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello ${object.student_partner_id.name},</p>
+                <p>Your borrowed book <strong>${object.book_id.name}</strong> is overdue.</p>
+                <p>Late days: <strong>${object.late_days}</strong></p>
+                <p>Current penalty amount: <strong>${object.penalty_amount}</strong></p>
+            </div>
+        </field>
+    </record>
+
+    <record id="mail_template_library_reservation_available" model="mail.template">
+        <field name="name">Library Reservation Available</field>
+        <field name="model_id" ref="model_library_reservation"/>
+        <field name="subject">Reserved Book is Available (${object.name})</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="email_to">${object.student_partner_id.email or ''}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello ${object.student_partner_id.name},</p>
+                <p>Your reserved book <strong>${object.book_id.name}</strong> is now available.</p>
+                <p>Reservation window: <strong>${object.start_date}</strong> to <strong>${object.end_date}</strong></p>
+            </div>
+        </field>
+    </record>
+    <record id="mail_template_library_purchase_available" model="mail.template">
+        <field name="name">Library Purchase Request: Book Available</field>
+        <field name="model_id" ref="model_library_purchase_request"/>
+        <field name="subject">Your Requested Book is Now Available (${object.name})</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="email_to">${object.student_partner_id.email or ''}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello ${object.student_partner_id.name},</p>
+                <p>Great news! The book you requested — <strong>${object.book_title}</strong> — is now available in the library.</p>
+                <p>You can browse and borrow it from the library portal.</p>
+            </div>
+        </field>
+    </record>
+</odoo>

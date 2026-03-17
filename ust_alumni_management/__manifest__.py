@@ -21,9 +21,6 @@
         'portal',
         'website',
         'mail',
-        'hr',
-        'hr_skills',
-        'elearning_colleges',
     ],
     'data': [
         'security/alumni_security.xml',

@@ -7,7 +7,6 @@
         <field name="view_mode">graph,pivot,list</field>
         <field name="context">{
             'search_default_group_department': 1,
-            'search_default_group_year': 1,
         }</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -19,18 +18,6 @@
         </field>
     </record>
 
-    <!-- Graph View - Alumni by Year -->
-    <record id="view_alumni_graph_year" model="ir.ui.view">
-        <field name="name">alumni.profile.graph.year</field>
-        <field name="model">alumni.profile</field>
-        <field name="arch" type="xml">
-            <graph string="Alumni by Graduation Year" type="bar">
-                <field name="graduation_year" type="row"/>
-                <field name="id" type="measure"/>
-            </graph>
-        </field>
-    </record>
-
     <!-- Graph View - Alumni by Department -->
     <record id="view_alumni_graph_department" model="ir.ui.view">
         <field name="name">alumni.profile.graph.department</field>
@@ -38,6 +25,18 @@
         <field name="arch" type="xml">
             <graph string="Alumni by Department" type="pie">
                 <field name="department" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Graph View - Alumni by Last University -->
+    <record id="view_alumni_graph_university" model="ir.ui.view">
+        <field name="name">alumni.profile.graph.university</field>
+        <field name="model">alumni.profile</field>
+        <field name="arch" type="xml">
+            <graph string="Alumni by University" type="bar">
+                <field name="last_university" type="row"/>
                 <field name="id" type="measure"/>
             </graph>
         </field>
@@ -86,7 +85,7 @@
         <field name="arch" type="xml">
             <pivot string="Alumni Distribution">
                 <field name="department" type="row"/>
-                <field name="graduation_year" type="col"/>
+                <field name="last_university" type="col"/>
                 <field name="id" type="measure"/>
             </pivot>
         </field>

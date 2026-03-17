@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_library_book_incident_tree" model="ir.ui.view">
+        <field name="name">library.book.incident.tree</field>
+        <field name="model">library.book.incident</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="book_id"/>
+                <field name="copy_id"/>
+                <field name="incident_type"/>
+                <field name="replacement_cost"/>
+                <field name="payment_status" widget="badge"
+                       decoration-danger="payment_status == 'pending'"
+                       decoration-success="payment_status == 'paid'"
+                       decoration-info="payment_status == 'waived'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_book_incident_form" model="ir.ui.view">
+        <field name="name">library.book.incident.form</field>
+        <field name="model">library.book.incident</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_mark_paid" string="Mark Paid" type="object"
+                            class="oe_highlight" invisible="payment_status != 'pending'"
+                            groups="ust_library.group_library_manager"/>
+                    <button name="action_waive" string="Waive" type="object"
+                            invisible="payment_status != 'pending'"
+                            groups="ust_library.group_library_manager"/>
+                    <field name="payment_status" widget="statusbar"
+                           statusbar_visible="pending,paid,waived"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Incident Details">
+                            <field name="name" readonly="1"/>
+                            <field name="incident_type" readonly="1"/>
+                            <field name="replacement_cost"/>
+                        </group>
+                        <group string="Linked Records">
+                            <field name="student_id" readonly="1"/>
+                            <field name="book_id" readonly="1"/>
+                            <field name="copy_id" readonly="1"/>
+                            <field name="borrow_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_library_book_incident_search" model="ir.ui.view">
+        <field name="name">library.book.incident.search</field>
+        <field name="model">library.book.incident</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="book_id"/>
+                <filter name="filter_pending" string="Pending" domain="[('payment_status', '=', 'pending')]"/>
+                <filter name="filter_paid" string="Paid" domain="[('payment_status', '=', 'paid')]"/>
+                <filter name="filter_lost" string="Lost" domain="[('incident_type', '=', 'lost')]"/>
+                <filter name="filter_damaged" string="Damaged" domain="[('incident_type', '=', 'damaged')]"/>
+                <group>
+                    <filter string="Student" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Incident Type" name="group_type" context="{'group_by': 'incident_type'}"/>
+                    <filter string="Payment Status" name="group_payment" context="{'group_by': 'payment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_library_book_incident" model="ir.actions.act_window">
+        <field name="name">Book Incidents</field>
+        <field name="res_model">library.book.incident</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_library_book_incident_search"/>
+    </record>
+</odoo>

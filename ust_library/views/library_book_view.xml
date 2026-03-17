@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_library_book_tree" model="ir.ui.view">
+        <field name="name">library.book.tree</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="isbn"/>
+                <field name="publisher_id"/>
+                <field name="category_id"/>
+                <field name="total_copies"/>
+                <field name="available_copies"/>
+                <field name="borrowed_copies"/>
+                <field name="reserved_copies"/>
+                <field name="avg_rating" widget="float" optional="show"/>
+                <field name="review_count" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="cover_image" widget="image" class="oe_avatar"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="author_ids" widget="many2many_tags"/>
+                            <field name="publisher_id"/>
+                            <field name="category_id"/>
+                            <field name="isbn"/>
+                            <field name="edition"/>
+                        </group>
+                        <group>
+                            <field name="language"/>
+                            <field name="publication_year"/>
+                            <field name="number_of_pages"/>
+                            <field name="total_copies" readonly="1"/>
+                            <field name="available_copies" readonly="1"/>
+                            <field name="borrowed_copies" readonly="1"/>
+                            <field name="reserved_copies" readonly="1"/>
+                            <field name="avg_rating" readonly="1"/>
+                            <field name="review_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <group string="E-Book">
+                        <group>
+                            <field name="ebook_file" filename="ebook_filename"/>
+                            <field name="ebook_filename" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="ebook_available" readonly="1"/>
+                            <field name="ebook_download_allowed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Copies">
+                            <field name="copy_ids"/>
+                        </page>
+                        <page string="Reviews">
+                            <field name="review_ids" readonly="1">
+                                <list>
+                                    <field name="student_id"/>
+                                    <field name="rating"/>
+                                    <field name="review_text"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_library_book_search" model="ir.ui.view">
+        <field name="name">library.book.search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="isbn"/>
+                <field name="author_ids"/>
+                <field name="publisher_id"/>
+                <field name="category_id"/>
+                <filter name="filter_available" string="Available" domain="[('available_copies', '&gt;', 0)]"/>
+                <filter name="filter_borrowed" string="Borrowed" domain="[('borrowed_copies', '&gt;', 0)]"/>
+                <filter name="filter_reserved" string="Reserved" domain="[('reserved_copies', '&gt;', 0)]"/>
+                <group>
+                    <filter string="Category" name="group_by_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Publisher" name="group_by_publisher" context="{'group_by': 'publisher_id'}"/>
+                    <filter string="Language" name="group_by_language" context="{'group_by': 'language'}"/>
+                    <filter string="Year" name="group_by_year" context="{'group_by': 'publication_year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_library_book_search"/>
+    </record>
+</odoo>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===== Dashboard Form View ===== -->
+    <record id="view_library_dashboard_form" model="ir.ui.view">
+        <field name="name">library.dashboard.form</field>
+        <field name="model">library.dashboard</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0" duplicate="0">
+                <sheet>
+                    <div class="oe_title mb-4">
+                        <h1><i class="fa fa-tachometer me-2"/>Library Dashboard</h1>
+                    </div>
+
+                    <!-- Row 1: Catalog -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4 class="text-muted"><i class="fa fa-book me-1"/> Catalog</h4>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-primary">
+                                    <field name="total_books" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Book Titles</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-info">
+                                    <field name="total_copies" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Total Copies</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-secondary">
+                                    <field name="total_students" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Registered Students</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-info">
+                                <span class="o_stat_value display-6 text-info">
+                                    <field name="ebooks_available" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">E-Books</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Copy Status -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4 class="text-muted"><i class="fa fa-clone me-1"/> Copy Status</h4>
+                        </div>
+                        <div class="col">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-success">
+                                <span class="o_stat_value display-6 text-success">
+                                    <field name="copies_available" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Available</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-warning">
+                                <span class="o_stat_value display-6 text-warning">
+                                    <field name="copies_borrowed" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Borrowed</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-info">
+                                <span class="o_stat_value display-6 text-info">
+                                    <field name="copies_reserved" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Reserved</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-danger">
+                                <span class="o_stat_value display-6 text-danger">
+                                    <field name="copies_damaged" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Damaged</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-dark">
+                                <span class="o_stat_value display-6 text-dark">
+                                    <field name="copies_lost" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Lost</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Operations -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4 class="text-muted"><i class="fa fa-exchange me-1"/> Operations</h4>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-primary">
+                                    <field name="total_borrows" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Total Borrows</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-primary">
+                                <span class="o_stat_value display-6 text-primary">
+                                    <field name="active_borrows" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Active Borrows</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-danger">
+                                <span class="o_stat_value display-6 text-danger">
+                                    <field name="overdue_borrows" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Overdue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-danger">
+                                <span class="o_stat_value display-6 text-danger">
+                                    <field name="total_penalties" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Pending Penalties</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Reservations & Reviews -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4 class="text-muted"><i class="fa fa-calendar me-1"/> Reservations &amp; Reviews</h4>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6">
+                                    <field name="total_reservations" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Total Reservations</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-info">
+                                <span class="o_stat_value display-6 text-info">
+                                    <field name="active_reservations" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Active Reservations</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-warning">
+                                    <field name="total_reviews" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Book Reviews</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6 text-success">
+                                    <field name="total_spaces" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Study Spaces</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Extended Features -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4 class="text-muted"><i class="fa fa-cogs me-1"/> Extended</h4>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-warning">
+                                <span class="o_stat_value display-6 text-warning">
+                                    <field name="pending_incidents" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Pending Incidents</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
+                                <span class="o_stat_value display-6">
+                                    <field name="total_incidents" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Total Incidents</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-info">
+                                <span class="o_stat_value display-6 text-info">
+                                    <field name="pending_purchase_requests" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Pending Purchase Requests</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3 border-success">
+                                <span class="o_stat_value display-6 text-success">
+                                    <field name="active_space_bookings" nolabel="1"/>
+                                </span>
+                                <span class="o_stat_text text-muted">Active Room Bookings</span>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===== Dashboard Action ===== -->
+    <record id="action_library_dashboard" model="ir.actions.act_window">
+        <field name="name">Library Dashboard</field>
+        <field name="res_model">library.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="res_id">1</field>
+        <field name="target">current</field>
+        <field name="view_id" ref="view_library_dashboard_form"/>
+    </record>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_library_book_review_tree" model="ir.ui.view">
+        <field name="name">library.book.review.tree</field>
+        <field name="model">library.book.review</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="book_id"/>
+                <field name="student_id"/>
+                <field name="rating"/>
+                <field name="review_text"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_book_review_form" model="ir.ui.view">
+        <field name="name">library.book.review.form</field>
+        <field name="model">library.book.review</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="book_id"/>
+                            <field name="student_id"/>
+                        </group>
+                        <group>
+                            <field name="rating"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="review_text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_library_book_review_search" model="ir.ui.view">
+        <field name="name">library.book.review.search</field>
+        <field name="model">library.book.review</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="book_id"/>
+                <field name="student_id"/>
+                <group>
+                    <filter string="Book" name="group_book" context="{'group_by': 'book_id'}"/>
+                    <filter string="Rating" name="group_rating" context="{'group_by': 'rating'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_library_book_review" model="ir.actions.act_window">
+        <field name="name">Book Reviews</field>
+        <field name="res_model">library.book.review</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_library_book_review_search"/>
+    </record>
+</odoo>

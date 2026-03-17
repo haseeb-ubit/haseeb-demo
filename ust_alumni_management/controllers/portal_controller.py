@@ -98,7 +98,7 @@ class AlumniPortalController(http.Controller):
         section = kw.get('section', 'general')
         
         if section == 'general':
-            # Update personal information (academic fields are read-only)
+            # Update personal and academic information
             vals = {
                 'name': kw.get('name'),
                 'email': kw.get('email'),
@@ -111,9 +111,10 @@ class AlumniPortalController(http.Controller):
                 'street2': kw.get('street2'),
                 'city': kw.get('city'),
                 'zip': kw.get('zip'),
+                # Academic fields (editable by alumni)
+                'last_university': kw.get('last_university'),
+                'university_duration': kw.get('university_duration'),
                 'department': kw.get('department'),
-                'college': kw.get('college'),
-                'graduation_year': kw.get('graduation_year'),
                 'degree': kw.get('degree'),
                 'major': kw.get('major'),
             }

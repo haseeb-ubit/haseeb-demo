@@ -629,20 +629,20 @@
                                 <h5>Academic Details</h5>
                             </div>
                             <div class="mb-3">
-                                <label class="ap-label">Last university</label>
-                                <input type="text" name="college" t-att-value="alumni.college" class="form-control ap-input" placeholder="e.g. Stanford University"/>
+                                <label class="ap-label">Last University</label>
+                                <input type="text" name="last_university" t-att-value="alumni.last_university" class="form-control ap-input" placeholder="e.g. University of Science and Technology"/>
                             </div>
                             <div class="mb-3">
-                                <label class="ap-label">Duration of university</label>
-                                <input type="text" name="graduation_year" t-att-value="alumni.graduation_year" class="form-control ap-input" placeholder="e.g. 2020 - 2024"/>
+                                <label class="ap-label">Duration of University</label>
+                                <input type="text" name="university_duration" t-att-value="alumni.university_duration" class="form-control ap-input" placeholder="e.g. 2008 - 2014"/>
                             </div>
                             <div class="mb-3">
                                 <label class="ap-label">Department</label>
-                                <input type="text" name="department" t-att-value="alumni.department" class="form-control ap-input" placeholder="e.g. Engineering"/>
+                                <input type="text" name="department" t-att-value="alumni.department" class="form-control ap-input" placeholder="e.g. Computer Engineering"/>
                             </div>
                             <div class="mb-3">
                                 <label class="ap-label">Degree</label>
-                                <input type="text" name="degree" t-att-value="alumni.degree" class="form-control ap-input" placeholder="e.g. Bachelor of Science"/>
+                                <input type="text" name="degree" t-att-value="alumni.degree" class="form-control ap-input" placeholder="e.g. BCS, MSc"/>
                             </div>
                             <div class="mb-0">
                                 <label class="ap-label">Major</label>

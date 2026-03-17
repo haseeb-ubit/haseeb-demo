@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===== Portal /my home entries ===== -->
+    <template id="portal_my_home_library"
+              name="Portal Library Entries"
+              customize_show="True"
+              inherit_id="portal.portal_my_home"
+              priority="40">
+        <!-- enable the service category -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/ust_library/static/description/icon.png'"/>
+                <t t-set="title">My Library</t>
+                <t t-set="text">Borrows, reservations &amp; penalties</t>
+                <t t-set="url" t-value="'/my/library'"/>
+                <t t-set="placeholder_count" t-value="'library_borrow_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/ust_library/static/description/book.png'"/>
+                <t t-set="title">Browse Books</t>
+                <t t-set="text">Search, filter &amp; reserve library books</t>
+                <t t-set="url" t-value="'/my/library/books'"/>
+                <t t-set="placeholder_count" t-value="'library_reservation_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- ===== Library Dashboard (portal) ===== -->
+    <template id="portal_my_library_dashboard" name="My Library Dashboard">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <h2><i class="fa fa-book me-2"/>My Library Dashboard</h2>
+
+                <!-- Summary cards -->
+                <div class="row mt-3 g-3">
+                    <div class="col-md-3">
+                        <div class="card border-primary h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-primary"><i class="fa fa-exchange me-1"/>Borrows</h5>
+                                <p class="display-6 fw-bold"><t t-esc="library_borrow_count"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-secondary h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-secondary"><i class="fa fa-bookmark me-1"/>Reservations</h5>
+                                <p class="display-6 fw-bold"><t t-esc="library_reservation_count"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-warning h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-warning"><i class="fa fa-exclamation-triangle me-1"/>Overdue</h5>
+                                <p class="display-6 fw-bold"><t t-esc="len(overdue_borrows)"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-danger h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-danger"><i class="fa fa-usd me-1"/>Penalties</h5>
+                                <p class="display-6 fw-bold"><t t-esc="'%.2f' % penalty_total"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2 flex-wrap">
+                    <a class="btn btn-primary" href="/my/library/books"><i class="fa fa-search me-1"/>Browse Books</a>
+                    <a class="btn btn-outline-info" href="/my/library/recommendations"><i class="fa fa-lightbulb-o me-1"/>Recommendations</a>
+                    <a class="btn btn-outline-secondary" href="/my/library/purchase-requests"><i class="fa fa-shopping-cart me-1"/>Purchase Requests</a>
+                    <a class="btn btn-outline-success" href="/my/library/spaces"><i class="fa fa-building me-1"/>Study Spaces</a>
+                    <a class="btn btn-outline-dark" href="/my/library/space/bookings"><i class="fa fa-calendar-check-o me-1"/>My Room Bookings</a>
+                </div>
+
+                <!-- Space Bookings -->
+                <t t-if="space_bookings">
+                    <h4 class="mt-5 mb-3"><i class="fa fa-building me-1"/>Upcoming Room Bookings</h4>
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr><th>Ref</th><th>Space</th><th>Date</th><th>Time</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="space_bookings" t-as="sb">
+                                <tr>
+                                    <td><t t-esc="sb.name"/></td>
+                                    <td><t t-esc="sb.space_id.name"/></td>
+                                    <td><t t-esc="sb.date"/></td>
+                                    <td><t t-esc="'%02d:%02d' % (int(sb.start_time), int((sb.start_time - int(sb.start_time)) * 60))"/> - <t t-esc="'%02d:%02d' % (int(sb.end_time), int((sb.end_time - int(sb.end_time)) * 60))"/></td>
+                                    <td><span class="badge bg-success"><t t-esc="sb.state"/></span></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- Current &amp; Recent Borrows -->
+                <h4 class="mt-5 mb-3"><i class="fa fa-list me-1"/>Current &amp; Recent Borrows</h4>
+                <t t-if="borrows">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Book</th>
+                                <th>Borrow Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Penalty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="borrows" t-as="borrow">
+                                <tr t-attf-class="#{('table-danger' if borrow.state == 'overdue' else '')}">
+                                    <td><t t-esc="borrow.name"/></td>
+                                    <td><t t-esc="borrow.book_id.name"/></td>
+                                    <td><t t-esc="borrow.borrow_date"/></td>
+                                    <td><t t-esc="borrow.expected_return_date"/></td>
+                                    <td>
+                                        <span t-if="borrow.state == 'request'" class="badge bg-info">Request</span>
+                                        <span t-if="borrow.state == 'borrowed'" class="badge bg-primary">Borrowed</span>
+                                        <span t-if="borrow.state == 'overdue'" class="badge bg-danger">Overdue</span>
+                                        <span t-if="borrow.state == 'returned'" class="badge bg-success">Returned</span>
+                                        <span t-if="borrow.state == 'cancelled'" class="badge bg-secondary">Cancelled</span>
+                                    </td>
+                                    <td><t t-if="borrow.penalty_amount" t-esc="'%.2f' % borrow.penalty_amount"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <div t-else="" class="alert alert-light">No borrows found.</div>
+
+                <!-- Reservations -->
+                <h4 class="mt-5 mb-3"><i class="fa fa-calendar me-1"/>Reservations</h4>
+                <t t-if="reservations">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Book</th>
+                                <th>Copy</th>
+                                <th>Period</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="reservations" t-as="reservation">
+                                <tr>
+                                    <td><t t-esc="reservation.name"/></td>
+                                    <td><t t-esc="reservation.book_id.name"/></td>
+                                    <td><t t-esc="reservation.copy_id.name"/></td>
+                                    <td><t t-esc="reservation.start_date"/> – <t t-esc="reservation.end_date"/></td>
+                                    <td>
+                                        <span t-if="reservation.state == 'requested'" class="badge bg-info">Requested</span>
+                                        <span t-if="reservation.state == 'active'" class="badge bg-primary">Active</span>
+                                        <span t-if="reservation.state == 'done'" class="badge bg-success">Done</span>
+                                        <span t-if="reservation.state == 'cancelled'" class="badge bg-secondary">Cancelled</span>
+                                    </td>
+                                    <td>
+                                        <form t-if="reservation.state in ('requested', 'active')"
+                                              t-attf-action="/my/library/reservation/#{reservation.id}/cancel"
+                                              method="post" class="d-inline">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <div t-else="" class="alert alert-light">No reservations found.</div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Browse Books ===== -->
+    <template id="portal_library_books" name="Library Books">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <h2><i class="fa fa-book me-2"/>Library Books</h2>
+                <form method="get" action="/my/library/books" class="row g-2 mt-2 mb-4">
+                    <div class="col-md-3">
+                        <input type="text" name="search" class="form-control" placeholder="Title / ISBN / Author" t-att-value="search or ''"/>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="category_id" class="form-select">
+                            <option value="">All Categories</option>
+                            <t t-foreach="categories" t-as="cat">
+                                <option t-att-value="cat.id" t-att-selected="'selected' if category_id == cat.id else None"><t t-esc="cat.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="publisher_id" class="form-select">
+                            <option value="">All Publishers</option>
+                            <t t-foreach="publishers" t-as="pub">
+                                <option t-att-value="pub.id" t-att-selected="'selected' if publisher_id == pub.id else None"><t t-esc="pub.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <select name="language" class="form-select">
+                            <option value="">Lang</option>
+                            <t t-foreach="languages" t-as="lang">
+                                <option t-att-value="lang" t-att-selected="'selected' if language == lang else None"><t t-esc="lang"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <select name="publication_year" class="form-select">
+                            <option value="">Year</option>
+                            <t t-foreach="years" t-as="yr">
+                                <option t-att-value="yr" t-att-selected="'selected' if publication_year == yr else None"><t t-esc="yr"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <select name="status" class="form-select">
+                            <option value="all" t-att-selected="'selected' if status == 'all' else None">All</option>
+                            <option value="available" t-att-selected="'selected' if status == 'available' else None">Available</option>
+                            <option value="borrowed" t-att-selected="'selected' if status == 'borrowed' else None">Borrowed</option>
+                            <option value="reserved" t-att-selected="'selected' if status == 'reserved' else None">Reserved</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100"><i class="fa fa-filter me-1"/>Filter</button>
+                    </div>
+                </form>
+
+                <t t-if="books">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>ISBN</th>
+                                <th>Category</th>
+                                <th>Publisher</th>
+                                <th>Language</th>
+                                <th>Year</th>
+                                <th>Rating</th>
+                                <th>Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="books" t-as="book">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/my/library/book/#{book.id}"><t t-esc="book.name"/></a>
+                                        <i t-if="book.ebook_available" class="fa fa-file-pdf-o text-danger ms-1" title="E-Book available"/>
+                                    </td>
+                                    <td><t t-esc="book.isbn"/></td>
+                                    <td><t t-esc="book.category_id.name"/></td>
+                                    <td><t t-esc="book.publisher_id.name"/></td>
+                                    <td><t t-esc="book.language"/></td>
+                                    <td><t t-esc="book.publication_year"/></td>
+                                    <td>
+                                        <t t-if="book.review_count">
+                                            <span class="text-warning"><i class="fa fa-star"/></span>
+                                            <t t-esc="'%.1f' % book.avg_rating"/>
+                                            <small class="text-muted">(<t t-esc="book.review_count"/>)</small>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">A: <t t-esc="book.available_copies"/></span>
+                                        <span class="badge bg-warning text-dark">B: <t t-esc="book.borrowed_copies"/></span>
+                                        <span class="badge bg-info text-dark">R: <t t-esc="book.reserved_copies"/></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        <t t-call="portal.pager"/>
+                    </div>
+                </t>
+                <div t-else="" class="alert alert-light mt-3">
+                    <p>No books match your criteria.</p>
+                    <t t-if="search">
+                        <p>Can't find what you're looking for?</p>
+                        <a t-attf-href="/my/library/purchase-requests" class="btn btn-sm btn-outline-primary">
+                            <i class="fa fa-plus me-1"/>Request this Book
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Book Detail ===== -->
+    <template id="portal_library_book_detail" name="Library Book Detail">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library/books" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Books</a>
+                <div class="row">
+                    <div class="col-md-3 text-center" t-if="book.cover_image">
+                        <img t-att-src="'data:image/png;base64,%s' % book.cover_image.decode()" class="img-fluid rounded shadow-sm" style="max-height:300px;" alt="Cover"/>
+                    </div>
+                    <div t-attf-class="#{('col-md-9' if book.cover_image else 'col-md-12')}">
+                        <h2>
+                            <t t-esc="book.name"/>
+                            <t t-if="book.ebook_available">
+                                <a t-attf-href="/my/library/book/#{book.id}/ebook" class="btn btn-sm btn-outline-danger ms-2"><i class="fa fa-file-pdf-o me-1"/>Read Online</a>
+                                <a t-if="book.ebook_download_allowed" t-attf-href="/my/library/book/#{book.id}/ebook/download" class="btn btn-sm btn-outline-secondary ms-1"><i class="fa fa-download me-1"/>Download</a>
+                            </t>
+                        </h2>
+                        <t t-if="book.review_count">
+                            <p class="mb-1">
+                                <t t-foreach="range(1, 6)" t-as="star">
+                                    <i t-attf-class="fa fa-star#{'' if star &lt;= int(book.avg_rating + 0.5) else '-o'} text-warning"/>
+                                </t>
+                                <span class="ms-1"><t t-esc="'%.1f' % book.avg_rating"/> / 5</span>
+                                <small class="text-muted ms-1">(<t t-esc="book.review_count"/> reviews)</small>
+                            </p>
+                        </t>
+                        <table class="table table-borderless table-sm" style="max-width:500px;">
+                            <tr><td class="fw-bold">ISBN</td><td><t t-esc="book.isbn"/></td></tr>
+                            <tr><td class="fw-bold">Authors</td><td><t t-esc="', '.join(book.author_ids.mapped('name'))"/></td></tr>
+                            <tr><td class="fw-bold">Publisher</td><td><t t-esc="book.publisher_id.name"/></td></tr>
+                            <tr><td class="fw-bold">Category</td><td><t t-esc="book.category_id.name"/></td></tr>
+                            <tr><td class="fw-bold">Edition</td><td><t t-esc="book.edition"/></td></tr>
+                            <tr><td class="fw-bold">Language</td><td><t t-esc="book.language"/></td></tr>
+                            <tr><td class="fw-bold">Pages</td><td><t t-esc="book.number_of_pages"/></td></tr>
+                            <tr><td class="fw-bold">Year</td><td><t t-esc="book.publication_year"/></td></tr>
+                        </table>
+                        <p t-if="book.description"><t t-esc="book.description"/></p>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3"><i class="fa fa-copy me-1"/>Copies, Borrowing &amp; Reservation</h4>
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Copy</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Current Borrower</th>
+                                <th>Next Available</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="book.copy_ids" t-as="copy">
+                                <tr>
+                                    <td><t t-esc="copy.name"/></td>
+                                    <td><t t-esc="copy.location"/></td>
+                                    <td>
+                                        <span t-if="copy.status == 'available'" class="badge bg-success">Available</span>
+                                        <span t-if="copy.status == 'borrowed'" class="badge bg-warning text-dark">Borrowed</span>
+                                        <span t-if="copy.status == 'reserved'" class="badge bg-info text-dark">Reserved</span>
+                                        <span t-if="copy.status == 'damaged'" class="badge bg-danger">Damaged</span>
+                                        <span t-if="copy.status == 'lost'" class="badge bg-dark">Lost</span>
+                                    </td>
+                                    <td><t t-esc="copy.current_borrower_id.name"/></td>
+                                    <td><t t-esc="copy.next_available_date"/></td>
+                                    <td>
+                                        <!-- Borrow request (only if available) -->
+                                        <form t-if="copy.status in ('available',)" action="/my/library/borrow/request" method="post" class="d-inline-flex gap-1 mb-1">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="copy_id" t-att-value="copy.id"/>
+                                            <input type="date" name="expected_return_date" required="required" class="form-control form-control-sm" style="width:145px;"/>
+                                            <button type="submit" class="btn btn-sm btn-success">Borrow</button>
+                                        </form>
+                                        <!-- Reserve (any non-lost/non-damaged copy) -->
+                                        <form t-if="copy.status not in ('lost', 'damaged')" action="/my/library/reservation/create" method="post" class="d-inline-flex gap-1">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="copy_id" t-att-value="copy.id"/>
+                                            <input type="date" name="start_date" required="required" class="form-control form-control-sm" style="width:130px;" placeholder="From"/>
+                                            <input type="date" name="end_date" required="required" class="form-control form-control-sm" style="width:130px;" placeholder="To"/>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Reserve</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Reviews Section -->
+                <h4 class="mt-5 mb-3"><i class="fa fa-star me-1"/>Reviews</h4>
+                <t t-if="book.review_ids">
+                    <div class="list-group mb-3">
+                        <t t-foreach="book.review_ids" t-as="review">
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <strong><t t-esc="review.student_id.name"/></strong>
+                                    <small class="text-muted"><t t-esc="review.create_date"/></small>
+                                </div>
+                                <div>
+                                    <t t-foreach="range(1, 6)" t-as="star">
+                                        <i t-attf-class="fa fa-star#{'' if star &lt;= review.rating else '-o'} text-warning"/>
+                                    </t>
+                                </div>
+                                <p class="mb-0 mt-1" t-if="review.review_text"><t t-esc="review.review_text"/></p>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <div t-else="" class="alert alert-light">No reviews yet. Be the first to review!</div>
+
+                <!-- Review form -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><t t-if="existing_review">Update Your Review</t><t t-else="">Write a Review</t></h5>
+                        <form t-attf-action="/my/library/book/#{book.id}/review" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="form-label">Rating</label>
+                                <div>
+                                    <t t-foreach="range(1, 6)" t-as="r">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="rating"
+                                                   t-att-value="r" t-att-id="'rating_%s' % r"
+                                                   t-att-checked="'checked' if existing_review and existing_review.rating == r else ('checked' if not existing_review and r == 3 else None)"/>
+                                            <label class="form-check-label" t-att-for="'rating_%s' % r"><t t-esc="r"/> <i class="fa fa-star text-warning"/></label>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Review</label>
+                                <textarea name="review_text" class="form-control" rows="3"><t t-if="existing_review" t-esc="existing_review.review_text"/></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane me-1"/>Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== E-Book Reader ===== -->
+    <template id="portal_library_ebook_reader" name="E-Book Reader">
+        <t t-call="portal.portal_layout">
+            <div class="container-fluid mt-4">
+                <a t-attf-href="/my/library/book/#{book.id}" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Book</a>
+                <h3><i class="fa fa-file-pdf-o me-2"/><t t-esc="book.name"/> — E-Book Reader</h3>
+                <div class="border rounded bg-white" style="height:80vh;">
+                    <iframe t-attf-src="/web/content/library.book/#{book.id}/ebook_file/#{book.ebook_filename or 'ebook.pdf'}" width="100%" height="100%" style="border:none;"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Recommendations ===== -->
+    <template id="portal_library_recommendations" name="Book Recommendations">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Dashboard</a>
+                <h2><i class="fa fa-lightbulb-o me-2"/>Book Recommendations</h2>
+
+                <!-- Popular -->
+                <h4 class="mt-4 mb-3"><i class="fa fa-fire me-1 text-danger"/>Popular Books</h4>
+                <t t-if="popular_books">
+                    <div class="row g-3">
+                        <t t-foreach="popular_books" t-as="book">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title"><a t-attf-href="/my/library/book/#{book.id}"><t t-esc="book.name"/></a></h6>
+                                        <p class="card-text text-muted small">
+                                            <t t-esc="book.category_id.name"/>
+                                            <t t-if="book.avg_rating"> — <i class="fa fa-star text-warning"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <div t-else="" class="alert alert-light">No data yet.</div>
+
+                <!-- Recommended for You -->
+                <h4 class="mt-5 mb-3"><i class="fa fa-thumbs-up me-1 text-primary"/>Recommended for You</h4>
+                <t t-if="recommended_books">
+                    <div class="row g-3">
+                        <t t-foreach="recommended_books" t-as="book">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title"><a t-attf-href="/my/library/book/#{book.id}"><t t-esc="book.name"/></a></h6>
+                                        <p class="card-text text-muted small">
+                                            <t t-esc="book.category_id.name"/>
+                                            <t t-if="book.avg_rating"> — <i class="fa fa-star text-warning"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <div t-else="" class="alert alert-light">Borrow some books to get personalised recommendations!</div>
+
+                <!-- Trending -->
+                <h4 class="mt-5 mb-3"><i class="fa fa-line-chart me-1 text-success"/>Trending (Last 30 Days)</h4>
+                <t t-if="trending_books">
+                    <div class="row g-3">
+                        <t t-foreach="trending_books" t-as="book">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title"><a t-attf-href="/my/library/book/#{book.id}"><t t-esc="book.name"/></a></h6>
+                                        <p class="card-text text-muted small">
+                                            <t t-esc="book.category_id.name"/>
+                                            <t t-if="book.avg_rating"> — <i class="fa fa-star text-warning"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <div t-else="" class="alert alert-light">No trending data yet.</div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Purchase Requests ===== -->
+    <template id="portal_library_purchase_requests" name="My Purchase Requests">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Dashboard</a>
+                <h2><i class="fa fa-shopping-cart me-2"/>My Purchase Requests</h2>
+
+                <!-- Submit form -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Request a New Book</h5>
+                        <form action="/my/library/purchase-request" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" name="book_title" class="form-control" placeholder="Book Title *" required="required"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="author_name" class="form-control" placeholder="Author"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="publisher_name" class="form-control" placeholder="Publisher"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="isbn" class="form-control" placeholder="ISBN"/>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <textarea name="reason" class="form-control" rows="2" placeholder="Reason for request (e.g. Required for my course)"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2"><i class="fa fa-paper-plane me-1"/>Submit Request</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- List -->
+                <t t-if="purchase_requests">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Book Title</th>
+                                <th>Author</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="purchase_requests" t-as="pr">
+                                <tr>
+                                    <td><t t-esc="pr.name"/></td>
+                                    <td><t t-esc="pr.book_title"/></td>
+                                    <td><t t-esc="pr.author_name"/></td>
+                                    <td>
+                                        <span t-if="pr.state == 'requested'" class="badge bg-info">Requested</span>
+                                        <span t-if="pr.state == 'approved'" class="badge bg-success">Approved</span>
+                                        <span t-if="pr.state == 'rejected'" class="badge bg-danger">Rejected</span>
+                                        <span t-if="pr.state == 'on_hold'" class="badge bg-warning text-dark">On Hold</span>
+                                        <span t-if="pr.state == 'purchased'" class="badge bg-primary">Purchased</span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <div t-else="" class="alert alert-light">No purchase requests yet.</div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Study Spaces List ===== -->
+    <template id="portal_library_spaces" name="Library Study Spaces">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Dashboard</a>
+                <h2><i class="fa fa-building me-2"/>Study Spaces</h2>
+                <div class="row g-3 mt-2">
+                    <t t-foreach="spaces" t-as="space">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title"><t t-esc="space.name"/></h5>
+                                    <p class="card-text">
+                                        <span class="badge bg-secondary"><t t-esc="dict(space._fields['space_type'].selection).get(space.space_type, space.space_type)"/></span>
+                                        <span class="ms-2"><i class="fa fa-users me-1"/><t t-esc="space.capacity"/> capacity</span>
+                                    </p>
+                                    <p t-if="space.location" class="text-muted small"><i class="fa fa-map-marker me-1"/><t t-esc="space.location"/></p>
+                                    <a t-attf-href="/my/library/space/#{space.id}/calendar" class="btn btn-primary btn-sm"><i class="fa fa-calendar me-1"/>View Calendar &amp; Book</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div t-if="not spaces" class="alert alert-light mt-3">No study spaces available.</div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== Space Calendar (with FullCalendar) ===== -->
+    <template id="portal_library_space_calendar" name="Space Booking Calendar">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library/spaces" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Spaces</a>
+                <h2><i class="fa fa-calendar me-2"/><t t-esc="space.name"/> — Booking Calendar</h2>
+                <p class="text-muted">
+                    <span class="badge bg-secondary"><t t-esc="dict(space._fields['space_type'].selection).get(space.space_type, space.space_type)"/></span>
+                    <span class="ms-2"><i class="fa fa-users me-1"/><t t-esc="space.capacity"/> capacity</span>
+                    <span t-if="space.location" class="ms-2"><i class="fa fa-map-marker me-1"/><t t-esc="space.location"/></span>
+                </p>
+
+                <!-- Booking form -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Book this Space</h5>
+                        <form action="/my/library/space/book" method="post" class="row g-2 align-items-end">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="space_id" t-att-value="space.id"/>
+                            <div class="col-md-3">
+                                <label class="form-label">Date</label>
+                                <input type="date" name="date" class="form-control" required="required"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Start Time</label>
+                                <input type="number" name="start_time" class="form-control" placeholder="e.g. 9.0" step="0.5" min="0" max="23.5" required="required"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">End Time</label>
+                                <input type="number" name="end_time" class="form-control" placeholder="e.g. 11.0" step="0.5" min="0.5" max="24" required="required"/>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary w-100"><i class="fa fa-check me-1"/>Book</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- FullCalendar container -->
+                <div id="library_calendar" data-space-id="" t-att-data-space-id="space.id"></div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ===== My Space Bookings ===== -->
+    <template id="portal_library_my_space_bookings" name="My Space Bookings">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <a href="/my/library" class="btn btn-sm btn-outline-secondary mb-3"><i class="fa fa-arrow-left me-1"/>Back to Dashboard</a>
+                <h2><i class="fa fa-calendar-check-o me-2"/>My Room Bookings</h2>
+                <t t-if="bookings">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Space</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="bookings" t-as="bk">
+                                <tr>
+                                    <td><t t-esc="bk.name"/></td>
+                                    <td><t t-esc="bk.space_id.name"/></td>
+                                    <td><t t-esc="bk.date"/></td>
+                                    <td><t t-esc="'%02d:%02d' % (int(bk.start_time), int((bk.start_time - int(bk.start_time)) * 60))"/> - <t t-esc="'%02d:%02d' % (int(bk.end_time), int((bk.end_time - int(bk.end_time)) * 60))"/></td>
+                                    <td>
+                                        <span t-if="bk.state == 'requested'" class="badge bg-info">Requested</span>
+                                        <span t-if="bk.state == 'confirmed'" class="badge bg-success">Confirmed</span>
+                                        <span t-if="bk.state == 'cancelled'" class="badge bg-secondary">Cancelled</span>
+                                        <span t-if="bk.state == 'completed'" class="badge bg-dark">Completed</span>
+                                    </td>
+                                    <td>
+                                        <form t-if="bk.state in ('requested', 'confirmed')"
+                                              t-attf-action="/my/library/space/booking/#{bk.id}/cancel"
+                                              method="post" class="d-inline">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <div t-else="" class="alert alert-light">No room bookings yet.</div>
+            </div>
+        </t>
+    </template>
+</odoo>
