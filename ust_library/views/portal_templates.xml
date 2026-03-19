@@ -7,24 +7,184 @@
           customize_show="True"
           inherit_id="portal.portal_my_home"
           priority="40">
+
     <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
         <t t-set="portal_service_category_enable" t-value="True"/>
     </xpath>
+
     <div id="portal_service_category" position="inside">
-        <t t-call="portal.portal_docs_entry">
-            <t t-set="icon" t-value="'/ust_library/static/description/icon.png'"/>
-            <t t-set="title">My Library</t>
-            <t t-set="text">Borrows, reservations &amp; penalties</t>
-            <t t-set="url" t-value="'/my/library'"/>
-            <t t-set="placeholder_count" t-value="'library_borrow_count'"/>
-        </t>
-        <t t-call="portal.portal_docs_entry">
-            <t t-set="icon" t-value="'/ust_library/static/description/book.png'"/>
-            <t t-set="title">Browse Books</t>
-            <t t-set="text">Search, filter &amp; reserve library books</t>
-            <t t-set="url" t-value="'/my/library/books'"/>
-            <t t-set="placeholder_count" t-value="'library_reservation_count'"/>
-        </t>
+
+        <!-- ===== Injected CSS ===== -->
+        <style>
+            .ust-library-section {
+                margin-bottom: 0rem;
+            }
+
+            .ust-library-section-header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 1.25rem;
+            }
+
+            .ust-library-section-header::before,
+            .ust-library-section-header::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: #e0e0e0;
+            }
+
+            .ust-library-section-label {
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 2.5px;
+                text-transform: uppercase;
+                color: #888;
+                white-space: nowrap;
+                padding: 0 8px;
+            }
+
+            .ust-library-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 9px;
+            }
+
+            .ust-lib-card {
+                display: flex;
+                align-items: flex-start;
+                gap: 16px;
+                background: #F8F9FA;
+                border-radius: 0.4rem;
+                padding:16px;
+                text-decoration: none !important;
+                color: inherit !important;
+                position: relative;
+                overflow: hidden;
+                transition: background 0.15s ease;
+            }
+
+            .ust-lib-card:hover {
+                background: #DAE0E5;
+                text-decoration: none !important;
+            }
+            .ust-lib-card-icon img {
+                width: 64px;
+                height: 64px;
+                object-fit: contain;
+                display: block;
+            }
+
+            .ust-lib-card-body {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .ust-lib-card-title {
+                font-size: 15px;
+                font-weight: 600;
+                color: #1a1a2e;
+                margin: 0 0 4px;
+                line-height: 1.3;
+            }
+
+            .ust-lib-card-text {
+                font-size: 13px;
+                color: #888;
+                margin: 0;
+                line-height: 1.5;
+            }
+
+            .ust-lib-card-meta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 14px;
+            }
+
+            .ust-lib-badge {
+                font-size: 11px;
+                font-weight: 500;
+                padding: 3px 10px;
+                border-radius: 20px;
+                background: #eef3ff;
+                color: #4a7fd4;
+                border: 1px solid #d0e0ff;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .ust-lib-badge-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #4a7fd4;
+                display: inline-block;
+            }
+
+            .ust-lib-arrow {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: #f5f7ff;
+                border: 1px solid #dce8ff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                color: #4a7fd4;
+                flex-shrink: 0;
+                transition: background 0.2s ease;
+            }
+
+            .ust-lib-card-browse .ust-lib-badge {
+                background: #edfaf4;
+                color: #2d9e6b;
+                border-color: #b8e8d0;
+            }
+
+            .ust-lib-card-browse .ust-lib-badge-dot {
+                background: #2d9e6b;
+            }
+
+            .ust-lib-card-browse .ust-lib-arrow {
+                background: #f0faf5;
+                border-color: #cceedd;
+                color: #2d9e6b;
+            }
+
+
+        </style>
+
+        <!-- ===== My Library Card ===== -->
+            <div class="ust-library-section">
+            <div class="ust-library-grid">
+
+                <a t-attf-href="/my/library" class="ust-lib-card">
+                    <div class="ust-lib-card-icon">
+                        <img src="/ust_library/static/description/icon.png" alt="Library"/>
+                    </div>
+                    <div class="ust-lib-card-body">
+                        <p class="ust-lib-card-title">My Library</p>
+                        <p class="ust-lib-card-text">Borrows, reservations &amp; penalties</p>
+                    </div>
+                </a>
+
+                <a t-attf-href="/my/library/books" class="ust-lib-card ust-lib-card-browse">
+                    <div class="ust-lib-card-icon">
+                        <img src="/ust_library/static/description/book.png" alt="Browse Books"/>
+                    </div>
+                    <div class="ust-lib-card-body">
+                        <p class="ust-lib-card-title">Browse Books</p>
+                        <p class="ust-lib-card-text">Search, filter &amp; reserve library books</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -85,6 +245,7 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: 1.75rem 1.5rem 4rem;
+    min-height: 100vh;
 }
 
 /* ─── Page header ─── */
