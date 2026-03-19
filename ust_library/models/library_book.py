@@ -13,13 +13,13 @@ class LibraryBook(models.Model):
     _order = "name"
 
     name = fields.Char("Title", required=True, tracking=True)
-    author_ids = fields.Many2many("library.author", string="Authors")
+    author_ids = fields.Many2many("library.author", string="Authors", required=True)
     publisher_id = fields.Many2one("library.publisher", string="Publisher")
-    isbn = fields.Char(string="ISBN", tracking=True)
+    isbn = fields.Char(string="ISBN", tracking=True, required=True)
     edition = fields.Char()
     language = fields.Char()
     number_of_pages = fields.Integer()
-    category_id = fields.Many2one("library.category", string="Category")
+    category_id = fields.Many2one("library.category", string="Category", required=True)
     description = fields.Text()
     cover_image = fields.Image()
     publication_year = fields.Integer()

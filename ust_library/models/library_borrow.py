@@ -66,11 +66,13 @@ class LibraryBorrow(models.Model):
                 vals["name"] = self.env["ir.sequence"].next_by_code("library.borrow") or "New"
         return super().create(vals_list)
 
-    @api.constrains("expected_return_date", "request_date")
+    @api.constrains("expected_return_date", "request_date", "borrow_date")
     def _check_dates(self):
         for record in self:
             if record.expected_return_date and record.request_date and record.expected_return_date < record.request_date:
                 raise ValidationError("Expected return date cannot be earlier than request date.")
+            if record.expected_return_date and record.borrow_date and record.expected_return_date < record.borrow_date:
+                raise ValidationError("Expected return date cannot be earlier than borrow date.")
 
     @api.depends("state", "expected_return_date", "return_date")
     def _compute_late_days(self):
@@ -109,12 +111,16 @@ class LibraryBorrow(models.Model):
         for record in self:
             if record.copy_id.status not in ("available", "reserved"):
                 raise ValidationError("Only available/reserved copies can be approved for borrow.")
+
             record.write({"state": "borrowed", "borrow_date": fields.Date.today()})
             record.copy_id.status = "borrowed"
 
     def action_mark_returned(self):
         for record in self:
-            condition = record.return_condition or "good"
+            condition = record.return_condition
+            if not condition:
+                raise ValidationError("Please specify the Return Condition (Good, Damaged, or Lost) before marking the book as returned.")
+                
             record.write({"state": "returned", "return_date": fields.Date.today()})
             if condition == "lost":
                 record.copy_id.status = "lost"

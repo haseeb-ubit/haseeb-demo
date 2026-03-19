@@ -89,3 +89,93 @@ class LibraryDashboard(models.Model):
                 SELECT 1 AS id, 'Library Dashboard' AS name
             )
         """)
+
+
+import calendar
+from datetime import date
+
+
+class LibraryDashboardAPI(models.AbstractModel):
+    """JSON API consumed by the OWL dashboard client action."""
+    _name = "library.dashboard.api"
+    _description = "Library Dashboard API"
+
+    @api.model
+    def get_dashboard_data(self):
+        Copy = self.env["library.book.copy"].sudo()
+        Borrow = self.env["library.borrow"].sudo()
+        Reservation = self.env["library.reservation"].sudo()
+        Incident = self.env["library.book.incident"].sudo()
+        PurchaseReq = self.env["library.purchase.request"].sudo()
+        Review = self.env["library.book.review"].sudo()
+        Book = self.env["library.book"].sudo()
+        Space = self.env["library.space"].sudo()
+        SpaceBooking = self.env["library.space.booking"].sudo()
+
+        # ── KPI scalars ──
+        data = {
+            "total_books": Book.search_count([]),
+            "total_copies": Copy.search_count([]),
+            "ebooks_available": Book.search_count([("ebook_available", "=", True)]),
+            "total_students": (
+                self.env["res.users"]
+                .sudo()
+                .search_count([("group_ids", "in", [self.env.ref("ust_library.group_library_user").id])])
+            ),
+            "student_group_id": self.env.ref("ust_library.group_library_user").id,
+            "active_borrows": Borrow.search_count([("state", "in", ("borrowed", "overdue"))]),
+            "overdue_borrows": Borrow.search_count([("state", "=", "overdue")]),
+            "total_penalties": sum(
+                Borrow.search([("state", "=", "overdue")]).mapped("penalty_amount")
+            ),
+            "active_reservations": Reservation.search_count([("state", "in", ("requested", "active"))]),
+            "total_reviews": Review.search_count([]),
+            "total_spaces": Space.search_count([]),
+            "active_space_bookings": SpaceBooking.search_count([("state", "in", ("requested", "confirmed"))]),
+            "total_purchase_requests": PurchaseReq.search_count([]),
+        }
+
+        # ── 1. Copy Status Distribution (Donut) ──
+        data["copy_status"] = {
+            "labels": ["Available", "Borrowed", "Reserved", "Damaged", "Lost"],
+            "values": [
+                Copy.search_count([("status", "=", "available")]),
+                Copy.search_count([("status", "=", "borrowed")]),
+                Copy.search_count([("status", "=", "reserved")]),
+                Copy.search_count([("status", "=", "damaged")]),
+                Copy.search_count([("status", "=", "lost")]),
+            ],
+        }
+
+        # ── 2. Monthly Borrowing Trend (Bar) ──
+        current_year = date.today().year
+        self.env.cr.execute("""
+            SELECT EXTRACT(MONTH FROM borrow_date)::int AS month, COUNT(id)
+            FROM library_borrow
+            WHERE EXTRACT(YEAR FROM borrow_date) = %s
+            GROUP BY 1
+        """, (current_year,))
+        monthly = {row[0]: row[1] for row in self.env.cr.fetchall()}
+        data["monthly_borrows"] = {
+            "labels": [calendar.month_abbr[i] for i in range(1, 13)],
+            "values": [monthly.get(i, 0) for i in range(1, 13)],
+        }
+
+        # ── 3. Top Borrowed Categories (Horizontal Bar) ──
+        self.env.cr.execute("""
+            SELECT c.name, COUNT(b.id) AS cnt
+            FROM library_borrow b
+            JOIN library_book_copy cp ON b.copy_id = cp.id
+            JOIN library_book bk ON cp.book_id = bk.id
+            LEFT JOIN library_category c ON bk.category_id = c.id
+            GROUP BY c.name
+            ORDER BY cnt DESC
+            LIMIT 5
+        """)
+        rows = self.env.cr.fetchall()
+        data["top_categories"] = {
+            "labels": [r[0] or "Uncategorized" for r in rows],
+            "values": [r[1] for r in rows],
+        }
+
+        return data

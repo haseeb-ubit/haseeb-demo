@@ -22,7 +22,7 @@ class LibraryBookCopy(models.Model):
         tracking=True,
     )
     location = fields.Char()
-    book_price = fields.Float(string="Replacement Price", help="Price used to calculate replacement cost if lost or damaged.")
+    book_price = fields.Float(string="Replacement Price", required=True, help="Price used to calculate replacement cost if lost or damaged.")
     borrow_ids = fields.One2many("library.borrow", "copy_id", string="Borrows")
     reservation_ids = fields.One2many("library.reservation", "copy_id", string="Reservations")
     current_borrower_id = fields.Many2one("res.users", compute="_compute_current_borrower", store=False)

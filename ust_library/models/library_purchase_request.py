@@ -21,7 +21,7 @@ class LibraryPurchaseRequest(models.Model):
     author_name = fields.Char(string="Author")
     publisher_name = fields.Char(string="Publisher")
     isbn = fields.Char(string="ISBN")
-    reason = fields.Text(string="Reason for Request")
+    reason = fields.Text(string="Reason for Request", required=True)
     state = fields.Selection(
         [
             ("requested", "Requested"),

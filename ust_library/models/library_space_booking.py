@@ -50,6 +50,12 @@ class LibrarySpaceBooking(models.Model):
             if record.start_time < 0 or record.end_time > 24:
                 raise ValidationError("Times must be between 0 and 24.")
 
+    @api.constrains("date")
+    def _check_past_date(self):
+        for record in self:
+            if record.date and record.date < fields.Date.today():
+                raise ValidationError("You cannot book a space for a past date.")
+
     @api.constrains("space_id", "date", "start_time", "end_time", "state")
     def _check_double_booking(self):
         for record in self:
@@ -63,10 +69,11 @@ class LibrarySpaceBooking(models.Model):
                 ("start_time", "<", record.end_time),
                 ("end_time", ">", record.start_time),
             ])
-            if overlapping:
+            # Functional Spec Sync: Allow concurrent bookings up to the space's designated capacity
+            if overlapping >= record.space_id.capacity:
                 raise ValidationError(
-                    "This space is already booked for the selected time slot. "
-                    "Please choose a different time or space."
+                    f"This space has reached its maximum capacity ({record.space_id.capacity}) "
+                    "for the selected time slot. Please choose a different time or space."
                 )
 
     def action_confirm(self):

@@ -16,6 +16,7 @@ access_library_reservation_manager,library.reservation.manager,model_library_res
 access_library_penalty_rule_user,library.penalty.rule.user,model_library_penalty_rule,ust_library.group_library_user,1,0,0,0
 access_library_penalty_rule_manager,library.penalty.rule.manager,model_library_penalty_rule,ust_library.group_library_manager,1,1,1,1
 access_library_dashboard_manager,library.dashboard.manager,model_library_dashboard,ust_library.group_library_manager,1,0,0,0
+access_library_dashboard_api_manager,library.dashboard.api.manager,model_library_dashboard_api,ust_library.group_library_manager,1,0,0,0
 access_library_incident_user,library.book.incident.user,model_library_book_incident,ust_library.group_library_user,1,0,0,0
 access_library_incident_manager,library.book.incident.manager,model_library_book_incident,ust_library.group_library_manager,1,1,1,1
 access_library_review_user,library.book.review.user,model_library_book_review,ust_library.group_library_user,1,1,1,0

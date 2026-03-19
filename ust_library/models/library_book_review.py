@@ -17,7 +17,7 @@ class LibraryBookReview(models.Model):
     )
     book_id = fields.Many2one("library.book", string="Book", required=True, ondelete="cascade")
     rating = fields.Integer(string="Rating (1-5)", required=True)
-    review_text = fields.Text(string="Review")
+    review_text = fields.Text(string="Review", required=True)
 
     _sql_constraints = [
         (

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ust_library.LibraryDashboard" owl="1">
+        <div class="o_action">
+            <div class="o_content" style="background-color: #f8f9fa;">
+                <div class="container-fluid p-4">
+
+                    <!-- Header -->
+                    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-2 text-dark">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-tachometer fs-2 me-3" style="color: #714B67;"/>
+                            <div>
+                                <h3 class="mb-0 fw-bolder">Library Dashboard</h3>
+                                <div class="text-muted small">Command Center for Library Operations</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading -->
+                    <div t-if="state.loading" class="text-center py-5">
+                        <div class="spinner-border text-primary" style="color: #714B67 !important;" role="status"/>
+                    </div>
+
+                    <div t-if="!state.loading">
+
+                        <!-- ═══ 1. Inventory Health ═══ -->
+                        <div class="d-flex align-items-center mb-3 mt-2">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fa fa-heartbeat me-2 text-primary"/> Inventory Health</h5>
+                        </div>
+                        <div class="row g-4 mb-5">
+                            <div class="col-lg-8">
+                                <div class="row g-4">
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.book', 'Book Titles')">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Book Titles</div>
+                                                    <div class="ld-icon-box ld-icon-primary"><i class="fa fa-book"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_books"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.book.copy', 'Total Copies')">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Total Copies</div>
+                                                    <div class="ld-icon-box ld-icon-info"><i class="fa fa-clone"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_copies"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.book', 'E-Books', [['ebook_available', '=', true]])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">E-Books</div>
+                                                    <div class="ld-icon-box ld-icon-success"><i class="fa fa-tablet"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.ebooks_available"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('res.users', 'Students', [['group_ids', 'in', [state.data.student_group_id]]])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Students</div>
+                                                    <div class="ld-icon-box ld-icon-secondary"><i class="fa fa-users"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_students"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card shadow-sm border-0 h-100 rounded-4">
+                                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                                        <h6 class="fw-bold mb-0 text-dark">Copy Status Distribution</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="position:relative; height:220px;">
+                                            <canvas t-ref="donutChart"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══ 2. Operational Flow ═══ -->
+                        <div class="d-flex align-items-center mb-3">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fa fa-exchange me-2 text-warning"/> Operational Flow</h5>
+                        </div>
+                        <div class="row g-4 mb-5">
+                            <div class="col-lg-5">
+                                <div class="row g-4">
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.borrow', 'Active Borrows', [['state', 'in', ['borrowed', 'overdue']]])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Active Borrows</div>
+                                                    <div class="ld-icon-box ld-icon-primary"><i class="fa fa-hand-o-right"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.active_borrows"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.borrow', 'Overdue Borrows', [['state', '=', 'overdue']])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Overdue</div>
+                                                    <div class="ld-icon-box ld-icon-danger"><i class="fa fa-exclamation-circle"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.overdue_borrows"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.borrow', 'Penalties', [['state', '=', 'overdue']])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Penalties</div>
+                                                    <div class="ld-icon-box ld-icon-warning"><i class="fa fa-usd"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_penalties"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.reservation', 'Reservations', [['state', 'in', ['requested', 'active']]])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Reservations</div>
+                                                    <div class="ld-icon-box ld-icon-info"><i class="fa fa-bookmark"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.active_reservations"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="card shadow-sm border-0 h-100 rounded-4">
+                                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                                        <h6 class="fw-bold mb-0 text-dark">Monthly Borrowing Trend</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="position:relative; height:240px;">
+                                            <canvas t-ref="barChart"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══ 3. Student Engagement ═══ -->
+                        <div class="d-flex align-items-center mb-3">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fa fa-graduation-cap me-2 text-success"/> Student Engagement</h5>
+                        </div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-5">
+                                <div class="row g-4">
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.book.review', 'Reviews')">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Reviews</div>
+                                                    <div class="ld-icon-box ld-icon-warning"><i class="fa fa-star"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_reviews"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.space', 'Study Spaces')">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Study Spaces</div>
+                                                    <div class="ld-icon-box ld-icon-secondary"><i class="fa fa-building"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_spaces"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.space.booking', 'Room Bookings', [['state', 'in', ['requested', 'confirmed']]])">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Room Bookings</div>
+                                                    <div class="ld-icon-box ld-icon-success"><i class="fa fa-calendar-check-o"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.active_space_bookings"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card ld-kpi-card shadow-sm border-0 h-100 rounded-4" style="cursor: pointer;" t-on-click="() => this.openAction('library.purchase.request', 'Purchase Requests')">
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="text-muted small fw-bold text-uppercase">Purchase Req.</div>
+                                                    <div class="ld-icon-box ld-icon-danger"><i class="fa fa-shopping-cart"/></div>
+                                                </div>
+                                                <h2 class="fw-bolder text-dark mb-0" t-esc="state.data.total_purchase_requests"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="card shadow-sm border-0 h-100 rounded-4">
+                                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                                        <h6 class="fw-bold mb-0 text-dark">Top Borrowed Categories</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="position:relative; height:240px;">
+                                            <canvas t-ref="hbarChart"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -227,4 +227,10 @@
         <field name="target">current</field>
         <field name="view_id" ref="view_library_dashboard_form"/>
     </record>
+
+    <!-- ===== Premium OWL Dashboard (Client Action) ===== -->
+    <record id="action_library_dashboard_owl" model="ir.actions.client">
+        <field name="name">Library Analytics Dashboard</field>
+        <field name="tag">library_dashboard_action</field>
+    </record>
 </odoo>

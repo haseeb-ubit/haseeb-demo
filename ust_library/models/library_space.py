@@ -14,6 +14,7 @@ class LibrarySpace(models.Model):
             ("quiet_seat", "Quiet Seat"),
             ("meeting_room", "Meeting Room"),
         ],
+        string="Space Type",
         required=True,
         default="study_room",
     )

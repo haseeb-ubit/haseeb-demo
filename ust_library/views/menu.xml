@@ -8,7 +8,7 @@
     <!-- Dashboard as first item -->
     <menuitem id="menu_library_dashboard" name="Dashboard"
               parent="menu_library_root"
-              action="action_library_dashboard"
+              action="action_library_dashboard_owl"
               sequence="1"
               groups="ust_library.group_library_manager"/>
 

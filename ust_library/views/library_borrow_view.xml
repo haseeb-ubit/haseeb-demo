@@ -36,7 +36,7 @@
                         <group>
                             <field name="name" readonly="1"/>
                             <field name="student_id" readonly="state != 'request'"/>
-                            <field name="copy_id" readonly="state != 'request'"/>
+                            <field name="copy_id" domain="[('status', 'in', ('available', 'reserved'))]" readonly="state != 'request'"/>
                             <field name="book_id" readonly="1"/>
                         </group>
                         <group>
@@ -136,7 +136,7 @@
                         <field name="name" readonly="1"/>
                         <field name="student_id" readonly="state != 'requested'"/>
                         <field name="book_id" readonly="state != 'requested'"/>
-                        <field name="copy_id" readonly="state != 'requested'"/>
+                        <field name="copy_id" domain="[('status', 'not in', ('lost', 'damaged'))]" readonly="state != 'requested'"/>
                         <field name="start_date" readonly="state != 'requested'"/>
                         <field name="end_date" readonly="state != 'requested'"/>
                     </group>

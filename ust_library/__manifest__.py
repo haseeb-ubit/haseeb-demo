@@ -48,6 +48,11 @@
             "ust_library/static/src/css/library_calendar.css",
             "ust_library/static/src/js/library_calendar.js",
         ],
+        "web.assets_backend": [
+            "ust_library/static/src/css/library_dashboard.css",
+            "ust_library/static/src/js/library_dashboard.js",
+            "ust_library/static/src/xml/library_dashboard.xml",
+        ],
     },
     "license": "LGPL-3",
     "installable": True,

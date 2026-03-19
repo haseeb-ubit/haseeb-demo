@@ -1,0 +1,61 @@
+/* Library Dashboard — Premium Native Overrides */
+
+.o_action .ld-no-data-msg {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Premium KPI Card Hover Effect */
+.ld-kpi-card {
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ld-kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .08) !important;
+}
+
+/* Icon Badge Styles */
+.ld-icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1.15rem;
+}
+
+.ld-icon-primary {
+    background-color: rgba(113, 75, 103, 0.1);
+    color: #714B67;
+}
+
+.ld-icon-info {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: #17a2b8;
+}
+
+.ld-icon-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.ld-icon-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.ld-icon-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.ld-icon-secondary {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
