@@ -14,7 +14,7 @@
                 <t t-set="company" t-value="res_company"/>
             </t>
         </t>
-        
+
         <!-- Main content area with minimal margins -->
         <div t-attf-class="article o_company_#{company.id}_layout"
              t-att-data-oe-model="o and o._name"
@@ -31,271 +31,391 @@
             <t t-foreach="docs" t-as="doc">
                 <main>
                     <div style="direction: rtl; font-family: 'Noto Sans Arabic', 'Noto Kufi Arabic', Arial, sans-serif; padding: 20px; margin: 0; color: #333; line-height: 1.5;">
-                    <t t-set="photo_url" t-value="doc.photo and ('/web/image/ust.resume/%s/photo' % doc.id) or False"/>
+                        <t t-set="photo_url"
+                           t-value="doc.photo and ('/web/image/ust.resume/%s/photo' % doc.id) or False"/>
 
-                    <!-- Header and Basic Information with Photo -->
-                    <div style="position: relative; margin-bottom: 35px; padding-left: 220px; direction: rtl;">
-                        <t t-if="photo_url">
-                            <div style="position: absolute; top: 0; left: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
+                        <!-- Header and Basic Information with Photo -->
+                        <div style="position: relative; margin-bottom: 35px; padding-left: 220px; direction: rtl;">
+                            <t t-if="photo_url">
+                                <div style="position: absolute; top: 0; left: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
                                         box-shadow: 0 6px 18px rgba(26,82,118,0.25); border: 5px solid #f5f9ff; background: #ffffff;">
-                                <img t-att-src="photo_url" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"/>
-                            </div>
-                        </t>
-                        <t t-else="">
-                            <div style="position: absolute; top: 0; left: 0; width: 190px; height: 190px; border-radius: 50%;
+                                    <img t-att-src="photo_url"
+                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div style="position: absolute; top: 0; left: 0; width: 190px; height: 190px; border-radius: 50%;
                                         background: linear-gradient(135deg, #2c3e50 0%, #1a5276 100%); color: #ffffff;
                                         display: flex; align-items: center; justify-content: center; font-size: 46px; font-weight: 600;
                                         box-shadow: 0 6px 18px rgba(26,82,118,0.25); border: 5px solid #f5f9ff;">
+                                </div>
+                            </t>
+
+                            <h1 style="text-align: right; font-size: 24px; font-weight: bold; margin: 0 0 60px 0; color: #2c3e50;">
+                                سيرة أعضاء هيئة التدريس
+                            </h1>
+
+                            <div>
+                                <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                    المعلومات الأساسية
+                                </h3>
+                                <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; width: 30%; background-color: #f5f9ff; font-weight: 600;">
+                                            الاسم
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.user_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            المسمى الوظيفي
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.job_title or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            الكلية
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.college_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            القسم
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.department_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            الايميل الرسمي
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.email or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            رابط جوجل اسكولار أو أي قاعدة بيانات أخرى
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;">
+                                            <t t-if="doc.scholar_link">
+                                                <a t-att-href="doc.scholar_link"
+                                                   style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                    الملف الأكاديمي
+                                                </a>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </t>
+                        </div>
 
-                        <h1 style="text-align: right; font-size: 24px; font-weight: bold; margin: 0 0 60px 0; color: #2c3e50;">
-                            سيرة أعضاء هيئة التدريس
-                        </h1>
-
-                        <div>
-                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">المعلومات الأساسية</h3>
+                        <!-- Education Section - Improved -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">
+                                المؤهلات العلمية
+                            </h3>
                             <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; width: 30%; background-color: #f5f9ff; font-weight: 600;">الاسم</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.user_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">المسمى الوظيفي</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.job_title or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">الكلية</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.college_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">القسم</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.department_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">الايميل الرسمي</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.email or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">رابط جوجل اسكولار أو أي قاعدة بيانات أخرى</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;">
-                                        <t t-if="doc.scholar_link">
-                                            <a t-att-href="doc.scholar_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">الملف الأكاديمي</a>
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            م
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            الدرجة الأكاديمية
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            التخصص
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            الجامعة
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            رابط الجامعة
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.education_ids">
+                                        <t t-foreach="doc.education_ids" t-as="e">
+                                            <tr t-attf-style="background-color: {{ e_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="str(e_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.degree or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.specialization or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.university or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="e.uni_link">
+                                                        <a t-att-href="e.uni_link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            زيارة الموقع
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
                                         </t>
-                                    </td>
-                                </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                لا توجد مؤهلات علمية مسجلة
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Research Section - Improved -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">
+                                الأبحاث العلمية
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            م
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            اسم الباحث/الباحثين
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            عنوان البحث
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            سنة النشر
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            المجلة/المؤتمر
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            رابط المجلة
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            Impact Factor
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.research_ids">
+                                        <t t-foreach="doc.research_ids" t-as="r">
+                                            <tr t-attf-style="background-color: {{ r_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="str(r_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="r.authors or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="r.title or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;"
+                                                    t-esc="r.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="r.journal or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="r.journal_link">
+                                                        <a t-att-href="r.journal_link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            زيارة الموقع
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; font-weight: 500;"
+                                                    t-esc="r.impact_factor or ''"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="7"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                لا توجد أبحاث علمية مسجلة
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Certificates Section - Improved -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">
+                                الدورات والشهادات
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            م
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            اسم الدورة/الشهادة
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            المعهد/الجامعة
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            سنة الحصول عليها
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            رابط المعهد/الجامعة
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.cert_ids">
+                                        <t t-foreach="doc.cert_ids" t-as="c">
+                                            <tr t-attf-style="background-color: {{ c_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="str(c_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="c.name or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="c.institute or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;"
+                                                    t-esc="c.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="c.link">
+                                                        <a t-att-href="c.link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            زيارة الموقع
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                لا توجد دورات أو شهادات مسجلة
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Experience Section - Improved -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">
+                                الخبرات العلمية والعملية
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            م
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            المسمى الوظيفي
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            جهة العمل
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            الفترة
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.exp_ids">
+                                        <t t-foreach="doc.exp_ids" t-as="x">
+                                            <tr t-attf-style="background-color: {{ x_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="str(x_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="x.title or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="x.organization or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="x.period or ''"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="4"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                لا توجد خبرات مسجلة
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Awards Section - Improved -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">
+                                الجوائز والإنجازات
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            م
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            اسم الجائزة/الإنجاز
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            اسم الجهة
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            سنة الحصول عليها
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">
+                                            رابط الجهة
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.award_ids">
+                                        <t t-foreach="doc.award_ids" t-as="a">
+                                            <tr t-attf-style="background-color: {{ a_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="str(a_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="a.name or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="a.issuer or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;"
+                                                    t-esc="a.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="a.link">
+                                                        <a t-att-href="a.link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            زيارة الموقع
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                لا توجد جوائز أو إنجازات مسجلة
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
                             </table>
                         </div>
                     </div>
-
-                    <!-- Education Section - Improved -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">المؤهلات العلمية</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">م</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">الدرجة الأكاديمية</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">التخصص</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">الجامعة</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">رابط الجامعة</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.education_ids">
-                                    <t t-foreach="doc.education_ids" t-as="e">
-                                        <tr t-attf-style="background-color: {{ e_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="str(e_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.degree or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.specialization or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.university or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="e.uni_link">
-                                                    <a t-att-href="e.uni_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">زيارة الموقع</a>
-                                                </t>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            لا توجد مؤهلات علمية مسجلة
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Research Section - Improved -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">الأبحاث العلمية</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">م</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">اسم الباحث/الباحثين</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">عنوان البحث</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">سنة النشر</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">المجلة/المؤتمر</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">رابط المجلة</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">Impact Factor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.research_ids">
-                                    <t t-foreach="doc.research_ids" t-as="r">
-                                        <tr t-attf-style="background-color: {{ r_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="str(r_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="r.authors or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="r.title or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;" t-esc="r.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="r.journal or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="r.journal_link">
-                                                    <a t-att-href="r.journal_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">زيارة الموقع</a>
-                                                </t>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; font-weight: 500;" t-esc="r.impact_factor or ''"/>
-                                        </tr>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="7" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            لا توجد أبحاث علمية مسجلة
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Certificates Section - Improved -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">الدورات والشهادات</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">م</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">اسم الدورة/الشهادة</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">المعهد/الجامعة</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">سنة الحصول عليها</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">رابط المعهد/الجامعة</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.cert_ids">
-                                    <t t-foreach="doc.cert_ids" t-as="c">
-                                        <tr t-attf-style="background-color: {{ c_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="str(c_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="c.name or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="c.institute or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;" t-esc="c.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="c.link">
-                                                    <a t-att-href="c.link" style="color: #2980b9; text-decoration: none; font-weight: 500;">زيارة الموقع</a>
-                                                </t>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            لا توجد دورات أو شهادات مسجلة
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Experience Section - Improved -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">الخبرات العلمية والعملية</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">م</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">المسمى الوظيفي</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">جهة العمل</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">الفترة</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.exp_ids">
-                                    <t t-foreach="doc.exp_ids" t-as="x">
-                                        <tr t-attf-style="background-color: {{ x_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="str(x_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="x.title or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="x.organization or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="x.period or ''"/>
-                                        </tr>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="4" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            لا توجد خبرات مسجلة
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Awards Section - Improved -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600; ">الجوائز والإنجازات</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">م</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">اسم الجائزة/الإنجاز</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">اسم الجهة</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">سنة الحصول عليها</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: right;">رابط الجهة</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.award_ids">
-                                    <t t-foreach="doc.award_ids" t-as="a">
-                                        <tr t-attf-style="background-color: {{ a_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="str(a_index + 1).translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="a.name or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="a.issuer or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;" t-esc="a.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="a.link">
-                                                    <a t-att-href="a.link" style="color: #2980b9; text-decoration: none; font-weight: 500;">زيارة الموقع</a>
-                                                </t>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            لا توجد جوائز أو إنجازات مسجلة
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 </main>
             </t>
         </t>
@@ -308,266 +428,387 @@
             <t t-foreach="docs" t-as="doc">
                 <main>
                     <div style="direction: ltr; font-family: DejaVu Sans, Arial, Tahoma; padding: 20px; margin: 0; color: #333; line-height: 1.5;">
-                    <t t-set="photo_url_en" t-value="doc.photo and ('/web/image/ust.resume.en/%s/photo' % doc.id) or False"/>
- 
-                    <!-- Header and Basic Information with Photo -->
-                    <div style="position: relative; margin-bottom: 35px; padding-right: 220px;">
-                        <t t-if="photo_url_en">
-                            <div style="position: absolute; top: 0; right: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
+                        <t t-set="photo_url_en"
+                           t-value="doc.photo and ('/web/image/ust.resume.en/%s/photo' % doc.id) or False"/>
+
+                        <!-- Header and Basic Information with Photo -->
+                        <div style="position: relative; margin-bottom: 35px; padding-right: 220px;">
+                            <t t-if="photo_url_en">
+                                <div style="position: absolute; top: 0; right: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
                                         box-shadow: 0 6px 18px rgba(26,82,118,0.25); border: 5px solid #f5f9ff; background: #ffffff;">
-                                <img t-att-src="photo_url_en" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"/>
-                            </div>
-                        </t>
-                        <t t-else="">
-                            <div style="position: absolute; top: 0; right: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
+                                    <img t-att-src="photo_url_en"
+                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div style="position: absolute; top: 0; right: 0; width: 190px; height: 190px; border-radius: 50%; overflow: hidden;
                                         box-shadow: 0 6px 18px rgba(26,82,118,0.25); border: 5px solid #f5f9ff; background: #ffffff;">
+                                </div>
+                            </t>
+                            <h1 style="text-align: left; font-size: 24px; font-weight: bold; margin: 0 0 60px 0; color: #2c3e50;">
+                                Faculty Members' Curriculum Vitae
+                            </h1>
+                            <div>
+                                <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                    Basic Information
+                                </h3>
+                                <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; width: 30%; background-color: #f5f9ff; font-weight: 600;">
+                                            Name
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.user_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            Job Title
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.job_title or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            College
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.college_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            Department
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.department_id.name or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            Official Email
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;"
+                                            t-esc="doc.email or ''"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">
+                                            Google Scholar or Other Database Link (e.g. Scopus)
+                                        </td>
+                                        <td style="border: 1px solid #e0e0e0; padding: 12px 15px;">
+                                            <t t-if="doc.scholar_link">
+                                                <a t-att-href="doc.scholar_link"
+                                                   style="color: #2980b9; text-decoration: none; font-weight: 500;">link
+                                                </a>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </t>
-                        <h1 style="text-align: left; font-size: 24px; font-weight: bold; margin: 0 0 60px 0; color: #2c3e50;">Faculty Members' Curriculum Vitae</h1>
-                        <div>
-                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Basic Information</h3>
+                        </div>
+
+                        <!-- Academic Qualifications Section -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                Academic Qualifications
+                            </h3>
                             <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; width: 30%; background-color: #f5f9ff; font-weight: 600;">Name</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.user_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">Job Title</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.job_title or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">College</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.college_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">Department</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.department_id.name or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">Official Email</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;" t-esc="doc.email or ''"/>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px; background-color: #f5f9ff; font-weight: 600;">Google Scholar or Other Database Link (e.g. Scopus)</td>
-                                    <td style="border: 1px solid #e0e0e0; padding: 12px 15px;">
-                                        <t t-if="doc.scholar_link">
-                                            <a t-att-href="doc.scholar_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">link</a>
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            No.
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Academic Degree
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Specialization
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            University
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            University Link
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.education_ids">
+                                        <t t-foreach="doc.education_ids" t-as="e">
+                                            <tr t-attf-style="background-color: {{ e_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="e_index + 1"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.degree or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.specialization or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="e.university or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="e.uni_link">
+                                                        <a t-att-href="e.uni_link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            link
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
                                         </t>
-                                    </td>
-                                </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                No Academic Qualifications
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
                             </table>
                         </div>
-                    </div>
 
-                    <!-- Academic Qualifications Section -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Academic Qualifications</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">No.</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Academic Degree</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Specialization</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">University</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">University Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.education_ids">
-                                    <t t-foreach="doc.education_ids" t-as="e">
-                                        <tr t-attf-style="background-color: {{ e_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="e_index + 1"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.degree or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.specialization or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="e.university or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="e.uni_link">
-                                                    <a t-att-href="e.uni_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">link</a>
-                                                </t>
+                        <!-- Scientific Research Section -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                Scientific Research
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            No.
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Researcher(s)
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Research Title
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            Year of Publication
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Journal/ Conference
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Journal/ Conference Link
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            Impact Factor
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.research_ids">
+                                        <t t-foreach="doc.research_ids" t-as="r">
+                                            <tr t-attf-style="background-color: {{ r_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="r_index + 1"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;"
+                                                    t-esc="r.authors or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500; word-wrap: break-word;"
+                                                    t-esc="r.title or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; word-wrap: break-word;"
+                                                    t-esc="r.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;"
+                                                    t-esc="r.journal or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;">
+                                                    <t t-if="r.journal_link">
+                                                        <a t-att-href="r.journal_link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            link
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; font-weight: 500; word-wrap: break-word;"
+                                                    t-esc="r.impact_factor or ''"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="7"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                No Scientific Research
                                             </td>
                                         </tr>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            No Academic Qualifications
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- Scientific Research Section -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Scientific Research</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">No.</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Researcher(s)</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Research Title</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">Year of Publication</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Journal/ Conference</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Journal/ Conference Link</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">Impact Factor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.research_ids">
-                                    <t t-foreach="doc.research_ids" t-as="r">
-                                        <tr t-attf-style="background-color: {{ r_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="r_index + 1"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;" t-esc="r.authors or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500; word-wrap: break-word;" t-esc="r.title or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; word-wrap: break-word;" t-esc="r.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;" t-esc="r.journal or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; word-wrap: break-word;">
-                                                <t t-if="r.journal_link">
-                                                    <a t-att-href="r.journal_link" style="color: #2980b9; text-decoration: none; font-weight: 500;">link</a>
-                                                </t>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; font-weight: 500; word-wrap: break-word;" t-esc="r.impact_factor or ''"/>
-                                        </tr>
+                        <!-- Major Courses and Professional Certificates Section -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                Major Courses and Professional Certificates
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            No.
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Course/Certificate Name
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Institution/University
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            Year Obtained
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Institution/University Link
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.cert_ids">
+                                        <t t-foreach="doc.cert_ids" t-as="c">
+                                            <tr t-attf-style="background-color: {{ c_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="c_index + 1"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="c.name or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="c.institute or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;"
+                                                    t-esc="c.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="c.link">
+                                                        <a t-att-href="c.link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            link
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="7" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            No Scientific Research
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Major Courses and Professional Certificates Section -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Major Courses and Professional Certificates</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">No.</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Course/Certificate Name</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Institution/University</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">Year Obtained</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Institution/University Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.cert_ids">
-                                    <t t-foreach="doc.cert_ids" t-as="c">
-                                        <tr t-attf-style="background-color: {{ c_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="c_index + 1"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="c.name or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="c.institute or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;" t-esc="c.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="c.link">
-                                                    <a t-att-href="c.link" style="color: #2980b9; text-decoration: none; font-weight: 500;">link</a>
-                                                </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                No Courses or Certificates
                                             </td>
                                         </tr>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            No Courses or Certificates
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- Academic and Professional Experience Section -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Academic and Professional Experience</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">No.</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Job Title</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Employer</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Period (From - To)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.exp_ids">
-                                    <t t-foreach="doc.exp_ids" t-as="x">
-                                        <tr t-attf-style="background-color: {{ x_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="x_index + 1"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="x.title or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="x.organization or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="x.period or ''"/>
-                                        </tr>
+                        <!-- Academic and Professional Experience Section -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                Academic and Professional Experience
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            No.
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Job
+                                            Title
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Employer
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Period (From - To)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.exp_ids">
+                                        <t t-foreach="doc.exp_ids" t-as="x">
+                                            <tr t-attf-style="background-color: {{ x_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="x_index + 1"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="x.title or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="x.organization or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="x.period or ''"/>
+                                            </tr>
+                                        </t>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="4" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            No Experience
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Awards and Achievements Section -->
-                    <div style="margin-bottom: 40px;">
-                        <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">Awards and Achievements</h3>
-                        <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <thead>
-                                <tr style="background-color: #2980b9; color: white;">
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">No.</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Award/Achievement Name</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Issuing Institution</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">Year Obtained</th>
-                                    <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">Institution Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-if="doc.award_ids">
-                                    <t t-foreach="doc.award_ids" t-as="a">
-                                        <tr t-attf-style="background-color: {{ a_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
-                                                <span t-esc="a_index + 1"/>
-                                            </td>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;" t-esc="a.name or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;" t-esc="a.issuer or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;" t-esc="a.year or ''"/>
-                                            <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
-                                                <t t-if="a.link">
-                                                    <a t-att-href="a.link" style="color: #2980b9; text-decoration: none; font-weight: 500;">link</a>
-                                                </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="4"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                No Experience
                                             </td>
                                         </tr>
                                     </t>
-                                </t>
-                                <t t-else="">
-                                    <tr>
-                                        <td colspan="5" style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
-                                            No Awards or Achievements
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-                </div>
+                        <!-- Awards and Achievements Section -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="color: #1a5276; padding: 10px 15px; margin: 0 0 10px 0; font-size: 20px; font-weight: 600;">
+                                Awards and Achievements
+                            </h3>
+                            <table style="width:100%; border-collapse:collapse; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background-color: #2980b9; color: white;">
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; width: 5%; text-align: center;">
+                                            No.
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Award/Achievement Name
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Issuing Institution
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600; text-align: center;">
+                                            Year Obtained
+                                        </th>
+                                        <th style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 600;">
+                                            Institution Link
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="doc.award_ids">
+                                        <t t-foreach="doc.award_ids" t-as="a">
+                                            <tr t-attf-style="background-color: {{ a_index % 2 == 0 and '#f9f9f9' or '#ffffff' }};">
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;">
+                                                    <span t-esc="a_index + 1"/>
+                                                </td>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; font-weight: 500;"
+                                                    t-esc="a.name or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;"
+                                                    t-esc="a.issuer or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px; text-align: center;"
+                                                    t-esc="a.year or ''"/>
+                                                <td style="border: 1px solid #e0e0e0; padding: 12px 10px;">
+                                                    <t t-if="a.link">
+                                                        <a t-att-href="a.link"
+                                                           style="color: #2980b9; text-decoration: none; font-weight: 500;">
+                                                            link
+                                                        </a>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5"
+                                                style="border: 1px solid #e0e0e0; padding: 15px; text-align: center; color: #7f8c8d; font-style: italic;">
+                                                No Awards or Achievements
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                 </main>
             </t>
         </t>

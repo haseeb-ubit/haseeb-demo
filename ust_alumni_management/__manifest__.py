@@ -32,7 +32,7 @@
         'views/alumni_employment_reject_wizard_views.xml',
         'views/portal_templates.xml',
         'views/website_templates.xml',
-        'views/website_snippets.xml',
+       # 'views/website_snippets.xml',
         'views/alumni_dashboard.xml',
         'views/alumni_menu.xml',
         'reports/alumni_reports.xml',

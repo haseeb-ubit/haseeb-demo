@@ -193,12 +193,12 @@ def write(self, vals):
 ```python
 def write(self, vals):
     res = super().write(vals)
-    if any(field in vals for field in ['role_line_ids', 'groups_id']):
-        self.sudo().set_groups_from_roles()
-    return res
+    #if any(field in vals for field in ['role_line_ids', 'groups_id']):
+     #   self.sudo().set_groups_from_roles()
+    #return res
 ```
 
-#### 🟡 Missing Validation in `_set_role_names`
+#### 🟡 
 **File:** `ust_resume_management/models/user.py:19-43`
 
 **Issue:** The inverse method in `ust_resume_management` doesn't validate role existence before assignment.

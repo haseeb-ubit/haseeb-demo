@@ -14,7 +14,8 @@ class USTResumeController(http.Controller):
         if user.partner_id and user.id == request.uid or request.env.user.has_group('base.group_system'):
             resume = request.env['ust.resume'].sudo().search([('user_id', '=', user.id)], limit=1)
             if not resume:
-                resume = request.env['ust.resume'].sudo().create({'user_id': user.id, 'name': user.partner_id.name or user.login, 'email': user.login})
+                resume = request.env['ust.resume'].sudo().create(
+                    {'user_id': user.id, 'name': user.partner_id.name or user.login, 'email': user.login})
             return request.render('ust_resume_management.portal_resume_form', {'resume': resume})
         return request.redirect('/')
 
@@ -41,7 +42,8 @@ class USTResumeController(http.Controller):
         login_url = f"/web/login?redirect={urllib.parse.quote(redirect_url)}"
         return request.redirect(login_url)
 
-    @http.route(['/report/pdf/ust_resume_management.ust_resume_report/<int:resume_id>'], type='http', auth="public", website=True)
+    @http.route(['/report/pdf/ust_resume_management.ust_resume_report/<int:resume_id>'], type='http', auth="public",
+                website=True)
     def resume_report_pdf(self, resume_id, **kw):
         """Override the standard resume report route (Arabic)"""
         resume = self._get_resume_record(resume_id, is_english=False)
@@ -56,7 +58,8 @@ class USTResumeController(http.Controller):
 
         return request.redirect(f'/resume_pdf/{resume_id}/ar/{encoded_filename}')
 
-    @http.route(['/report/pdf/ust_resume_management.ust_resume_report_en/<int:resume_id>'], type='http', auth="public", website=True)
+    @http.route(['/report/pdf/ust_resume_management.ust_resume_report_en/<int:resume_id>'], type='http', auth="public",
+                website=True)
     def resume_report_pdf_en(self, resume_id, **kw):
         """Override the standard English resume report route"""
         resume = self._get_resume_record(resume_id, is_english=True)
@@ -98,4 +101,3 @@ class USTResumeController(http.Controller):
         )
 
         return response
- 

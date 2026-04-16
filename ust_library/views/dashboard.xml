@@ -19,7 +19,7 @@
                         <div class="col-md-3">
                             <div class="o_stat_info d-flex flex-column align-items-center border rounded p-3">
                                 <span class="o_stat_value display-6 text-primary">
-                                    <field name="total_books" nolabel="1"/>
+                                  <field name="total_books" nolabel="1"/>
                                 </span>
                                 <span class="o_stat_text text-muted">Book Titles</span>
                             </div>

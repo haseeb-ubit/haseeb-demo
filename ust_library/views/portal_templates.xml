@@ -1,2164 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-<!-- ===== Portal /my home entries ===== -->
-<template id="portal_my_home_library"
-          name="Portal Library Entries"
-          customize_show="True"
-          inherit_id="portal.portal_my_home"
-          priority="40">
-
-    <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
-        <t t-set="portal_service_category_enable" t-value="True"/>
-    </xpath>
-
-    <div id="portal_service_category" position="inside">
-
-        <style>
-            .ust-library-section { margin-bottom: 0rem; }
-
-            .ust-library-section-header {
-                display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem;
-            }
-            .ust-library-section-header::before,
-            .ust-library-section-header::after {
-                content: ''; flex: 1; height: 1px; background: #e0e0e0;
-            }
-            .ust-library-section-label {
-                font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
-                text-transform: uppercase; color: #888; white-space: nowrap; padding: 0 8px;
-            }
-            .ust-library-grid {
-                display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 9px;
-            }
-            .ust-lib-card {
-                display: flex; align-items: flex-start; gap: 16px;
-                background: #F8F9FA; border-radius: 0.4rem; padding: 16px;
-                text-decoration: none !important; color: inherit !important;
-                position: relative; overflow: hidden; transition: background 0.15s ease;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .ust-lib-card:hover { background: #DAE0E5; text-decoration: none !important; }
-            .ust-lib-card-icon img { width: 64px; height: 64px; object-fit: contain; display: block; }
-            .ust-lib-card-body { flex: 1; min-width: 0; }
-            .ust-lib-card-title {
-                font-size: 20px; font-weight: 400; color: #212529; margin: 0 0 4px; line-height: 1.3;
-                font-family: 'segoe_ui';
-            }
-            .ust-lib-card-text {
-                font-size: 15px; color: #212529; margin: 0; line-height: 1.5;
-                font-family: 'segoe_ui';
-            }
-            .ust-lib-card-meta {
-                display: flex; align-items: center; justify-content: space-between; margin-top: 14px;
-            }
-            .ust-lib-badge {
-                font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px;
-                background: #eef3ff; color: #4a7fd4; border: 1px solid #d0e0ff;
-                display: inline-flex; align-items: center; gap: 5px;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .ust-lib-badge-dot {
-                width: 5px; height: 5px; border-radius: 50%; background: #4a7fd4; display: inline-block;
-            }
-            .ust-lib-arrow {
-                width: 28px; height: 28px; border-radius: 50%; background: #f5f7ff;
-                border: 1px solid #dce8ff; display: flex; align-items: center;
-                justify-content: center; font-size: 14px; color: #4a7fd4;
-                flex-shrink: 0; transition: background 0.2s ease;
-            }
-            .ust-lib-card-browse .ust-lib-badge {
-                background: #edfaf4; color: #2d9e6b; border-color: #b8e8d0;
-            }
-            .ust-lib-card-browse .ust-lib-badge-dot { background: #2d9e6b; }
-            .ust-lib-card-browse .ust-lib-arrow {
-                background: #f0faf5; border-color: #cceedd; color: #2d9e6b;
-            }
-        </style>
-
-        <div class="ust-library-section">
-            <div class="ust-library-grid">
-                <a t-attf-href="/my/library" class="ust-lib-card">
-                    <div class="ust-lib-card-icon">
-                        <img src="/ust_library/static/description/icon.png" alt="Library"/>
-                    </div>
-                    <div class="ust-lib-card-body">
-                        <p class="ust-lib-card-title">My Library</p>
-                        <p class="ust-lib-card-text">Borrows, reservations &amp; penalties</p>
-                    </div>
-                </a>
-                <a t-attf-href="/my/library/books" class="ust-lib-card ust-lib-card-browse">
-                    <div class="ust-lib-card-icon">
-                        <img src="/ust_library/static/description/book.png" alt="Browse Books"/>
-                    </div>
-                    <div class="ust-lib-card-body">
-                        <p class="ust-lib-card-title">Browse Books</p>
-                        <p class="ust-lib-card-text">Search, filter &amp; reserve library books</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</template>
-
-<!-- ===== Shared CSS — VIP Light Theme ===== -->
-<template id="portal_library_shared_css" name="Library Portal Shared CSS">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&amp;display=swap');
-
-/* ─── Design Tokens ─── */
-:root {
-  --L-bg:          #f5f6fa;
-  --L-white:       #ffffff;
-  --L-surface:     #ffffff;
-  --L-surface2:    #f9fafb;
-  --L-border:      #e5e9f2;
-  --L-border2:     #d0d7e8;
-
-  --L-primary:     #2563eb;
-  --L-primary-lt:  #dbeafe;
-  --L-accent:      #7c3aed;
-  --L-accent-lt:   #ede9fe;
-
-  --L-success:     #059669;
-  --L-success-lt:  #d1fae5;
-  --L-danger:      #dc2626;
-  --L-danger-lt:   #fee2e2;
-  --L-warning:     #d97706;
-  --L-warning-lt:  #fef3c7;
-  --L-info:        #0284c7;
-  --L-info-lt:     #e0f2fe;
-  --L-secondary:   #6b7280;
-  --L-secondary-lt:#f3f4f6;
-
-  --L-text:        #111827;
-  --L-text2:       #374151;
-  --L-muted:       #6b7280;
-  --L-muted2:      #9ca3af;
-
-  --L-radius:      16px;
-  --L-radius-sm:   10px;
-  --L-radius-xs:   6px;
-  --L-shadow-sm:   0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
-  --L-shadow:      0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
-  --L-shadow-lg:   0 10px 40px rgba(37,99,235,0.10), 0 2px 8px rgba(0,0,0,0.06);
-}
-
-/* ─── Base ─── */
-.o_portal_wrap { background: var(--L-bg) !important; }
-.o_portal_wrap, .o_portal_wrap * {
-  font-family: 'Lora', Georgia, serif !important;
-  box-sizing: border-box;
-}
-
-/* ─── Wrapper ─── */
-.lib-wrap {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 1.75rem 1.5rem 4rem;
-  min-height: 100vh;
-}
-
-/* ─── Page header ─── */
-.lib-page-header {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 1.5rem 0 1.25rem;
-  border-bottom: 2px solid var(--L-border);
-  margin-bottom: 2rem;
-}
-.lib-page-header h2 {
-  font-family: 'Lora', Georgia, serif !important;
-  font-size: 1.9rem; font-weight: 700;
-  color: var(--L-text) !important;
-  margin: 0; letter-spacing: -0.02em;
-}
-.lib-icon {
-  width: 46px; height: 46px;
-  background: #1a365d; border-radius: 13px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; color: #fff !important;
-  box-shadow: 0 4px 12px rgba(37,99,235,0.28); flex-shrink: 0;
-}
-
-/* ─── Stat cards ─── */
-.lib-stat-card {
-  background: var(--L-white); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius); padding: 1.4rem 1.25rem 1.25rem;
-  text-align: center; position: relative; overflow: hidden;
-  box-shadow: var(--L-shadow-sm);
-  transition: transform 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s;
-  cursor: default;
-}
-.lib-stat-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  border-radius: var(--L-radius) var(--L-radius) 0 0;
-}
-.lib-stat-card.blue::before,
-.lib-stat-card.violet::before,
-.lib-stat-card.amber::before,
-.lib-stat-card.rose::before  { background: #1a365d; }
-.lib-stat-card:hover { transform: translateY(-4px); box-shadow: var(--L-shadow-lg); }
-.lib-stat-card .stat-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
-.lib-stat-card.blue   .stat-icon { color: var(--L-primary); }
-.lib-stat-card.violet .stat-icon { color: var(--L-accent); }
-.lib-stat-card.amber  .stat-icon { color: var(--L-warning); }
-.lib-stat-card.rose   .stat-icon { color: var(--L-danger); }
-.lib-stat-card .stat-label {
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--L-muted); margin-bottom: 0.4rem;
-}
-.lib-stat-card .stat-value {
-  font-family: 'Lora', Georgia, serif !important;
-  font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--L-text) !important;
-}
-
-/* ─── Quick nav ─── */
-.lib-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 2rem; }
-.lib-nav a {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.5rem 1.15rem; border-radius: 999px;
-  font-size: 0.82rem; font-weight: 600;
-  border: 1.5px solid var(--L-border2); background: var(--L-white);
-  color: var(--L-text2) !important; text-decoration: none;
-  transition: all 0.18s; box-shadow: var(--L-shadow-sm);
-  font-family: 'Lora', Georgia, serif !important;
-}
-.lib-nav a:hover { border-color: var(--L-primary); color: var(--L-primary) !important; background: var(--L-primary-lt); transform: translateY(-1px); }
-.lib-nav a.primary { background: #1a365d; border-color: transparent; color: #fff !important; box-shadow: 0 4px 14px rgba(37,99,235,0.3); }
-.lib-nav a.primary:hover { filter: brightness(1.08); color: #fff !important; }
-
-/* ─── Back button ─── */
-.lib-back {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.42rem 1rem; border-radius: 999px;
-  font-size: 0.8rem; font-weight: 600;
-  border: 1.5px solid var(--L-border2); background: var(--L-white);
-  color: var(--L-muted) !important; text-decoration: none;
-  transition: all 0.18s; margin-bottom: 1.5rem; box-shadow: var(--L-shadow-sm);
-  font-family: 'Lora', Georgia, serif !important;
-}
-.lib-back:hover { border-color: var(--L-primary); color: var(--L-primary) !important; }
-
-/* ─── Section title ─── */
-.lib-section-title {
-  font-family: 'Lora', Georgia, serif !important;
-  font-size: 1.1rem; font-weight: 700; color: var(--L-text) !important;
-  display: flex; align-items: center; gap: 0.5rem;
-  margin: 2.25rem 0 1rem; padding-bottom: 0.6rem;
-  border-bottom: 2px solid var(--L-border);
-}
-.lib-section-title i { color: var(--L-primary); }
-
-/* ─── Card ─── */
-.lib-card {
-  background: var(--L-white); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius); padding: 1.5rem 1.6rem;
-  margin-bottom: 1.5rem; box-shadow: var(--L-shadow-sm);
-}
-.lib-card h5 {
-  font-family: 'Lora', Georgia, serif !important;
-  font-size: 1rem; font-weight: 700; color: var(--L-text) !important; margin-bottom: 1.1rem;
-}
-
-/* ─── Table ─── */
-.lib-table-wrap {
-  background: var(--L-white); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius); overflow: hidden; box-shadow: var(--L-shadow-sm);
-}
-.lib-table { width: 100%; border-collapse: collapse; }
-.lib-table thead tr { background: var(--L-surface2); }
-.lib-table thead th {
-  padding: 0.8rem 1.1rem; text-align: left;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.09em;
-  text-transform: uppercase; color: var(--L-muted) !important;
-  border-bottom: 1.5px solid var(--L-border);
-}
-.lib-table tbody tr { border-bottom: 1px solid #f1f3f8; transition: background 0.14s; }
-.lib-table tbody tr:last-child { border-bottom: none; }
-.lib-table tbody tr:hover { background: #f8f9ff; }
-.lib-table tbody td {
-  padding: 0.78rem 1.1rem; font-size: 0.875rem;
-  vertical-align: middle; color: var(--L-text2) !important;
-}
-.lib-table tbody tr.row-danger { background: #fff5f5; }
-.lib-table tbody tr.row-danger td { color: var(--L-danger) !important; }
-
-/* ─── Badges ─── */
-.lib-badge {
-  display: inline-flex; align-items: center;
-  padding: 0.22rem 0.7rem; border-radius: 999px;
-  font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;
-  font-family: 'Lora', Georgia, serif !important;
-}
-.lib-badge.success   { background: var(--L-success-lt);   color: var(--L-success) !important; }
-.lib-badge.danger    { background: var(--L-danger-lt);    color: var(--L-danger) !important; }
-.lib-badge.info      { background: var(--L-info-lt);      color: var(--L-info) !important; }
-.lib-badge.warning   { background: var(--L-warning-lt);   color: var(--L-warning) !important; }
-.lib-badge.primary   { background: var(--L-primary-lt);   color: var(--L-primary) !important; }
-.lib-badge.secondary { background: var(--L-secondary-lt); color: var(--L-secondary) !important; }
-.lib-badge.dark      { background: #f3f4f6;               color: #374151 !important; }
-.lib-badge.accent    { background: var(--L-accent-lt);    color: var(--L-accent) !important; }
-
-/* ─── Buttons ─── */
-.lib-btn {
-  display: inline-flex; align-items: center; gap: 0.38rem;
-  padding: 0.55rem 1.25rem; border-radius: 999px;
-  font-size: 0.84rem; font-weight: 600;
-  border: none; cursor: pointer; text-decoration: none !important;
-  transition: all 0.18s; white-space: nowrap;
-  font-family: 'Lora', Georgia, serif !important;
-}
-.lib-btn.primary {
-  background: #1a365d; color: #fff !important;
-  box-shadow: 0 4px 14px rgba(37,99,235,0.28);
-}
-.lib-btn.primary:hover { filter: brightness(1.08); transform: translateY(-1px); color: #fff !important; }
-.lib-btn.success {
-  background: linear-gradient(135deg, #059669, #10b981);
-  color: #fff !important; box-shadow: 0 4px 12px rgba(5,150,105,0.25);
-}
-.lib-btn.success:hover { filter: brightness(1.08); color: #fff !important; }
-.lib-btn.outline {
-  background: var(--L-white); border: 1.5px solid var(--L-border2);
-  color: var(--L-text2) !important; box-shadow: var(--L-shadow-sm);
-}
-.lib-btn.outline:hover { border-color: var(--L-primary); color: var(--L-primary) !important; background: var(--L-primary-lt); }
-.lib-btn.danger-outline {
-  background: var(--L-white); border: 1.5px solid #fca5a5; color: var(--L-danger) !important;
-}
-.lib-btn.danger-outline:hover { background: var(--L-danger-lt); border-color: var(--L-danger); }
-.lib-btn.sm { padding: 0.3rem 0.85rem; font-size: 0.76rem; }
-.lib-btn.block { width: 100%; justify-content: center; border-radius: var(--L-radius-sm); }
-
-/* ─── Form controls ─── */
-.lib-form-control, .lib-form-select {
-  background: var(--L-white); border: 1.5px solid var(--L-border2);
-  border-radius: var(--L-radius-sm); color: var(--L-text) !important;
-  padding: 0.55rem 0.95rem; font-size: 0.875rem;
-  font-family: 'Lora', Georgia, serif !important;
-  transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
-}
-.lib-form-control:focus, .lib-form-select:focus {
-  outline: none; border-color: var(--L-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-}
-.lib-form-control::placeholder { color: var(--L-muted2) !important; }
-.lib-form-label {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--L-muted) !important;
-  margin-bottom: 0.32rem; display: block;
-  font-family: 'Lora', Georgia, serif !important;
-}
-textarea.lib-form-control { resize: vertical; }
-
-/* ─── Filter row ─── */
-.lib-filter-row {
-  display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; margin-bottom: 1.5rem;
-}
-.lib-filter-row > div { flex: 1 1 140px; }
-.lib-filter-row .lib-btn-col { flex: 0 0 auto; align-self: flex-end; }
-
-/* ─── Row / grid ─── */
-.lib-row { display: flex; flex-wrap: wrap; gap: 1.1rem; }
-.lib-col-4 { flex: 1 1 calc(33.33% - 1rem); min-width: 200px; }
-.lib-col-3 { flex: 1 1 calc(25% - 1rem); min-width: 160px; }
-
-/* ─── Book card ─── */
-.lib-book-card {
-  background: var(--L-white); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius); padding: 1.25rem; height: 100%;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; box-shadow: var(--L-shadow-sm);
-}
-.lib-book-card:hover { transform: translateY(-4px); box-shadow: var(--L-shadow-lg); border-color: var(--L-primary); }
-.lib-book-card h6 { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.4rem; }
-.lib-book-card h6 a { color: var(--L-text) !important; text-decoration: none; }
-.lib-book-card h6 a:hover { color: var(--L-primary) !important; }
-
-/* ─── Space card ─── */
-.lib-space-card {
-  background: var(--L-white); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius); padding: 1.5rem; height: 100%;
-  position: relative; overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; box-shadow: var(--L-shadow-sm);
-}
-.lib-space-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  background: #1a365d; transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
-}
-.lib-space-card:hover { transform: translateY(-4px); box-shadow: var(--L-shadow-lg); border-color: var(--L-primary); }
-.lib-space-card:hover::after { transform: scaleX(1); }
-.lib-space-card h5 {
-  font-family: 'Lora', Georgia, serif !important;
-  font-size: 1.05rem; font-weight: 700; color: var(--L-text) !important; margin-bottom: 0.65rem;
-}
-
-/* ─── Review item ─── */
-.lib-review {
-  background: var(--L-surface2); border: 1.5px solid var(--L-border);
-  border-radius: var(--L-radius-sm); padding: 1rem 1.25rem; margin-bottom: 0.75rem;
-}
-.lib-review .rev-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem; }
-.lib-review .rev-name { font-weight: 700; font-size: 0.9rem; color: var(--L-text) !important; }
-.lib-review .rev-date { font-size: 0.75rem; color: var(--L-muted) !important; }
-.lib-review .rev-text { font-size: 0.875rem; color: var(--L-text2) !important; margin-top: 0.4rem; line-height: 1.55; }
-
-/* ─── Star colors ─── */
-.lib-star   { color: #f59e0b !important; }
-.lib-star-o { color: #d1d5db !important; }
-
-/* ─── Empty state ─── */
-.lib-empty {
-  text-align: center; padding: 2.75rem 1rem;
-  border: 2px dashed var(--L-border2); border-radius: var(--L-radius);
-  color: var(--L-muted) !important; font-size: 0.9rem; background: var(--L-white);
-}
-.lib-empty i { color: var(--L-muted2) !important; margin-bottom: 0.6rem; display: block; }
-
-/* ─── Divider chips / section badges ─── */
-.lib-section-chip {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  background: var(--L-primary-lt); color: var(--L-primary) !important;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 0.22rem 0.75rem; border-radius: 999px; margin-right: 0.5rem;
-  font-family: 'Lora', Georgia, serif !important;
-}
-
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--L-bg); }
-::-webkit-scrollbar-thumb { background: var(--L-border2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--L-primary); }
-
-/* ─── Pager fix ─── */
-.o_portal_pager .page-link { border-radius: 999px !important; margin: 0 2px; }
-
-/* ─── Responsive ─── */
-@media (max-width: 768px) {
-  .lib-page-header h2 { font-size: 1.45rem; }
-  .lib-stat-card .stat-value { font-size: 2rem; }
-  .lib-col-3, .lib-col-4 { flex: 1 1 100%; }
-  .lib-table-wrap { overflow-x: auto; }
-}
-</style>
-</template>
-
-
-<!-- ===== Library Dashboard ===== -->
-<template id="portal_my_library_dashboard" name="Modern Library Dashboard">
-    <t t-call="portal.portal_layout">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-        <style>
-            :root {
-                --lib-primary:      #6366f1;
-                --lib-primary-soft: #eef2ff;
-                --lib-success:      #22c55e;
-                --lib-warning:      #f59e0b;
-                --lib-danger:       #ef4444;
-                --lib-card-shadow:  0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-            }
-
-            .lib-main-container {
-                background: #f8fafc; padding: 2rem; border-radius: 20px;
-                font-family: 'Lora', Georgia, serif;
-            }
-
-            .lib-stat-grid {
-                display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-                gap: 1.5rem; margin-bottom: 2.5rem;
-            }
-            .lib-glass-card {
-                background: white; border: 1px solid rgba(226,232,240,0.8);
-                padding: 1.5rem; border-radius: 20px;
-                box-shadow: var(--lib-card-shadow); transition: transform 0.3s ease;
-                display: flex; align-items: center; gap: 1.2rem;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .lib-glass-card:hover { transform: translateY(-5px); }
-            .stat-icon-wrap {
-                width: 60px; height: 60px; border-radius: 16px;
-                display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-            }
-
-            .lib-quick-nav {
-                display: grid; grid-template-columns: repeat(5, 1fr);
-                gap: 12px; margin-bottom: 30px;
-            }
-            .nav-btn-highlight {
-                background: #ffffff; border-radius: 12px; padding: 12px 10px;
-                display: flex; align-items: center; justify-content: center; gap: 8px;
-                text-decoration: none !important; transition: all 0.2s ease-in-out;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: #475569 !important;
-                font-weight: 600; font-size: 0.85rem;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .nav-btn-highlight:hover {
-                background: #f8fafc; border-color: #c9a84c; color: #0b1829 !important;
-                transform: translateY(-2px); box-shadow: 0 5px 15px rgba(201,168,76,0.15);
-            }
-
-            .lib-section-card {
-                background: white; border-radius: 24px; padding: 1.5rem;
-                box-shadow: var(--lib-card-shadow); margin-bottom: 2rem;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .lib-table-modern { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-            .lib-table-modern thead th {
-                background: #f1f5f9; padding: 1rem; font-weight: 600;
-                color: #64748b; border: none; font-family: 'Lora', Georgia, serif;
-            }
-            .lib-table-modern tbody td {
-                padding: 1.2rem 1rem; background: white;
-                border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .lib-badge-pill {
-                padding: 0.4rem 1rem; border-radius: 50px;
-                font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .activity-chart-placeholder {
-                height: 180px; background: linear-gradient(to bottom, #f8fafc 0%, #eef2ff 100%);
-                border-radius: 16px; display: flex; align-items: flex-end;
-                justify-content: space-around; padding: 10px;
-            }
-            .bar { width: 12%; background: var(--lib-primary); border-radius: 6px 6px 0 0; opacity: 0.7; }
-
-            .custom-cancel {
-    border: 1px solid #1a365d;
-    color: #1a365d;
-}
-
-.custom-cancel:hover {
-    background-color: #1a365d;
-    color: #fff;
-}
-            .custom-details-btn {
-    border: 1px solid #1a365d;
-    color: #1a365d;
-}
-
-.custom-details-btn:hover {
-    background-color: #1a365d;
-    color: #fff;
-
-}
-.lib-badge-pill {
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 12px;
-    display: inline-block;
-}
-
-/* SUCCESS (Confirmed) */
-.badge-success {
-    background-color: rgba(40, 167, 69, 0.15);
-    color: #28a745;
-}
-
-/* DANGER (Cancelled) */
-.badge-danger {
-    background-color: rgba(185, 28, 28, 0.15);
-    color: #b91c1c;
-}
-
-/* PRIMARY (Borrowed) */
-.badge-primary {
-    background-color: rgba(26, 54, 93, 0.15);
-    color: #1a365d;
-}
-
-            @media (max-width: 425px) {
-    .upcoming-title {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 320px) {
-    .upcoming-title {
-        font-size: 12px;
-    }
-}
-            @media (max-width: 1000px) { .lib-quick-nav { grid-template-columns: repeat(3, 1fr); } }
-            @media (max-width: 600px)  { .lib-quick-nav { grid-template-columns: repeat(2, 1fr); } }
-        </style>
-
-        <div class="lib-main-container">
-
-            <!-- KPI Stat Cards -->
-            <div class="lib-stat-grid">
-                <div class="lib-glass-card">
-                    <div class="stat-icon-wrap" style="background:#e0e7ff; color:#1a365d;"><i class="bi bi-journal-check"/></div>
-                    <div>
-                        <div class="text-muted small fw-bold">Active Borrows</div>
-                        <div class="h3 mb-0 fw-bold"><t t-esc="library_borrow_count"/></div>
-                    </div>
-                </div>
-                <div class="lib-glass-card">
-                    <div class="stat-icon-wrap" style="background:#e0e7ff; color:#1a365d;"><i class="bi bi-calendar-event"/></div>
-                    <div>
-                        <div class="text-muted small fw-bold">Reservations</div>
-                        <div class="h3 mb-0 fw-bold"><t t-esc="library_reservation_count"/></div>
-                    </div>
-                </div>
-                <div class="lib-glass-card">
-                    <div class="stat-icon-wrap" style="background:#e0e7ff; color:#1a365d;"><i class="bi bi-clock-history"/></div>
-                    <div>
-                        <div class="text-muted small fw-bold">Overdue</div>
-                        <div class="h3 mb-0 fw-bold text-danger"><t t-esc="len(overdue_borrows)"/></div>
-                    </div>
-                </div>
-                <div class="lib-glass-card">
-                    <div class="stat-icon-wrap" style="background:#e0e7ff; color:#1a365d;"><i class="bi bi-wallet2"/></div>
-                    <div>
-                        <div class="text-muted small fw-bold">Total Penalties</div>
-                        <div class="h3 mb-0 fw-bold"><t t-esc="request.env.company.currency_id.symbol"/><t t-esc="'%.2f' % penalty_total"/></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Navigation -->
-            <div class="lib-quick-nav">
-                <a href="/my/library/books"            class="nav-btn-highlight"><i class="bi bi-search text-primary"/><span>Browse Books</span></a>
-                <a href="/my/library/recommendations"  class="nav-btn-highlight"><i class="bi bi-stars text-warning"/><span>Recommendations</span></a>
-                <a href="/my/library/purchase-requests" class="nav-btn-highlight"><i class="bi bi-plus-circle text-info"/><span>Purchase Book</span></a>
-                <a href="/my/library/spaces"           class="nav-btn-highlight"><i class="bi bi-door-open text-success"/><span>Study Space</span></a>
-                <a href="/my/library/space/bookings"   class="nav-btn-highlight" style="border-color:#6366f1;"><i class="bi bi-calendar-check text-primary"/><span>Room Bookings</span></a>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Recent Borrow Activity -->
-                    <div class="lib-section-card">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="fw-bold mb-0"><i class="bi bi-collection-play me-2 text-primary"/>Recent Borrow Activity</h5>
-<!--                            <a href="#" class="btn btn-sm btn-light">View All</a>-->
-                        </div>
-                        <t t-if="borrows">
-                            <div class="table-responsive">
-                                <table class="lib-table-modern">
-                                    <thead><tr><th>Book Title</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
-                                    <tbody>
-                                        <t t-foreach="borrows" t-as="borrow">
-                                            <tr>
-                                                <td><div class="fw-bold text-dark"><t t-esc="borrow.book_id.name"/></div><div class="small text-muted">Ref: <t t-esc="borrow.name"/></div></td>
-                                                <td><div t-attf-class="fw-bold #{'text-danger' if borrow.state == 'overdue' else ''}"><t t-esc="borrow.expected_return_date"/></div></td>
-                                                <td> <span t-attf-class="lib-badge-pill #{'badge-success' if borrow.state == 'returned' else 'badge-primary' if borrow.state == 'borrowed' else 'badge-danger'}"> <t t-esc="borrow.state.capitalize()"/> </span> </td>                                                      <td><a t-attf-href="/my/library/book/#{borrow.book_id.id}"  class="btn btn-sm custom-details-btn rounded-pill">Details</a></td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </t>
-                        <t t-else=""><p class="text-center py-4 text-muted">No active borrows found.</p></t>
-                    </div>
-
-                    <!-- Room Bookings Record -->
-                    <div class="lib-section-card">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="fw-bold mb-0 upcoming-title"><i class="bi bi-calendar-check me-2 text-success"/>Upcoming Sessions</h5>
-                            <a href="/my/library/space/bookings" class="btn btn-sm btn-light">Full History</a>
-                        </div>
-                        <t t-if="space_bookings">
-                            <div class="table-responsive">
-                                <table class="lib-table-modern">
-                                    <thead><tr><th>Space</th><th>Date</th><th>Slot</th><th>Status</th></tr></thead>
-                                    <tbody>
-                                        <t t-foreach="space_bookings[:5]" t-as="bk">
-                                            <tr>
-                                                <td><div class="fw-bold text-dark"><t t-esc="bk.space_id.name"/></div></td>
-                                                <td><t t-esc="bk.date"/></td>
-                                                <td class="small"><t t-esc="'%02d:%02d' % (int(bk.start_time), int((bk.start_time - int(bk.start_time)) * 60))"/> – <t t-esc="'%02d:%02d' % (int(bk.end_time), int((bk.end_time - int(bk.end_time)) * 60))"/></td>
-                                                <td>
-                                                    <span t-if="bk.state == 'confirmed'" class="lib-badge-pill badge-success">Confirmed</span>
-                                                    <span t-if="bk.state == 'requested'" class="lib-badge-pill bg-info text-white">Requested</span>
-                                                    <span t-if="bk.state == 'cancelled'" class="lib-badge-pill bg-secondary text-white">Cancelled</span>
-                                                    <span t-if="bk.state == 'completed'" class="lib-badge-pill bg-dark text-white">Completed</span>
-                                                </td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </t>
-                        <t t-else=""><p class="text-center py-4 text-muted">No room bookings yet.</p></t>
-                    </div>
-                </div>
-
-                <!-- Sidebar -->
-                <div class="col-lg-4">
-<!--                    <div class="lib-section-card" style="background:#fafafa;">-->
-<!--                        <h6 class="fw-bold mb-3">Upcoming Sessions</h6>-->
-<!--                        <t t-if="space_bookings">-->
-<!--                            <t t-foreach="space_bookings.filtered(lambda b: b.state == 'confirmed')[:2]" t-as="sb">-->
-<!--                                <div class="p-3 mb-2 rounded-4 bg-white border border-light shadow-sm">-->
-<!--                                    <div class="fw-bold text-primary"><t t-esc="sb.space_id.name"/></div>-->
-<!--                                    <div class="small text-muted mt-1"><i class="bi bi-calendar3 me-1"/> <t t-esc="sb.date"/></div>-->
-<!--                                    <div class="small text-muted"><i class="bi bi-clock me-1"/> <t t-esc="'%02d:%02d' % (int(sb.start_time), int((sb.start_time - int(sb.start_time)) * 60))"/></div>-->
-<!--                                </div>-->
-<!--                            </t>-->
-<!--                        </t>-->
-<!--                        <t t-else=""><p class="small text-muted">No sessions today.</p></t>-->
-<!--                    </div>-->
-
-                    <div class="lib-section-card">
-                        <h6 class="fw-bold mb-3">Reading Frequency</h6>
-                        <div class="activity-chart-placeholder">
-                            <div class="bar" style="height:40%;"/>
-                            <div class="bar" style="height:70%;"/>
-                            <div class="bar" style="height:50%;"/>
-                            <div class="bar" style="height:90%;"/>
-                            <div class="bar" style="height:30%;"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Reservations Section -->
-            <div class="mt-2">
-                <h5 class="fw-bold mb-3 ms-2">Active Reservations</h5>
-                <div class="row">
-                    <t t-foreach="reservations" t-as="res">
-                        <div class="col-md-4 mb-3">
-                        <div class="lib-section-card h-100" style="border-top: 4px solid #c8a85a;">
-                                <div class="d-flex justify-content-between"><span class="small fw-bold text-muted"><t t-esc="res.name"/></span> <span style="background-color: #1a365d; color: white; padding: 6.4px 16px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; display: inline-block;">
-        <t t-esc="res.state"/>
-    </span></div>
-                                <h6 class="mt-2 fw-bold small"><t t-esc="res.book_id.name"/></h6>
-                                <p class="small text-muted mb-2">Copy: <t t-esc="res.copy_id.name"/></p>
-                                <form t-if="res.state in ('requested', 'active')" t-attf-action="/my/library/reservation/#{res.id}/cancel" method="post">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <button type="submit" class="btn btn-md custom-cancel w-100 rounded-pill mt-4">Cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </t>
-                </div>
-            </div>
-        </div>
-    </t>
-</template>
-
-<!-- ===== Browse Books ===== -->
-<template id="portal_library_books" name="Library Books">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root {
-                --vvip-navy:    #1a365d;
-                --bg-dashboard: #F8FAFC;
-                --vvip-gold:    #c9a84c;
-            }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .vvip-container { padding: 25px 20px; background: var(--bg-dashboard); min-height: 100vh; }
-
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-family: 'Lora', Georgia, serif;
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); background: #fbfcfe; }
-
-            .page-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 35px; padding-bottom: 20px;
-                border-bottom: 2px solid rgba(21,43,68,0.06);
-            }
-            .header-icon-vvip {
-                width: 48px; height: 48px; background: var(--vvip-navy);
-                border-radius: 12px; display: flex; align-items: center;
-                justify-content: center; color: white; font-size: 1.3rem;
-            }
-            .page-header-vvip h2 {
-                font-family: 'Lora', Georgia, serif !important;
-                font-weight: 700; color: black; margin: 0;
-            }
-
-            .premium-card-vvip {
-                background: white; border-radius: 20px; padding: 25px;
-                border: 1px solid rgba(21,43,68,0.05);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 40px;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .vvip-label {
-                font-size: 0.68rem; font-weight: 800; color: var(--vvip-navy);
-                text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; opacity: 0.6;
-            }
-            .vvip-input {
-                width: 100%; padding: 10px 15px; border-radius: 10px;
-                border: 1.5px solid #edf2f7; background: #f8fafc;
-                transition: 0.3s; outline: none; font-size: 0.9rem;
-            }
-            .vvip-input:focus { border-color: var(--vvip-navy); background: white; }
-
-            .btn-vvip-search {
-                background: #1a365d ;color: white !important; border: none;
-                padding: 11px 25px; border-radius: 50px; font-weight: 700;
-                display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
-                box-shadow: 0 5px 15px rgba(21,43,68,0.15); font-family: 'Lora', Georgia, serif;
-                width: 100%;
-            }
-            .btn-vvip-search:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-            .book-grid-vvip {
-                display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-            }
-            .book-card-vvip {
-                background: white; border-radius: 18px; overflow: hidden;
-                border: 1px solid rgba(21,43,68,0.06);
-                display: flex; height: 180px; transition: 0.3s;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            }
-            .book-card-vvip:hover {
-                transform: translateY(-5px); box-shadow: 0 12px 25px rgba(21,43,68,0.08); border-color: var(--vvip-gold);
-            }
-
-            .book-img-side { flex: 0 0 130px; background: #f1f5f9; position: relative; overflow: hidden; }
-            .book-img-side img { width: 100%; height: 100%; object-fit: cover; }
-            .avail-tag-vvip {
-                position: absolute; top: 8px; left: 8px;
-                font-size: 0.55rem; font-weight: 800; padding: 2px 8px;
-                border-radius: 4px; color: white; background: #16a34a; z-index: 2; text-transform: uppercase;
-            }
-
-            .book-info-side {
-                flex: 1; padding: 18px; display: flex; flex-direction: column;
-                justify-content: space-between; min-width: 0;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .book-title-vvip {
-                font-size: 1.05rem; font-weight: 700; color: var(--vvip-navy);
-                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-                overflow: hidden; text-decoration: none !important; line-height: 1.3;
-            }
-            .book-meta-vvip { font-size: 0.7rem; font-weight: 700; color: var(--vvip-gold); text-transform: uppercase; letter-spacing: 0.5px; }
-
-            .btn-details-vvip {
-                background: #f1f5f9; color: var(--vvip-navy) !important;
-                font-size: 0.75rem; font-weight: 700; padding: 6px 16px;
-                border-radius: 50px; text-decoration: none !important; transition: 0.2s;
-            }
-            .btn-details-vvip:hover { background: var(--vvip-navy); color: white !important; }
-
-            @media (max-width: 1200px) { .book-grid-vvip { grid-template-columns: repeat(2, 1fr); } }
-            @media (max-width: 768px) {
-                .book-grid-vvip { grid-template-columns: 1fr; }
-                .book-card-vvip { height: 160px; }
-            }
-        </style>
-
-        <div class="vvip-container">
-            <a href="/my/library" class="btn-back-pill">
-                <i class="bi bi-arrow-left"/> Back to Dashboard
-            </a>
-
-            <div class="page-header-vvip">
-                <div class="header-icon-vvip"><i class="bi bi-journals"/></div>
-                <div class="header-title-vvip"><h2>Library Collection</h2></div>
-            </div>
-
-            <div class="premium-card-vvip">
-                <form method="get" action="/my/library/books">
-                    <div class="row g-3 align-items-end">
+    <data>
+
+        <template id="portal_library_book_detail" name="Book Details">
+            <t t-call="portal.portal_layout">
+                <!-- <t t-call="ust_library.portal_library_shared_css"/> -->
+                <div class="lib-wrap">
+                    <a href="/my/library" class="lib-back"><i class="bi bi-arrow-left"/>Back to Catalog</a>
+
+                    <div class="row g-4">
                         <div class="col-md-4">
-                            <label class="vvip-label">Search Collection</label>
-                            <input type="text" name="search" class="vvip-input" placeholder="Title, Author or ISBN..." t-att-value="search or ''"/>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="vvip-label">Category</label>
-                            <select name="category_id" class="vvip-input">
-                                <option value="">All Categories</option>
-                                <t t-foreach="categories" t-as="cat">
-                                    <option t-att-value="cat.id" t-att-selected="'selected' if category_id == cat.id else None">
-                                        <t t-esc="cat.name"/>
-                                    </option>
-                                </t>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="vvip-label">Availability</label>
-                            <select name="status" class="vvip-input">
-                                <option value="all">All Status</option>
-                                <option value="available" t-att-selected="'selected' if status == 'available' else None">Available</option>
-                                <option value="borrowed" t-att-selected="'selected' if status == 'borrowed' else None">Borrowed</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn-vvip-search">
-                                <i class="bi bi-search"/> Filter
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <t t-if="books">
-                <div class="book-grid-vvip">
-                    <t t-foreach="books" t-as="book">
-                        <div class="book-card-vvip">
-                            <div class="book-img-side">
-                                <!-- Error Fix: Used &gt; instead of > -->
-                                <t t-if="book.available_copies &gt; 0">
-                                    <span class="avail-tag-vvip">In Stock</span>
-                                </t>
+                            <div class="lib-book-card text-center p-3">
                                 <t t-if="book.cover_image">
-                                    <!-- Error Fix: Used &amp; instead of & -->
-                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" alt="Cover"/>
+                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" class="img-fluid rounded-3 mb-3 shadow" style="max-height: 400px;"/>
                                 </t>
                                 <t t-else="">
-                                    <div style="height:100%; width:100%; display:flex; align-items:center; justify-content:center; background:var(--vvip-navy); color:white; font-size:2.5rem;">
-                                        <i class="bi bi-book"/>
+                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center mb-3" style="height: 350px;">
+                                        <i class="bi bi-book text-muted" style="font-size: 5rem;"/>
                                     </div>
                                 </t>
-                            </div>
+                                <h3 class="fw-bold mb-1"><t t-esc="book.name"/></h3>
+                                <p class="text-muted"><t t-esc="book.author_ids[0].name if book.author_ids else 'Unknown Author'"/></p>
 
-                            <div class="book-info-side">
-                                <div>
-                                    <div class="book-meta-vvip"><t t-esc="book.category_id.name"/></div>
-                                    <a t-attf-href="/my/library/book/#{book.id}" class="book-title-vvip"><t t-esc="book.name"/></a>
-                                    <div class="text-muted" style="font-size:0.7rem; margin-top:3px;">ISBN: <t t-esc="book.isbn or '—'"/></div>
+                                <div t-if="book.ebook_file" class="mt-3">
+                                    <a t-attf-href="/my/library/book/#{book.id}/read" class="btn btn-primary rounded-pill w-100 py-2">
+                                        <i class="bi bi- eyeglasses me-2"/> Read E-Book
+                                    </a>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div style="font-weight:700; font-size:0.8rem; color:#f59e0b;">
-                                        <t t-if="book.review_count">
-                                            <i class="bi bi-star-fill"/> <t t-esc="'%.1f' % book.avg_rating"/>
-                                        </t>
-                                        <t t-else=""><span class="text-muted" style="font-size:0.65rem; font-weight:normal;">No ratings</span></t>
+                        <div class="col-md-8">
+                            <div class="lib-card-plain p-4 h-100">
+                                <h5 class="fw-bold mb-3 border-bottom pb-2">Book Information</h5>
+                                <div class="row mb-4">
+                                    <div class="col-6 mb-2">
+                                        <label class="small text-muted d-block">Category</label>
+                                        <span class="fw-bold"><t t-esc="book.category_id.name"/></span>
                                     </div>
-                                    <a t-attf-href="/my/library/book/#{book.id}" class="btn-details-vvip">Details</a>
+                                    <div class="col-6 mb-2">
+                                        <label class="small text-muted d-block">Rating</label>
+                                        <span class="text-warning">
+                                            <i class="bi bi-star-fill"/> <t t-esc="'%.1f' % (book.avg_rating or 0.0)"/>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <h5 class="fw-bold mb-3 border-bottom pb-2">Available Copies</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Reference</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="book.copy_ids" t-as="copy">
+                                                <tr>
+                                                    <td><t t-esc="copy.name"/></td>
+                                                    <td>
+                                                        <span t-attf-class="badge rounded-pill bg-#{'success' if copy.status == 'available' else 'warning'}">
+                                                            <t t-esc="copy.status.capitalize()"/>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <form t-if="copy.status not in ('lost','damaged')" action="/my/library/reservation/create" method="post" class="d-flex gap-2 align-items-center flex-wrap date-validation-form">
+                                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                            <input type="hidden" name="copy_id" t-att-value="copy.id"/>
+                                                            <div class="d-flex gap-1">
+                                                                <input type="date" name="start_date" required="1" class="form-control form-control-sm rounded-pill future-date-input" style="width:125px;" title="Start Date"/>
+                                                                <input type="date" name="end_date" required="1" class="form-control form-control-sm rounded-pill future-date-input" style="width:125px;" title="End Date"/>
+                                                            </div>
+                                                            <button type="submit" class="btn-action-vvip btn-outline-dark" style="border:1px solid #ddd; background:white; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;">Reserve</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                    </t>
-                </div>
-
-                <div class="d-flex justify-content-center mt-5">
-                    <t t-call="portal.pager"/>
-                </div>
-            </t>
-
-            <div t-else="" class="text-center py-5 bg-white rounded-4 border shadow-sm">
-                <i class="bi bi-journals text-muted mb-3" style="font-size:3rem; opacity:0.2;"/>
-                <h5 class="fw-bold" style="color:var(--vvip-navy);">No books found</h5>
-                <p class="text-muted small">We couldn't find any matches for your current filters.</p>
-            </div>
-        </div>
-    </t>
-</template>
-<!-- ===== Book Detail ===== -->
-<template id="portal_library_book_detail" name="Library Book Detail">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root {
-                --vvip-navy:    #1a365d;
-                --bg-dashboard: #F8FAFC;
-                --gold-light:   #e8c97a;
-            }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .lib-wrap { background-color: var(--bg-dashboard); min-height: 100vh; padding: 25px 20px; }
-
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff;
-                border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-                font-family: 'Lora', Georgia, serif;
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); }
-
-            .book-detail-container {
-                background: white; border-radius: 30px; overflow: hidden;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.05); border: 1px solid rgba(11,24,41,0.05); margin-bottom: 40px;
-            }
-            .book-hero-top {
-                background: var(--vvip-navy); padding: 40px; display: flex; gap: 40px;
-                align-items: flex-end; position: relative;
-            }
-            .detail-cover-wrapper { flex: 0 0 240px; margin-bottom: -80px; z-index: 10; }
-            .detail-cover-img {
-                width: 100%; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-                border: 4px solid white; background: white;
-                height: 320px; object-fit: cover;
-            }
-            .book-headline-info { flex: 1; color: white; padding-bottom: 20px; }
-            .book-headline-info h1 {
-                font-family: 'Lora', Georgia, serif !important;
-                font-size: 2.5rem; font-weight: 700; color: white !important; margin-bottom: 10px;
-            }
-
-            .book-detail-body { padding: 100px 40px 40px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 40px; }
-
-            .spec-grid {
-                display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
-                background: #f8fafc; padding: 25px; border-radius: 20px; margin-top: 20px;
-            }
-            .spec-label { font-size: 0.65rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-            .spec-value { font-size: 0.95rem; font-weight: 600; color: var(--vvip-navy); font-family: 'Lora', Georgia, serif; }
-
-            .vvip-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-            .vvip-table thead th {
-                padding: 12px 15px; color: #64748b; font-size: 0.7rem;
-                text-transform: uppercase; border: none; font-family: 'Lora', Georgia, serif;
-            }
-            .vvip-table tbody tr { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-            .vvip-table td {
-                padding: 15px; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
-                vertical-align: middle; font-family: 'Lora', Georgia, serif; font-size: 0.85rem;
-            }
-            .vvip-table td:first-child { border-left: 1px solid #f1f5f9; border-radius: 15px 0 0 15px; }
-            .vvip-table td:last-child  { border-right: 1px solid #f1f5f9; border-radius: 0 15px 15px 0; }
-
-            .btn-action-vvip {
-                padding: 8px 18px; border-radius: 50px; font-weight: 700;
-                font-size: 0.75rem; border: none; transition: 0.3s;
-                font-family: 'Lora', Georgia, serif; white-space: nowrap;
-            }
-            .status-chip {
-                padding: 4px 12px; border-radius: 50px; font-size: 0.65rem;
-                font-weight: 800; text-transform: uppercase; color: white;
-            }
-            .head{
-            font-size:17px;
-            }
-
-            @media (max-width: 992px) {
-                .book-detail-body { grid-template-columns: 1fr; }
-                .book-hero-top { flex-direction: column; align-items: center; text-align: center; }
-                .detail-cover-wrapper { margin-bottom: 0; }
-                .book-detail-body { padding: 40px 20px; }
-            }
-        </style>
-
-        <div class="lib-wrap">
-            <a href="/my/library/books" class="btn-back-pill"><i class="bi bi-arrow-left"/> Back to Collection</a>
-
-            <div class="book-detail-container">
-                <div class="book-hero-top">
-                    <div class="detail-cover-wrapper">
-                        <t t-if="book.cover_image">
-                            <img t-att-src="'data:image/png;base64,%s' % book.cover_image.decode()" class="detail-cover-img" alt="Cover"/>
-                        </t>
-                        <t t-else="">
-                            <div class="detail-cover-img d-flex align-items-center justify-content-center" style="background:var(--vvip-navy); font-size:4rem; color:white;">
-                                <i class="bi bi-book"/>
-                            </div>
-                        </t>
-                    </div>
-
-                    <div class="book-headline-info">
-                        <span class="badge bg-warning text-dark mb-2 fw-bold"><t t-esc="book.category_id.name"/></span>
-                        <h1><t t-esc="book.name"/></h1>
-                        <p class="mb-3 opacity-75">By <t t-esc="', '.join(book.author_ids.mapped('name'))"/></p>
-                        <div class="d-flex align-items-center gap-3">
-                            <div t-if="book.review_count" class="text-warning fw-bold">
-                                <i class="bi bi-star-fill me-1" style="color:#f59e0b;"/> <t t-esc="'%.1f' % book.avg_rating"/>
-                                <span class="text-white ms-2 small opacity-75">(<t t-esc="book.review_count"/> reviews)</span>
-                            </div>
-                            <div t-if="book.ebook_available" class="d-flex gap-2">
-                                <a t-attf-href="/my/library/book/#{book.id}/ebook" class="btn btn-sm btn-light rounded-pill px-3 fw-bold">Read Online</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <div class="book-detail-body">
-                    <div>
-                        <h4 class="fw-bold mb-3" style="font-family:'Lora',Georgia,serif; color:var(--vvip-navy);">About this book</h4>
-                        <div class="spec-grid">
-                            <div class="spec-item"><span class="spec-label">ISBN </span><span class="spec-value"><t t-esc="book.isbn"/></span></div>
-                            <div class="spec-item"><span class="spec-label">Publisher </span><span class="spec-value"><t t-esc="book.publisher_id.name"/></span></div>
-                            <div class="spec-item"><span class="spec-label">Language </span><span class="spec-value"><t t-esc="book.language"/></span></div>
-                            <div class="spec-item"><span class="spec-label">Publication Year </span><span class="spec-value"><t t-esc="book.publication_year"/></span></div>
-                            <div class="spec-item"><span class="spec-label">Total Pages </span><span class="spec-value"><t t-esc="book.number_of_pages"/></span></div>
-                            <div class="spec-item"><span class="spec-label">Edition </span><span class="spec-value"><t t-esc="book.edition or '-'"/></span></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="card border-0 shadow-sm p-4 rounded-4" style="background:#f1f5f9;">
-                            <h6 class="fw-bold mb-3 text-uppercase small opacity-75 head">Quick Actions</h6>
-                            <t t-if="book.ebook_download_allowed">
-                                <a t-attf-href="/my/library/book/#{book.id}/ebook/download" class="btn w-100 rounded-pill mb-2 fw-bold" style="background:var(--vvip-navy); color:white; font-family:'Lora',Georgia,serif;">
-                                    <i class="bi bi-download me-2"/> Download PDF
-                                </a>
-                            </t>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Copies & Availability Section -->
-            <div id="copies_section" class="mb-5">
-                <div class="d-flex align-items-center gap-2 mb-4">
-                    <div style="width:4px; height:24px; background:var(--vvip-navy); border-radius:10px;"/>
-                    <h3 class="fw-bold mb-0" style="font-family:'Lora',Georgia,serif; color:var(--vvip-navy);">Copies &amp; Availability</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="vvip-table">
-                        <thead>
-                            <tr>
-                                <th>Copy</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <th>Current Borrower</th>
-                                <th>Next Available</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="book.copy_ids" t-as="copy">
-                                <tr>
-                                    <td><strong style="color:var(--vvip-navy);"><t t-esc="copy.name"/></strong></td>
-                                    <td class="text-muted"><t t-esc="copy.location or 'Main Stack'"/></td>
-                                    <td>
-                                        <span t-if="copy.status == 'available'" class="status-chip bg-success">Available</span>
-                                        <span t-if="copy.status == 'borrowed'"  class="status-chip bg-warning text-dark">Borrowed</span>
-                                        <span t-if="copy.status == 'reserved'"  class="status-chip bg-info">Reserved</span>
-                                        <span t-if="copy.status == 'damaged'"   class="status-chip bg-danger">Damaged</span>
-                                        <span t-if="copy.status == 'lost'"      class="status-chip bg-secondary">Lost</span>
-                                    </td>
-                                    <td class="small text-muted"><t t-esc="copy.current_borrower_id.name or '-'"/></td>
-                                    <td class="small text-muted"><t t-esc="copy.next_available_date or '-'"/></td>
-                                    <td>
-                                        <div class="d-flex flex-column gap-2">
-                                            <!-- Borrow Form with Date Restriction -->
-                                            <form t-if="copy.status == 'available'" action="/my/library/borrow/request" method="post" class="d-flex gap-2 date-validation-form">
-                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="copy_id" t-att-value="copy.id"/>
-                                                <input type="date" name="expected_return_date" required="1"
-                                                       class="form-control form-control-sm rounded-pill future-date-input"
-                                                       style="width:140px;"/>
-                                                <button type="submit" class="btn-action-vvip" style="background:var(--vvip-navy); color:white;">Borrow</button>
-                                            </form>
-
-                                            <!-- Reservation Form with Date Restriction -->
-                                            <form t-if="copy.status not in ('lost','damaged')" action="/my/library/reservation/create" method="post" class="d-flex gap-2 align-items-center flex-wrap date-validation-form">
-                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="copy_id" t-att-value="copy.id"/>
-                                                <div class="d-flex gap-1">
-                                                    <input type="date" name="start_date" required="1" class="form-control form-control-sm rounded-pill future-date-input" style="width:125px;" title="Start Date"/>
-                                                    <input type="date" name="end_date"   required="1" class="form-control form-control-sm rounded-pill future-date-input" style="width:125px;" title="End Date"/>
-                                                </div>
-                                                <button type="submit" class="btn-action-vvip btn-outline-dark" style="border:1px solid #ddd; background:white;">Reserve</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </t>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Reviews Section (Unchanged) -->
-            <div class="row">
-                <!-- ... Review code (same as before) ... -->
-            </div>
-        </div>
-
-        <script>
-            //<![CDATA[
-            document.addEventListener('DOMContentLoaded', function() {
-                // Get today's date in YYYY-MM-DD format
-                const today = new Date().toISOString().split('T')[0];
-
-                // Set minimum date for all inputs with 'future-date-input' class
-                document.querySelectorAll('.future-date-input').forEach(input => {
-                    input.setAttribute('min', today);
-                    // Also set default value to today for convenience
-                    if(!input.value) input.value = today;
-                });
-
-                // Form submission validation
-                document.querySelectorAll('.date-validation-form').forEach(form => {
-                    form.addEventListener('submit', function(e) {
-                        const dateInputs = this.querySelectorAll('.future-date-input');
-                        let isValid = true;
-
-                        dateInputs.forEach(input => {
-                            if (input.value < today) {
-                                isValid = false;
-                                input.classList.add('is-invalid');
-                            } else {
-                                input.classList.remove('is-invalid');
-                            }
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const today = new Date().toISOString().split('T')[0];
+                        document.querySelectorAll('.future-date-input').forEach(input => {
+                            input.setAttribute('min', today);
+                            if(!input.value) input.value = today;
                         });
 
-                        if (!isValid) {
-                            e.preventDefault();
-                            alert("Invalid Date Selection: Please select today's date or a future date. Past dates are not allowed for borrowing or reservations.");
-                        }
-                    });
-                });
+                        document.querySelectorAll('.date-validation-form').forEach(form => {
+                            const startInput = form.querySelector('input[name="start_date"]');
+                            const endInput = form.querySelector('input[name="end_date"]');
 
-                // Rating Star Logic (already existed)
-                document.querySelectorAll('.rating-star').forEach(star => {
-                    star.addEventListener('click', function() {
-                        let val = parseInt(this.getAttribute('data-val'));
-                        let parent = this.closest('.d-flex');
-                        parent.querySelectorAll('.rating-star').forEach(s => {
-                            let sVal = parseInt(s.getAttribute('data-val'));
-                            s.style.color = sVal <= val ? '#f59e0b' : '#ddd';
+                            startInput.addEventListener('change', () => endInput.setAttribute('min', startInput.value));
+
+                            form.addEventListener('submit', function(e) {
+                                if (startInput.value > endInput.value) {
+                                    e.preventDefault();
+                                    alert("End Date cannot be before Start Date.");
+                                }
+                            });
                         });
-                        let radio = parent.querySelector('input[value="' + val + '"]');
-                        if(radio) radio.checked = true;
                     });
-                });
-            });
-            //]]>
-        </script>
-    </t>
-</template>
-<template id="portal_library_ebook_reader" name="E-Book Reader">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-        <div class="lib-wrap">
-            <a t-attf-href="/my/library/book/#{book.id}" class="lib-back"><i class="bi bi-arrow-left"/>Back to Book</a>
-            <div class="lib-page-header">
-                <div class="lib-icon" style="background:#1a365d;"><i class="bi bi-file-pdf"/></div>
-                <h2><t t-esc="book.name"/> — E-Book Reader</h2>
-            </div>
-            <div style="border:1.5px solid var(--L-border); border-radius:var(--L-radius); overflow:hidden; height:80vh; background:var(--L-white); box-shadow:var(--L-shadow);">
-                <iframe t-attf-src="/web/content/library.book/#{book.id}/ebook_file/#{book.ebook_filename or 'ebook.pdf'}" width="100%" height="100%" style="border:none;"/>
-            </div>
-        </div>
-    </t>
-</template>
+                </script>
+            </t>
+        </template>
 
-<!-- ===== Recommendations ===== -->
-<template id="portal_library_recommendations" name="Book Recommendations">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root {
-                --vvip-navy:    #1a365d;
-                --bg-dashboard: #F8FAFC;
-            }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .rec-page-container { background-color: var(--bg-dashboard); min-height: 100vh; padding: 25px 20px; }
-
-            /* Back Button */
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-family: 'Lora', Georgia, serif;
-            }
-
-            .rec-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 35px; padding-bottom: 20px;
-                border-bottom: 2px solid rgba(21,43,68,0.1);
-            }
-            .rec-header-vvip h2 {
-                font-family: 'Lora', Georgia, serif !important;
-                font-weight: 700; color: black; margin: 0;
-            }
-            .rec-header-icon {
-                width: 50px; height: 50px; background: var(--vvip-navy);
-                border-radius: 12px; display: flex; align-items: center;
-                justify-content: center; color: white; font-size: 1.5rem;
-                box-shadow: 0 8px 20px rgba(21,43,68,0.2);
-            }
-
-            /* Section Headers */
-            .section-row-vvip { display: flex; align-items: center; gap: 15px; margin: 45px 0 20px; }
-            .section-label-vvip {
-                font-family: 'Lora', Georgia, serif;
-                font-size: 1.25rem; font-weight: 700; color: black; white-space: nowrap;
-            }
-            .section-line-vvip { height: 1.5px; background: rgba(21,43,68,0.1); width: 100%; }
-
-            /* Grid System */
-            .rec-grid-landscape {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                gap: 20px;
-            }
-
-            /* Card Style */
-            .rec-card-item {
-                background: white; border-radius: 16px; overflow: hidden;
-                display: flex; height: 140px;
-                border: 1px solid rgba(21,43,68,0.08);
-                transition: 0.3s ease-in-out; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-                text-decoration: none !important;
-            }
-            .rec-card-item:hover { transform: translateY(-5px); border-color: var(--vvip-navy); box-shadow: 0 12px 25px rgba(21,43,68,0.1); }
-
-            .rec-img-side { flex: 0 0 110px; background: #f1f5f9; position: relative; overflow: hidden; }
-            .rec-img-side img { width: 100%; height: 100%; object-fit: cover; }
-
-            .rec-info-side {
-                flex: 1; padding: 15px; display: flex; flex-direction: column;
-                justify-content: space-between; min-width: 0;
-            }
-            .rec-title-txt {
-                font-family: 'Lora', Georgia, serif;
-                font-size: 1.05rem; font-weight: 700; color: var(--vvip-navy); margin-bottom: 3px;
-                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-            }
-            .rec-cat-txt {
-                font-size: 0.65rem; font-weight: 700; color: #c9a84c;
-                text-transform: uppercase; letter-spacing: 0.5px;
-            }
-            .rec-stars { color: #f59e0b; font-weight: 700; font-size: 0.85rem; }
-            .rec-btn-action {
-                font-size: 0.7rem; font-weight: 700; color: var(--vvip-navy);
-                padding: 4px 0; border-bottom: 1.5px solid transparent;
-                transition: 0.3s;
-            }
-            .rec-card-item:hover .rec-btn-action { border-bottom-color: var(--vvip-navy); }
-
-            @media (max-width: 768px) {
-                .rec-card-item { height: 130px; }
-            }
-
-            /* ── Responsive: tablets ── */
-            @media (max-width: 600px) {
-                .rec-page-container { padding: 16px 12px; }
-
-                .rec-grid-landscape {
-                    grid-template-columns: 1fr;
-                    gap: 14px;
-                }
-
-                .rec-header-vvip { margin-bottom: 20px; padding-bottom: 14px; gap: 10px; }
-                .rec-header-vvip h2 { font-size: 1.2rem; }
-                .rec-header-icon { width: 40px; height: 40px; font-size: 1.2rem; border-radius: 10px; }
-
-                .section-row-vvip { margin: 30px 0 14px; gap: 10px; }
-                .section-label-vvip { font-size: 1rem; }
-            }
-
-            /* ── Responsive: small phones (320px) ── */
-            @media (max-width: 400px) {
-                .rec-page-container { padding: 12px 8px; }
-
-                .btn-back-pill { font-size: 0.78rem; padding: 5px 14px; margin-bottom: 16px; }
-
-                .rec-header-vvip h2 { font-size: 1.05rem; }
-                .rec-header-icon { width: 36px; height: 36px; font-size: 1rem; border-radius: 8px; }
-
-                .rec-card-item { height: auto; min-height: 110px; }
-                .rec-img-side { flex: 0 0 90px; }
-
-                .rec-info-side { padding: 10px 10px 10px 12px; }
-                .rec-title-txt { font-size: 0.9rem; }
-                .rec-cat-txt { font-size: 0.6rem; }
-                .rec-stars { font-size: 0.78rem; }
-                .rec-btn-action { font-size: 0.65rem; }
-
-                .section-label-vvip { font-size: 0.9rem; }
-                .section-row-vvip { margin: 22px 0 12px; gap: 8px; }
-            }
-        </style>
-
-        <div class="rec-page-container">
-            <!-- Back button -->
-            <a href="/my/library" class="btn-back-pill"><i class="bi bi-arrow-left"/> Back to Dashboard</a>
-
-            <div class="rec-header-vvip">
-                <div class="rec-header-icon"><i class="bi bi-stars"/></div>
-                <div><h2>Book Recommendations</h2></div>
-            </div>
-
-            <!-- SECTION 1: POPULAR BOOKS -->
-            <div class="section-row-vvip">
-<!--                <i class="bi bi-fire" style="color:#ef4444; font-size:1.3rem;"/>-->
-                <span class="section-label-vvip">Popular Books</span>
-                <div class="section-line-vvip"/>
-            </div>
-
-            <t t-if="popular_books">
-                <div class="rec-grid-landscape">
-                    <t t-foreach="popular_books" t-as="book">
-                        <a t-attf-href="/my/library/book/#{book.id}" class="rec-card-item">
-                            <div class="rec-img-side">
-                                <t t-if="book.cover_image">
-                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" alt="Cover"/>
-                                </t>
-                                <t t-else=""><div style="height:100%; display:flex; align-items:center; justify-content:center; background:var(--vvip-navy); color:white;"><i class="bi bi-book" style="font-size:2rem;"/></div></t>
-                            </div>
-                            <div class="rec-info-side">
-                                <div>
-                                    <div class="rec-cat-txt"><t t-esc="book.category_id.name"/></div>
-                                    <div class="rec-title-txt"><t t-esc="book.name"/></div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div class="rec-stars">
-                                        <t t-if="book.avg_rating"><i class="bi bi-star-fill"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
-                                        <t t-else=""><span class="text-muted" style="font-size:0.6rem;">No reviews</span></t>
-                                    </div>
-                                    <span class="rec-btn-action">View Details</span>
-                                </div>
-                            </div>
-                        </a>
-                    </t>
+        <template id="portal_library_ebook_reader" name="E-Book Reader">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="lib-wrap">
+                    <a t-attf-href="/my/library/book/#{book.id}" class="lib-back"><i class="bi bi-arrow-left"/>Back to Book</a>
+                    <div class="lib-page-header">
+                        <div class="lib-icon" style="background:#1a365d;"><i class="bi bi-file-pdf"/></div>
+                        <h2><t t-esc="book.name"/> — E-Book Reader</h2>
+                    </div>
+                    <div style="border:1.5px solid #ddd; border-radius:15px; overflow:hidden; height:80vh; background:white;">
+                        <iframe t-attf-src="/web/content/library.book/#{book.id}/ebook_file/#{book.ebook_filename or 'ebook.pdf'}" width="100%" height="100%" style="border:none;"/>
+                    </div>
                 </div>
             </t>
-            <div t-else="" class="text-center py-4 text-muted border rounded-4 bg-white">No popular books found.</div>
+        </template>
 
-            <!-- SECTION 2: RECOMMENDED FOR YOU -->
-            <div class="section-row-vvip">
-<!--                <i class="bi bi-hand-thumbs-up-fill" style="color:#3b82f6; font-size:1.3rem;"/>-->
-                <span class="section-label-vvip">Recommended for You</span>
-                <div class="section-line-vvip"/>
-            </div>
+        <template id="portal_library_recommendations" name="Book Recommendations">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="rec-page-container p-4" style="background: #F8FAFC; min-height: 100vh;">
+                    <a href="/my/library" class="btn btn-outline-secondary rounded-pill mb-4"><i class="bi bi-arrow-left"/> Back to Dashboard</a>
 
-            <t t-if="recommended_books">
-                <div class="rec-grid-landscape">
-                    <t t-foreach="recommended_books" t-as="book">
-                        <a t-attf-href="/my/library/book/#{book.id}" class="rec-card-item">
-                            <div class="rec-img-side">
-                                <t t-if="book.cover_image">
-                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" alt="Cover"/>
-                                </t>
-                                <t t-else=""><div style="height:100%; display:flex; align-items:center; justify-content:center; background:var(--vvip-navy); color:white;"><i class="bi bi-book" style="font-size:2rem;"/></div></t>
-                            </div>
-                            <div class="rec-info-side">
-                                <div>
-                                    <div class="rec-cat-txt"><t t-esc="book.category_id.name"/></div>
-                                    <div class="rec-title-txt"><t t-esc="book.name"/></div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div class="rec-stars">
-                                        <t t-if="book.avg_rating"><i class="bi bi-star-fill"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
-                                    </div>
-                                    <span class="rec-btn-action">Explore</span>
-                                </div>
-                            </div>
-                        </a>
-                    </t>
-                </div>
-            </t>
-            <div t-else="" class="text-center py-5 text-muted border rounded-4 bg-white">
-                <i class="bi bi-lightbulb mb-2" style="font-size:2rem; opacity:0.3;"/>
-                <p>Borrow books to get personalized suggestions.</p>
-            </div>
-
-            <!-- SECTION 3: TRENDING (RESTORED SECTION) -->
-            <div class="section-row-vvip">
-<!--                <i class="bi bi-graph-up-arrow" style="color:#10b981; font-size:1.3rem;"/>-->
-                <span class="section-label-vvip">Trending (Last 30 Days)</span>
-                <div class="section-line-vvip"/>
-            </div>
-
-            <t t-if="trending_books">
-                <div class="rec-grid-landscape">
-                    <t t-foreach="trending_books" t-as="book">
-                        <a t-attf-href="/my/library/book/#{book.id}" class="rec-card-item">
-                            <div class="rec-img-side">
-                                <t t-if="book.cover_image">
-                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" alt="Cover"/>
-                                </t>
-                                <t t-else=""><div style="height:100%; display:flex; align-items:center; justify-content:center; background:var(--vvip-navy); color:white;"><i class="bi bi-book" style="font-size:2rem;"/></div></t>
-                            </div>
-                            <div class="rec-info-side">
-                                <div>
-                                    <div class="rec-cat-txt"><t t-esc="book.category_id.name"/></div>
-                                    <div class="rec-title-txt"><t t-esc="book.name"/></div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div class="rec-stars">
-                                        <t t-if="book.avg_rating"><i class="bi bi-star-fill"/> <t t-esc="'%.1f' % book.avg_rating"/></t>
-                                    </div>
-                                    <span class="rec-btn-action">Trending Now</span>
-                                </div>
-                            </div>
-                        </a>
-                    </t>
-                </div>
-            </t>
-            <div t-else="" class="text-center py-4 text-muted border rounded-4 bg-white">No trending data for the last 30 days.</div>
-
-        </div>
-    </t>
-</template><!-- ===== Purchase Requests ===== -->
-<template id="portal_library_purchase_requests" name="My Purchase Requests">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root {
-                --vvip-navy:    #1a365d;
-                --bg-dashboard: #F8FAFC;
-            }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .purchase-container { padding: 25px 20px; background: var(--bg-dashboard); min-height: 100vh; }
-
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-family: 'Lora', Georgia, serif;
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); background: #fbfcfe; }
-
-            .page-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 35px; padding-bottom: 20px;
-                border-bottom: 2px solid rgba(21,43,68,0.06);
-            }
-            .header-icon-vvip {
-                width: 48px; height: 48px; background: var(--vvip-navy);
-                border-radius: 12px; display: flex; align-items: center;
-                justify-content: center; color: white; font-size: 1.3rem;
-            }
-            .page-header-vvip h2 {
-                font-family: 'Lora', Georgia, serif !important;
-                font-weight: 700; color: black; margin: 0;
-            }
-
-            .premium-card-vvip {
-                background: white; border-radius: 20px; padding: 30px;
-                border: 1px solid rgba(21,43,68,0.05);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 40px;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .premium-card-vvip h5 {
-                font-family: 'Lora', Georgia, serif;
-                font-weight: 700; color: var(--vvip-navy); margin-bottom: 25px;
-                display: flex; align-items: center; gap: 10px;
-            }
-
-            .form-grid-vvip {
-                display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 15px; margin-bottom: 20px;
-            }
-            .vvip-input {
-                width: 100%; padding: 10px 15px; border-radius: 10px;
-                border: 1.5px solid #edf2f7; background: #f8fafc;
-                transition: 0.3s; outline: none; font-size: 0.9rem;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .vvip-input:focus { border-color: var(--vvip-navy); background: white; }
-            .vvip-label {
-                font-size: 0.68rem; font-weight: 800; color: var(--vvip-navy);
-                text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; opacity: 0.6;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .btn-vvip-submit {
-                background: var(--vvip-navy); color: white !important; border: none;
-                padding: 12px 30px; border-radius: 50px; font-weight: 700;
-                display: inline-flex; align-items: center; gap: 10px; transition: 0.3s;
-                box-shadow: 0 5px 15px rgba(21,43,68,0.15); font-family: 'Lora', Georgia, serif;
-            }
-            .btn-vvip-submit:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-            .premium-table-vvip { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-            .premium-table-vvip thead th {
-                padding: 12px 15px; color: #8898aa; font-size: 0.7rem;
-                text-transform: uppercase; letter-spacing: 1px; border: none;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .premium-table-vvip tbody tr { background: white; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.01); transition: 0.3s; }
-            .premium-table-vvip td {
-                padding: 16px; vertical-align: middle; border: none;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .premium-table-vvip td:first-child { border-radius: 15px 0 0 15px; color: var(--vvip-navy); font-weight: 700; }
-            .premium-table-vvip td:last-child  { border-radius: 0 15px 15px 0; }
-
-            .status-vvip { padding: 4px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; font-family: 'Lora', Georgia, serif; }
-            .st-requested { background: #eef2ff; color: #4338ca; }
-            .st-approved  { background: #dcfce7; color: #15803d; }
-            .st-rejected  { background: #fee2e2; color: #b91c1c; }
-
-            .history-title {
-                font-family: 'Lora', Georgia, serif;
-                font-size: 1.25rem; font-weight: 700; color: var(--vvip-navy); margin: 40px 0 20px;
-                display: flex; align-items: center; gap: 10px;
-            }
-            .history-title::after { content: ''; flex-grow: 1; height: 1px; background: rgba(21,43,68,0.1); }
-
-            /* ── Mobile: table → card layout ── */
-            @media (max-width: 600px) {
-                .premium-table-vvip thead { display: none; }
-
-                .premium-table-vvip,
-                .premium-table-vvip tbody,
-                .premium-table-vvip tr,
-                .premium-table-vvip td { display: block; width: 100%; }
-
-                .premium-table-vvip tbody tr {
-                    border-radius: 15px;
-                    margin-bottom: 12px;
-                    padding: 14px 16px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-                }
-
-                .premium-table-vvip td {
-                    padding: 5px 0;
-                    border-radius: 0 !important;
-                }
-
-                .premium-table-vvip td::before {
-                    content: attr(data-label);
-                    display: block;
-                    font-size: 0.62rem;
-                    font-weight: 800;
-                    color: var(--vvip-navy);
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    opacity: 0.5;
-                    margin-bottom: 2px;
-                    font-family: 'Lora', Georgia, serif;
-                }
-            }
-
-            @media (max-width: 400px) {
-                .purchase-container { padding: 12px 8px; }
-                .btn-back-pill { font-size: 0.78rem; padding: 5px 14px; margin-bottom: 16px; }
-                .premium-card-vvip { padding: 18px 14px; }
-                .history-title { font-size: 1rem; margin: 28px 0 14px; }
-            }
-        </style>
-
-        <div class="purchase-container">
-            <a href="/my/library" class="btn-back-pill"><i class="bi bi-arrow-left"/> Back to Dashboard</a>
-
-            <div class="page-header-vvip">
-                <div class="header-icon-vvip"><i class="bi bi-cart-check-fill"/></div>
-                <div class="header-title-vvip"><h2>Purchase Requests</h2></div>
-            </div>
-
-            <div class="premium-card-vvip">
-                <h5 style="color:black"><i class="bi bi-plus-circle-fill"/> Request a New Book</h5>
-                <form action="/my/library/purchase-request" method="post">
-                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <div class="form-grid-vvip">
-                        <div>
-                            <label class="vvip-label">Book Title *</label>
-                            <input type="text" name="book_title" class="vvip-input" placeholder="Title of the book" required="required"/>
-                        </div>
-                        <div>
-                            <label class="vvip-label">Author Name</label>
-                            <input type="text" name="author_name" class="vvip-input" placeholder="e.g. J.K. Rowling"/>
-                        </div>
-                        <div>
-                            <label class="vvip-label">Publisher</label>
-                            <input type="text" name="publisher_name" class="vvip-input" placeholder="e.g. Penguin Books"/>
-                        </div>
-                        <div>
-                            <label class="vvip-label">ISBN Number</label>
-                            <input type="text" name="isbn" class="vvip-input" placeholder="Optional"/>
-                        </div>
+                    <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                        <div style="background:#1a365d; color:white; padding: 10px; border-radius: 10px;"><i class="bi bi-stars fs-4"/></div>
+                        <h2 class="fw-bold m-0" style="font-family: 'Lora', serif;">Book Recommendations</h2>
                     </div>
-                    <div class="mb-4">
-                        <label class="vvip-label">Reason for Request</label>
-                        <textarea name="reason" class="vvip-input" rows="2" placeholder="Why should we add this book to our library?"></textarea>
-                    </div>
-                    <button type="submit" class="btn-vvip-submit"><i class="bi bi-send-fill"/> Submit Formal Request</button>
-                </form>
-            </div>
 
-            <div class="history-title" style="color:black">Request History</div>
-
-            <t t-if="purchase_requests">
-                <table class="premium-table-vvip">
-                    <thead><tr><th>Ref ID</th><th>Book Details</th><th>Author</th><th>Current Status</th></tr></thead>
-                    <tbody>
-                        <t t-foreach="purchase_requests" t-as="pr">
-                            <tr>
-                                <td data-label="Ref ID"><t t-esc="pr.name"/></td>
-                                <td data-label="Book Details"><strong style="color:var(--vvip-navy);"><t t-esc="pr.book_title"/></strong></td>
-                                <td data-label="Author" class="text-muted"><t t-esc="pr.author_name or '—'"/></td>
-                                <td data-label="Status">
-                                    <span t-attf-class="status-vvip st-#{pr.state}">
-                                        <t t-esc="pr.state.replace('_',' ').capitalize()"/>
-                                    </span>
-                                </td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-            </t>
-            <div t-else="" class="text-center py-5 bg-white rounded-4 border shadow-sm">
-                <i class="bi bi-inbox text-muted mb-3" style="font-size:3rem; opacity:0.2;"/>
-                <h5 class="fw-bold" style="color:var(--vvip-navy);">No requests found</h5>
-                <p class="text-muted small">You haven't made any purchase requests yet.</p>
-            </div>
-        </div>
-    </t>
-</template>
-<!-- ===== Study Spaces ===== -->
-<template id="portal_library_spaces" name="Library Study Spaces">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-
-        <style>
-            :root { --vvip-navy: #1a365d; --bg-dashboard: #F8FAFC; }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .spaces-container { padding: 25px 20px; background: var(--bg-dashboard); min-height: 100vh; }
-
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-family: 'Lora', Georgia, serif;
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); }
-
-            .page-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 35px; padding-bottom: 20px;
-                border-bottom: 2px solid rgba(21,43,68,0.06);
-            }
-            .header-icon-vvip {
-                width: 48px; height: 48px; background: var(--vvip-navy); border-radius: 12px;
-                display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem;
-            }
-            .page-header-vvip h2 {
-                font-family: 'Lora', Georgia, serif !important; font-weight: 700; color: black; margin: 0;
-            }
-
-            .spaces-grid-vvip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-
-            .space-card-vvip {
-                background: white; border-radius: 20px; padding: 25px;
-                border: 1px solid rgba(21,43,68,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-                transition: all 0.3s ease; display: flex; flex-direction: column;
-                justify-content: space-between; height: 100%;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .space-card-vvip:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(21,43,68,0.08); border-color: var(--vvip-navy); }
-
-            .space-type-icon {
-                width: 45px; height: 45px; background: #f1f5f9; border-radius: 12px;
-                display: flex; align-items: center; justify-content: center;
-                color: var(--vvip-navy); font-size: 1.2rem; margin-bottom: 15px;
-            }
-            .space-name-vvip {
-                font-family: 'Lora', Georgia, serif;
-                font-size: 1.2rem; font-weight: 700; color: var(--vvip-navy); margin-bottom: 10px;
-            }
-            .meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #64748b; margin-bottom: 5px; }
-            .badge-type-vvip {
-                background: #eef2ff; color: #4338ca; padding: 3px 10px; border-radius: 50px;
-                font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .btn-book-vvip {
-                background: var(--vvip-navy); color: white !important; border: none;
-                padding: 10px 15px; border-radius: 50px; font-weight: 700; font-size: 0.8rem;
-                text-align: center; text-decoration: none !important; margin-top: 20px;
-                transition: 0.3s; box-shadow: 0 4px 10px rgba(21,43,68,0.15);
-                font-family: 'Lora', Georgia, serif;
-            }
-            .btn-book-vvip:hover { filter: brightness(1.2); }
-
-            @media (max-width: 1100px) { .spaces-grid-vvip { grid-template-columns: repeat(2, 1fr); } }
-            @media (max-width: 768px)  { .spaces-grid-vvip { grid-template-columns: 1fr; } }
-        </style>
-
-        <div class="spaces-container">
-            <a href="/my/library" class="btn-back-pill"><i class="bi bi-arrow-left"/> Back to Dashboard</a>
-
-            <div class="page-header-vvip">
-                <div class="header-icon-vvip"><i class="bi bi-building-check"/></div>
-                <div class="header-info-vvip"><h2>Study Spaces</h2></div>
-            </div>
-
-            <div class="spaces-grid-vvip">
-                <t t-foreach="spaces" t-as="space">
-                    <div class="space-card-vvip">
-                        <div>
-                            <div class="space-type-icon">
-                                <i t-if="space.capacity &lt;= 2" class="bi bi-person-fill"/>
-                                <i t-else="" class="bi bi-people-fill"/>
-                            </div>
-                            <div class="space-name-vvip"><t t-esc="space.name"/></div>
-                            <div class="mb-3">
-                                <span class="badge-type-vvip">
-                                    <t t-esc="dict(space._fields['space_type'].selection).get(space.space_type, space.space_type)"/>
-                                </span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="bi bi-people-fill" style="color:var(--vvip-navy); opacity:0.7;"/>
-                                <span><strong><t t-esc="space.capacity"/></strong> people capacity</span>
-                            </div>
-                            <div t-if="space.location" class="meta-item">
-                                <i class="bi bi-geo-alt-fill" style="color:var(--vvip-navy); opacity:0.7;"/>
-                                <t t-esc="space.location"/>
-                            </div>
-                        </div>
-                        <a t-attf-href="/my/library/space/#{space.id}/calendar" class="btn-book-vvip">
-                            <i class="bi bi-calendar3 me-2"/>View Availability
-                        </a>
-                    </div>
-                </t>
-            </div>
-
-            <div t-if="not spaces" class="text-center py-5 bg-white rounded-4 border shadow-sm">
-                <i class="bi bi-building-exclamation text-muted mb-3" style="font-size:3.5rem; opacity:0.2;"/>
-                <h5 class="fw-bold" style="color:var(--vvip-navy);">No Spaces Available</h5>
-                <p class="text-muted small">Please check back later or contact the librarian.</p>
-            </div>
-        </div>
-    </t>
-</template>
-
-<!-- ===== Space Calendar ===== -->
-<template id="portal_library_space_calendar" name="Space Booking Calendar">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root { --vvip-navy: #1a365d; --bg-dashboard: #F8FAFC; }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .calendar-container { padding: 25px 20px; background: var(--bg-dashboard); min-height: 100vh; }
-
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-family: 'Lora', Georgia, serif;
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); }
-
-            .page-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 25px; padding-bottom: 15px;
-                border-bottom: 2px solid rgba(21,43,68,0.06);
-            }
-            .header-icon-vvip {
-                width: 48px; height: 48px; background: var(--vvip-navy); border-radius: 12px;
-                display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem;
-            }
-            .page-header-vvip h2 {
-                font-family: 'Lora', Georgia, serif !important;
-                font-weight: 700; color:black !important; margin: 0;
-            }
-
-            .meta-tag-row { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-            .vvip-badge-soft {
-                background: #eef2ff; color: #4338ca; padding: 4px 12px; border-radius: 50px;
-                font-size: 0.75rem; font-weight: 700; font-family: 'Lora', Georgia, serif;
-            }
-
-            .premium-booking-card {
-                background: white; border-radius: 20px; padding: 30px;
-                border: 1px solid rgba(21,43,68,0.05);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 30px;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .premium-booking-card h5 {
-                font-family: 'Lora', Georgia, serif; font-weight: 700;
-                color: var(--vvip-navy); margin-bottom: 20px;
-            }
-
-            .vvip-form-label {
-                font-size: 0.68rem; font-weight: 800; color: var(--vvip-navy);
-                text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; opacity: 0.7;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .vvip-input {
-                width: 100%; padding: 11px 15px; border-radius: 10px;
-                border: 1.5px solid #edf2f7; background: #f8fafc;
-                transition: 0.3s; outline: none; font-size: 0.9rem;
-                font-family: 'Lora', Georgia, serif;
-            }
-            .vvip-input:focus { border-color: var(--vvip-navy); background: white; }
-
-            .btn-vvip-book {
-                background: var(--vvip-navy); color: white !important; border: none;
-                padding: 12px 25px; border-radius: 50px; font-weight: 700; width: 100%;
-                transition: 0.3s; box-shadow: 0 4px 12px rgba(21,43,68,0.2);
-                font-family: 'Lora', Georgia, serif;
-            }
-            .btn-vvip-book:hover { filter: brightness(1.2); transform: translateY(-2px); }
-
-            .calendar-card-vvip {
-                background: white; border-radius: 20px; padding: 20px;
-                border: 1px solid rgba(21,43,68,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            }
-        </style>
-
-        <div class="calendar-container">
-            <a href="/my/library/spaces" class="btn-back-pill"><i class="bi bi-arrow-left"/> Back to Spaces</a>
-
-            <div class="page-header-vvip">
-                <div class="header-icon-vvip"><i class="bi bi-calendar3"/></div>
-                <div class="header-info-vvip">
-                    <h2><t t-esc="space.name"/> — Booking Calendar</h2>
-                </div>
-            </div>
-
-            <div class="meta-tag-row">
-                <span class="vvip-badge-soft">
-                    <t t-esc="dict(space._fields['space_type'].selection).get(space.space_type, space.space_type)"/>
-                </span>
-                <span class="text-muted small d-flex align-items-center gap-1">
-                    <i class="bi bi-people-fill"/> <t t-esc="space.capacity"/> Capacity
-                </span>
-                <span t-if="space.location" class="text-muted small d-flex align-items-center gap-1">
-                    <i class="bi bi-geo-alt-fill"/> <t t-esc="space.location"/>
-                </span>
-            </div>
-
-            <div class="premium-booking-card">
-                <h5>Book this Space</h5>
-                <form id="spaceBookingForm" action="/my/library/space/book" method="post">
-                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <input type="hidden" name="space_id" t-att-value="space.id"/>
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-3">
-                            <label class="vvip-form-label">Select Date</label>
-                            <input type="date" name="date" id="bookDate" class="vvip-input" required="required"/>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="vvip-form-label">Start Time (24h format)</label>
-                            <input type="number" name="start_time" id="bookStart" class="vvip-input" placeholder="e.g. 9.0" step="0.5" min="0" max="23.5" required="required"/>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="vvip-form-label">End Time (24h format)</label>
-                            <input type="number" name="end_time" id="bookEnd" class="vvip-input" placeholder="e.g. 11.5" step="0.5" min="0.5" max="24" required="required"/>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" onclick="showBookingConfirm()" class="btn-vvip-book">
-                                <i class="bi bi-check-lg me-2"/>Confirm Slot
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="calendar-card-vvip">
-                <div id="library_calendar" t-att-data-space-id="space.id" style="min-height:400px;"/>
-            </div>
-        </div>
-
-        <!-- Confirmation Popup -->
-        <div id="bookingOverlay" onclick="closeBookingPopup()" style="display:none; position:fixed; inset:0; z-index:1040; background:rgba(0,0,0,0.4); backdrop-filter:blur(3px); opacity:0; transition:opacity 0.25s;"/>
-
-        <div id="bookingPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.92); z-index:1050; background:#ffffff; border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,0.2); width:90%; max-width:420px; opacity:0; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); font-family:'Lora',Georgia,serif;">
-            <div class="text-center" style="padding:30px 30px 10px;">
-                <div style="width:60px; height:60px; background:var(--vvip-navy); border-radius:18px; display:flex; align-items:center; justify-content:center; color:white; margin:0 auto 15px; font-size:1.5rem;">
-                    <i class="bi bi-calendar-check"/>
-                </div>
-                <h4 style="font-family:'Lora',Georgia,serif; font-weight:700; color:var(--vvip-navy);">Confirm Booking</h4>
-                <p class="text-muted small">Please verify your reservation details below.</p>
-            </div>
-
-            <div style="margin:20px 30px; background:#f8fafc; border:1px solid #edf2f7; border-radius:15px; padding:15px;">
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                    <span class="small fw-bold text-muted text-uppercase">Space</span>
-                    <span class="small fw-bold" id="popupSpaceName">—</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                    <span class="small fw-bold text-muted text-uppercase">Date</span>
-                    <span class="small fw-bold" id="popupDate">—</span>
-                </div>
-                <div class="d-flex justify-content-between py-2">
-                    <span class="small fw-bold text-muted text-uppercase">Time</span>
-                    <span class="small fw-bold" id="popupTime">—</span>
-                </div>
-            </div>
-
-            <div class="d-flex gap-2" style="padding:0 30px 30px;">
-                <button onclick="closeBookingPopup()" class="btn btn-light rounded-pill flex-grow-1 fw-bold" style="font-family:'Lora',Georgia,serif;">Cancel</button>
-                <button onclick="submitBooking()" class="btn-vvip-book flex-grow-1">Book Now</button>
-            </div>
-        </div>
-
-        <script type="text/javascript">
-            <![CDATA[
-            function showBookingConfirm() {
-                var form = document.getElementById('spaceBookingForm');
-                if (!form.checkValidity()) { form.reportValidity(); return; }
-                var date = document.getElementById('bookDate').value;
-                var startVal = parseFloat(document.getElementById('bookStart').value);
-                var endVal   = parseFloat(document.getElementById('bookEnd').value);
-                function toTime(v) {
-                    var h = Math.floor(v), m = Math.round((v - h) * 60);
-                    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
-                }
-                var heading = document.querySelector('.page-header-vvip h2');
-                var spaceName = heading ? heading.textContent.split('—')[0].trim() : '—';
-                document.getElementById('popupSpaceName').textContent = spaceName;
-                document.getElementById('popupDate').textContent = date;
-                document.getElementById('popupTime').textContent = toTime(startVal) + ' – ' + toTime(endVal);
-                var overlay = document.getElementById('bookingOverlay');
-                var popup   = document.getElementById('bookingPopup');
-                overlay.style.display = 'block'; popup.style.display = 'block';
-                setTimeout(function() {
-                    overlay.style.opacity = '1'; popup.style.opacity = '1';
-                    popup.style.transform = 'translate(-50%, -50%) scale(1)';
-                }, 10);
-            }
-            function closeBookingPopup() {
-                var overlay = document.getElementById('bookingOverlay');
-                var popup   = document.getElementById('bookingPopup');
-                overlay.style.opacity = '0'; popup.style.opacity = '0';
-                popup.style.transform = 'translate(-50%, -50%) scale(0.92)';
-                setTimeout(function() { overlay.style.display = 'none'; popup.style.display = 'none'; }, 250);
-            }
-            function submitBooking() { document.getElementById('spaceBookingForm').submit(); }
-            ]]>
-        </script>
-    </t>
-</template>
-
-<!-- ===== My Space Bookings ===== -->
-<template id="portal_library_my_space_bookings" name="My Space Bookings">
-    <t t-call="portal.portal_layout">
-        <t t-call="ust_library.portal_library_shared_css"/>
-
-        <style>
-            :root {
-                --vvip-navy:    #1a365d;
-                --bg-dashboard: #F8FAFC;
-                --vvip-accent:  #2563eb;
-            }
-
-            .o_portal_wrap { background-color: var(--bg-dashboard) !important; }
-            .booking-container { padding: 25px 20px; background: var(--bg-dashboard); min-height: 100vh; font-family: 'Lora', Georgia, serif; }
-
-            /* Back Pill */
-            .btn-back-pill {
-                display: inline-flex; align-items: center; gap: 8px;
-                padding: 6px 20px; background: #ffffff; border: 1px solid #dce1e7; border-radius: 50px;
-                color: #5a7184 !important; font-weight: 600; font-size: 0.85rem;
-                text-decoration: none !important; transition: all 0.2s ease; margin-bottom: 25px;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            }
-            .btn-back-pill:hover { border-color: var(--vvip-navy); color: var(--vvip-navy) !important; transform: translateX(-3px); }
-
-            /* Header */
-            .page-header-vvip {
-                display: flex; align-items: center; gap: 15px;
-                margin-bottom: 35px; padding-bottom: 20px;
-                border-bottom: 2px solid rgba(21,43,68,0.06);
-            }
-            .header-icon-vvip {
-                width: 48px; height: 48px; background: var(--vvip-navy);
-                border-radius: 12px; display: flex; align-items: center;
-                justify-content: center; color: white; font-size: 1.3rem;
-            }
-            .page-header-vvip h2 { font-weight: 700; color: black; margin: 0; font-family: 'Lora', Georgia, serif !important; }
-
-            /* Table Styling */
-            .premium-table-vvip { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-            .premium-table-vvip thead th {
-                padding: 12px 15px; color: #8898aa; font-size: 0.7rem;
-                text-transform: uppercase; letter-spacing: 1px; border: none;
-            }
-            .premium-table-vvip tbody tr { background: white; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: 0.3s; }
-            .premium-table-vvip tbody tr:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-            .premium-table-vvip td { padding: 18px 15px; vertical-align: middle; border: none; color: #4a5568; }
-
-            .premium-table-vvip td:first-child { border-radius: 15px 0 0 15px; color: var(--vvip-navy); font-weight: 700; }
-            .premium-table-vvip td:last-child  { border-radius: 0 15px 15px 0; text-align: right; }
-
-            /* Status Badges */
-            .status-vvip { padding: 5px 14px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-            .st-requested { background: #eff6ff; color: #2563eb; }
-            .st-confirmed { background: #dcfce7; color: #15803d; }
-            .st-cancelled { background: #fee2e2; color: #b91c1c; }
-            .st-completed { background: #f1f5f9; color: #475569; }
-
-            /* Action Button */
-            .btn-cancel-link {
-                color: #dc2626; background: transparent; border: 1px solid #fee2e2;
-                padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; font-weight: 700;
-                transition: 0.2s; cursor: pointer; text-decoration: none;
-            }
-            .btn-cancel-link:hover { background: #dc2626; color: white; border-color: #dc2626; }
-
-            /* Empty State */
-            .vvip-empty-state {
-                background: white; padding: 60px; border-radius: 20px; text-align: center;
-                border: 1px solid rgba(21,43,68,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            }
-        </style>
-
-        <div class="booking-container">
-            <!-- Back Navigation -->
-            <a href="/my/library" class="btn-back-pill">
-                <i class="bi bi-arrow-left"/> Back to Dashboard
-            </a>
-
-            <!-- Header Section -->
-            <div class="page-header-vvip">
-                <div class="header-icon-vvip"><i class="bi bi-calendar-check-fill"/></div>
-                <div class="header-title-vvip">
-                    <h2>My Room Bookings</h2>
-                </div>
-            </div>
-
-            <t t-if="bookings">
-                <div class="table-responsive" style="overflow-x: auto;">
-                    <table class="premium-table-vvip">
-                        <thead>
-                            <tr>
-                                <th>Ref ID</th>
-                                <th>Study Space</th>
-                                <th>Date</th>
-                                <th>Time Slot</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="bookings" t-as="bk">
-                                <tr>
-                                    <td><t t-esc="bk.name"/></td>
-                                    <td>
-                                        <div style="display:flex; align-items:center; gap:10px;">
-                                            <div style="width:32px; height:32px; background:#f1f5f9; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--vvip-navy);">
-                                                <i class="bi bi-door-open-fill small"></i>
+                    <h5 class="fw-bold mb-3">Popular Books</h5>
+                    <div class="row g-3">
+                        <t t-foreach="popular_books" t-as="book">
+                            <div class="col-md-4">
+                                <a t-attf-href="/my/library/book/#{book.id}" class="text-decoration-none">
+                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                                        <div class="row g-0 h-100">
+                                            <div class="col-4 bg-light">
+                                                <t t-if="book.cover_image">
+                                                    <img t-attf-src="/web/image?model=library.book&amp;id=#{book.id}&amp;field=cover_image" class="img-fluid h-100 object-fit-cover"/>
+                                                </t>
                                             </div>
-                                            <strong style="color:var(--vvip-navy);"><t t-esc="bk.space_id.name"/></strong>
+                                            <div class="col-8 p-3">
+                                                <small class="text-uppercase text-warning fw-bold" style="font-size: 0.6rem;"><t t-esc="book.category_id.name"/></small>
+                                                <h6 class="fw-bold text-dark mb-1 d-block text-truncate"><t t-esc="book.name"/></h6>
+                                                <div class="text-warning small"><i class="bi bi-star-fill"/> <t t-esc="'%.1f' % (book.avg_rating or 0.0)"/></div>
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td><span class="text-muted"><t t-esc="bk.date"/></span></td>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="portal_library_purchase_requests" name="My Purchase Requests">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="p-4" style="background: #F8FAFC; min-height: 100vh;">
+                    <a href="/my/library" class="btn btn-outline-secondary rounded-pill mb-4"><i class="bi bi-arrow-left"/> Back</a>
+
+                    <div class="card border-0 shadow-sm rounded-4 p-4 mb-5">
+                        <h5 class="fw-bold mb-4"><i class="bi bi-plus-circle-fill me-2 text-primary"/>Request a New Book</h5>
+                        <form action="/my/library/purchase-request" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small fw-bold text-muted text-uppercase">Book Title *</label>
+                                    <input type="text" name="book_title" class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small fw-bold text-muted text-uppercase">Author Name</label>
+                                    <input type="text" name="author_name" class="form-control"/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-dark rounded-pill px-4">Submit Formal Request</button>
+                        </form>
+                    </div>
+
+                    <h5 class="fw-bold mb-3">Request History</h5>
+                    <table class="table bg-white rounded-4 shadow-sm overflow-hidden">
+                        <thead class="bg-light">
+                            <tr><th>Ref ID</th><th>Title</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="purchase_requests" t-as="pr">
+                                <tr>
+                                    <td><t t-esc="pr.name"/></td>
+                                    <td class="fw-bold"><t t-esc="pr.book_title"/></td>
                                     <td>
-                                        <span class="fw-bold" style="font-size: 0.85rem; color: #1e293b; white-space:nowrap;">
-                                            <t t-esc="'%02d:%02d' % (int(bk.start_time), int((bk.start_time - int(bk.start_time)) * 60))"/> –
-                                            <t t-esc="'%02d:%02d' % (int(bk.end_time), int((bk.end_time - int(bk.end_time)) * 60))"/>
+                                        <span t-attf-class="badge rounded-pill bg-info text-dark">
+                                            <t t-esc="pr.state.capitalize()"/>
                                         </span>
-                                    </td>
-                                    <td>
-                                        <span t-attf-class="status-vvip st-#{bk.state}">
-                                            <t t-esc="bk.state.capitalize()"/>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <form t-if="bk.state in ('requested', 'confirmed')"
-                                              t-attf-id="cancelForm_#{bk.id}"
-                                              t-attf-action="/my/library/space/booking/#{bk.id}/cancel"
-                                              method="post" class="d-inline">
-                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                            <button type="button"
-                                                    t-attf-onclick="showCancelConfirm('#{bk.id}', '#{bk.space_id.name}', '#{bk.date}')"
-                                                    class="btn-cancel-link">
-                                                Cancel
-                                            </button>
-                                        </form>
-                                        <span t-else="" class="text-muted small">—</span>
                                     </td>
                                 </tr>
                             </t>
@@ -2166,72 +211,297 @@ textarea.lib-form-control { resize: vertical; }
                     </table>
                 </div>
             </t>
+        </template>
 
-            <t t-else="">
-                <div class="vvip-empty-state">
-                    <i class="bi bi-calendar-x text-muted mb-3" style="font-size:3.5rem; opacity:0.2;"/>
-                    <h4 class="fw-bold" style="color:var(--vvip-navy);">No bookings found</h4>
-<!--                    <p class="text-muted">You haven't reserved any study spaces yet.</p>-->
-<!--                    <a href="/library/spaces" class="btn btn-primary rounded-pill px-4 mt-2" style="background:var(&#45;&#45;vvip-navy); border:none;">Book a Room Now</a>-->
+        <template id="portal_library_spaces" name="Library Study Spaces">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="spaces-container p-4" style="background: #F8FAFC;">
+                    <a href="/my/library" class="btn btn-outline-secondary rounded-pill mb-4"><i class="bi bi-arrow-left"/> Dashboard</a>
+                    <h2 class="fw-bold mb-4">Study Spaces</h2>
+                    <div class="row g-4">
+                        <t t-foreach="spaces" t-as="space">
+                            <div class="col-md-4">
+                                <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                                    <div style="background: #f1f5f9; width: 50px; height: 50px; border-radius: 12px;" class="d-flex align-items-center justify-content-center mb-3">
+                                        <i class="bi bi-people-fill text-primary"/>
+                                    </div>
+                                    <h5 class="fw-bold"><t t-esc="space.name"/></h5>
+                                    <p class="small text-muted"><i class="bi bi-geo-alt me-1"/> <t t-esc="space.location or 'Main Hall'"/></p>
+                                    <p class="small fw-bold">Capacity: <t t-esc="space.capacity"/> persons</p>
+                                    <a t-attf-href="/my/library/space/#{space.id}/calendar" class="btn btn-dark rounded-pill mt-auto">View Availability</a>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
                 </div>
             </t>
-        </div>
+        </template>
 
-        <!-- ── Premium Cancel Modal ── -->
-        <div id="cancelOverlay" onclick="closeCancelPopup()" style="display:none; position:fixed; inset:0; z-index:1040; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); opacity:0; transition:opacity 0.25s;"/>
-
-        <div id="cancelPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.92); z-index:1050; background:#ffffff; border-radius:24px; box-shadow:0 25px 60px rgba(0,0,0,0.2); width:90%; max-width:400px; opacity:0; transition:all 0.3s cubic-bezier(.34,1.56,.64,1); font-family:'Lora', Georgia, serif; overflow:hidden;">
-            <div style="text-align:center; padding:30px 30px 20px;">
-                <div style="width:60px; height:60px; margin:0 auto 15px; background:#fee2e2; color:#dc2626; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem;">
-                    <i class="bi bi-exclamation-circle-fill"/>
+        <template id="portal_library_space_calendar" name="Space Booking Calendar">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="p-4">
+                    <a href="/my/library/spaces" class="btn btn-outline-secondary rounded-pill mb-4">Back to Spaces</a>
+                    <h2 class="fw-bold mb-4"><t t-esc="space.name"/> — Calendar</h2>
+                    <div class="card border-0 shadow rounded-4 p-4">
+                        <form action="/my/library/space/book" method="post" class="row g-3">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="space_id" t-att-value="space.id"/>
+                            <div class="col-md-4">
+                                <label class="small fw-bold">Date</label>
+                                <input type="date" name="date" class="form-control" required="1"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="small fw-bold">Start (24h)</label>
+                                <input type="number" name="start_time" step="0.5" class="form-control" placeholder="9.0" required="1"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="small fw-bold">End (24h)</label>
+                                <input type="number" name="end_time" step="0.5" class="form-control" placeholder="11.5" required="1"/>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill">Book Slot</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <h4 style="font-weight:800; color:var(--vvip-navy); margin-bottom:10px;">Cancel Reservation?</h4>
-                <p style="font-size:0.9rem; color:#64748b; line-height:1.5;">This action will release your reserved slot. This cannot be undone.</p>
-            </div>
+            </t>
+        </template>
 
-            <div style="margin:0 25px 25px; background:#f8fafc; border:1px solid #edf2f7; border-radius:15px; padding:15px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                    <span style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:#94a3b8;">Space</span>
-                    <span style="font-size:0.85rem; font-weight:700; color:var(--vvip-navy);" id="cancelPopupSpace">—</span>
+        <template id="portal_library_my_space_bookings" name="My Space Bookings">
+            <t t-call="portal.portal_layout">
+                <t t-call="ust_library.portal_library_shared_css"/>
+                <div class="p-4" style="background: #F8FAFC; min-height: 100vh;">
+                    <a href="/my/library" class="btn btn-outline-secondary rounded-pill mb-4"><i class="bi bi-arrow-left"/> Back</a>
+                    <h2 class="fw-bold mb-4">My Room Bookings</h2>
+
+                    <t t-if="bookings">
+                        <div class="table-responsive bg-white rounded-4 shadow-sm">
+                            <table class="table align-middle m-0">
+                                <thead class="bg-light">
+                                    <tr><th>Ref</th><th>Space</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="bookings" t-as="bk">
+                                        <tr>
+                                            <td><t t-esc="bk.name"/></td>
+                                            <td class="fw-bold"><t t-esc="bk.space_id.name"/></td>
+                                            <td><t t-esc="bk.date"/></td>
+                                            <td><t t-esc="bk.start_time"/> - <t t-esc="bk.end_time"/></td>
+                                            <td><span class="badge rounded-pill bg-success"><t t-esc="bk.state.capitalize()"/></span></td>
+                                            <td>
+                                                <form t-attf-action="/my/library/space/booking/#{bk.id}/cancel" method="post">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <button type="submit" class="btn btn-link text-danger p-0 small">Cancel</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
                 </div>
-                <div style="display:flex; justify-content:space-between;">
-                    <span style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:#94a3b8;">Date</span>
-                    <span style="font-size:0.85rem; font-weight:700; color:var(--vvip-navy);" id="cancelPopupDate">—</span>
+            </t>
+        </template>
+        <template id="portal_library_books" name="My Library Books">
+            <t t-call="portal.portal_layout">
+                <div id="wrap" class="o_portal_wrap bg-100 py-5">
+                    <div class="container">
+                        <t t-if="top_rated">
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h3 class="fw-bold text-primary border-bottom pb-2 mb-4">
+                                        <i class="fa fa-trophy me-2 text-warning"/>Top Rated Books
+                                    </h3>
+                                </div>
+                                <t t-foreach="top_rated" t-as="top_book">
+                                    <div class="col-md-3">
+                                        <div class="card border-0 shadow-sm bg-white h-100 overflow-hidden" style="border-radius: 15px;">
+                                            <div class="position-absolute top-0 start-0 p-2" style="z-index: 1;">
+                                                <span class="badge rounded-pill bg-warning text-dark shadow-sm">
+                                                    #<t t-esc="top_book_index + 1"/>
+                                                </span>
+                                            </div>
+                                            <div style="height: 200px; overflow: hidden;">
+                                                <img t-if="top_book.cover_image"
+                                                     t-attf-src="data:image/png;base64,#{top_book.cover_image}"
+                                                     class="w-100 h-100" style="object-fit: cover;"/>
+                                                <div t-else="" class="w-100 h-100 bg-primary d-flex align-items-center justify-content-center">
+                                                    <i class="fa fa-book fa-2x text-white"/>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-3 text-center">
+                                                <strong class="text-truncate d-block" t-esc="top_book.name"/>
+                                                <div class="text-warning small mt-1">
+                                                    <t t-foreach="range(5)" t-as="star">
+                                                        <i t-attf-class="fa #{'fa-star' if star &lt; top_book.rating else 'fa-star-o'}"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="favorite_books">
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h3 class="fw-bold text-danger border-bottom pb-2 mb-4">
+                                        <i class="fa fa-heart me-2"/>My Saved Books
+                                    </h3>
+                                </div>
+                                <t t-foreach="favorite_books" t-as="fav">
+                                    <div class="col-md-2 mb-3"> <a t-attf-href="/my/library/book/#{fav.id}" class="text-decoration-none">
+                                            <div class="card shadow-sm border-0 h-100 rounded-3 overflow-hidden">
+                                                <div class="bg-primary d-flex align-items-center justify-content-center" style="height: 120px;">
+                                                     <img t-if="fav.cover_image" t-attf-src="data:image/png;base64,#{fav.cover_image}" class="w-100 h-100 object-fit-cover"/>
+                                                     <i t-else="" class="fa fa-book fa-2x text-white"/>
+                                                </div>
+                                                <div class="p-2 text-center">
+                                                    <small class="fw-bold text-dark text-truncate d-block" t-esc="fav.name"/>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                        <div class="row align-items-center mb-4">
+                            <div class="col">
+                                <h2 class="fw-bold text-primary">Library Collection</h2>
+                                <p class="text-muted">Browse our digital and physical catalog</p>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-7">
+                                <div class="card border-0 shadow-sm rounded-4 h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="fw-bold m-0 text-primary">
+                                                <i class="fa fa-door-open me-2"/>Study Spaces
+                                            </h5>
+                                            <a href="/my/library/spaces" class="btn btn-sm btn-outline-primary rounded-pill">View All</a>
+                                        </div>
+                                        <div class="row g-2">
+                                            <t t-foreach="spaces" t-as="space">
+                                                <div class="col-6">
+                                                    <div class="p-2 border rounded-3 d-flex align-items-center">
+                                                        <i t-attf-class="fa fa-circle me-2 #{'text-success' if space.is_available else 'text-danger'}" style="font-size: 0.6rem;"/>
+                                                        <span class="small fw-bold"><t t-esc="space.name"/></span>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card border-0 shadow-sm rounded-4 h-100 text-white" style="background: #1a237e;">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold mb-3"><i class="fa fa-calendar-check me-2"/>My Schedule</h5>
+                                        <t t-if="bookings">
+                                            <t t-foreach="bookings" t-as="bk">
+                                                <div class="p-2 mb-2 rounded" style="background: rgba(255,255,255,0.1);">
+                                                    <div class="d-flex justify-content-between small">
+                                                        <span><t t-esc="bk.space_id.name"/></span>
+                                                        <span class="text-warning"><t t-esc="bk.start_time"/>:00</span>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="text-center opacity-75 py-3">
+                                                <i class="fa fa-calendar-o mb-2"/>
+                                                <p class="small mb-0">No bookings today</p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <t t-if="books">
+                                <t t-foreach="books" t-as="book">
+                                    <div class="col-md-3 mb-4">
+                                        <a t-attf-href="/my/library/book/#{book.id}" class="text-decoration-none text-dark h-100">
+                                            <div class="card shadow-sm border-0 h-100 o_library_book_card">
+
+                                                <div class="position-relative">
+                                                    <button type="object" name="toggle_favorite"
+                                                            t-attf-class="btn btn-sm position-absolute top-0 end-0 m-2 #{'text-danger' if request.env.user in book.favorite_user_ids else 'text-white'}"
+                                                            style="z-index: 10; background: rgba(0,0,0,0.3); border-radius: 50%;">
+                                                        <i class="fa fa-heart"/>
+                                                    </button>
+                                                    <img t-if="book.cover_image"
+                                                         t-attf-src="data:image/png;base64,#{book.cover_image}"
+                                                         class="card-img-top"
+                                                         style="height: 300px; object-fit: cover; border-radius: 8px 8px 0 0;"/>
+                                                    <div t-else="" class="card-img-top d-flex align-items-center justify-content-center"
+                                                         style="height: 300px; border-radius: 8px 8px 0 0; background-color: #1a237e !important;">
+                                                        <i class="fa fa-book fa-4x text-white"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body d-flex flex-column">
+                                                    <h6 class="fw-bold mb-1 text-truncate" t-esc="book.name"/>
+                                                    <div class="small text-muted mb-2">
+                                                        <i class="fa fa-tag me-1"/> <span t-esc="book.category_id.name"/>
+                                                    </div>
+
+                                                    <div class="mt-auto pt-2 border-top">
+                                                        <div class="text-warning small">
+                                                            <t t-foreach="range(5)" t-as="num">
+                                                                <i t-attf-class="fa #{'fa-star' if num &lt; book.rating else 'fa-star-o'}"/>
+                                                            </t>
+                                                            <span class="text-muted ms-1" t-esc="book.rating"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div class="col-12">
+                                    <div class="alert alert-info shadow-sm text-center py-5">
+                                        <i class="fa fa-search fa-3x mb-3 text-muted"/>
+                                        <p class="mb-0">No books available in the library yet.</p>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <t t-call="portal.pager"/>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </t>
+        </template>
 
-            <div style="padding:0 25px 30px; display:grid; gap:10px;">
-                <button onclick="submitCancel()" style="background:#dc2626; color:white; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);">Yes, Cancel Booking</button>
-                <button onclick="closeCancelPopup()" style="background:transparent; color:#64748b; border:none; padding:10px; font-weight:600; cursor:pointer;">Keep Booking</button>
-            </div>
-        </div>
 
-        <script>
-//<![CDATA[
-    var _cancelFormId = null;
-    function showCancelConfirm(bookingId, spaceName, bookingDate) {
-        _cancelFormId = 'cancelForm_' + bookingId;
-        document.getElementById('cancelPopupSpace').textContent = spaceName || '—';
-        document.getElementById('cancelPopupDate').textContent  = bookingDate || '—';
-        var overlay = document.getElementById('cancelOverlay');
-        var popup   = document.getElementById('cancelPopup');
-        overlay.style.display = 'block'; popup.style.display = 'block';
-        setTimeout(function() {
-            overlay.style.opacity = '1'; popup.style.opacity = '1';
-            popup.style.transform = 'translate(-50%, -50%) scale(1)';
-        }, 10);
-    }
-    function closeCancelPopup() {
-        var overlay = document.getElementById('cancelOverlay');
-        var popup   = document.getElementById('cancelPopup');
-        overlay.style.opacity = '0'; popup.style.opacity = '0';
-        popup.style.transform = 'translate(-50%, -50%) scale(0.92)';
-        setTimeout(function() { overlay.style.display = 'none'; popup.style.display = 'none'; _cancelFormId = null; }, 300);
-    }
-    function submitCancel() { if (_cancelFormId) { document.getElementById(_cancelFormId).submit(); } }
-//]]>
-        </script>
-    </t>
-</template>
-
+        <template id="portal_my_home_library" inherit_id="portal.portal_my_home" priority="20">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Books Catalog</t>
+                    <t t-set="url" t-value="'/my/library/books'"/>
+                    <t t-set="placeholder_count" t-value="book_count"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Study Spaces</t>
+                    <t t-set="url" t-value="'/my/library/spaces'"/>
+                </t>
+                <div class="o_portal_chatter mt-5">
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="book"/>
+                        <t t-set="display_rating" t-value="True"/>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+    </data>
 </odoo>

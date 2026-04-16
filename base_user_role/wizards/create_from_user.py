@@ -16,8 +16,8 @@ class WizardCreateRoleFromUser(models.TransientModel):
 
         user_id = user_ids[0]
 
-        role_obj = self.env["res.users.role"]
-        role_line_obj = self.env["res.users.role.line"]
+       # role_obj = self.env["res.users.role"]
+       # role_line_obj = self.env["res.users.role.line"]
         user_obj = self.env["res.users"]
 
         user = user_obj.browse(user_id)
@@ -43,7 +43,7 @@ class WizardCreateRoleFromUser(models.TransientModel):
             "name": "User Role",
             "view_type": "form",
             "view_mode": "form",
-            "res_model": "res.users.role",
+           # "res_model": "res.users.role",
             "res_id": role.id,
             "target": "current",
             "type": "ir.actions.act_window",

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<!--  <template id="portal_resume_page" inherit_id="website.portal_my_home" name="Portal Resume Link">-->
-<!--    <xpath expr="//div" position="inside">-->
-<!--      <t t-if="request.env.user.has_group('portal.group_portal')">-->
-<!--        <div class="oe_portal_section">-->
-<!--          <a t-att-href="'/my/resume/%s' % (request.env.user.id)" class="btn btn-primary">تعديل السيرة الذاتية</a>-->
-<!--        </div>-->
-<!--      </t>-->
-<!--    </xpath>-->
-<!--  </template>-->
+    <!--  <template id="portal_resume_page" inherit_id="website.portal_my_home" name="Portal Resume Link">-->
+    <!--    <xpath expr="//div" position="inside">-->
+    <!--      <t t-if="request.env.user.has_group('portal.group_portal')">-->
+    <!--        <div class="oe_portal_section">-->
+    <!--          <a t-att-href="'/my/resume/%s' % (request.env.user.id)" class="btn btn-primary">تعديل السيرة الذاتية</a>-->
+    <!--        </div>-->
+    <!--      </t>-->
+    <!--    </xpath>-->
+    <!--  </template>-->
 </odoo>

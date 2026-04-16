@@ -8,7 +8,8 @@ class USTResumeEN(models.Model):
     _description = "Faculty Member Curriculum Vitae (English)"
     _rec_name = "user_id"
 
-    user_id = fields.Many2one('res.users', string="Name", required=True, default=lambda self: self.env.user,readonly=True)
+    user_id = fields.Many2one('res.users', string="Name", required=True, default=lambda self: self.env.user,
+                              readonly=True)
     job_title = fields.Char("Job Title")
     college_id = fields.Many2one('elearning.college', string="College")
     department_id = fields.Many2one('hr.department', string="Department", domain="[('college_id', '=', college_id)]")
@@ -21,7 +22,8 @@ class USTResumeEN(models.Model):
 
     education_ids = fields.One2many('ust.resume.education.en', 'resume_id', string="Academic Qualifications")
     research_ids = fields.One2many('ust.resume.research.en', 'resume_id', string="Scientific Research")
-    cert_ids = fields.One2many('ust.resume.certificate.en', 'resume_id', string="Major Courses and Professional Certificates")
+    cert_ids = fields.One2many('ust.resume.certificate.en', 'resume_id',
+                               string="Major Courses and Professional Certificates")
     exp_ids = fields.One2many('ust.resume.experience.en', 'resume_id', string="Academic and Professional Experience")
     award_ids = fields.One2many('ust.resume.award.en', 'resume_id', string="Awards and Achievements")
 
@@ -80,7 +82,6 @@ class USTResumeEN(models.Model):
             'target': 'new',
             'url': '/report/pdf/ust_resume_management.ust_resume_report_en/%s' % self.id,
         }
-
 
     @api.onchange('college_id')
     def _onchange_college_id(self):

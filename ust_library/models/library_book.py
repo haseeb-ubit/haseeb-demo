@@ -12,6 +12,11 @@ class LibraryBook(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "name"
 
+    # views_count = fields.Integer(string="Total Views", default=0)
+    #name = fields.Char(string="Title", required=True)
+    #rating = fields.Float(string="Rating", default=0.0)
+    favorite_user_ids = fields.Many2many('res.users', string="Users who favorited this book")
+    rating = fields.Float(string="Rating", compute="_compute_rating", store=True)
     name = fields.Char("Title", required=True, tracking=True)
     author_ids = fields.Many2many("library.author", string="Authors", required=True)
     publisher_id = fields.Many2one("library.publisher", string="Publisher")
@@ -40,7 +45,9 @@ class LibraryBook(models.Model):
     reserved_copies = fields.Integer(compute="_compute_copy_metrics", store=True)
     damaged_copies = fields.Integer(compute="_compute_copy_metrics", store=True)
     lost_copies = fields.Integer(compute="_compute_copy_metrics", store=True)
-
+    is_favorite = fields.Boolean(string="Is Favorite", default=False)
+    #favorite_user_ids = fields.Many2many('res.users', string='Favorited By')
+    #favorite_user_ids = fields.Many2many('res.users', string='Favorited By')
     _sql_constraints = [
         ("library_book_isbn_uniq", "unique(isbn)", "ISBN must be unique."),
     ]
@@ -58,6 +65,15 @@ class LibraryBook(models.Model):
             record.avg_rating = (
                 sum(reviews.mapped("rating")) / len(reviews) if reviews else 0.0
             )
+
+        for book in self:
+            # Look for all reviews linked to this book
+            reviews = self.env['library.book.review'].search([('book_id', '=', book.id)])
+            if reviews:
+                # Calculate the average (e.g., 4 + 5 / 2 = 4.5)
+                book.rating = sum(reviews.mapped('rating')) / len(reviews)
+            else:
+                book.rating = 0.0
 
     @api.depends("copy_ids", "copy_ids.status")
     def _compute_copy_metrics(self):

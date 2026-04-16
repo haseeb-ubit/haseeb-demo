@@ -3,7 +3,7 @@
      License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
  -->
 <odoo>
-    <record id="view_res_users_form_inherit" model="ir.ui.view">
+    <!-- <record id="view_res_users_form_inherit" model="ir.ui.view">
         <field name="name">res.users.form.inherit</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form" />
@@ -57,7 +57,7 @@
                 />
             </field>
         </field>
-    </record>
+    </record> -->
 <!--    <record id="view_res_users_tree_inherit" model="ir.ui.view">-->
 <!--        <field name="model">res.users</field>-->
 <!--        <field name="inherit_id" ref="base.view_users_tree" />-->

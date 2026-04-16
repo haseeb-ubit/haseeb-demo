@@ -1,7 +1,6 @@
 <odoo>
     <template id="custom_before_header" inherit_id="website.layout" name="Custom Before Header">
-        <xpath expr="//header" position="before">
-
+       <xpath expr="//header[@id='top']" position="before">
             <t t-set="is_arabic" t-value="request.env.lang.startswith('ar')"/>
             <div t-att-class="'mainCon ' + ('rtl' if is_arabic else '')">
                 <section class="topBar">

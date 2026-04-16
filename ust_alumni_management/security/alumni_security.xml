@@ -6,7 +6,7 @@
         <field name="category_id" ref="base.module_category_human_resources"/>
     </record>
 
-    <record id="group_alumni_manager" model="res.groups">
+     <record id="group_alumni_manager" model="res.groups">
         <field name="name">Alumni Manager</field>
         <field name="privilege_id" ref="ust_alumni_management.privilege_alumni"/>
         <field name="comment">Full access to alumni management system</field>
